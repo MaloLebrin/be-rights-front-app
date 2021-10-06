@@ -13,10 +13,13 @@ export default defineConfig({
     }),
     Components({
       dts: 'src/types/shims/components.d.ts',
-      include: [
+      dirs: [
         'src/components',
         'src/pages',
       ],
+      include: [/\.vue$/, /\.vue\?vue/],
+      extensions: ['vue'],
+
     }),
   ],
   resolve: {
