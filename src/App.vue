@@ -2,6 +2,7 @@
   <div>
 
     <main>
+      <HelloWorld msg="lshgbiklrzuit" />
       <router-view />
     </main>
   </div>
