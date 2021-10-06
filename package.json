@@ -1,6 +1,17 @@
 {
   "name": "landing-be-rights",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "description": "Vue 3 BeRight landing page based on TypeScript",
+  "private": true,
+  "author": {
+    "name": "Malo Lebrin",
+    "email": "malolebrin@gmail.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MaloLebrin/landing-be-rights"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -21,5 +32,14 @@
     "vite": "^2.6.0",
     "vite-plugin-pages": "^0.18.1",
     "vue-tsc": "^0.3.0"
-  }
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "vuejs",
+    "typescript",
+    "vue-components",
+    "vite",
+    "framework"
+  ]
 }
