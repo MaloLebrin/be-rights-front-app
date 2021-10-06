@@ -4,11 +4,12 @@
 </script>
 
 <template>
-  <img
+  <!-- <img
     alt="Vue logo"
     src="./assets/logo.png"
   />
-  <BButton>jkehgklh</BButton>
+  <BButton>jkehgklh</BButton> -->
+  <router-view />
 </template>
 
 <style>
