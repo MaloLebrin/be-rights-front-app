@@ -18,7 +18,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "be-right-vue3-lib": "^0.1.6",
+    "be-right-vue3-lib": "^0.1.7",
     "vue": "^3.2.16",
     "vue-router": "^4.0.11"
   },
