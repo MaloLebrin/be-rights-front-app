@@ -1,4 +1,5 @@
-import { State, WithId } from "./types";
+import createState from "./createState";
+import { BaseEntity, State, WithId } from "./types";
 
 export default function createActions<T extends WithId>(state: State<T>) {
 	/**
@@ -16,6 +17,14 @@ export default function createActions<T extends WithId>(state: State<T>) {
 	 */
 	function createMany(payload: T[]): void {
 		payload.map(entity => createOne(entity))
+	}
+
+	function setCurrent(payload: T): void {
+		state.entities.current = payload
+	}
+
+	function removeCurrent() {
+		state.entities.current = {} as T
 	}
 
 	/**
@@ -63,5 +72,7 @@ export default function createActions<T extends WithId>(state: State<T>) {
 		updateMany,
 		deleteOne,
 		deleteMany,
+		removeCurrent,
+		setCurrent,
 	}
 }
