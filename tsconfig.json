@@ -10,12 +10,13 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
+    "baseUrl": ".",
     "paths": {
       "~/*": [
-        "./src"
+        "./src/*"
       ],
       "@/*": [
-        "./src"
+        "./src/*"
       ]
     }
   },

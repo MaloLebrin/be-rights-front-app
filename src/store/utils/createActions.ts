@@ -1,5 +1,4 @@
-import createState from "./createState";
-import { BaseEntity, State, WithId } from "./types";
+import { State, WithId } from "./types"
 
 export default function createActions<T extends WithId>(state: State<T>) {
 	/**

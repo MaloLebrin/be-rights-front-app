@@ -1,5 +1,5 @@
-import createState from '../utils/createState'
-import createEntity from '../utils/createEntity'
+import createState from '@/store/utils/createState'
+import createEntity from '@/store/utils/createEntity'
 import { EventType } from './types'
 const entity = createEntity<EventType>('event')
 

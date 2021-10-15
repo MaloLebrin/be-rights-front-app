@@ -1,4 +1,4 @@
-import { BaseEntity } from "../../types/globals";
+import { BaseEntity } from "@/types/globals";
 
 export type UserState = {
 	users: UserType[]
