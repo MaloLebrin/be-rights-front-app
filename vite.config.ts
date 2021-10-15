@@ -9,7 +9,7 @@ export default defineConfig({
   plugins: [
     vue(),
     Pages({
-      pagesDir: 'src/pages'
+      pagesDir: 'src/pages',
     }),
     Components({
       dts: 'src/types/shims/components.d.ts',
@@ -25,6 +25,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,
+      '@': `${path.resolve(__dirname, 'src')}/`,
     },
   },
 
