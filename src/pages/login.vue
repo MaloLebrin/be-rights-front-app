@@ -1,19 +1,21 @@
 <template>
   <h1>Bienvenue sur Be right</h1>
 
-  <BCardModal is-active>
-    <BField label="Address e-mail">
-      <BInput />
-    </BField>
-    <BField label="Mot de passe">
-      <BInput />
-    </BField>
-  </BCardModal>
-
+  <BField label="Address e-mail">
+    <BInput v-model="email" />
+  </BField>
+  <BField label="Mot de passe">
+    <BInput v-model="password" />
+  </BField>
+  <div class="flex flex-col ">
+    <BLink>S'inscrire</BLink>
+    <BButton @click="submitLogin">Se Connecter</BButton>
+    <BLink>Mot de passe oublié</BLink>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, toRefs } from 'vue'
 
 export default defineComponent({
   name: 'Login',
@@ -23,6 +25,14 @@ export default defineComponent({
       password: '',
     })
 
+    async function submitLogin() {
+
+    }
+
+    return {
+      ...toRefs(form),
+      submitLogin,
+    }
   },
 })
 </script>
