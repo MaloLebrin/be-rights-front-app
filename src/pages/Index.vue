@@ -1,5 +1,5 @@
 <template>
-  <h1>PAGE d'accueil</h1>
+  Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim, beatae aperiam. Ratione, aut nulla? Temporibus necessitatibus repellendus veniam asperiores rem? Exercitationem quia, assumenda ipsa unde inventore id at nisi dolor.
   <router-link :to="{ name: 'login'}">to login</router-link>
 </template>
 

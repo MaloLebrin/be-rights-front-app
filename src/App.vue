@@ -1,6 +1,6 @@
 <template>
-
-  <main class="container">
+  <MenuDrawer />
+  <main class="min-h-screen">
     <router-view />
   </main>
 </template>
@@ -13,14 +13,13 @@ export default defineComponent({
     const store = useUserStore()
     const user = {
       email: 'test@email.com',
-      firstName: 'malo',
-      lastName: 'lebrin',
+      firstName: 'Malo',
+      lastName: 'Lebrin',
       companyName: 'kissmy',
       siret: '5735757657',
     }
-    // store.addUser(user as UserType)
-    // store.setCurrentUser(user as UserType)
-    // console.log(store.getCurrentUserFullName, 'store.users')
+    store.createOne(user as UserType)
+    store.setCurrent(user as UserType)
   },
 })
 </script>
@@ -32,9 +31,9 @@ export default defineComponent({
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  /* align-items: center;
+  justify-content: center; */
+  background-color: grey;
 }
 </style>

@@ -11,6 +11,10 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
 	}),
 	getters: {
 		...createGetters<UserType>(userState),
+		getUserFullName(state) {
+			const user = state.entities.current
+			return `${user.firstName} ${user.lastName}`
+		}
 	},
 	actions: {
 		...createActions<UserType>(userState),
