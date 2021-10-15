@@ -19,10 +19,18 @@ export default function createActions<T extends WithId>(state: State<T>) {
 		payload.map(entity => createOne(entity))
 	}
 
+	/**
+	 * set current used entity
+	 * @param payload 
+	 */
 	function setCurrent(payload: T): void {
 		state.entities.current = payload
 	}
 
+	/**
+	 * set current used entity
+	 * @param payload
+	 */
 	function removeCurrent() {
 		state.entities.current = {} as T
 	}
