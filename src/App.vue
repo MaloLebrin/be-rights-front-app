@@ -6,13 +6,16 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { UserType } from './store/users/types'
-import { useUserStore } from './store/users/userStore'
+import { UserType } from '@/store/users/types'
+import { useUserStore } from '@/store/users/userStore'
+import axiosInstance from "@/axios.config"
+
 export default defineComponent({
   setup() {
     const store = useUserStore()
     const user = {
-      email: 'test@email.com',
+      id: 1,
+      email: 'malolebrin@gmail.com',
       firstName: 'Malo',
       lastName: 'Lebrin',
       companyName: 'kissmy',
@@ -21,6 +24,13 @@ export default defineComponent({
     store.createOne(user as UserType)
     store.setCurrent(user as UserType)
     // console.log(store.getCurrent, 'store.getCurrent')
+    console.log(import.meta.env.VITE_API_URL, 'import.meta.env.VITE_SOME_KEY')
+
+    async function test() {
+      const res = await axiosInstance.get('')
+      console.log(res, 'res')
+    }
+    test()
   },
 })
 </script>

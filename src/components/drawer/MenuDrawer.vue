@@ -62,7 +62,7 @@
           <div class="bg-purple-light hover:bg-purple rounded-lg mr-3 p-1">
             <LogoutIcon class="text-white h-6" />
           </div>
-          <span>Se déconnecter</span>
+          <span @click="onToggleLogout">Se déconnecter</span>
         </div>
 
       </div>
@@ -103,6 +103,7 @@ import {
   UserIcon,
 } from '@heroicons/vue/outline'
 import { useUserStore } from '@/store/users/userStore'
+import userHook from '~/hooks/userHook'
 
 export default defineComponent({
   name: 'MenuDrawer',
@@ -125,6 +126,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const isDrawerActive = ref(props.isActive)
     const store = useUserStore()
+    const { logout } = userHook()
 
     function toggleDrawer() {
       isDrawerActive.value = !isDrawerActive.value
@@ -133,11 +135,16 @@ export default defineComponent({
 
     const userFullName = computed(() => store.getUserFullName)
 
+    function onToggleLogout() {
+      logout()
+    }
+
     return {
       isDrawerActive,
+      onToggleLogout,
+      store,
       toggleDrawer,
       userFullName,
-      store,
     }
   },
 })

@@ -1,4 +1,6 @@
 import { defineStore } from "pinia"
+import { useEventStore } from './events/eventStore'
+import { useUserStore } from "./users/userStore"
 
 export const useMainStore = defineStore('main', {
 	state: () => ({
@@ -18,6 +20,14 @@ export const useMainStore = defineStore('main', {
 		},
 		toggleIsLoading() {
 			this.isLoading = !this.isLoading
+		},
+		resetAllState() {
+			const userStore = useUserStore()
+			const eventStore = useEventStore()
+
+			this.$reset()
+			userStore.$reset()
+			eventStore.$reset()
 		},
 	},
 })

@@ -10,17 +10,24 @@ export default function userHook() {
 	async function login({ email, password }: { email: string, password: string }) {
 		try {
 			mainStore.toggleIsLoading()
-			const res = await axiosInstance.post('url', { email, password })
+			const res = await axiosInstance.post('login', { email, password })
 			userStore.setCurrent(res as unknown as UserType)
 			userStore.createOne(res as unknown as UserType)
 			mainStore.setIsLoggedIn()
-			mainStore.toggleIsLoading()
-			return res
 		} catch (error) {
 			console.error(error)
 		}
+		mainStore.toggleIsLoading()
 	}
+
+	function logout() {
+		mainStore.setIsLoggedOut()
+		userStore.removeCurrent()
+		mainStore.resetAllState()
+	}
+
 	return {
 		login,
+		logout,
 	}
 }
