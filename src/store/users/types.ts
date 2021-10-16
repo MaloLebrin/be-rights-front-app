@@ -1,4 +1,5 @@
 import { BaseEntity } from "@/types/globals";
+import { RoleEnum } from "~/types/Roles";
 
 export type UserState = {
 	users: UserType[]
@@ -13,7 +14,7 @@ export interface UserType extends BaseEntity {
 	companyName: string
 	siret: string
 	apiKey: string
-	roles: any //TODO type user's roles
+	roles: RoleEnum
 	suscription: any //TODO type user's roles
 	events?: number[]
 	employee?: number[]

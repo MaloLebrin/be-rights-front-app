@@ -4,6 +4,7 @@ import { UserType } from './types'
 import { userState } from './state'
 import createGetters from '@/store/utils/createGetters'
 import createActions from '@/store/utils/createActions'
+import { RoleEnum } from '~/types/Roles'
 
 export const useUserStore = defineStore(EntitiesEnum.USERS, {
 	state: () => ({
@@ -13,8 +14,11 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
 		...createGetters<UserType>(userState),
 		getUserFullName(state) {
 			const user = state.entities.current
-			return `${user.firstName} ${user.lastName}`
-		}
+			return `${user?.firstName} ${user?.lastName}`
+		},
+		isCurrentUserAdmin(state) {
+			return state.entities.current?.roles === RoleEnum.ADMIN
+		},
 	},
 	actions: {
 		...createActions<UserType>(userState),
