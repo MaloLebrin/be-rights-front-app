@@ -20,6 +20,7 @@ export default defineComponent({
     }
     store.createOne(user as UserType)
     store.setCurrent(user as UserType)
+    // console.log(store.getCurrent, 'store.getCurrent')
   },
 })
 </script>

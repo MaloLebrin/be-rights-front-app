@@ -22,7 +22,7 @@
         <h1 class="text-black font-bold text-3xl ml-2">Be right</h1>
       </div>
 
-      <div class="flex flex-col justify h-full text-left">
+      <div class="flex flex-col justify text-left">
         <h6 class="text-gray-500 font-bold mb-4">Menu</h6>
         <div class="flex items-center w-full mb-5 cursor-pointer">
           <div class="bg-red-light hover:bg-red rounded-lg mr-3 p-1">
@@ -53,7 +53,10 @@
         </div>
 
         <h6 class="text-gray-500 font-bold mb-4">Options</h6>
-        <div class="flex items-center w-full mb-5 cursor-pointer">
+        <div
+          v-if="store.getCurrent"
+          class="flex items-center w-full mb-5 cursor-pointer"
+        >
           <div class="bg-red-light hover:bg-red rounded-lg mr-3 p-1">
             <UserIcon class="text-white h-6" />
           </div>
@@ -69,7 +72,25 @@
 
       </div>
       <!-- TODO add CTA if suscrption basic -->
-
+      <!-- TODO abstract to library create modal custom comp -->
+      <BCard
+        v-if="store.getCurrent"
+        variant="danger"
+      >
+        <div class="px-6 py-4">
+          <div class="font-bold text-xl mb-2">Découvrez notre abonnement</div>
+          <p class="text-gray-700 text-base">
+            Dès 9.99€ par mois
+          </p>
+        </div>
+        <div class="px-6 pt-4 pb-2">
+          <BButton
+            class="text-black"
+            size="small"
+            variant="white"
+          >En savoir plus</BButton>
+        </div>
+      </BCard>
     </nav>
   </header>
 </template>
@@ -121,6 +142,7 @@ export default defineComponent({
       isDrawerActive,
       toggleDrawer,
       userFullName,
+      store,
     }
   },
 })

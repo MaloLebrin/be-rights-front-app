@@ -4,7 +4,7 @@ export type State<T> = {
 	entities: {
 		byId: Record<number, T>,
 		allIds: number[],
-		current: T,
+		current: T | null,
 	}
 }
 export type FilterFn<T> = (item: T) => boolean | null

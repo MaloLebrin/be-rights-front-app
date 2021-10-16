@@ -92,6 +92,10 @@ export default function createGetters<T extends WithId>(state: State<T>) {
 		return state.entities.allIds.length > 0
 	}
 
+	function getCurrent() {
+		return state.entities.current
+	}
+
 	return {
 		findOneById,
 		findManyById,
@@ -102,5 +106,6 @@ export default function createGetters<T extends WithId>(state: State<T>) {
 		getWhereArray,
 		getIsEmpty,
 		getIsNotEmpty,
+		getCurrent,
 	}
 }

@@ -5,7 +5,7 @@ export default function <T>(entity: BaseEntity<T>): State<T> {
 		entities: {
 			byId: {},
 			allIds: [],
-			current: {} as T
+			current: null
 		},
 	}
 }
