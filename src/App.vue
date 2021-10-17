@@ -18,7 +18,7 @@ export default defineComponent({
     const store = useMainStore()
     const { routesIntermsOfUserRoles } = userHook()
 
-    watch(() => store.setIsLoggedIn, () => {
+    watch(() => [store.setIsLoggedIn,], () => {
       routesIntermsOfUserRoles()
     })
     routesIntermsOfUserRoles()
@@ -40,6 +40,7 @@ export default defineComponent({
   text-align: center;
   color: #2c3e50;
   display: flex;
+  justify-content: center;
   background-color: grey;
 }
 </style>

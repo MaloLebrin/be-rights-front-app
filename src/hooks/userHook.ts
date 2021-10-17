@@ -35,14 +35,16 @@ export default function userHook() {
 
 	function routesIntermsOfUserRoles() {
 		const token = getCookie('userToken')
+		console.log(token, 'token')
 		if (token && token.length > 0) {
 			mainStore.setIsLoggedIn()
 			if (userStore.isCurrentUserAdmin) {
 				router.push('adminDashbord')
 			}
 			router.push('userDashboard')
+		} else {
+			router.push('login')
 		}
-		router.push('login')
 	}
 
 	return {

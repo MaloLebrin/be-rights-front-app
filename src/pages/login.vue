@@ -2,7 +2,7 @@
   <div class="flex flex-col items-center justify-center h-full w-full">
     <BCard
       variant="white"
-      class="p-10"
+      class="p-16"
     >
       <div>
         <h1 class="text-black">Bienvenue sur</h1>
