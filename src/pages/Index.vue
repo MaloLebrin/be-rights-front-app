@@ -1,5 +1,5 @@
 <template>
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim, beatae aperiam. Ratione, aut nulla? Temporibus necessitatibus repellendus veniam asperiores rem? Exercitationem quia, assumenda ipsa unde inventore id at nisi dolor.
+  Landing page
   <router-link :to="{ name: 'login'}">to login</router-link>
 </template>
 

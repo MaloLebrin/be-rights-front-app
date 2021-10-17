@@ -39,7 +39,7 @@ export default function userHook() {
 			await loginWithToken(token)
 			mainStore.setIsLoggedIn()
 			if (userStore.isCurrentUserAdmin) {
-				router.push('adminDashbord')
+				router.push('adminDashboard')
 			} else {
 				router.push('userDashboard')
 			}

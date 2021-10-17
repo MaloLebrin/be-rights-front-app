@@ -1,9 +1,12 @@
 <template>
-  admin dashboard
+  <div class="text-green">
+
+    admin dashboard
+  </div>
 </template>
 <route>
 {meta: {
-  layout: "DashboardLayout"
+  layout: "AdminDashboardLayout"
 }
 }
 </route>
