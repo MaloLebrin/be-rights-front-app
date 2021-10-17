@@ -10,10 +10,16 @@
       </div>
 
       <BField label="Address e-mail">
-        <BInput v-model="email" />
+        <BInput
+          class="text-black"
+          v-model="email"
+        />
       </BField>
       <BField label="Mot de passe">
-        <BInput v-model="password" />
+        <BInput
+          class="text-black"
+          v-model="password"
+        />
       </BField>
       <div class="flex flex-col ">
         <!-- <BLink>S'inscrire</BLink> -->
@@ -31,6 +37,7 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import userHook from '~/hooks/userHook'
+import router from '~/router'
 
 export default defineComponent({
   name: 'Login',
@@ -43,6 +50,7 @@ export default defineComponent({
 
     async function submitLogin() {
       await login({ email: form.email, password: form.password })
+      router.push('index')
     }
 
     const isSubmitDisabled = computed(() => form.email.length === 0 || form.password.length === 0)
