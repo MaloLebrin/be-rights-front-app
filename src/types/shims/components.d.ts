@@ -9,6 +9,7 @@ declare module 'vue' {
     Login: typeof import('./../../pages/login.vue')['default']
     LoginModal: typeof import('./../../components/modals/LoginModal.vue')['default']
     MenuDrawer: typeof import('./../../components/drawer/MenuDrawer.vue')['default']
+    SimpleLogo: typeof import('./../../components/logo/SimpleLogo.vue')['default']
   }
 }
 

@@ -15,12 +15,7 @@
     />
 
     <nav class="w-full h-full">
-      <div class="flex w-full items-center justify-center mb-10">
-        <div class="rounded-full border-red border-4 w-10 h-10">
-          <div class="rounded-full bg-red-light w-4 h-4 m-2" />
-        </div>
-        <h1 class="text-black font-bold text-3xl ml-2">Be right</h1>
-      </div>
+      <SimpleLogo />
 
       <div class="flex flex-col justify text-left">
         <h6 class="text-gray-500 font-bold mb-4">Menu</h6>
@@ -67,7 +62,7 @@
           <div class="bg-purple-light hover:bg-purple rounded-lg mr-3 p-1">
             <LogoutIcon class="text-white h-6" />
           </div>
-          <span>Se déconnecter</span>
+          <span @click="onToggleLogout">Se déconnecter</span>
         </div>
 
       </div>
@@ -108,6 +103,7 @@ import {
   UserIcon,
 } from '@heroicons/vue/outline'
 import { useUserStore } from '@/store/users/userStore'
+import userHook from '~/hooks/userHook'
 
 export default defineComponent({
   name: 'MenuDrawer',
@@ -130,6 +126,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const isDrawerActive = ref(props.isActive)
     const store = useUserStore()
+    const { logout } = userHook()
 
     function toggleDrawer() {
       isDrawerActive.value = !isDrawerActive.value
@@ -138,11 +135,16 @@ export default defineComponent({
 
     const userFullName = computed(() => store.getUserFullName)
 
+    function onToggleLogout() {
+      logout()
+    }
+
     return {
       isDrawerActive,
+      onToggleLogout,
+      store,
       toggleDrawer,
       userFullName,
-      store,
     }
   },
 })

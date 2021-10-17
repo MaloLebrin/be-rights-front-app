@@ -1,26 +1,29 @@
 <template>
-  <MenuDrawer />
-  <main class="min-h-screen">
+  <MenuDrawer v-if="isLoggedIn" />
+  <main class="min-h-screen min-w-full">
     <router-view />
   </main>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { UserType } from './store/users/types'
-import { useUserStore } from './store/users/userStore'
+import { computed, defineComponent } from 'vue'
+import { useMainStore } from './store/mainStore'
+
 export default defineComponent({
   setup() {
-    const store = useUserStore()
-    const user = {
-      email: 'test@email.com',
-      firstName: 'Malo',
-      lastName: 'Lebrin',
-      companyName: 'kissmy',
-      siret: '5735757657',
-    }
-    store.createOne(user as UserType)
-    store.setCurrent(user as UserType)
+    const store = useMainStore()
+    // const user = {
+    //   id: 1,
+    //   email: 'malolebrin@gmail.com',
+    //   firstName: 'Malo',
+    //   lastName: 'Lebrin',
+    //   companyName: 'kissmy',
+    //   siret: '5735757657',
+    // }
     // console.log(store.getCurrent, 'store.getCurrent')
+    const isLoggedIn = computed(() => store.isLoggedIn)
+    return {
+      isLoggedIn,
+    }
   },
 })
 </script>
