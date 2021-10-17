@@ -17,7 +17,7 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
 			return `${user?.firstName} ${user?.lastName}`
 		},
 		isCurrentUserAdmin(state) {
-			return state.entities.current?.roles === RoleEnum.ADMIN
+			return state.entities.current?.roles === RoleEnum.ADMIN || state.entities.current?.roles.includes(RoleEnum.ADMIN)
 		},
 	},
 	actions: {

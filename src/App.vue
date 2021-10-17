@@ -9,7 +9,7 @@
   </router-view>
 </template>
 <script lang="ts">
-import { computed, defineComponent, watch } from 'vue'
+import { computed, defineComponent, watch, onBeforeMount } from 'vue'
 import { useMainStore } from '@/store/mainStore'
 import userHook from '@/hooks/userHook'
 
@@ -18,16 +18,12 @@ export default defineComponent({
     const store = useMainStore()
     const { routesIntermsOfUserRoles } = userHook()
 
-    watch(() => [store.setIsLoggedIn,], () => {
-      routesIntermsOfUserRoles()
+    watch(() => [store.setIsLoggedIn,], async () => {
+      await routesIntermsOfUserRoles()
     })
-    routesIntermsOfUserRoles()
 
-    const isLoggedIn = computed(() => store.isLoggedIn)
+    onBeforeMount(async () => await routesIntermsOfUserRoles())
 
-    return {
-      isLoggedIn,
-    }
   },
 })
 </script>

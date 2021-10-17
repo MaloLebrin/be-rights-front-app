@@ -33,23 +33,39 @@ export default function userHook() {
 		mainStore.resetAllState()
 	}
 
-	function routesIntermsOfUserRoles() {
+	async function routesIntermsOfUserRoles() {
 		const token = getCookie('userToken')
-		console.log(token, 'token')
 		if (token && token.length > 0) {
+			await loginWithToken(token)
 			mainStore.setIsLoggedIn()
 			if (userStore.isCurrentUserAdmin) {
 				router.push('adminDashbord')
+			} else {
+				router.push('userDashboard')
 			}
-			router.push('userDashboard')
 		} else {
 			router.push('login')
 		}
 	}
 
+	async function loginWithToken(token: string) {
+		try {
+			mainStore.toggleIsLoading()
+			const res = await axiosInstance.post('token', { token })
+			const user: UserType = parseEntity(res.data)
+			userStore.setCurrent(user)
+			userStore.createOne(user)
+			mainStore.setIsLoggedIn()
+		} catch (error) {
+			console.error(error)
+		}
+		mainStore.toggleIsLoading()
+	}
+
 	return {
 		login,
 		logout,
+		loginWithToken,
 		routesIntermsOfUserRoles,
 	}
 }
