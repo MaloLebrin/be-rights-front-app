@@ -8,3 +8,8 @@ export type BaseEntity = {
 	createdAt?: Date
 	updatedAt?: Date
 }
+
+export enum ThemeEnum {
+	DEFAULT = 'default',
+	DARK = 'dark'
+}
