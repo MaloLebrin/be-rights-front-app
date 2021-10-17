@@ -13,7 +13,7 @@
         <div class="bg-red-light hover:bg-red rounded-lg mr-3 p-1">
           <UserGroupIcon class="text-white h-6" />
         </div>
-        <span>Clients</span>
+        <span>Users</span>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer">
@@ -49,26 +49,6 @@
       </div>
 
     </div>
-    <!-- TODO add CTA if suscrption basic -->
-    <!-- TODO abstract to library create modal custom comp -->
-    <BCard
-      v-if="store.getCurrent"
-      variant="danger"
-    >
-      <div class="px-6 py-4">
-        <div class="font-bold text-xl mb-2">Découvrez notre abonnement</div>
-        <p class="text-gray-700 text-base">
-          Dès 9.99€ par mois
-        </p>
-      </div>
-      <div class="px-6 pt-4 pb-2">
-        <BButton
-          class="text-black"
-          size="small"
-          variant="white"
-        >En savoir plus</BButton>
-      </div>
-    </BCard>
   </BDrawer>
 </template>
 
@@ -86,7 +66,7 @@ import { useUserStore } from '@/store/users/userStore'
 import userHook from '~/hooks/userHook'
 
 export default defineComponent({
-  name: 'MenuDrawer',
+  name: 'AdminMenuDrawer',
   components: {
     DatabaseIcon,
     HomeIcon,

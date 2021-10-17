@@ -1,5 +1,5 @@
 <template>
-  <MenuDrawer />
+  <AdminMenuDrawer />
   <main class="px-4 py-10 text-center text-red w-full">
     <div class="w-1/4 m-auto text-center text-red bg-teal-800">
       Daashboard Layout
