@@ -44,7 +44,7 @@ export default function userHook() {
 				router.push('userDashboard')
 			}
 		} else {
-			router.push('login')
+			router.push('/')
 		}
 	}
 

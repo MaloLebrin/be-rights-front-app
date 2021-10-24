@@ -1,5 +1,5 @@
 <template>
-  Landing page
+  <Header />
   <router-link :to="{ name: 'login'}">to login</router-link>
 </template>
 

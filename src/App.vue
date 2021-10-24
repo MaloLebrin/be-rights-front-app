@@ -35,6 +35,6 @@ export default defineComponent({
   color: #2c3e50;
   display: flex;
   justify-content: center;
-  background-color: grey;
+  background-color: white;
 }
 </style>
