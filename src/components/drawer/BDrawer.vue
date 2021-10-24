@@ -1,16 +1,16 @@
 <template>
   <header
-    class=" transform min-h-screen max-w-xs flex flex-col items-center px-2 py-4 bg-white w-96 duration-500 relative"
+    class=" transform min-h-screen top-0 left-0 flex flex-col items-center px-2 py-4 ease-in-out transition-all bg-white w-96 max-w-96 duration-500 shadow-2xl relative"
     :class="isDrawerActive ? 'translate-x-0' : '-translate-x-full'"
   >
     <ChevronLeftIcon
       v-if="isDrawerActive"
-      class="text-gray-400 absolute top-2 -right-6 h-12 shadowl bg-white rounded-r-xl transform transition duration-500 hover:scale-125 cursor-pointer"
+      class="text-gray-400 absolute top-2 -right-6 h-12 shadowl bg-white rounded-r-xl transform transition duration-500 hover:scale-125 cursor-pointer z-30"
       @click="toggleDrawer"
     />
     <ChevronRightIcon
       v-else
-      class="text-gray-400 absolute top-2 -right-12 h-12 shadowl bg-white rounded-r-xl transform transition duration-500 hover:scale-125 cursor-pointer"
+      class="text-gray-400 absolute top-2 -right-12 h-12 shadowl bg-white rounded-r-xl transform transition duration-500 hover:scale-125 cursor-pointer z-30"
       @click="toggleDrawer"
     />
 
