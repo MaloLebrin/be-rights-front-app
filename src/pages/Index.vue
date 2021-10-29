@@ -24,10 +24,10 @@
       </div>
     </div>
   </div>
-  <!-- <section class="bg-white border-b py-8">
+  <section class="bg-white border-b py-8">
     <div class="container max-w-5xl mx-auto m-8">
       <h1 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
-        Title
+        <span class="text-red-light">Be right</span>, comment ça marche ?
       </h1>
       <div class="w-full mb-4">
         <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
@@ -51,7 +51,9 @@
           </p>
         </div>
         <div class="w-full sm:w-1/2 p-6">
-          <svg
+          <StepBubble :step-number="1" />
+
+          <!-- <svg
             class="w-full sm:h-64 mx-auto"
             viewBox="0 0 1177 598.5"
             xmlns="http://www.w3.org/2000/svg"
@@ -341,7 +343,7 @@
               d="M998.23,509.4A15.27,15.27,0,0,1,1014,512c5.47,4.88,6.57,12.85,8,20s4.17,15.21,11,18a28.35,28.35,0,0,1-9.19-.27l10.25,9.19-17.27-5.63c-5.42-1.77-11.11-3.56-16.72-2.56-9.3,1.65-15.78,10.4-24.71,13.47l1-4.85-6,0a11.75,11.75,0,0,0,3.43-4,3.27,3.27,0,0,0-2.29-1.2c-2.5-15.59,6.76-31,18.81-41.17,2.38-2,5-3.92,8.06-4.42s6.64.87,7.71,3.78"
               fill="#3c354c"
             />
-          </svg>
+          </svg> -->
         </div>
       </div>
       <div class="flex flex-wrap flex-col-reverse sm:flex-row">
@@ -547,7 +549,7 @@
         </div>
       </div>
     </div>
-  </section> -->
+  </section>
   <section class="bg-white border-b py-8">
     <div class="container mx-auto flex flex-wrap pt-4 pb-12">
       <h1 class="w-full my-2 text-5xl font-bold leading-tight text-gray-800">
@@ -558,7 +560,7 @@
       </div>
       <div class="w-full md:w-1/2 p-6 px-12 flex flex-col flex-grow flex-shrink text-left">
         <div class="flex-1 bg-white rounded-t rounded-b overflow-hidden shadow">
-          <div class="w-full font-bold text-xl text-gray-800 px-6 py-2">
+          <div class="w-full font-bold text-xl text-gray-800 px-6 py-4">
             Une application de gestion dématérialisée & sécurisée
           </div>
           <p class="text-gray-800 text-base px-6 mb-5 text-left">
@@ -568,17 +570,10 @@
             Pour vérifier l'authenticité des signatures un code de vérification sera envoyé au destinataire.
           </p>
         </div>
-        <!-- <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-          <div class="flex items-center justify-start">
-            <button class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-              Action
-            </button>
-          </div>
-        </div> -->
       </div>
       <div class="w-full md:w-1/2 p-6 px-12 flex flex-col flex-grow flex-shrink text-left">
         <div class="flex-1 bg-white rounded-t rounded-b overflow-hidden shadow">
-          <div class="w-full font-bold text-xl text-gray-800 px-6 py-2">
+          <div class="w-full font-bold text-xl text-gray-800 px-6 py-4">
             Arrivez sereinement sur le lieu de l'événement !
           </div>
           <p class="text-gray-800 text-base px-6 mb-5">
@@ -587,31 +582,7 @@
             Fini les envoies de mails à gogo et les documents papiers imprimés !
           </p>
         </div>
-        <!-- <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-          <div class="flex items-center justify-center">
-            <button class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-              Action
-            </button>
-          </div>
-        </div> -->
       </div>
-      <!-- <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
-        <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
-            <div class="w-full font-bold text-xl text-gray-800 px-6 py-2">
-              Disponibles sur plusieurs devices
-            </div>
-            <p class="text-gray-800 text-base px-6 mb-5">
-            
-            </p>
-        </div>
-        <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-          <div class="flex items-center justify-end">
-            <button class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-              Action
-            </button>
-          </div>
-        </div>
-      </div> -->
     </div>
   </section>
   <section class="bg-gray-100 py-8">
@@ -623,10 +594,11 @@
         <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
       </div>
       <div class="flex flex-col sm:flex-row justify-center pt-12 my-12 sm:my-4">
-        <div class="flex flex-col w-5/6 lg:w-1/4 mx-auto lg:mx-0 rounded-none lg:rounded-l-lg bg-white mt-4">
+        <div class="flex flex-col w-5/6 lg:w-1/4 mx-auto lg:mx-0 rounded-none lg:rounded-l-lg bg-white mt-4 hover:z-20 transform transition hover:scale-105 duration-300 ease-in-out">
           <div class="flex-1 bg-white text-gray-600 rounded-t rounded-b-none overflow-hidden shadow">
-            <div class="p-8 text-3xl font-bold text-center border-b-4">
+            <div class="p-8 text-3xl font-bold text-center border-b-4 relative">
               Essentiel
+              <div class="absolute bg-red-light left-0 px-2 py-3 text-white text-sm rounded-r-lg">1 mois gratuit</div>
             </div>
             <ul class="w-full text-center text-sm">
               <li class="border-b py-4">1 utilisateur</li>
@@ -639,15 +611,18 @@
               <span class="text-base">/mois</span>
             </div>
             <div class="flex items-center justify-center">
-              <button class="mx-auto lg:mx-0 hover:underline gradient text-black font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+              <button class="mx-auto lg:mx-0 gradient text-black font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
                 Commencez
               </button>
             </div>
           </div>
         </div>
-        <div class="flex flex-col w-5/6 lg:w-1/3 mx-auto lg:mx-0 rounded-lg bg-white mt-4 sm:-mt-6 shadow-lg z-10">
+        <div class="flex flex-col w-5/6 lg:w-1/3 mx-auto lg:mx-0 rounded-lg bg-white mt-4 sm:-mt-6 shadow-lg z-10 transform transition hover:scale-105 duration-300 ease-in-out">
           <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
-            <div class="w-full p-8 text-3xl font-bold text-center">Pro</div>
+            <div class="p-8 text-3xl font-bold text-center border-b-4 relative">
+              Pro
+              <div class="absolute bg-red-light left-0 px-2 py-3 text-white text-sm rounded-r-lg">2 mois gratuits</div>
+            </div>
             <div class="h-1 w-full gradient my-0 py-0 rounded-t"></div>
             <ul class="w-full text-center text-base font-bold">
               <li class="border-b py-4">3 utilisateurs</li>
@@ -660,16 +635,17 @@
               <span class="text-base">/mois</span>
             </div>
             <div class="flex items-center justify-center">
-              <button class="mx-auto lg:mx-0 hover:underline gradient text-black font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+              <button class=" bg-green mx-auto lg:mx-0 gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
                 Commencez
               </button>
             </div>
           </div>
         </div>
-        <div class="flex flex-col w-5/6 lg:w-1/4 mx-auto lg:mx-0 rounded-none lg:rounded-l-lg bg-white mt-4">
+        <div class="flex flex-col w-5/6 lg:w-1/4 mx-auto lg:mx-0 rounded-none lg:rounded-l-lg bg-white mt-4 transform transition hover:z-20 hover:scale-105 duration-300 ease-in-out">
           <div class="flex-1 bg-white text-gray-600 rounded-t rounded-b-none overflow-hidden shadow">
-            <div class="p-8 text-3xl font-bold text-center border-b-4">
+            <div class="p-8 text-3xl font-bold text-center border-b-4 relative">
               Expert
+              <div class="absolute bg-red-light left-0 px-2 py-3 text-white text-sm rounded-r-lg">3 mois gratuits</div>
             </div>
             <ul class="w-full text-center text-sm">
               <li class="border-b py-4">Utilisateurs ilimités</li>
@@ -683,7 +659,7 @@
               <span class="text-base">/mois</span>
             </div>
             <div class="flex items-center justify-center">
-              <button class="mx-auto lg:mx-0 hover:underline gradient text-black font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+              <button class="mx-auto lg:mx-0 gradient text-black font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
                 Commencez
               </button>
             </div>
@@ -746,7 +722,7 @@
     <h3 class="my-4 text-3xl leading-tight">
       Dématérialisez votre gestion des droits à l'image!
     </h3>
-    <button class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+    <button class="mx-auto lg:mx-0 bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
       Commencez
     </button>
   </section>

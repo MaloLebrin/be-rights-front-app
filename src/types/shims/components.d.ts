@@ -15,6 +15,7 @@ declare module 'vue' {
     LoginModal: typeof import('./../../components/modals/LoginModal.vue')['default']
     MenuDrawer: typeof import('./../../components/drawer/MenuDrawer.vue')['default']
     SimpleLogo: typeof import('./../../components/logo/SimpleLogo.vue')['default']
+    StepBubble: typeof import('./../../components/content/StepBubble.vue')['default']
     UserDashboard: typeof import('./../../pages/userDashboard/index.vue')['default']
   }
 }
