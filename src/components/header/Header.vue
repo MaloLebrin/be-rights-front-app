@@ -3,16 +3,8 @@
     <nav class="w-full">
       <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div class="relative m-8 md:m-0 flex items-center justify-e h-16">
-          <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            <!-- Mobile menu button-->
-            <button
-              type="button"
-              class="bg red inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-              aria-controls="mobile-menu"
-              aria-expanded="false"
-              @click="toggleMobileMenu"
-            >
-              <span class="sr-only">Menu</span>
+          <div class=" flex items-center sm:hidden">
+            <button @click="toggleMobileMenu">
               <svg
                 v-if="isMenuOpen"
                 class="block h-6 w-6"
@@ -47,11 +39,12 @@
                 />
               </svg>
             </button>
+
           </div>
           <div class="hidden md:flex flex-1 items-center justify-between sm:justify-start">
-            <div class="flex-shrink-0 flex items-center">
+            <div class="flex-shrink-0 :mdflex items-center">
               <img
-                class="hidden lg:block w-56 object-cover overflow-hidden mr-16"
+                class="md:block w-56 object-cover overflow-hidden mr-16"
                 src="../../assets/logoShot.png"
                 alt="logo be right"
               />
@@ -92,35 +85,37 @@
       <!-- Mobile menu, show/hide based on menu state. -->
       <div
         v-if="isMenuOpen"
-        class="sm:hidden bg-white z-50"
+        class="flex flex-col sm:hidden"
         id="mobile-menu"
       >
-        <div class="px-2 pt-2 pb-3 space-y-1">
-          <a
+        <div class="flex flex-col space-x-4">
+          <BLink
             href="#"
-            class="text-white hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >Solutions</a>
+            class="text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+          >Solutions</BLink>
 
-          <a
+          <BLink
             href="#"
-            class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >Tarifs</a>
+            class="text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+          >Tarifs</BLink>
 
-          <a
+          <BLink
             href="#"
-            class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >Commencer</a>
-          <div class="flex items-center justify-center w-full cursor-pointer text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">
-            <UserIcon class="w-8" />
-            <BLink
-              tag='router-link'
-              :to="{ name: 'login'}"
-            >
-              Se connecter
-            </BLink>
-          </div>
+            class="text-black hover:bg-gray-700 hover:border-white hover:border-1 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+          >
+            Commencer
+          </BLink>
+
+          <BLink
+            tag='router-link'
+            :to="{ name: 'login'}"
+            class="text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+          >
+            Se connecter
+          </BLink>
         </div>
       </div>
+
     </nav>
   </header>
 </template>
