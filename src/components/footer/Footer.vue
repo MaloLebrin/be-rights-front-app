@@ -4,7 +4,7 @@
       <div class="w-full flex flex-col md:flex-row ">
         <div class="flex-1 mb-6 text-black justify-between py-6">
           <BButton
-            class="mb-4 mt-4 text-white shadow-lg transform transition hover:scale-105 duration-300 ease-in-out"
+            class="mb-4 mt-4 text-white shadow-lg transform transition hover:scale-105 duration-300 ease-in-out z-10"
             variant="danger"
           >
             Commencer avec un mois gratuit

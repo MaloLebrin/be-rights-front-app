@@ -257,19 +257,81 @@
     <h3 class="my-4 text-3xl leading-tight">
       Dématérialisez votre gestion des droits à l'image!
     </h3>
-    <button class="mx-auto lg:mx-0 bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+    <button
+      class="mx-auto lg:mx-0 bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+      @click="toggleNewsletterModal"
+    >
       Commencez
     </button>
   </section>
-  <!--Footer-->
+
+  <BCardModal
+    :is-active="isModaleOpen"
+    class="z-10"
+  >
+    <template #title>
+      Inscrivez pour être au courant des dernières nouveautés
+    </template>
+    <BField label="Votre email">
+      <BInput
+        type="email"
+        v-model="email"
+      />
+    </BField>
+    <BField label="Votre prénom">
+      <BInput v-model="firstName" />
+    </BField>
+    <BField label="Votre nom">
+      <BInput v-model="lastName" />
+    </BField>
+    <BField label="Le nom de votre entreprise">
+      <BInput v-model="companyName" />
+    </BField>
+
+    <BButton
+      variant="success"
+      @click="submit"
+    >
+      je m'inscris
+    </BButton>
+  </BCardModal>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, reactive, toRefs } from 'vue'
+import newsleterHook from '~/hooks/newsletterHook'
 
 export default defineComponent({
   name: 'Home',
   setup() {
+    const { newsletterSignup } = newsleterHook()
+    // TODO setup vee validate
+    const form = reactive({
+      email: '',
+      firstName: '',
+      lastName: '',
+      companyName: '',
+      isModaleOpen: false,
+    })
+
+    function toggleNewsletterModal() {
+      form.isModaleOpen = !form.isModaleOpen
+    }
+
+    async function submit() {
+      await newsletterSignup({
+        email: form.email,
+        firstName: form.firstName,
+        lastName: form.lastName,
+        companyName: form.companyName,
+      })
+    }
+
+    return {
+      ...toRefs(form),
+      toggleNewsletterModal,
+      submit
+    }
   },
 })
 </script>

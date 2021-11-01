@@ -67,6 +67,7 @@ export default defineComponent({
 
     const isSubmitButtonDisabled = computed(() => !isEmailValid.value && !isPasswordValid.value)
 
+    // TODO finish function to login
     async function onClickLogin() {
       const payload = {
         email: form.email,
