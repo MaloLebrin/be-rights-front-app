@@ -9,7 +9,10 @@
       <p class="leading-normal text-lg text-center md:text-2xl mb-8">
         Commencez maintenant avec un mois gratuit.
       </p>
-      <button class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+      <button
+        class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+        @click="toggleNewsletterModal"
+      >
         Commencez
       </button>
     </div>
@@ -152,7 +155,10 @@
               <span class="text-base">/mois</span>
             </div>
             <div class="flex items-center justify-center">
-              <button class="mx-auto lg:mx-0 gradient text-black font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+              <button
+                class="mx-auto lg:mx-0 gradient text-black font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+                @click="toggleNewsletterModal"
+              >
                 Commencez
               </button>
             </div>
@@ -176,7 +182,10 @@
               <span class="text-base">/mois</span>
             </div>
             <div class="flex items-center justify-center">
-              <button class=" bg-green mx-auto lg:mx-0 gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+              <button
+                class=" bg-green mx-auto lg:mx-0 gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+                @click="toggleNewsletterModal"
+              >
                 Commencez
               </button>
             </div>
@@ -200,7 +209,10 @@
               <span class="text-base">/mois</span>
             </div>
             <div class="flex items-center justify-center">
-              <button class="mx-auto lg:mx-0 gradient text-black font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+              <button
+                class="mx-auto lg:mx-0 gradient text-black font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+                @click="toggleNewsletterModal"
+              >
                 Commencez
               </button>
             </div>
