@@ -43,28 +43,31 @@
           </div>
           <div class="hidden md:flex flex-1 items-center justify-between sm:justify-start">
             <div class="flex-shrink-0 :mdflex items-center">
-              <img
-                class="md:block w-56 object-cover overflow-hidden mr-16"
-                src="../../assets/logoShot.png"
-                alt="logo be right"
-              />
+              <router-link to="/">
+                <img
+                  class="md:block w-56 object-cover overflow-hidden mr-16"
+                  src="../../assets/logoShot.png"
+                  alt="logo be right"
+                />
+              </router-link>
 
             </div>
             <div class="lg:flex lg:items-stretch lg:justify-end ml-auto">
               <div class="flex space-x-4">
                 <BLink
-                  href="#"
+                  href="#Solution"
                   class="text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >Solutions</BLink>
 
                 <BLink
-                  href="#"
+                  href="#Pricings"
                   class="text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >Tarifs</BLink>
 
                 <BButton
                   href="#"
                   class="text-black hover:bg-gray-700 hover:border-white hover:border-1 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  @click="onClickStartButton"
                 >
                   Commencer
                 </BButton>
@@ -90,18 +93,19 @@
       >
         <div class="flex flex-col space-x-4">
           <BLink
-            href="#"
+            href="#Solution"
             class="text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
           >Solutions</BLink>
 
           <BLink
-            href="#"
+            href="#Pricings"
             class="text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
           >Tarifs</BLink>
 
           <BLink
             href="#"
             class="text-black hover:bg-gray-700 hover:border-white hover:border-1 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            @click="onClickStartButton"
           >
             Commencer
           </BLink>
@@ -128,15 +132,19 @@ export default defineComponent({
   components: {
     UserIcon,
   },
-  setup() {
+  setup(_, { emit }) {
     const isMenuOpen = ref(false)
     function toggleMobileMenu() {
       isMenuOpen.value = !isMenuOpen.value
     }
 
+    function onClickStartButton() {
+      emit('startNow')
+    }
     return {
       isMenuOpen,
       toggleMobileMenu,
+      onClickStartButton,
     }
   }
 })

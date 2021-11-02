@@ -85,7 +85,10 @@
 
     </div>
   </section>
-  <section class="bg-white border-b py-8">
+  <section
+    id="Solution"
+    class="bg-white border-b py-8"
+  >
     <div class="container mx-auto flex flex-wrap pt-4 pb-12">
       <h1 class="w-full my-2 text-5xl font-bold leading-tight text-gray-800">
         <span class="text-red-light">Be right</span>, qu'est ce que c'est ?
@@ -120,7 +123,10 @@
       </div>
     </div>
   </section>
-  <section class="bg-gray-100 py-8">
+  <section
+    id="Pricings"
+    class="bg-gray-100 py-8"
+  >
     <div class="container mx-auto px-2 pt-4 pb-12 text-gray-800">
       <h1 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
         Choisissez votre <span class="text-red-light">Abonnement</span>
