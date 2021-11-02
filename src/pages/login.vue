@@ -22,13 +22,13 @@
         />
       </BField>
       <div class="flex flex-col ">
-        <!-- <BLink>S'inscrire</BLink> -->
+        <BLink>S'inscrire</BLink>
         <BButton
           :disabled="isSubmitDisabled"
           variant="danger"
           @click="submitLogin"
         >Se Connecter</BButton>
-        <!-- <BLink>Mot de passe oublié</BLink> -->
+        <BLink>Mot de passe oublié</BLink>
       </div>
     </BCard>
   </div>
