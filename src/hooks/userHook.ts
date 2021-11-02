@@ -31,21 +31,24 @@ export default function userHook() {
 		mainStore.setIsLoggedOut()
 		userStore.removeCurrent()
 		mainStore.resetAllState()
+		router.push('/')
 	}
 
 	async function routesIntermsOfUserRoles() {
+		mainStore.toggleIsLoading()
 		const token = getCookie('userToken')
 		if (token && token.length > 0) {
 			await loginWithToken(token)
 			mainStore.setIsLoggedIn()
 			if (userStore.isCurrentUserAdmin) {
-				router.push('adminDashboard')
+				router.push('/adminDashboard')
 			} else {
-				router.push('userDashboard')
+				router.push('/userDashboard')
 			}
 		} else {
 			router.push('/')
 		}
+		mainStore.toggleIsLoading()
 	}
 
 	async function loginWithToken(token: string) {
