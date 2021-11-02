@@ -5,11 +5,13 @@ import { useUserStore } from "@/store/users/userStore"
 import { parseEntity } from '~/store/utils/store'
 import { useCookie } from 'vue-cookie-next'
 import router from '~/router'
+import mainHook from './mainHook'
 
 export default function userHook() {
 	const userStore = useUserStore()
 	const mainStore = useMainStore()
 	const { setCookie, getCookie } = useCookie()
+	const { setThemeClass } = mainHook()
 
 	async function login({ email, password }: { email: string, password: string }) {
 		try {
@@ -61,6 +63,7 @@ export default function userHook() {
 			mainStore.toggleIsLoading()
 			const res = await axiosInstance.post('token', { token })
 			const user: UserType = parseEntity(res.data)
+			await setThemeClass()
 			userStore.setCurrent(user)
 			userStore.createOne(user)
 			mainStore.setIsLoggedIn()

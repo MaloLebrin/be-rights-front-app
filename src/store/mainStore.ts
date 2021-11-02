@@ -13,6 +13,7 @@ export const useMainStore = defineStore('main', {
 		getIsLoggedIn: (state) => state.isLoggedIn,
 		getIsLoading: (state) => state.isLoading,
 		getTheme: (state) => state.theme,
+		isDarkTheme: (state) => state.theme === ThemeEnum.DARK
 	},
 	actions: {
 		setIsLoggedIn() {
@@ -23,13 +24,6 @@ export const useMainStore = defineStore('main', {
 		},
 		toggleIsLoading() {
 			this.isLoading = !this.isLoading
-		},
-		toggleThemeApp() {
-			if (this.theme === ThemeEnum.DARK) {
-				this.theme = ThemeEnum.DEFAULT
-			} else if (this.theme === ThemeEnum.DEFAULT) {
-				this.theme = ThemeEnum.DARK
-			}
 		},
 		resetAllState() {
 			const userStore = useUserStore()

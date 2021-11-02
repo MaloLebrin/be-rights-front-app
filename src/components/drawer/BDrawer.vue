@@ -13,12 +13,13 @@
       class="text-gray-400 absolute top-2 -right-12 h-12 shadowl bg-white rounded-r-xl transform transition duration-500 hover:scale-125 cursor-pointer z-30"
       @click="toggleDrawer"
     />
-
+    <!-- https://codepen.io/boussadjra/pen/ExgzKyj link exemple to close and open drawer -->
     <nav class="w-full h-full">
       <SimpleLogo />
 
       <slot />
     </nav>
+    <DarkModeToggle />
   </header>
 </template>
 
@@ -28,12 +29,14 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from '@heroicons/vue/outline'
+import DarkModeToggleVue from '@/components/content/darkModeToggle.vue'
 
 export default defineComponent({
   name: 'BDrawer',
   components: {
     ChevronLeftIcon,
     ChevronRightIcon,
+    DarkModeToggleVue,
   },
 
   props: {

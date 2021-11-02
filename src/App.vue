@@ -7,7 +7,7 @@
   </router-view>
 </template>
 <script lang="ts">
-import { computed, defineComponent, watch, onBeforeMount } from 'vue'
+import { defineComponent, watch, onBeforeMount } from 'vue'
 import { useMainStore } from '@/store/mainStore'
 import userHook from '@/hooks/userHook'
 
@@ -35,6 +35,5 @@ export default defineComponent({
   color: #2c3e50;
   display: flex;
   justify-content: center;
-  background-color: white;
 }
 </style>
