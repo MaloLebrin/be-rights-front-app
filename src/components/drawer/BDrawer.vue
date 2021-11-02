@@ -1,16 +1,16 @@
 <template>
   <header
-    class=" transform min-h-screen top-0 left-0 flex flex-col items-center px-2 py-4 ease-in-out transition-all bg-white w-96 max-w-96 duration-500 shadow-2xl relative"
+    class=" transform min-h-screen top-0 left-0 flex flex-col items-center px-2 py-4 ease-in-out transition-all bg-white dark:bg-blue-dark_bold w-96 max-w-96 duration-500 shadow-2xl relative"
     :class="isDrawerActive ? 'translate-x-0' : '-translate-x-full'"
   >
     <ChevronLeftIcon
       v-if="isDrawerActive"
-      class="text-gray-400 absolute top-2 -right-6 h-12 shadowl bg-white rounded-r-xl transform transition duration-500 hover:scale-125 cursor-pointer z-30"
+      class="text-gray-400 absolute top-2 -right-6 h-12 shadowl bg-white dark:bg-blue-dark_bold dark:text-white rounded-r-xl transform transition duration-500 hover:scale-125 cursor-pointer z-30"
       @click="toggleDrawer"
     />
     <ChevronRightIcon
       v-else
-      class="text-gray-400 absolute top-2 -right-12 h-12 shadowl bg-white rounded-r-xl transform transition duration-500 hover:scale-125 cursor-pointer z-30"
+      class="text-gray-400 absolute top-2 -right-12 h-12 shadowl bg-white dark:bg-blue-dark_bold dark:text-white rounded-r-xl transform transition duration-500 hover:scale-125 cursor-pointer z-30"
       @click="toggleDrawer"
     />
     <!-- https://codepen.io/boussadjra/pen/ExgzKyj link exemple to close and open drawer -->
