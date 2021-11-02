@@ -19,6 +19,11 @@ export default function userHook() {
 			userStore.setCurrent(user)
 			userStore.createOne(user)
 			setCookie('userToken', user.token)
+			if (user && userStore.isCurrentUserAdmin) {
+				router.push('/adminDashboard')
+			} else {
+				router.push('/userDashboard')
+			}
 			mainStore.setIsLoggedIn()
 		} catch (error) {
 			console.error(error)

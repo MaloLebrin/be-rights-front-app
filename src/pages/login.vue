@@ -11,12 +11,14 @@
 
       <BField label="Address e-mail">
         <BInput
+          type="email"
           class="text-black"
           v-model="email"
         />
       </BField>
       <BField label="Mot de passe">
         <BInput
+          type="password"
           class="text-black"
           v-model="password"
         />
@@ -50,7 +52,6 @@ export default defineComponent({
 
     async function submitLogin() {
       await login({ email: form.email, password: form.password })
-      router.push('index')
     }
 
     const isSubmitDisabled = computed(() => form.email.length === 0 || form.password.length === 0)
