@@ -17,6 +17,12 @@ export default function mainHook() {
 		}
 	}
 
+	function setLightTheme() {
+		document.getElementById('app')?.classList.remove(ThemeEnum.DARK)
+		theme.value = ThemeEnum.DEFAULT
+		localStorage.theme = ThemeEnum.DEFAULT
+	}
+
 	function toggleThemeApp() {
 		if (theme.value === ThemeEnum.DARK) {
 			document.getElementById('app')?.classList.remove(ThemeEnum.DARK)
@@ -36,5 +42,6 @@ export default function mainHook() {
 	return {
 		setThemeClass,
 		toggleThemeApp,
+		setLightTheme,
 	}
 }

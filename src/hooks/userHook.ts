@@ -11,7 +11,7 @@ export default function userHook() {
 	const userStore = useUserStore()
 	const mainStore = useMainStore()
 	const { setCookie, getCookie } = useCookie()
-	const { setThemeClass } = mainHook()
+	const { setThemeClass, setLightTheme } = mainHook()
 
 	async function login({ email, password }: { email: string, password: string }) {
 		try {
@@ -35,6 +35,7 @@ export default function userHook() {
 
 	function logout() {
 		// removeCookie('userToken')
+		setLightTheme()
 		mainStore.setIsLoggedOut()
 		userStore.removeCurrent()
 		mainStore.resetAllState()

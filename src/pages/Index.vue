@@ -36,7 +36,12 @@
 
       <div class="flex flex-col sm:flex-row">
         <div class="p-2 md:p-6 mt-6 flex justify-center md:block">
-          <StepBubble :step-number="1" />
+          <img
+            src="../assets/step1.svg"
+            alt="step1"
+            height="100px"
+            width="100px"
+          />
         </div>
 
         <div class="w-full sm:w-1/2 p-2 md:mt-12 md:ml-8">
@@ -53,7 +58,12 @@
       <div class="flex flex-col sm:flex-row">
         <div class="sm:w-1/3" />
         <div class="p-6 mt-6 flex justify-center md:block">
-          <StepBubble :step-number="2" />
+          <img
+            src="../assets/step2.svg"
+            alt="step2"
+            height="150px"
+            width="150px"
+          />
         </div>
         <div class="sm:w-1/2 md:mt-28 md:ml-10">
           <div class="align-middle p-2">
@@ -71,7 +81,12 @@
       <div class="flex flex-col sm:flex-row">
         <div class="hidden md:block sm:w-2/3" />
         <div class="p-6 mt-6 flex justify-center md:block">
-          <StepBubble :step-number="3" />
+          <img
+            src="../assets/step3.svg"
+            alt="step3"
+            height="150px"
+            width="150px"
+          />
         </div>
         <div class="sm:w-1/2 md:mt-28 md:ml-10 p-2">
           <div class="align-middle">
