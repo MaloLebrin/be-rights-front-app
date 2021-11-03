@@ -10,7 +10,7 @@ import mainHook from './mainHook'
 export default function userHook() {
 	const userStore = useUserStore()
 	const mainStore = useMainStore()
-	const { setCookie, getCookie } = useCookie()
+	const { setCookie, getCookie, removeCookie } = useCookie()
 	const { setThemeClass, setLightTheme } = mainHook()
 
 	async function login({ email, password }: { email: string, password: string }) {
@@ -34,7 +34,7 @@ export default function userHook() {
 	}
 
 	function logout() {
-		// removeCookie('userToken')
+		removeCookie('userToken')
 		setLightTheme()
 		mainStore.setIsLoggedOut()
 		userStore.removeCurrent()

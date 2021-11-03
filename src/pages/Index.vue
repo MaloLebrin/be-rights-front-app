@@ -1,25 +1,26 @@
 <template>
-  <section class="flex justify-center md:flex-row items-center">
+  <section class="grid gap-4 grid-cols-1 md:grid-cols-2 justify-center md:flex-row items-center mt-10">
     <!--Left Col-->
-    <div class="flex flex-col w-full md:w-2/5 justify-center md:items-start md:text-left">
-      <p class="uppercase tracking-loose w-full mx-auto">Gérez enfin le droit à l'image de vos clients facilement</p>
-      <h1 class="text-xl my-4 md:text-5xl font-bold leading-tight">
+    <div class="flex flex-col justify-center items-center">
+      <!-- <p class="uppercase tracking-loose w-full mx-auto">Gérez enfin le droit à l'image de vos clients facilement</p> -->
+      <h1 class="text-xl my-4 md:text-5xl font-bold md:leading-snug">
         Gérez enfin le droit à l'image de vos clients facilement !
       </h1>
       <p class="leading-normal text-lg text-center md:text-2xl mb-8">
         Commencez maintenant avec un mois gratuit.
       </p>
       <button
-        class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+        class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full
+        my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
         @click="toggleNewsletterModal"
       >
         Commencez
       </button>
     </div>
     <!--Right Col-->
-    <div class="hidden sm:block sm:w-3/5 md:w-3/5 py-6 text-center">
+    <div class="hidden sm:block shadow-xl bg-transparent rounded-lg">
       <img
-        class="w-full md:w-4/5 z-50 p-8"
+        class="w-full z-50 rounded-lg"
         src="@/assets/photographer.jpg"
       />
     </div>
