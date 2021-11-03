@@ -1,5 +1,5 @@
 <template>
-  <div class="text-green dark:bg-gray-700">
+  <div class="text-green dark:bg-blue-dark min-h-screen">
 
     admin dashboard
   </div>

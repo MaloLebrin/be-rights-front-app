@@ -1,6 +1,6 @@
 <template>
   <AdminMenuDrawer />
-  <main class="px-4 py-10 text-red w-full bg-white flex-shrink">
+  <main class="text-red w-full bg-white flex-shrink">
     <BLoader
       v-if="isLoading"
       :isLoading="isLoading"

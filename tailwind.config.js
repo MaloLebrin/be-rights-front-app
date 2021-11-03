@@ -44,8 +44,8 @@ module.exports = {
       blue: {
         light: 'rgba(69,61,145,0.2)',
         DEFAULT: '#453D91',
-        dark: '#171933',
-        dark_bold: '#1c1f3d',
+        dark: '#1b1e3dF2',
+        dark_bold: 'rgba(28,31,61)',
       },
       indigo: colors.indigo,
       purple: {

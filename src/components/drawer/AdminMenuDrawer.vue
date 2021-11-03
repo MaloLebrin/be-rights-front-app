@@ -1,6 +1,6 @@
 <template>
   <BDrawer>
-    <div class="flex flex-col justify text-left">
+    <div class="flex flex-col justify text-left font-semibold">
       <h6 class="text-gray-500 font-bold mb-4">Menu</h6>
       <div class="flex items-center w-full mb-5 cursor-pointer">
         <div class="bg-red-light hover:bg-red rounded-lg mr-3 p-1">
@@ -42,7 +42,7 @@
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer">
-        <div class="bg-purple-light hover:bg-purple rounded-lg mr-3 p-1">
+        <div class="bg-purple-light hover:bg-purple rounded-lg mr-3 p-1 shadow-2xl">
           <LogoutIcon class="text-white h-6" />
         </div>
         <span
