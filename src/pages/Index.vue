@@ -106,38 +106,56 @@
   </section>
   <section
     id="Solution"
-    class="bg-white border-b py-8"
+    class="bg-white border-b py-8 w-full relative"
   >
+    <img
+      class="absolute right-0"
+      src="../assets/mokup-phone.png"
+    />
     <div class="container mx-auto flex flex-wrap pt-4 pb-12">
       <h1 class="w-full my-2 text-5xl font-bold leading-tight text-gray-800">
         <span class="text-red-light">Be right</span>, qu'est ce que c'est ?
       </h1>
-      <div class="w-full mb-4">
-        <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
-      </div>
-      <div class="w-full md:w-1/2 p-6 px-12 flex flex-col flex-grow flex-shrink text-left">
-        <div class="flex-1 bg-white rounded-t rounded-b overflow-hidden shadow">
-          <div class="w-full font-bold text-xl text-gray-800 px-6 py-4">
-            Une application de gestion dématérialisée & sécurisée
+      <div class="grid gap-4 grid-cols-1 md:grid-cols-2 ">
+
+        <!-- <div class="w-full mb-4">
+          <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
+        </div> -->
+        <div class="w-full p-6 px-12  text-left transform hover:-translate-y-2 duration-300 ease-in-out">
+          <div class="flex-1 bg-white rounded-t rounded-b overflow-hidden shadow">
+            <div class="w-full font-bold text-xl text-gray-800 px-6 py-4">
+              Une application de gestion dématérialisée & sécurisée
+            </div>
+            <p class="text-gray-800 text-base px-6 mb-5 text-left">
+              Be right est une plateforme de gestion dématérialisée de vos documents de droits à l'image.
+              Avec cette application, vous, photograpges et agences de photos pouvez gérer vos événements et
+              faire signer vos documents en seulement quelques clics.
+              Pour vérifier l'authenticité des signatures un code de vérification sera envoyé au destinataire.
+            </p>
           </div>
-          <p class="text-gray-800 text-base px-6 mb-5 text-left">
-            Be right est une plateforme de gestion dématérialisée de vos documents de droits à l'image.
-            Avec cette application, vous, photograpges et agences de photos pouvez gérer vos événements et
-            faire signer vos documents en seulement quelques clics.
-            Pour vérifier l'authenticité des signatures un code de vérification sera envoyé au destinataire.
-          </p>
         </div>
-      </div>
-      <div class="w-full md:w-1/2 p-6 px-12 flex flex-col flex-grow flex-shrink text-left">
-        <div class="flex-1 bg-white rounded-t rounded-b overflow-hidden shadow">
-          <div class="w-full font-bold text-xl text-gray-800 px-6 py-4">
-            Arrivez sereinement sur le lieu de l'événement !
+        <div class="w-full p-6 px-12  text-left transform hover:-translate-y-2 duration-300 ease-in-out">
+          <div class="flex-1 bg-white rounded-t rounded-b overflow-hidden shadow">
+            <div class="w-full font-bold text-xl text-gray-800 px-6 py-4">
+              Disponibles sur plusieurs devices
+            </div>
+            <p class="text-gray-800 text-base px-6 mb-5">
+              Grâce à notre développement en application hybride, notre application est disponible sur internet mais également sur votre tablette ou smartphone via les appstores.
+              Vous pouvez alors tout à fait switcher de device comme bon vous semble !
+            </p>
           </div>
-          <p class="text-gray-800 text-base px-6 mb-5">
-            Afin de faciliter l'envoi et la réception des documents de droit à l'image, nous avons pensé et conçu <span class="font-bold">be right</span>.
-            Cet outil vous permet d'ajouter des clients, leur envoyer automatiquement la demande de droit à l'image, puis recevoir le document signé directement sur la plateforme.
-            Fini les envoies de mails à gogo et les documents papiers imprimés !
-          </p>
+        </div>
+        <div class="w-full p-6 px-12  text-left transform hover:-translate-y-2 duration-300 ease-in-out">
+          <div class="flex-1 bg-white rounded-t rounded-b overflow-hidden shadow">
+            <div class="w-full font-bold text-xl text-gray-800 px-6 py-4">
+              Arrivez sereinement sur le lieu de l'événement !
+            </div>
+            <p class="text-gray-800 text-base px-6 mb-5">
+              Afin de faciliter l'envoi et la réception des documents de droit à l'image, nous avons pensé et conçu <span class="font-bold">be right</span>.
+              Cet outil vous permet d'ajouter des clients, leur envoyer automatiquement la demande de droit à l'image, puis recevoir le document signé directement sur la plateforme.
+              Fini les envoies de mails à gogo et les documents papiers imprimés !
+            </p>
+          </div>
         </div>
       </div>
     </div>
