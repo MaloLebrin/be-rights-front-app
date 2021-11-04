@@ -8,7 +8,7 @@
       />
       <router-view
         v-else
-        class="dark:bg-blue-dark"
+        class=""
       />
     </main>
     <Footer />

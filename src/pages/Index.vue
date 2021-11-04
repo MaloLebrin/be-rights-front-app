@@ -36,10 +36,10 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="flex sm:flex-row align-baseline">
-          <div class="p-2 md:p-6 mt-6 flex justify-center md:block">
+        <div class="p-4 md:p-0">
+          <div class="hidden md:block">
             <img
-              class="w-20"
+              class="w-24"
               src="../assets/step1.svg"
               alt="step1"
               height="100px"
@@ -47,51 +47,53 @@
             />
           </div>
 
-          <div class="w-full sm:w-1/2 p-2">
-            <h3 class="text-3xl text-gray-800 dark:text-gray-100 font-bold leading-none mb-3">
+          <div class="">
+            <h3 class="text-3xl text-gray-800 dark:text-gray-100 font-bold leading-none">
               Sélectionnez un client.
             </h3>
-            <p class="text-gray-600 dark:text-gray-50 text-left md:mb-8">
+            <p class="text-gray-600 dark:text-gray-50 text-left">
               Vous pouvez choisir un client déjà existant ou en ajouter de nouveaux.
               Vous pouvez directement entrer les coordonnées de la personne avec qui vous collaborez.
             </p>
           </div>
         </div>
+        <div />
+        <div />
 
-        <div class="flex sm:flex-row md:mt-40 align-baseline">
-          <div class="p-6 mt-6 flex justify-center md:block">
+        <div class="p-4 md:p-0">
+          <div class="hidden md:block">
             <img
               class="w-28"
               src="../assets/step2.svg"
               alt="step2"
             />
           </div>
-          <div class="sm:w-1/2">
+          <div class="">
             <div class="align-middle p-2">
-              <h3 class="text-3xl text-gray-800 dark:text-gray-100 font-bold leading-none mb-3">
+              <h3 class="text-3xl text-gray-800 dark:text-gray-100 font-bold leading-none">
                 Créez votre événement
               </h3>
-              <p class="text-gray-600 dark:text-gray-50 text-left md:mb-8">
+              <p class="text-gray-600 dark:text-gray-50 text-left">
                 Créer l'événement qui aura lieu avec le client. Vous renseignez la date de l'événement, le lieu, pour une parfaite organisation.
               </p>
             </div>
           </div>
         </div>
 
-        <div class="flex sm:flex-row align-baseline">
-          <div class="p-6 mt-6 flex justify-center md:block">
+        <div class="p-4 md:p-0">
+          <div class="hidden md:block">
             <img
               class="w-28"
               src="../assets/step3.svg"
               alt="step3"
             />
           </div>
-          <div class="sm:w-1/2 p-2">
+          <div class="">
             <div class="align-middle">
-              <h3 class="text-3xl text-gray-800 dark:text-gray-100 font-bold leading-none mb-3">
+              <h3 class="text-3xl text-gray-800 dark:text-gray-100 font-bold leading-none">
                 Partage de l'accès au client
               </h3>
-              <p class="text-gray-600 dark:text-gray-50 text-left md:mb-8">
+              <p class="text-gray-600 dark:text-gray-50 text-left">
                 Votre client a accès aux événements que vous avez en commun.
                 Il peut donc renseigner la liste des destinataires des signatures, relancer les destinataires qui n'auraient pas répondu et télécharger l'ensemble des documents qui le concerne.
               </p>
@@ -107,7 +109,7 @@
     class="py-8 w-full relative bg-white dark:bg-blue-dark DarkModeAnimation"
   >
     <img
-      class="absolute right-0 transform duration-500 ease-in-out hover:-translate-y-2"
+      class="hidden md:inline absolute right-0 transform duration-500 ease-in-out hover:-translate-y-2 animate-fade-in-down"
       src="../assets/mokup-phone.png"
     />
     <div class="container mx-auto flex flex-wrap pt-4 pb-12">
@@ -233,7 +235,6 @@
             <ul class="w-full text-center text-sm">
               <li class="border-b py-4">Utilisateurs ilimités</li>
               <li class="border-b py-4">Événements ilimités</li>
-              <!-- <li class="border-b py-4">Thing</li> -->
             </ul>
           </div>
           <div class="flex-none mt-auto bg-white dark:bg-blue-dark DarkModeAnimation rounded-b rounded-t-none overflow-hidden shadow p-6">
