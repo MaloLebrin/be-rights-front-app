@@ -12,7 +12,7 @@
       <button
         class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full
         my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:-translate-y-2 hover:scale-105 duration-300 ease-in-out"
-        @click="toggleNewsletterModal"
+        href="#Newsletter"
       >
         Commencez
       </button>
@@ -131,8 +131,8 @@
             </p>
           </div>
         </div>
-        <div class="w-full p-6 px-12  text-left transform hover:-translate-y-2 duration-300 ease-in-out">
-          <div class="flex-1 rounded-t rounded-b shadow dark:shadow-xl bg-white dark:bg-blue-dark dark:shadow-xl DarkModeAnimation">
+        <div class="w-full p-6 px-12  text-left transform hover:-translate-y-2 duration-300 ease-in-out bg-white dark:bg-blue-dark dark:shadow-xl DarkModeAnimation">
+          <div class="flex-1 rounded-t rounded-b shadow dark:shadow-xl ">
             <div class="w-full font-bold text-xl text-gray-800 dark:text-white px-6 py-4">
               Disponibles sur plusieurs devices
             </div>
@@ -142,8 +142,8 @@
             </p>
           </div>
         </div>
-        <div class="w-full p-6 px-12  text-left transform hover:-translate-y-2 duration-300 ease-in-out">
-          <div class="flex-1 rounded-t rounded-b shadow bg-white dark:bg-blue-dark dark:shadow-xl DarkModeAnimation">
+        <div class="w-full p-6 px-12  text-left transform hover:-translate-y-2 duration-300 ease-in-out bg-white dark:bg-blue-dark dark:shadow-xl DarkModeAnimation">
+          <div class="flex-1 rounded-t rounded-b shadow ">
             <div class="w-full font-bold text-xl text-gray-800 dark:text-white px-6 py-4">
               Arrivez sereinement sur le lieu de l'événement !
             </div>
@@ -190,7 +190,7 @@
             <div class="flex items-center justify-center">
               <button
                 class="mx-auto lg:mx-0 gradient text-black dark:bg-white DarlModeAnimation font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
-                @click="toggleNewsletterModal"
+                href="#Newsletter"
               >
                 Commencez
               </button>
@@ -219,7 +219,7 @@
               <button
                 class=" bg-green mx-auto lg:mx-0 gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline
                 transform transition hover:scale-105 duration-300 ease-in-out DarkModeAnimation"
-                @click="toggleNewsletterModal"
+                href="#Newsletter"
               >
                 Commencez
               </button>
@@ -248,7 +248,8 @@
               <button
                 class="mx-auto lg:mx-0 gradient text-black dark:bg-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline
                 transform transition hover:scale-105 duration-300 ease-in-out DarkModeAnimation"
-                @click="toggleNewsletterModal"
+                tag="router-link"
+                href="#Newsletter"
               >
                 Commencez
               </button>
@@ -259,49 +260,25 @@
     </div>
   </section>
 
-  <section class="mx-auto text-center py-6 dark:bg-blue-dark dark:text-white DarkModeAnimation">
+  <section
+    id="Newsletter"
+    class="mx-auto text-center py-6 dark:bg-blue-dark dark:text-white DarkModeAnimation"
+  >
     <h3 class="my-4 text-3xl leading-tight">
-      Dématérialisez votre gestion des droits à l'image!
+      Restez informé des dernières nouveautés!
     </h3>
+    <BInput
+      placeholder="Votre e-mail"
+      v-model="email"
+    />
     <button
       class="mx-auto lg:mx-0 bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline
       transform transition hover:-translate-y-1 hover:scale-105 duration-300 ease-in-out DarkModeAnimation"
-      @click="toggleNewsletterModal"
+      @click="submit"
     >
       Commencez
     </button>
   </section>
-
-  <BCardModal
-    :is-active="isModaleOpen"
-    class="z-10"
-  >
-    <template #title>
-      Inscrivez pour être au courant des dernières nouveautés
-    </template>
-    <BField label="Votre email">
-      <BInput
-        type="email"
-        v-model="email"
-      />
-    </BField>
-    <BField label="Votre prénom">
-      <BInput v-model="firstName" />
-    </BField>
-    <BField label="Votre nom">
-      <BInput v-model="lastName" />
-    </BField>
-    <BField label="Le nom de votre entreprise">
-      <BInput v-model="companyName" />
-    </BField>
-
-    <BButton
-      variant="success"
-      @click="submit"
-    >
-      je m'inscris
-    </BButton>
-  </BCardModal>
 </template>
 
 <script lang="ts">
@@ -318,12 +295,7 @@ export default defineComponent({
       firstName: '',
       lastName: '',
       companyName: '',
-      isModaleOpen: false,
     })
-
-    function toggleNewsletterModal() {
-      form.isModaleOpen = !form.isModaleOpen
-    }
 
     async function submit() {
       await newsletterSignup({
@@ -336,8 +308,7 @@ export default defineComponent({
 
     return {
       ...toRefs(form),
-      toggleNewsletterModal,
-      submit
+      submit,
     }
   },
 })

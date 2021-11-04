@@ -57,17 +57,18 @@
               <div class="flex space-x-4">
                 <BLink
                   href="#Solution"
-                  class="text-black hover:bg-gray-700 hover:text-white dark:text-white dark:hover:text-blue-dark px-3 py-2 rounded-md text-sm font-medium"
+                  class="text-black hover:text-white dark:text-white dark:hover:text-red-light px-3 py-2 rounded-md text-sm font-medium"
                 >Solutions</BLink>
 
                 <BLink
                   href="#Pricings"
-                  class="text-black hover:bg-gray-700 hover:text-white dark:text-white dark:hover:text-blue-dark px-3 py-2 rounded-md text-sm font-medium"
+                  class="text-black hover:text-white dark:text-white dark:hover:text-red-light px-3 py-2 rounded-md text-sm font-medium"
                 >Tarifs</BLink>
 
                 <BButton
-                  href="#"
-                  class="text-black hover:bg-gray-700 hover:border-white hover:border-1 dark:text-white dark:hover:text-blue-dark dark:hover:bg-white hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  href="#Newsletter"
+                  type="router-link"
+                  class="text-black hover:border-white hover:border-1 dark:text-white dark:hover:text-blue-dark dark:hover:bg-white hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   @click="onClickStartButton"
                 >
                   Commencer
@@ -76,7 +77,7 @@
                 <BLink
                   tag='router-link'
                   :to="{ name: 'login'}"
-                  class="text-black hover:bg-gray-700 hover:text-white dark:text-white dark:hover:text-blue-dark px-3 py-2 rounded-md text-sm font-medium"
+                  class="text-black hover:text-white dark:text-white dark:hover:text-red-light px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Se connecter
                 </BLink>
@@ -104,7 +105,7 @@
           >Tarifs</BLink>
 
           <BLink
-            href="#"
+            href="#Newsletter"
             class="text-black hover:bg-gray-700 hover:border-white hover:border-1 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
             @click="onClickStartButton"
           >
