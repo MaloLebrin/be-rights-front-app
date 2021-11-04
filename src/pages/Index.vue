@@ -32,72 +32,70 @@
         <span class="text-red-light">Be right</span>, comment ça marche ?
       </h1>
       <div class="w-full mb-4 dark:hidden">
-        <div class="h-1 mx-auto gradient bg-red w-64 opacity-25 my-0 py-0 rounded-t"></div>
+        <div class="h-1 mx-auto gradient bg-red dark:bg-blue w-64 opacity-25 my-0 py-0 rounded-t"></div>
       </div>
 
-      <div class="flex flex-col sm:flex-row">
-        <div class="p-2 md:p-6 mt-6 flex justify-center md:block">
-          <img
-            src="../assets/step1.svg"
-            alt="step1"
-            height="100px"
-            width="100px"
-          />
-        </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex sm:flex-row align-baseline">
+          <div class="p-2 md:p-6 mt-6 flex justify-center md:block">
+            <img
+              class="w-20"
+              src="../assets/step1.svg"
+              alt="step1"
+              height="100px"
+              width="100px"
+            />
+          </div>
 
-        <div class="w-full sm:w-1/2 p-2 md:mt-12 md:ml-8">
-          <h3 class="text-3xl text-gray-800 dark:text-gray-100 font-bold leading-none mb-3">
-            Sélectionnez un client.
-          </h3>
-          <p class="text-gray-600 dark:text-gray-50 text-left md:mb-8">
-            Vous pouvez choisir un client déjà existant ou en ajouter de nouveaux.
-            Vous pouvez directement entrer les coordonnées de la personne avec qui vous collaborez.
-          </p>
-        </div>
-      </div>
-
-      <div class="flex flex-col sm:flex-row">
-        <div class="sm:w-1/3" />
-        <div class="p-6 mt-6 flex justify-center md:block">
-          <img
-            src="../assets/step2.svg"
-            alt="step2"
-            height="150px"
-            width="150px"
-          />
-        </div>
-        <div class="sm:w-1/2 md:mt-28 md:ml-10">
-          <div class="align-middle p-2">
+          <div class="w-full sm:w-1/2 p-2">
             <h3 class="text-3xl text-gray-800 dark:text-gray-100 font-bold leading-none mb-3">
-              Créez votre événement
+              Sélectionnez un client.
             </h3>
             <p class="text-gray-600 dark:text-gray-50 text-left md:mb-8">
-              Créer l'événement qui aura lieu avec le client. Vous renseignez la date de l'événement, le lieu, pour une parfaite organisation.
+              Vous pouvez choisir un client déjà existant ou en ajouter de nouveaux.
+              Vous pouvez directement entrer les coordonnées de la personne avec qui vous collaborez.
             </p>
           </div>
         </div>
-        <div class="sm:w-1/3" />
-      </div>
 
-      <div class="flex flex-col sm:flex-row">
-        <div class="hidden md:block sm:w-2/3" />
-        <div class="p-6 mt-6 flex justify-center md:block">
-          <img
-            src="../assets/step3.svg"
-            alt="step3"
-            height="150px"
-            width="150px"
-          />
+        <div class="flex sm:flex-row md:mt-40 align-baseline">
+          <div class="p-6 mt-6 flex justify-center md:block">
+            <img
+              class="w-28"
+              src="../assets/step2.svg"
+              alt="step2"
+            />
+          </div>
+          <div class="sm:w-1/2">
+            <div class="align-middle p-2">
+              <h3 class="text-3xl text-gray-800 dark:text-gray-100 font-bold leading-none mb-3">
+                Créez votre événement
+              </h3>
+              <p class="text-gray-600 dark:text-gray-50 text-left md:mb-8">
+                Créer l'événement qui aura lieu avec le client. Vous renseignez la date de l'événement, le lieu, pour une parfaite organisation.
+              </p>
+            </div>
+          </div>
         </div>
-        <div class="sm:w-1/2 md:mt-28 md:ml-10 p-2">
-          <div class="align-middle">
-            <h3 class="text-3xl text-gray-800 dark:text-gray-100 font-bold leading-none mb-3">
-              Partage de l'accès au client
-            </h3>
-            <p class="text-gray-600 dark:text-gray-50 text-left md:mb-8">
-              Votre client a accès aux événements que vous avez en commun.
-              Il peut donc renseigner la liste des destinataires des signatures, relancer les destinataires qui n'auraient pas répondu et télécharger l'ensemble des documents qui le concerne.
-            </p>
+
+        <div class="flex sm:flex-row align-baseline">
+          <div class="p-6 mt-6 flex justify-center md:block">
+            <img
+              class="w-28"
+              src="../assets/step3.svg"
+              alt="step3"
+            />
+          </div>
+          <div class="sm:w-1/2 p-2">
+            <div class="align-middle">
+              <h3 class="text-3xl text-gray-800 dark:text-gray-100 font-bold leading-none mb-3">
+                Partage de l'accès au client
+              </h3>
+              <p class="text-gray-600 dark:text-gray-50 text-left md:mb-8">
+                Votre client a accès aux événements que vous avez en commun.
+                Il peut donc renseigner la liste des destinataires des signatures, relancer les destinataires qui n'auraient pas répondu et télécharger l'ensemble des documents qui le concerne.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -113,13 +111,12 @@
       src="../assets/mokup-phone.png"
     />
     <div class="container mx-auto flex flex-wrap pt-4 pb-12">
-      <h1 class="w-full my-2 text-5xl font-bold leading-tight text-gray-800 dark:text-white">
+      <h1 class="w-full my-2 text-5xl font-bold leading-tight text-gray-800 dark:text-white mb-6">
         <span class="text-red-light">Be right</span>, qu'est ce que c'est ?
       </h1>
-      <div class="grid gap-4 grid-cols-1 md:grid-cols-2 ">
-
-        <div class="w-full p-6 px-12 text-left transform hover:-translate-y-2 duration-300 ease-in-out bg-white dark:bg-blue-dark DarkModeAnimation">
-          <div class="flex-1 rounded-t rounded-b dark:shadow-xl">
+      <div class="grid gap-4 grid-cols-1 md:grid-cols-2">
+        <div class="w-full p-6 px-12 text-left transform hover:-translate-y-2 duration-300 ease-in-out">
+          <div class="flex-1 rounded-t rounded-b shadow dark:shadow-xl p-4 bg-white dark:bg-blue-dark DarkModeAnimation">
             <div class="w-full font-bold text-xl text-gray-800 dark:text-white px-6 py-4">
               Une application de gestion dématérialisée & sécurisée
             </div>
@@ -131,8 +128,8 @@
             </p>
           </div>
         </div>
-        <div class="w-full p-6 px-12  text-left transform hover:-translate-y-2 duration-300 ease-in-out bg-white dark:bg-blue-dark dark:shadow-xl DarkModeAnimation">
-          <div class="flex-1 rounded-t rounded-b shadow dark:shadow-xl ">
+        <div class="w-full p-6 px-12  text-left transform hover:-translate-y-2 duration-300 ease-in-out">
+          <div class="flex-1 rounded-t rounded-b shadow dark:shadow-xl p-4 bg-white dark:bg-blue-dark DarkModeAnimation">
             <div class="w-full font-bold text-xl text-gray-800 dark:text-white px-6 py-4">
               Disponibles sur plusieurs devices
             </div>
@@ -142,8 +139,8 @@
             </p>
           </div>
         </div>
-        <div class="w-full p-6 px-12  text-left transform hover:-translate-y-2 duration-300 ease-in-out bg-white dark:bg-blue-dark dark:shadow-xl DarkModeAnimation">
-          <div class="flex-1 rounded-t rounded-b shadow ">
+        <div class="w-full p-6 px-12  text-left transform hover:-translate-y-2 duration-300 ease-in-out">
+          <div class="flex-1 rounded-t rounded-b shadow dark:shadow-xl p-4 bg-white dark:bg-blue-dark DarkModeAnimation">
             <div class="w-full font-bold text-xl text-gray-800 dark:text-white px-6 py-4">
               Arrivez sereinement sur le lieu de l'événement !
             </div>
@@ -160,7 +157,7 @@
 
   <section
     id="Pricings"
-    class="bg-gray-100 dark:bg-blue-dark_bold DarkModeAnimation py-8"
+    class="bg-white dark:bg-blue-dark_bold DarkModeAnimation py-8"
   >
     <div class="container mx-auto px-2 pt-4 pb-12 text-gray-800">
       <h1 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800 dark:text-gray-50">

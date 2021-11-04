@@ -6,7 +6,10 @@
         v-if="-isLoading "
         :isLoading="isLoading"
       />
-      <router-view v-else />
+      <router-view
+        v-else
+        class="dark:bg-blue-dark"
+      />
     </main>
     <Footer />
   </div>
