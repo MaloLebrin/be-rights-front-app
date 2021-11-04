@@ -1,5 +1,5 @@
 <template>
-  <header class="flex items-center max-h-36 w-full my-2 mx-auto">
+  <header class="flex items-center max-h-36 w-full px-4 py-2 mx-auto dark:bg-blue-dark_bold">
     <nav class="w-full">
       <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div class="relative m-8 md:m-0 flex items-center justify-e h-16">
@@ -44,11 +44,12 @@
           <div class="hidden md:flex flex-1 items-center justify-between sm:justify-start">
             <div class="flex-shrink-0 :mdflex items-center">
               <router-link to="/">
-                <img
+                <SimpleLogo />
+                <!-- <img
                   class="md:block w-56 object-cover overflow-hidden mr-16"
                   src="../../assets/logoShot.png"
                   alt="logo be right"
-                />
+                /> -->
               </router-link>
 
             </div>
@@ -56,17 +57,17 @@
               <div class="flex space-x-4">
                 <BLink
                   href="#Solution"
-                  class="text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  class="text-black hover:bg-gray-700 hover:text-white dark:text-white dark:hover:text-blue-dark px-3 py-2 rounded-md text-sm font-medium"
                 >Solutions</BLink>
 
                 <BLink
                   href="#Pricings"
-                  class="text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  class="text-black hover:bg-gray-700 hover:text-white dark:text-white dark:hover:text-blue-dark px-3 py-2 rounded-md text-sm font-medium"
                 >Tarifs</BLink>
 
                 <BButton
                   href="#"
-                  class="text-black hover:bg-gray-700 hover:border-white hover:border-1 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  class="text-black hover:bg-gray-700 hover:border-white hover:border-1 dark:text-white dark:hover:text-blue-dark dark:hover:bg-white hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   @click="onClickStartButton"
                 >
                   Commencer
@@ -75,7 +76,7 @@
                 <BLink
                   tag='router-link'
                   :to="{ name: 'login'}"
-                  class="text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  class="text-black hover:bg-gray-700 hover:text-white dark:text-white dark:hover:text-blue-dark px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Se connecter
                 </BLink>

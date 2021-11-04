@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col justify-center w-full">
     <Header />
-    <main class="container w-full min-h-screen mx-auto">
+    <main class="w-full min-h-screen mx-auto">
       <BLoader
         v-if="-isLoading "
         :isLoading="isLoading"

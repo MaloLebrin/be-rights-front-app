@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex w-full items-center justify-center mb-10 cursor-pointer"
+    class="flex w-full items-center justify-center cursor-pointer"
     @click="redirectHome"
   >
     <div class="rounded-full border-red border-4 w-10 h-10">

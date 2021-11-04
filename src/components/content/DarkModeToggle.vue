@@ -1,7 +1,7 @@
 <template>
-  <span class="text-blue font-bold">Thème</span>
+  <span class="text-blue font-bold dark:text-white">Thème</span>
   <div
-    class="w-14 h-8 bg-gray-300 rounded-full flex-shrink-0 p-1"
+    class="w-14 h-8 bg-gray-300 rounded-full flex-shrink-0 p-1 cursor-pointer"
     :class="{ 'bg-blue': isDarkTheme}"
     @click="toggleTrue"
   >
