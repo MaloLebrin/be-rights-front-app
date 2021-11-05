@@ -6,13 +6,10 @@
     />
   </router-view>
 </template>
-<script lang="ts">
-import { defineComponent, watch, onBeforeMount } from 'vue'
+<script setup lang="ts">
+import { watch, onBeforeMount } from 'vue'
 import { useMainStore } from '@/store/mainStore'
 import userHook from '@/hooks/userHook'
-
-export default defineComponent({
-  setup() {
     const store = useMainStore()
     const { routesIntermsOfUserRoles } = userHook()
 
@@ -21,9 +18,6 @@ export default defineComponent({
     })
 
     onBeforeMount(async () => await routesIntermsOfUserRoles())
-
-  },
-})
 </script>
 
 <style>

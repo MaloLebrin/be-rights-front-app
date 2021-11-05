@@ -12,28 +12,18 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { defineComponent, ref } from 'vue'
 import mainHook from '~/hooks/mainHook'
 import { useMainStore } from '~/store/mainStore'
 
-export default defineComponent({
-  name: 'DarkModeToggle',
-  setup() {
-    const main = useMainStore()
-    const { isDarkTheme } = storeToRefs(main)
-    const { toggleThemeApp } = mainHook()
+  const main = useMainStore()
+  const { isDarkTheme } = storeToRefs(main)
+  const { toggleThemeApp } = mainHook()
 
-    function toggleTrue() {
-      toggleThemeApp()
-      isDarkTheme.value = !isDarkTheme.value
-    }
+  function toggleTrue() {
+    toggleThemeApp()
+    isDarkTheme.value = !isDarkTheme.value
+  }
 
-    return {
-      isDarkTheme,
-      toggleTrue,
-    }
-  },
-})
 </script>

@@ -72,8 +72,8 @@
   </BDrawer>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+<script setup lang="ts">
+import { computed } from 'vue'
 import {
   DatabaseIcon,
   HomeIcon,
@@ -85,37 +85,22 @@ import {
 import { useUserStore } from '@/store/users/userStore'
 import userHook from '~/hooks/userHook'
 
-export default defineComponent({
-  name: 'MenuDrawer',
-  components: {
-    DatabaseIcon,
-    HomeIcon,
-    LogoutIcon,
-    PlusIcon,
-    UserGroupIcon,
-    UserIcon,
-  },
-  props: {
-    isActive: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  setup(props, { emit }) {
-    const store = useUserStore()
-    const { logout } = userHook()
 
-    const userFullName = computed(() => store.getUserFullName)
+interface Props { 
+  isActive: boolean
+}
 
-    function onToggleLogout() {
-      logout()
-    }
-
-    return {
-      onToggleLogout,
-      store,
-      userFullName,
-    }
-  },
+withDefaults(defineProps<Props>(), {
+  isActive: true,
 })
+
+const store = useUserStore()
+const { logout } = userHook()
+
+const userFullName = computed(() => store.getUserFullName)
+
+function onToggleLogout() {
+  logout()
+}
+
 </script>

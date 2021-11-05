@@ -267,7 +267,7 @@
     </h3>
     <BInput
       placeholder="Votre e-mail"
-      v-model="email"
+      v-model="form.email"
     />
     <button
       class="mx-auto lg:mx-0 bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline
@@ -279,35 +279,23 @@
   </section>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+<script setup lang="ts">
+import {  reactive } from 'vue'
 import newsleterHook from '~/hooks/newsletterHook'
 
-export default defineComponent({
-  name: 'Home',
-  setup() {
-    const { newsletterSignup } = newsleterHook()
-    // TODO setup vee validate
-    const form = reactive({
-      email: '',
-      firstName: '',
-      lastName: '',
-      companyName: '',
-    })
-
-    async function submit() {
-      await newsletterSignup({
-        email: form.email,
-        firstName: form.firstName,
-        lastName: form.lastName,
-        companyName: form.companyName,
-      })
-    }
-
-    return {
-      ...toRefs(form),
-      submit,
-    }
-  },
+const { newsletterSignup } = newsleterHook()
+// TODO setup vee validate
+const form = reactive({
+  email: '',
 })
+
+async function submit() {
+  await newsletterSignup({
+    email: form.email,
+    firstName: null,
+    lastName: null,
+    companyName: null,
+  })
+}
+
 </script>

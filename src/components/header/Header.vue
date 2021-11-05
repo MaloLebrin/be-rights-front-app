@@ -125,29 +125,20 @@
     </nav>
   </header>
 </template>
-<script lang='ts'>
-import { defineComponent, ref } from 'vue'
+<script setup lang='ts'>
+import { ref } from 'vue'
 import { UserIcon } from '@heroicons/vue/outline'
 
-export default defineComponent({
-  name: 'Header',
-  components: {
-    UserIcon,
-  },
-  setup(_, { emit }) {
-    const isMenuOpen = ref(false)
-    function toggleMobileMenu() {
-      isMenuOpen.value = !isMenuOpen.value
-    }
+const isMenuOpen = ref<boolean>(false)
+function toggleMobileMenu() {
+  isMenuOpen.value = !isMenuOpen.value
+}
 
-    function onClickStartButton() {
-      emit('startNow')
-    }
-    return {
-      isMenuOpen,
-      toggleMobileMenu,
-      onClickStartButton,
-    }
-  }
-})
+const emit = defineEmits<{
+  (e: 'startNow'): void
+}>()
+
+function onClickStartButton() {
+  emit('startNow')
+}
 </script>

@@ -23,40 +23,30 @@
   </header>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from '@heroicons/vue/outline'
 import DarkModeToggleVue from '@/components/content/darkModeToggle.vue'
 
-export default defineComponent({
-  name: 'BDrawer',
-  components: {
-    ChevronLeftIcon,
-    ChevronRightIcon,
-    DarkModeToggleVue,
-  },
+interface Props {
+    isActive: boolean,
+}
+const props = withDefaults(defineProps<Props>(), {
+    isActive: true,
+})  
+const isDrawerActive = ref<boolean>(props.isActive)
 
-  props: {
-    isActive: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  setup(props, { emit }) {
-    const isDrawerActive = ref(props.isActive)
+const emit = defineEmits<{
+    (e: 'toggleDrawer', value: boolean): boolean
+}>()
 
-    function toggleDrawer() {
-      isDrawerActive.value = !isDrawerActive.value
-      return emit('toggleDrawer', isDrawerActive.value)
-    }
 
-    return {
-      isDrawerActive,
-      toggleDrawer,
-    }
-  },
-})
+function toggleDrawer() {
+  isDrawerActive.value = !isDrawerActive.value
+  return emit('toggleDrawer', isDrawerActive.value)
+}
+
 </script>

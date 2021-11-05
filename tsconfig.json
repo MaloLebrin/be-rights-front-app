@@ -10,7 +10,6 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
-    "allowJs": true,
     "baseUrl": ".",
     "paths": {
       "~/*": [
@@ -20,7 +19,7 @@
         "./src/*"
       ]
     },
-    "types": ["vite-plugin-vue-layouts/client"]
+    "types": ["vite-plugin-vue-layouts/client", "vite/client"]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
 }

@@ -3,7 +3,7 @@ import { useMainStore } from "~/store/mainStore"
 
 export default function newsleterHook() {
 	const { toggleIsLoading } = useMainStore()
-	async function newsletterSignup({ email, firstName, lastName, companyName }: { email: string, firstName: string, lastName: string, companyName: string }) {
+	async function newsletterSignup({ email, firstName, lastName, companyName }: { email: string, firstName: string | null, lastName: string | null, companyName: string | null }) {
 		toggleIsLoading()
 		try {
 
