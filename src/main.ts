@@ -13,5 +13,4 @@ app.use(router)
 app.use(store)
 
 app.use(VueCookieNext)
-VueCookieNext.setCookie('themeBeRight', 'default')
 app.mount('#app')

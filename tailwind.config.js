@@ -5,7 +5,7 @@ const colors = require('tailwindcss/colors')
 module.exports = {
   purge: { content: ['./public/**/*.html', './src/**/*.vue'] },
   presets: [],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: 'class', // or 'media' or 'class'
   theme: {
     screens: {
       sm: '640px',
@@ -44,6 +44,8 @@ module.exports = {
       blue: {
         light: 'rgba(69,61,145,0.2)',
         DEFAULT: '#453D91',
+        dark: '#1b1e3dF2',
+        dark_bold: 'rgba(28,31,61)',
       },
       indigo: colors.indigo,
       purple: {
@@ -95,6 +97,7 @@ module.exports = {
       ping: 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite',
       pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       bounce: 'bounce 1s infinite',
+      'fade-in-down': 'fade-in-down 0.5s ease-out',
     },
     backdropBlur: (theme) => theme('blur'),
     backdropBrightness: (theme) => theme('brightness'),
@@ -499,6 +502,16 @@ module.exports = {
         '50%': {
           transform: 'none',
           animationTimingFunction: 'cubic-bezier(0,0,0.2,1)',
+        },
+      },
+      'fade-in-down': {
+        '0%': {
+          opacity: 0,
+          transform: 'translateY(-10px)'
+        },
+        '100%': {
+          opacity: 1,
+          transform: 'translateY(0)',
         },
       },
     },

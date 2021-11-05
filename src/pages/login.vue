@@ -1,34 +1,37 @@
 <template>
-  <div class="flex flex-col items-center justify-center h-full w-full">
+  <div class="flex flex-col items-center justify-center h-full w-full
+  bg-white">
     <BCard
       variant="white"
-      class="p-16"
+      class="p-16 dark:bg-blue-dark_bold DarkModeAnimation"
     >
-      <div>
-        <h1 class="text-black">Bienvenue sur</h1>
+      <div class="mb-6">
+        <h1 class="text-black dark:text-white">Bienvenue sur</h1>
         <SimpleLogo />
       </div>
 
       <BField label="Address e-mail">
         <BInput
+          type="email"
           class="text-black"
           v-model="email"
         />
       </BField>
       <BField label="Mot de passe">
         <BInput
+          type="password"
           class="text-black"
           v-model="password"
         />
       </BField>
-      <div class="flex flex-col ">
-        <!-- <BLink>S'inscrire</BLink> -->
+      <div class="grid grid-cols-1 gap-4">
+        <BLink>S'inscrire</BLink>
         <BButton
           :disabled="isSubmitDisabled"
           variant="danger"
           @click="submitLogin"
         >Se Connecter</BButton>
-        <!-- <BLink>Mot de passe oublié</BLink> -->
+        <BLink>Mot de passe oublié</BLink>
       </div>
     </BCard>
   </div>
@@ -37,7 +40,6 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import userHook from '~/hooks/userHook'
-import router from '~/router'
 
 export default defineComponent({
   name: 'Login',
@@ -50,7 +52,6 @@ export default defineComponent({
 
     async function submitLogin() {
       await login({ email: form.email, password: form.password })
-      router.push('index')
     }
 
     const isSubmitDisabled = computed(() => form.email.length === 0 || form.password.length === 0)
