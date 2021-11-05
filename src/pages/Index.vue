@@ -274,7 +274,7 @@
       <BButton
         :isLoading="isLoading"
         :variant="isDarkTheme ? 'white' : 'primary'"
-        class="mx-auto lg:mx-0 bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline
+        class="mx-auto lg:mx-0 bg-white text-white dark:text-black font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline
         transform transition hover:-translate-y-1 hover:scale-105 duration-300 ease-in-out DarkModeAnimation"
         @click="submit"
       >
