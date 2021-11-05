@@ -8,12 +8,15 @@ declare module 'vue' {
     AdminDashboard: typeof import('./../../pages/adminDashboard/index.vue')['default']
     AdminMenuDrawer: typeof import('./../../components/drawer/AdminMenuDrawer.vue')['default']
     BDrawer: typeof import('./../../components/drawer/BDrawer.vue')['default']
+    DarkModeToggle: typeof import('./../../components/content/DarkModeToggle.vue')['default']
+    Footer: typeof import('./../../components/footer/Footer.vue')['default']
     Header: typeof import('./../../components/header/Header.vue')['default']
     Index: typeof import('./../../pages/Index.vue')['default']
     Login: typeof import('./../../pages/login.vue')['default']
     LoginModal: typeof import('./../../components/modals/LoginModal.vue')['default']
     MenuDrawer: typeof import('./../../components/drawer/MenuDrawer.vue')['default']
     SimpleLogo: typeof import('./../../components/logo/SimpleLogo.vue')['default']
+    StepBubble: typeof import('./../../components/content/StepBubble.vue')['default']
     UserDashboard: typeof import('./../../pages/userDashboard/index.vue')['default']
   }
 }
