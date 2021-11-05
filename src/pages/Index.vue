@@ -260,45 +260,53 @@
 
   <section
     id="Newsletter"
-    class="mx-auto text-center py-6 dark:bg-blue-dark dark:text-white DarkModeAnimation"
+    class="flex flex-col mx-auto text-center py-6 dark:bg-blue-dark dark:text-white DarkModeAnimation items-center"
   >
     <h3 class="my-4 text-3xl leading-tight">
       Restez informé des dernières nouveautés!
     </h3>
-    <BInput
-      type="email"
-      placeholder="Votre e-mail"
-      v-model="form.email"
-    />
-    <button
-      class="mx-auto lg:mx-0 bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline
-      transform transition hover:-translate-y-1 hover:scale-105 duration-300 ease-in-out DarkModeAnimation"
-      :disabled="isDisabled"
-      @click="submit"
-    >
-      Commencez
-    </button>
+    <div v-if="!isSuccess" class="flex flex-col">
+      <BInput
+        type="email"
+        placeholder="Votre e-mail"
+        v-model="email"
+      />
+      <BButton
+        :isLoading="isLoading"
+        :variant="isDarkTheme ? 'white' : 'primary'"
+        class="mx-auto lg:mx-0 bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline
+        transform transition hover:-translate-y-1 hover:scale-105 duration-300 ease-in-out DarkModeAnimation"
+        @click="submit"
+      >
+        Commencez
+      </BButton>
+    </div>
+    <BToast v-else variant="success">Email enregistré</BToast>
   </section>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { ref } from 'vue'
 import newsleterHook from '~/hooks/newsletterHook'
+import { useMainStore } from '~/store/mainStore'
 
 const { newsletterSignup } = newsleterHook()
+
+const mainStore = useMainStore()
+const { isLoading, isDarkTheme } = storeToRefs(mainStore)
 // TODO setup vee validate
-const form = reactive({
-  email: '',
-})
-const isDisabled = ref(form.email.length <= 0)
+
+const email = ref('')
+const isSuccess = ref(false)
 
 async function submit() {
   await newsletterSignup({
-    email: form.email,
+    email: email.value,
     firstName: null,
     lastName: null,
     companyName: null,
   })
-}
+  isSuccess.value = true}
 
 </script>

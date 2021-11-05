@@ -2,12 +2,7 @@
   <div class="flex flex-col justify-center w-full">
     <Header />
     <main class="w-full min-h-screen mx-auto">
-      <BLoader
-        v-if="-isLoading "
-        :isLoading="isLoading"
-      />
       <router-view
-        v-else
         class=""
       />
     </main>

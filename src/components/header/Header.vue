@@ -68,7 +68,6 @@
                 <BButton
                   href="#Newsletter"
                   variant="white"
-                  tag="ROUTER_LINK"
                   @click="onClickStartButton"
                 >
                   Commencer

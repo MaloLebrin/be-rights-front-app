@@ -9,6 +9,11 @@ export default function newsleterHook() {
 
 			const res = await axiosInstance.post('createOnenewsletter', { email, firstName, lastName, companyName })
 			console.log(res, 'res')
+			if (res.status === 200) {
+				// TODO toast
+				toggleIsLoading()
+				return res.status
+			}
 		} catch (error) {
 			// TODO toast
 			console.error(error)
