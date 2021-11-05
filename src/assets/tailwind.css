@@ -5,6 +5,5 @@
 @tailwind utilities;
 
 .DarkModeAnimation {
-	@apply transform ease-in-out duration-500 transition-colors
+	@apply ease-in-out duration-500 transition-colors
 }
-

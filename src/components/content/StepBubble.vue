@@ -3,16 +3,11 @@
     <span class="text-black font-extrabold text-5xl md:text-9xl bg-none">{{ stepNumber }}</span>
   </div>
 </template>
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'StepBubble',
-  props: {
-    stepNumber: {
-      type: Number,
-      default: 0,
-    },
-  },
+<script setup lang="ts">
+interface Props {
+  stepNumber: number
+}
+withDefaults(defineProps<Props>(), {
+  stepNumber: 0
 })
 </script>

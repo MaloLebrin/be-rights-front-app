@@ -10,19 +10,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import router from '~/router'
 
-export default defineComponent({
-  name: 'SimpleLogo',
-  setup() {
-    function redirectHome() {
-      router.push('/')
-    }
-    return {
-      redirectHome
-    }
-  }
-})
+function redirectHome() {
+  router.push('/')
+}
 </script>

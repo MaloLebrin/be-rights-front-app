@@ -14,14 +14,14 @@
         <BInput
           type="email"
           class="text-black"
-          v-model="email"
+          v-model="form.email"
         />
       </BField>
       <BField label="Mot de passe">
         <BInput
           type="password"
           class="text-black"
-          v-model="password"
+          v-model="form.password"
         />
       </BField>
       <div class="grid grid-cols-1 gap-4">
@@ -37,13 +37,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, reactive, toRefs } from 'vue'
+<script setup lang="ts">
+import { computed, reactive } from 'vue'
 import userHook from '~/hooks/userHook'
 
-export default defineComponent({
-  name: 'Login',
-  setup() {
     const { login } = userHook()
     const form = reactive({
       email: '',
@@ -56,11 +53,4 @@ export default defineComponent({
 
     const isSubmitDisabled = computed(() => form.email.length === 0 || form.password.length === 0)
 
-    return {
-      ...toRefs(form),
-      submitLogin,
-      isSubmitDisabled,
-    }
-  },
-})
 </script>

@@ -14,7 +14,7 @@
         <BInput
           v-bind="$props"
           type="email"
-          v-model="email"
+          v-model="form.email"
           placeholder="Ecrivez ici"
         />
       </BField>
@@ -25,7 +25,7 @@
       >
         <BInput
           type="password"
-          v-model="password"
+          v-model="form.password"
           placeholder="Ecrivez ici"
         />
       </BField>
@@ -45,43 +45,34 @@
     </div>
   </BCardModal>
 </template>
-<script lang='ts'>
-import { defineComponent, reactive, computed, toRefs } from 'vue'
+<script setup lang='ts'>
+import { reactive, computed } from 'vue'
+ 
+interface Props {
+  isOpen: boolean
+}
 
-export default defineComponent({
-  name: 'LoginModale',
-  props: {
-    isOpen: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  setup() {
-    const form = reactive({
-      email: null,
-      password: null,
-    })
-
-    const isPasswordValid = computed(() => !form.password?.length ? 'success' : 'error')
-    const isEmailValid = computed(() => !form.email?.length ? 'success' : 'error')
-
-    const isSubmitButtonDisabled = computed(() => !isEmailValid.value && !isPasswordValid.value)
-
-    // TODO finish function to login
-    async function onClickLogin() {
-      const payload = {
-        email: form.email,
-        password: form.password,
-      }
-    }
-
-    return {
-      ...toRefs(form),
-      isPasswordValid,
-      isEmailValid,
-      onClickLogin,
-      isSubmitButtonDisabled,
-    }
-  },
+withDefaults(defineProps<Props>(), {
+  isOpen: false,
 })
+
+
+const form = reactive({
+  email: '',
+  password: '',
+})
+
+const isPasswordValid = computed(() => !form.password?.length ? 'success' : 'error')
+const isEmailValid = computed(() => !form.email?.length ? 'success' : 'error')
+
+const isSubmitButtonDisabled = computed(() => !isEmailValid.value && !isPasswordValid.value)
+
+// TODO finish function to login
+async function onClickLogin() {
+  const payload = {
+    email: form.email,
+    password: form.password,
+  }
+}
+
 </script>

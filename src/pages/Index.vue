@@ -260,54 +260,53 @@
 
   <section
     id="Newsletter"
-    class="mx-auto text-center py-6 dark:bg-blue-dark dark:text-white DarkModeAnimation"
+    class="flex flex-col mx-auto text-center py-6 dark:bg-blue-dark dark:text-white DarkModeAnimation items-center"
   >
     <h3 class="my-4 text-3xl leading-tight">
       Restez informé des dernières nouveautés!
     </h3>
-    <BInput
-      placeholder="Votre e-mail"
-      v-model="email"
-    />
-    <button
-      class="mx-auto lg:mx-0 bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline
-      transform transition hover:-translate-y-1 hover:scale-105 duration-300 ease-in-out DarkModeAnimation"
-      @click="submit"
-    >
-      Commencez
-    </button>
+    <div v-if="!isSuccess" class="flex flex-col">
+      <BInput
+        type="email"
+        placeholder="Votre e-mail"
+        v-model="email"
+      />
+      <BButton
+        :isLoading="isLoading"
+        :variant="isDarkTheme ? 'white' : 'primary'"
+        class="mx-auto lg:mx-0 bg-white text-white dark:text-black font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline
+        transform transition hover:-translate-y-1 hover:scale-105 duration-300 ease-in-out DarkModeAnimation"
+        @click="submit"
+      >
+        Commencez
+      </BButton>
+    </div>
+    <BToast v-else variant="success">Email enregistré</BToast>
   </section>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+<script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { ref } from 'vue'
 import newsleterHook from '~/hooks/newsletterHook'
+import { useMainStore } from '~/store/mainStore'
 
-export default defineComponent({
-  name: 'Home',
-  setup() {
-    const { newsletterSignup } = newsleterHook()
-    // TODO setup vee validate
-    const form = reactive({
-      email: '',
-      firstName: '',
-      lastName: '',
-      companyName: '',
-    })
+const { newsletterSignup } = newsleterHook()
 
-    async function submit() {
-      await newsletterSignup({
-        email: form.email,
-        firstName: form.firstName,
-        lastName: form.lastName,
-        companyName: form.companyName,
-      })
-    }
+const mainStore = useMainStore()
+const { isLoading, isDarkTheme } = storeToRefs(mainStore)
+// TODO setup vee validate
 
-    return {
-      ...toRefs(form),
-      submit,
-    }
-  },
-})
+const email = ref('')
+const isSuccess = ref(false)
+
+async function submit() {
+  await newsletterSignup({
+    email: email.value,
+    firstName: null,
+    lastName: null,
+    companyName: null,
+  })
+  isSuccess.value = true}
+
 </script>

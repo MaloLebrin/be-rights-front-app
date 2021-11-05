@@ -55,8 +55,8 @@
   </BDrawer>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+<script setup lang="ts">
+import { computed } from 'vue'
 import {
   DatabaseIcon,
   HomeIcon,
@@ -68,23 +68,13 @@ import {
 import { useUserStore } from '@/store/users/userStore'
 import userHook from '~/hooks/userHook'
 
-export default defineComponent({
-  name: 'AdminMenuDrawer',
-  components: {
-    DatabaseIcon,
-    HomeIcon,
-    LogoutIcon,
-    PlusIcon,
-    UserGroupIcon,
-    UserIcon,
-  },
-  props: {
-    isActive: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  setup(props, { emit }) {
+interface Props {
+  isActive?: boolean
+}
+
+withDefaults(defineProps<Props>(), {
+  isActive: false,
+})  
     const store = useUserStore()
     const { logout } = userHook()
 
@@ -93,12 +83,4 @@ export default defineComponent({
     function onToggleLogout() {
       logout()
     }
-
-    return {
-      onToggleLogout,
-      store,
-      userFullName,
-    }
-  },
-})
 </script>
