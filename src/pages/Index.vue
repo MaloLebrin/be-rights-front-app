@@ -266,12 +266,14 @@
       Restez informé des dernières nouveautés!
     </h3>
     <BInput
+      type="email"
       placeholder="Votre e-mail"
       v-model="form.email"
     />
     <button
       class="mx-auto lg:mx-0 bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline
       transform transition hover:-translate-y-1 hover:scale-105 duration-300 ease-in-out DarkModeAnimation"
+      :disabled="isDisabled"
       @click="submit"
     >
       Commencez
@@ -280,7 +282,7 @@
 </template>
 
 <script setup lang="ts">
-import {  reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import newsleterHook from '~/hooks/newsletterHook'
 
 const { newsletterSignup } = newsleterHook()
@@ -288,6 +290,7 @@ const { newsletterSignup } = newsleterHook()
 const form = reactive({
   email: '',
 })
+const isDisabled = ref(form.email.length <= 0)
 
 async function submit() {
   await newsletterSignup({
