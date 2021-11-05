@@ -1,7 +1,7 @@
 <template>
   <header
-    class="min-h-screen top-0 left-0 flex flex-col items-center px-2 py-4 bg-white dark:bg-blue-dark_bold w-96 max-w-96 shadow-2xl relative DarkModeAnimation"
-    :class="isDrawerActive ? 'translate-x-0' : '-translate-x-full'"
+    class="navbar min-h-screen top-0 left-0 flex flex-col items-center px-2 py-4 bg-white dark:bg-blue-dark_bold w-96 max-w-96 shadow-2xl relative DarkModeAnimation z-50"
+    :class="isDrawerActive ? 'navbar-open' : 'navbar-close'"
   >
     <ChevronLeftIcon
       v-if="isDrawerActive"
@@ -32,7 +32,7 @@ import {
 import DarkModeToggleVue from '@/components/content/darkModeToggle.vue'
 
 interface Props {
-    isActive: boolean,
+    isActive?: boolean,
 }
 const props = withDefaults(defineProps<Props>(), {
     isActive: true,
@@ -46,7 +46,20 @@ const emit = defineEmits<{
 
 function toggleDrawer() {
   isDrawerActive.value = !isDrawerActive.value
+  console.log(isDrawerActive.value, 'isDrawerActive.value')
   return emit('toggleDrawer', isDrawerActive.value)
 }
 
 </script>
+<style>
+.navbar {
+  transition: all 330ms ease-out;
+}
+
+.navbar-open {
+  transform: translateX(0%);
+}
+.navbar-close {
+  transform: translateX(-100%);
+}
+</style>

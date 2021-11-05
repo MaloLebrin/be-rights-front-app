@@ -69,7 +69,7 @@ import { useUserStore } from '@/store/users/userStore'
 import userHook from '~/hooks/userHook'
 
 interface Props {
-  isActive: boolean
+  isActive?: boolean
 }
 
 withDefaults(defineProps<Props>(), {

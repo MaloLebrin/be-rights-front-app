@@ -67,7 +67,7 @@
 
                 <BButton
                   href="#Newsletter"
-                  type="router-link"
+                  tag="ROUTER_LINK"
                   class="text-black hover:border-white hover:border-1 dark:text-white dark:hover:text-blue-dark dark:hover:bg-white hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   @click="onClickStartButton"
                 >
