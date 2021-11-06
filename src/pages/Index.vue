@@ -1,5 +1,5 @@
 <template>
-  <section class="dark:bg-blue-dark grid gap-4 grid-cols-1 md:grid-cols-2 justify-center md:flex-row items-center pt-10 DarkModeAnimation">
+  <section class="dark:bg-blue-dark_bold grid gap-4 grid-cols-1 md:grid-cols-2 justify-center md:flex-row items-center pt-10 DarkModeAnimation">
     <!--Left Col-->
     <div class="flex flex-col justify-center items-center">
       <!-- <p class="uppercase tracking-loose w-full mx-auto">Gérez enfin le droit à l'image de vos clients facilement</p> -->
@@ -23,6 +23,59 @@
         class="w-full z-50 rounded-lg transform duration-300 ease-in-out hover:-translate-x-1"
         src="@/assets/photographer.jpg"
       />
+    </div>
+  </section>
+
+  <section
+    id="Solution"
+    class="py-8 w-full relative bg-white dark:bg-blue-dark DarkModeAnimation"
+  >
+    <img
+      class="hidden md:inline absolute right-0 transform duration-500 ease-in-out hover:-translate-y-2 animate-fade-in-down"
+      src="../assets/mokup-phone.png"
+    />
+    <div class="container mx-auto flex flex-wrap pt-4 pb-12">
+      <h1 class="w-full my-2 text-5xl font-bold leading-tight text-gray-800 dark:text-white mb-6">
+        <span class="text-red-light">Be right</span>, qu'est ce que c'est ?
+      </h1>
+      <div class="grid gap-4 grid-cols-1 md:grid-cols-2">
+        <div class="w-full p-6 px-12 text-left transform hover:-translate-y-2 duration-300 ease-in-out">
+          <div class="flex-1 rounded-t rounded-b shadow dark:shadow-xl p-4 bg-white dark:bg-blue-dark_bold DarkModeAnimation">
+            <div class="w-full font-bold text-xl text-gray-800 dark:text-white px-6 py-4">
+              Une application de gestion dématérialisée & sécurisée
+            </div>
+            <p class="text-gray-800 dark:text-gray-100 text-base px-6 mb-5 text-left">
+              Be right est une plateforme de gestion dématérialisée de vos documents de droits à l'image.
+              Avec cette application, vous, photograpges et agences de photos pouvez gérer vos événements et
+              faire signer vos documents en seulement quelques clics.
+              Pour vérifier l'authenticité des signatures un code de vérification sera envoyé au destinataire.
+            </p>
+          </div>
+        </div>
+        <div class="w-full p-6 px-12  text-left transform hover:-translate-y-2 duration-300 ease-in-out">
+          <div class="flex-1 rounded-t rounded-b shadow dark:shadow-xl p-4 bg-white dark:bg-blue-dark_bold DarkModeAnimation">
+            <div class="w-full font-bold text-xl text-gray-800 dark:text-white px-6 py-4">
+              Disponibles sur plusieurs devices
+            </div>
+            <p class="text-gray-800 dark:text-gray-100 text-base px-6 mb-5">
+              Grâce à notre développement en application hybride, notre application est disponible sur internet mais également sur votre tablette ou smartphone via les appstores.
+              Vous pouvez alors tout à fait switcher de device comme bon vous semble !
+            </p>
+          </div>
+        </div>
+        <div class="w-full p-6 px-12  text-left transform hover:-translate-y-2 duration-300 ease-in-out">
+          <div class="flex-1 rounded-t rounded-b shadow dark:shadow-xl p-4 bg-white dark:bg-blue-dark_bold DarkModeAnimation">
+            <div class="w-full font-bold text-xl text-gray-800 dark:text-white px-6 py-4">
+              Arrivez sereinement sur le lieu de l'événement !
+            </div>
+            <p class="text-gray-800 dark:text-gray-100 text-base px-6 mb-5">
+              Afin de faciliter l'envoi et la réception des documents de droit à l'image, nous avons pensé et conçu <span class="font-bold">be right</span>.
+              Cet outil vous permet d'ajouter des clients, leur envoyer automatiquement la demande de droit à l'image, puis recevoir le document signé directement sur la plateforme.
+              Fini les envoies de mails à gogo et les documents papiers imprimés !
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -104,62 +157,11 @@
 
     </div>
   </section>
-  <section
-    id="Solution"
-    class="py-8 w-full relative bg-white dark:bg-blue-dark DarkModeAnimation"
-  >
-    <img
-      class="hidden md:inline absolute right-0 transform duration-500 ease-in-out hover:-translate-y-2 animate-fade-in-down"
-      src="../assets/mokup-phone.png"
-    />
-    <div class="container mx-auto flex flex-wrap pt-4 pb-12">
-      <h1 class="w-full my-2 text-5xl font-bold leading-tight text-gray-800 dark:text-white mb-6">
-        <span class="text-red-light">Be right</span>, qu'est ce que c'est ?
-      </h1>
-      <div class="grid gap-4 grid-cols-1 md:grid-cols-2">
-        <div class="w-full p-6 px-12 text-left transform hover:-translate-y-2 duration-300 ease-in-out">
-          <div class="flex-1 rounded-t rounded-b shadow dark:shadow-xl p-4 bg-white dark:bg-blue-dark DarkModeAnimation">
-            <div class="w-full font-bold text-xl text-gray-800 dark:text-white px-6 py-4">
-              Une application de gestion dématérialisée & sécurisée
-            </div>
-            <p class="text-gray-800 dark:text-gray-100 text-base px-6 mb-5 text-left">
-              Be right est une plateforme de gestion dématérialisée de vos documents de droits à l'image.
-              Avec cette application, vous, photograpges et agences de photos pouvez gérer vos événements et
-              faire signer vos documents en seulement quelques clics.
-              Pour vérifier l'authenticité des signatures un code de vérification sera envoyé au destinataire.
-            </p>
-          </div>
-        </div>
-        <div class="w-full p-6 px-12  text-left transform hover:-translate-y-2 duration-300 ease-in-out">
-          <div class="flex-1 rounded-t rounded-b shadow dark:shadow-xl p-4 bg-white dark:bg-blue-dark DarkModeAnimation">
-            <div class="w-full font-bold text-xl text-gray-800 dark:text-white px-6 py-4">
-              Disponibles sur plusieurs devices
-            </div>
-            <p class="text-gray-800 dark:text-gray-100 text-base px-6 mb-5">
-              Grâce à notre développement en application hybride, notre application est disponible sur internet mais également sur votre tablette ou smartphone via les appstores.
-              Vous pouvez alors tout à fait switcher de device comme bon vous semble !
-            </p>
-          </div>
-        </div>
-        <div class="w-full p-6 px-12  text-left transform hover:-translate-y-2 duration-300 ease-in-out">
-          <div class="flex-1 rounded-t rounded-b shadow dark:shadow-xl p-4 bg-white dark:bg-blue-dark DarkModeAnimation">
-            <div class="w-full font-bold text-xl text-gray-800 dark:text-white px-6 py-4">
-              Arrivez sereinement sur le lieu de l'événement !
-            </div>
-            <p class="text-gray-800 dark:text-gray-100 text-base px-6 mb-5">
-              Afin de faciliter l'envoi et la réception des documents de droit à l'image, nous avons pensé et conçu <span class="font-bold">be right</span>.
-              Cet outil vous permet d'ajouter des clients, leur envoyer automatiquement la demande de droit à l'image, puis recevoir le document signé directement sur la plateforme.
-              Fini les envoies de mails à gogo et les documents papiers imprimés !
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+
 
   <section
     id="Pricings"
-    class="bg-white dark:bg-blue-dark_bold DarkModeAnimation py-8"
+    class="bg-white dark:bg-blue-dark  DarkModeAnimation py-8"
   >
     <div class="container mx-auto px-2 pt-4 pb-12 text-gray-800">
       <h1 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800 dark:text-gray-50">
@@ -168,24 +170,30 @@
       <div class="w-full mb-4">
         <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
       </div>
-      <div class="flex flex-col sm:flex-row justify-center pt-12 my-12 sm:my-4">
-        <div class="flex flex-col mt-4 w-5/6 lg:w-1/4 mx-auto lg:mx-0 rounded-none lg:rounded-l-lg 
-        bg-white dark:bg-blue-dark DarkModeAnimation hover:z-20 transform transition hover:scale-105 duration-300 ease-in-out dark:shadow-2xl">
-          <div class="flex-1 bg-white dark:bg-blue-dark DarkModeAnimation text-gray-600 dark:text-white rounded-t rounded-b-none shadow">
-            <div class="p-8 text-3xl font-bold text-center border-b-4 relative">
+
+      <div
+        class="grid grid-cols-1 lg:grid-cols-3 mt-10 md:gap-2"
+      >
+
+        <div class="flex flex-col mt-4 lg:mx-0 rounded-none md:rounded-lg 
+        bg-white dark:bg-blue-dark DarkModeAnimation hover:z-20 transform transition hover:scale-105 duration-500 ease-in-out dark:shadow-2xl text-left px-10 shadow-2xl">
+          <div class="flex-1 text-gray-600 dark:text-white">
+            <div class="py-8 text-3xl font-bold text-left relative">
               Essentiel
-              <div class="absolute bg-red-light left-0 px-2 py-3 text-white text-sm rounded-r-lg">1 mois gratuit</div>
+              <div class="absolute bg-red-light right-0 top-0 px-2 py-3 text-white text-sm rounded-b-lg">1 mois gratuit</div>
             </div>
-            <ul class="w-full text-center text-sm">
-              <li class="border-b py-4">1 utilisateur</li>
-              <li class="border-b py-4">5 évenements<span class="text-base">/mois</span></li>
-            </ul>
-          </div>
-          <div class="flex-none mt-auto bg-white dark:bg-blue-dark DarkModeAnimation rounded-b rounded-t-none  shadow p-6">
-            <div class="w-full pt-6 text-3xl text-gray-600 dark:text-white font-bold text-center">
+            <div class="w-full pt-4 text-4xl text-gray-600 dark:text-white font-bold">
               3.99€
               <span class="text-base">/mois</span>
             </div>
+            <span class="text-xs">Vous avez une activité soutenue, vous êtes seul ou avec une équipe restreinte. </span>
+
+            <ul class="w-full text-sm">
+              <li class="py-4">1 utilisateur</li>
+              <li class="py-4">5 évenements<span class="text-base">/mois</span></li>
+            </ul>
+          </div>
+          <div class="flex-none mt-auto bg-white dark:bg-blue-dark DarkModeAnimation rounded-b rounded-t-none p-6">
             <div class="flex items-center justify-center">
               <button
                 class="mx-auto lg:mx-0 gradient text-black dark:bg-white DarlModeAnimation font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
@@ -196,28 +204,31 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-col w-5/6 lg:w-1/3 mx-auto lg:mx-0 mt-4 sm:-mt-6 rounded-lg bg-white dark:bg-blue-dark DarkModeAnimation
-        shadow-lg z-10 transform transition hover:scale-105 duration-300 ease-in-out">
-          <div class="flex-1 bg-white dark:bg-blue-dark DarkModeAnimation rounded-t rounded-b-none overflow-hidden shadow">
-            <div class="p-8 text-3xl font-bold text-center dark:text-gray-100 border-b-4 relative">
+
+        <div class="flex flex-col lg:mx-0 mt-4 sm:-mt-6 rounded-lg bg-blue-dark dark:bg-white-break DarkModeAnimation text-white dark:text-blue-dark
+        shadow-2xl z-10 transform transition hover:scale-105 duration-300 ease-in-out text-left px-10">
+          <div class="flex-1 DarkModeAnimation rounded-t rounded-b-none overflow-hidden">
+            <div class="py-8 text-3xl font-bold text-blue relative">
               Pro
-              <div class="absolute bg-red-light left-0 px-2 py-3 text-white text-sm rounded-r-lg">2 mois gratuits</div>
+              <div class="absolute bg-red-light right-5 top-0 px-2 py-3 text-white text-sm rounded-b-lg">2 mois gratuits</div>
             </div>
-            <div class="h-1 w-full gradient my-0 py-0 rounded-t"></div>
-            <ul class="w-full text-center text-base font-bold dark:text-white">
-              <li class="border-b py-4">3 utilisateurs</li>
-              <li class="border-b py-4">25 événements<span class="text-base">/mois</span></li>
-            </ul>
-          </div>
-          <div class="flex-none mt-auto bg-white dark:bg-blue-dark rounded-b rounded-t-none overflow-hidden shadow p-6">
-            <div class="w-full pt-6 text-4xl font-bold text-center dark:text-white">
+            <div class="w-full pt-6 text-5xl font-bold ">
               9.99€
               <span class="text-base">/mois</span>
             </div>
+            <span class="text-xs">Vous avez une activité soutenue, vous êtes seul ou avec une équipe restreinte. </span>
+            <div class="h-1 w-full gradient my-0 py-0 rounded-t"></div>
+            <ul class="w-full text-base font-bold">
+              <li class="py-4">3 utilisateurs</li>
+              <li class="py-4">25 événements<span class="text-base">/mois</span></li>
+            </ul>
+          </div>
+          <div class="flex-none mt-auto rounded-b rounded-t-none overflow-hidden p-6">
             <div class="flex items-center justify-center">
+              <!-- class=" bg-blue mx-auto lg:mx-0 gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline
+              transform transition hover:scale-105 duration-300 ease-in-out DarkModeAnimation" -->
               <button
-                class=" bg-green mx-auto lg:mx-0 gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline
-                transform transition hover:scale-105 duration-300 ease-in-out DarkModeAnimation"
+                class="mx-auto lg:mx-0 gradient text-black bg-white dark:bg-blue dark:text-white DarlModeAnimation font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
                 href="#Newsletter"
               >
                 Commencez
@@ -225,28 +236,29 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-col w-5/6 lg:w-1/4 mx-auto lg:mx-0 rounded-none lg:rounded-l-lg bg-white dark:bg-blue-dark DarkModeAnimation
-        mt-4 transform transition hover:z-20 hover:scale-105 duration-300 ease-in-out">
-          <div class="flex-1 text-gray-600 dark:text-white rounded-t rounded-b-none shadow">
-            <div class="p-8 text-3xl font-bold text-center border-b-4 relative">
+
+        <div class="flex flex-col mt-4 lg:mx-0 rounded-none md:rounded-lg 
+        bg-white dark:bg-blue-dark DarkModeAnimation hover:z-20 transform transition hover:scale-105 duration-500 ease-in-out dark:shadow-2xl text-left px-10 shadow-2xl">
+          <div class="flex-1 text-gray-600 dark:text-white">
+            <div class="py-8 text-3xl font-bold text-left relative">
               Expert
-              <div class="absolute bg-red-light left-0 px-2 py-3 text-white text-sm rounded-r-lg">3 mois gratuits</div>
+              <div class="absolute bg-red-light right-0 top-0 px-2 py-3 text-white text-sm rounded-b-lg">3 mois gratuit</div>
             </div>
-            <ul class="w-full text-center text-sm">
-              <li class="border-b py-4">Utilisateurs ilimités</li>
-              <li class="border-b py-4">Événements ilimités</li>
-            </ul>
-          </div>
-          <div class="flex-none mt-auto bg-white dark:bg-blue-dark DarkModeAnimation rounded-b rounded-t-none overflow-hidden shadow p-6">
-            <div class="w-full pt-6 text-3xl text-gray-600 dark:text-white font-bold text-center">
+            <div class="w-full pt-4 text-4xl text-gray-600 dark:text-white font-bold">
               19.99€
               <span class="text-base">/mois</span>
             </div>
+            <span class="text-xs">Vous avez une activité soutenue, vous êtes seul ou avec une équipe restreinte. </span>
+
+            <ul class="w-full text-sm">
+              <li class="py-4">Utilisateurs ilimités</li>
+              <li class="py-4">Événements ilimités<span class="text-base">/mois</span></li>
+            </ul>
+          </div>
+          <div class="flex-none mt-auto bg-white dark:bg-blue-dark DarkModeAnimation rounded-b rounded-t-none p-6">
             <div class="flex items-center justify-center">
               <button
-                class="mx-auto lg:mx-0 gradient text-black dark:bg-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline
-                transform transition hover:scale-105 duration-300 ease-in-out DarkModeAnimation"
-                tag="router-link"
+                class="mx-auto lg:mx-0 gradient text-black dark:bg-white DarlModeAnimation font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
                 href="#Newsletter"
               >
                 Commencez
@@ -254,6 +266,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </section>

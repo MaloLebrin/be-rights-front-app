@@ -45,6 +45,8 @@ module.exports = {
         light: 'rgba(69,61,145,0.2)',
         DEFAULT: '#453D91',
         dark: '#1b1e3dF2',
+        // dark: 'rgba(27,31,70)',
+        // dark: '#1E3A8A',
         dark_bold: 'rgba(28,31,61)',
       },
       indigo: colors.indigo,

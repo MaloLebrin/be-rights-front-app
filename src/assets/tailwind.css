@@ -7,3 +7,7 @@
 .DarkModeAnimation {
 	@apply ease-in-out duration-500 transition-colors
 }
+
+.TranslateUpAnimation {
+	@apply ease-in-out duration-500 transition-transform hover:-translate-y-2
+}
