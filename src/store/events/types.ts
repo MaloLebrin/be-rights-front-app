@@ -5,7 +5,7 @@ export interface EventType extends BaseEntity {
 	name: string
 	startDate: Date
 	endDate: Date
-	status: string //TODO create enum status
+	status: EventStatusEnum
 	address: string | null
 	postalCode: string | null
 	city: string | null
@@ -21,6 +21,20 @@ export enum EventSearchableFields {
 	NAME = 'name',
 	ADDRESS = 'address',
 	CITY = 'city',
+}
+
+export enum EventStatusEnum {
+	CREATE = 'CREATE',
+	PENDING = 'PENDING',
+	COMPLETED = 'COMPLETED',
+	CLOSED = 'CLOSED'
+}
+
+export enum getEventStatusTranslationEnum {
+	CREATE = 'créé',
+	PENDING = 'en cours',
+	COMPLETED = 'complété',
+	CLOSED = 'terminé'
 }
 
 export interface EventState extends State<EventType> { }
