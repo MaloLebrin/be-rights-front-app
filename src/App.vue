@@ -27,7 +27,7 @@ import { EventType } from './store/events/types'
             {
                 documentId: [],
                 employeeList: [],
-                status: "CREATE",
+                status: "PENDING",
                 creadtedAt: "2021-11-05T13:37:12.030Z",
                 updatedAt: "2021-11-05T13:37:12.030Z",
                 signatureCount: 0,
@@ -45,7 +45,7 @@ import { EventType } from './store/events/types'
             {
                 documentId: [],
                 employeeList: [],
-                status: "CREATE",
+                status: "COMPLETED",
                 creadtedAt: "2021-11-05T13:37:12.030Z",
                 updatedAt: "2021-11-05T13:37:12.030Z",
                 signatureCount: 0,
@@ -63,7 +63,7 @@ import { EventType } from './store/events/types'
             {
                 documentId: [],
                 employeeList: [],
-                status: "CREATE",
+                status: "CLOSED",
                 creadtedAt: "2021-11-05T13:37:12.030Z",
                 updatedAt: "2021-11-05T13:37:12.030Z",
                 signatureCount: 0,
