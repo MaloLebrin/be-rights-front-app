@@ -1,9 +1,11 @@
-import { BaseEntity } from "@/types/globals"
-import { State } from "@/store/utils/types"
+import { BaseEntity } from "~/types/globals"
+import { State } from "~/store/utils/types"
 
 export interface EventType extends BaseEntity {
 	name: string
 	startDate: Date
+	start: Date
+	end: Date
 	endDate: Date
 	status: EventStatusEnum
 	address: string | null

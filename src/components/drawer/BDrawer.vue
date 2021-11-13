@@ -29,7 +29,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from '@heroicons/vue/outline'
-import DarkModeToggleVue from '@/components/content/darkModeToggle.vue'
+import DarkModeToggleVue from '~/components/content/darkModeToggle.vue'
 
 interface Props {
     isActive?: boolean,
