@@ -3,11 +3,7 @@ import { DateFormatEnum } from "~/types/Date"
 export default function dateHook() {
 
 	function getDate(date: Date, format?: DateFormatEnum) {
-		const options: any = {
-			year: "numeric",
-			month: "numeric",
-			day: "numeric"
-		}
+		const options: any = {}
 
 		switch (format) {
 			case DateFormatEnum.DDMMYYYY:
@@ -18,6 +14,16 @@ export default function dateHook() {
 				options.year = "numeric"
 				options.month = "long"
 				break
+
+			case DateFormatEnum.DDMM:
+				options.month = 'numeric'
+				options.day = 'numeric'
+				break
+
+			default:
+				options.day = "numeric"
+				options.year = "numeric"
+				options.month = "numeric"
 		}
 
 		return date.toLocaleDateString("fr-Fr", options)
