@@ -1,9 +1,9 @@
 import { defineStore } from "pinia"
 import { ThemeEnum } from "~/types/globals"
-import { useEventStore } from './events/eventStore'
-import { useUserStore } from "./users/userStore"
+import useEventStore from './events/eventStore'
+import useUserStore from "./users/userStore"
 
-export const useMainStore = defineStore('main', {
+const useMainStore = defineStore('main', {
 	state: () => ({
 		isLoggedIn: false,
 		isLoading: false,
@@ -35,3 +35,4 @@ export const useMainStore = defineStore('main', {
 		},
 	},
 })
+export default useMainStore

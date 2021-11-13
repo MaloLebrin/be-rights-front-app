@@ -1,7 +1,7 @@
-import { useMainStore } from '~/store/mainStore'
+import useMainStore from '~/store/mainStore'
 import axiosInstance from "~/axios.config"
 import { UserType } from "~/store/users/types"
-import { useUserStore } from "~/store/users/userStore"
+import useUserStore from "~/store/users/userStore"
 import { parseEntity } from '~/store/utils/store'
 import { useCookie } from 'vue-cookie-next'
 import router from '~/router'

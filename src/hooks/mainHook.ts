@@ -1,5 +1,5 @@
 import { storeToRefs } from "pinia"
-import { useMainStore } from "~/store/mainStore"
+import useMainStore from "~/store/mainStore"
 import { ThemeEnum } from "~/types/globals"
 
 export default function mainHook() {

@@ -5,7 +5,7 @@ import createGetters from "~/store/utils/createGetters"
 import { eventState } from "./state"
 import { EventState, EventType } from "./types"
 
-export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
+const useEventStore = defineStore(EntitiesEnum.EVENTS, {
 	state: (): EventState => ({
 		...eventState
 	}),
@@ -16,3 +16,5 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
 		...createGetters<EventType>(eventState),
 	}
 })
+
+export default useEventStore

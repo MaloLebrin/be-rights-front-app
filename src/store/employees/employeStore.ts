@@ -5,8 +5,7 @@ import { EntitiesEnum } from "~/types/globals"
 import { employeState } from "./state"
 import { EmployeeState, EmployeeType } from "./types"
 
-
-export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
+const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
 	state: (): EmployeeState => ({
 		...employeState,
 	}),
@@ -17,3 +16,5 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
 		...createGetters<EmployeeType>(employeState),
 	}
 })
+
+export default useEmployeeStore

@@ -82,7 +82,7 @@ import {
   UserGroupIcon,
   UserIcon,
 } from '@heroicons/vue/outline'
-import { useUserStore } from '~/store/users/userStore'
+import useUserStore  from '~/store/users/userStore'
 import userHook from '~/hooks/userHook'
 
 
