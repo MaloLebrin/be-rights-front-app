@@ -21,7 +21,7 @@
     <div class="hidden sm:block shadow-xl bg-transparent rounded-lg">
       <img
         class="w-full z-50 rounded-lg transform duration-300 ease-in-out hover:-translate-x-1"
-        src="~/assets/photographer.jpg"
+        src="../assets/photographer.jpg"
       />
     </div>
   </section>
