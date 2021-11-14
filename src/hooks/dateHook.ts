@@ -1,4 +1,4 @@
-import { DateFormatEnum } from "~/types/Date"
+import { DateFormatEnum } from "@/types/Date"
 
 export default function dateHook() {
 

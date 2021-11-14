@@ -8,10 +8,19 @@
 </template>
 <script setup lang="ts">
 import { watch, onBeforeMount } from 'vue'
-import { useMainStore } from '@/store/mainStore'
+import useMainStore from '@/store/mainStore'
 import userHook from '@/hooks/userHook'
-import { useEventStore } from './store/events/eventStore'
+import useEventStore  from './store/events/eventStore'
 import { EventType } from './store/events/types'
+import useEmployeeStore  from '@/store/employees/employeStore'
+import { EmployeeType } from '@/store/employees/types'
+
+const { createMany: createManyEmployees } = useEmployeeStore()
+
+// TODO remove wheen API up
+import employees from '@/data/employees.json'
+createManyEmployees(employees as EmployeeType[])
+
     const store = useMainStore()
     const eventStore = useEventStore()
     const { createMany } = eventStore

@@ -65,8 +65,8 @@ import {
   UserGroupIcon,
   UserIcon,
 } from '@heroicons/vue/outline'
-import useUserStore  from '~/store/users/userStore'
-import userHook from '~/hooks/userHook'
+import useUserStore  from '@/store/users/userStore'
+import userHook from '@/hooks/userHook'
 
 interface Props {
   isActive?: boolean

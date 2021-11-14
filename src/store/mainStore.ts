@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { ThemeEnum } from "~/types/globals"
+import { ThemeEnum } from "@/types/globals"
 import useEventStore from './events/eventStore'
 import useUserStore from "./users/userStore"
 

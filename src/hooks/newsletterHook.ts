@@ -1,5 +1,5 @@
-import axiosInstance from "~/axios.config"
-import useMainStore from "~/store/mainStore"
+import axiosInstance from "@/axios.config"
+import useMainStore from "@/store/mainStore"
 
 export default function newsleterHook() {
 	const { toggleIsLoading } = useMainStore()
@@ -8,7 +8,7 @@ export default function newsleterHook() {
 		try {
 
 			const res = await axiosInstance.post('createOnenewsletter', { email, firstName, lastName, companyName })
-			console.log(res, 'res')
+
 			if (res.status === 200) {
 				// TODO toast
 				toggleIsLoading()

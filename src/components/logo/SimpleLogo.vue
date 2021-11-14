@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import router from '~/router'
+import router from '@/router'
 
 function redirectHome() {
   router.push('/')

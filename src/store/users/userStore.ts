@@ -1,10 +1,10 @@
-import { EntitiesEnum } from '~/types/globals'
+import { EntitiesEnum } from '@/types/globals'
 import { defineStore } from "pinia"
 import { UserType } from './types'
 import { userState } from './state'
-import createGetters from '~/store/utils/createGetters'
-import createActions from '~/store/utils/createActions'
-import { RoleEnum } from '~/types/Roles'
+import createGetters from '@/store/utils/createGetters'
+import createActions from '@/store/utils/createActions'
+import { RoleEnum } from '@/types/Roles'
 
 const useUserStore = defineStore(EntitiesEnum.USERS, {
 	state: () => ({

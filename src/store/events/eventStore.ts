@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
-import { EntitiesEnum } from "~/types/globals"
-import createActions from "~/store/utils/createActions"
-import createGetters from "~/store/utils/createGetters"
+import { EntitiesEnum } from "@/types/globals"
+import createActions from "@/store/utils/createActions"
+import createGetters from "@/store/utils/createGetters"
 import { eventState } from "./state"
 import { EventState, EventType } from "./types"
 

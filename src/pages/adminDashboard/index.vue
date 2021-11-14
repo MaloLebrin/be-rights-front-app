@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import { HomeIcon } from '@heroicons/vue/outline'
 import { computed, ref } from 'vue'
-import useEventStore  from '~/store/events/eventStore'
+import useEventStore  from '@/store/events/eventStore'
 
 const eventStore = useEventStore()
 const search = ref('')

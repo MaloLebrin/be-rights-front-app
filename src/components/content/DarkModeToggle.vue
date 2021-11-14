@@ -14,8 +14,8 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import mainHook from '~/hooks/mainHook'
-import useMainStore from '~/store/mainStore'
+import mainHook from '@/hooks/mainHook'
+import useMainStore from '@/store/mainStore'
 
   const main = useMainStore()
   const { isDarkTheme } = storeToRefs(main)

@@ -1,4 +1,4 @@
-import { EmployeeType } from "~/store/employees/types"
+import { EmployeeType } from "@/store/employees/types"
 
 export default function employeeHook() {
 
@@ -6,7 +6,7 @@ export default function employeeHook() {
 		if (employee.hasSigned) {
 			return 'Accepté'
 		} else {
-			if (employee.signetAt) {
+			if (employee.signedAt) {
 				return 'Refusé'
 			}
 			return 'En attente'
@@ -17,7 +17,7 @@ export default function employeeHook() {
 		if (employee.hasSigned) {
 			return 'text-green'
 		} else {
-			if (employee.signetAt) {
+			if (employee.signedAt) {
 				return 'text-red'
 			}
 			return 'text-orange'

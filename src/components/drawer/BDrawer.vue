@@ -29,7 +29,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from '@heroicons/vue/outline'
-import DarkModeToggleVue from '~/components/content/darkModeToggle.vue'
+import DarkModeToggleVue from '@/components/content/darkModeToggle.vue'
 
 interface Props {
     isActive?: boolean,
@@ -46,7 +46,6 @@ const emit = defineEmits<{
 
 function toggleDrawer() {
   isDrawerActive.value = !isDrawerActive.value
-  console.log(isDrawerActive.value, 'isDrawerActive.value')
   return emit('toggleDrawer', isDrawerActive.value)
 }
 
