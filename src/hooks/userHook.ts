@@ -6,18 +6,27 @@ import { parseEntity } from '@/store/utils/store'
 import { useCookie } from 'vue-cookie-next'
 import router from '@/router'
 import mainHook from './mainHook'
+import useEventStore from '@/store/events/eventStore'
+import { EventType } from '@/store/events/types'
 
 export default function userHook() {
 	const userStore = useUserStore()
 	const mainStore = useMainStore()
+	const eventStore = useEventStore()
 	const { setCookie, getCookie, removeCookie } = useCookie()
 	const { setThemeClass, setLightTheme } = mainHook()
 
 	async function login({ email, password }: { email: string, password: string }) {
 		try {
 			mainStore.toggleIsLoading()
-			const res = await axiosInstance.post('login', { email, password })
-			const user: UserType = parseEntity(res.data)// TODO remove when SQL API has been deploy
+			const res = await axiosInstance.post('user/login', { email, password })
+			// const user: UserType = parseEntity(res.data)// TODO remove when SQL API has been deploy
+			const user: UserType = res.data
+			if (user.events) {
+				const userEvents = user.events
+				eventStore.createMany(userEvents as unknown as EventType[])
+				delete user.events
+			}
 			userStore.setCurrent(user)
 			userStore.createOne(user)
 			setCookie('userToken', user.token)
@@ -34,7 +43,10 @@ export default function userHook() {
 	}
 
 	function logout() {
-		removeCookie('userToken')
+		// const cookies = useCookie()
+		// console.log(cookies.keys())
+		// const cookie = cookies.removeCookie('userToken', { domain: 'localhost' })
+		// console.log(cookie, 'cookie')
 		setLightTheme()
 		mainStore.setIsLoggedOut()
 		userStore.removeCurrent()
@@ -62,7 +74,7 @@ export default function userHook() {
 	async function loginWithToken(token: string) {
 		try {
 			mainStore.toggleIsLoading()
-			const res = await axiosInstance.post('token', { token })
+			const res = await axiosInstance.post(`user/token`, { token })
 			const user: UserType = parseEntity(res.data)
 			await setThemeClass()
 			userStore.setCurrent(user)

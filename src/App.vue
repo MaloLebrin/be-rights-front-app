@@ -124,7 +124,7 @@ createManyEmployees(employees as EmployeeType[])
                 userId: 1,
             }
         ]
-    createMany(events as EventType[])
+    // createMany(events as EventType[])
 
 </script>
 

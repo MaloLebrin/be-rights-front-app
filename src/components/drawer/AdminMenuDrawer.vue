@@ -67,6 +67,7 @@ import {
 } from '@heroicons/vue/outline'
 import useUserStore  from '@/store/users/userStore'
 import userHook from '@/hooks/userHook'
+import { useCookie } from 'vue-cookie-next'
 
 interface Props {
   isActive?: boolean
@@ -79,8 +80,10 @@ withDefaults(defineProps<Props>(), {
     const { logout } = userHook()
 
     const userFullName = computed(() => store.getUserFullName)
+    const cookie = useCookie()
 
     function onToggleLogout() {
+      cookie.removeCookie('userToken')
       logout()
     }
 </script>

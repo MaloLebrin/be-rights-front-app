@@ -52,7 +52,6 @@
     <!-- TODO add CTA if suscrption basic -->
     <!-- TODO abstract to library create modal custom comp -->
     <BCard
-      v-if="store.getCurrent"
       variant="danger"
     >
       <div class="px-6 py-4">
@@ -84,6 +83,7 @@ import {
 } from '@heroicons/vue/outline'
 import useUserStore  from '@/store/users/userStore'
 import userHook from '@/hooks/userHook'
+import { useCookie } from 'vue-cookie-next'
 
 
 interface Props { 
@@ -98,8 +98,12 @@ const store = useUserStore()
 const { logout } = userHook()
 
 const userFullName = computed(() => store.getUserFullName)
+const cookie = useCookie()
+
 
 function onToggleLogout() {
+  cookie.removeCookie('userToken')
+  console.log('logout')
   logout()
 }
 

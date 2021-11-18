@@ -33,10 +33,10 @@
     </BAccordion>
 
     <div class="flex flex-col ml-4 px-4 py-2 rounded-xl text-xs duration-500 ease-in-out transition-all w-1/5" :class="extraButtonOpen === index ? 'opacity-1': 'opacity-0'">
-      <BLink class="cursor-pointer bg-gray-500 rounded mb-1 py-2 px-4 font-medium hover:translate-x-3 transform transition-all duration-500">modifier</BLink>
-      <BLink class="cursor-pointer bg-gray-500 rounded mb-1 py-2 px-4 font-medium hover:translate-x-3 transform transition-all duration-500">+ Ajouter</BLink>
-      <BLink class="cursor-pointer bg-gray-500 rounded mb-1 py-2 px-4 font-medium hover:translate-x-3 transform transition-all duration-500">Supprimer</BLink>
-      <BLink class="cursor-pointer bg-gray-500 rounded mb-1 py-2 px-4 font-medium hover:translate-x-3 transform transition-all duration-500">Tout télécharger</BLink>
+      <BLink :variant="extraButtonStyle" class="EventActionButton">modifier</BLink>
+      <BLink :variant="extraButtonStyle" class="EventActionButton">+ Ajouter</BLink>
+      <BLink :variant="extraButtonStyle" class="EventActionButton">Supprimer</BLink>
+      <BLink :variant="extraButtonStyle" class="EventActionButton">Tout télécharger</BLink>
     </div>
 </div>
 </template>
@@ -46,8 +46,10 @@ import { ref, onMounted, PropType, onBeforeUnmount, computed } from 'vue'
 import eventHook from '@/hooks/eventHook'
 import dateHook from '@/hooks/dateHook'
 import { EventType } from '@/store/events/types'
+import useMainStore from '@/store/mainStore'
 import useEmployeeStore  from '@/store/employees/employeStore'
 import EmployeeEventItem from '@/components/employees/employeeEventItem.vue'
+import { storeToRefs } from 'pinia'
 
 const props = defineProps({
   event: {
@@ -62,7 +64,10 @@ const props = defineProps({
 
 const { getDate } = dateHook()
 const { getEventStatusTranslation, getEventStatusColor } = eventHook()
+const mainStore = useMainStore()
 const employeeStore = useEmployeeStore()
+
+const { isDarkTheme } = mainStore
 
 const employees = computed(() => employeeStore.getWhereArray(employee => employee.event === props.event.id))
 
@@ -88,5 +93,14 @@ onBeforeUnmount(() => {
 	eventItem?.removeEventListener('mouseout', () => toggleExtraOptions(null))
 })
 
+const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : "white")
+
 
 </script>
+
+<style scoped>
+  .EventActionButton {
+    @apply cursor-pointer bg-gray-500 rounded mb-1 py-2 px-4 font-semibold hover:translate-x-3 transform transition-all duration-500 
+    dark:bg-white-break dark:text-gray-900
+  }
+</style>
