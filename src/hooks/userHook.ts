@@ -8,13 +8,13 @@ import router from '@/router'
 import mainHook from './mainHook'
 import useEventStore from '@/store/events/eventStore'
 import { EventType } from '@/store/events/types'
+import authHook from './authHook'
 
 export default function userHook() {
 	const userStore = useUserStore()
 	const mainStore = useMainStore()
 	const eventStore = useEventStore()
-	const { setCookie, getCookie, removeCookie } = useCookie()
-	const { setThemeClass, setLightTheme } = mainHook()
+	const { setCookie } = useCookie()
 
 	async function login({ email, password }: { email: string, password: string }) {
 		try {
@@ -42,54 +42,9 @@ export default function userHook() {
 		mainStore.toggleIsLoading()
 	}
 
-	function logout() {
-		// const cookies = useCookie()
-		// console.log(cookies.keys())
-		// const cookie = cookies.removeCookie('userToken', { domain: 'localhost' })
-		// console.log(cookie, 'cookie')
-		setLightTheme()
-		mainStore.setIsLoggedOut()
-		userStore.removeCurrent()
-		mainStore.resetAllState()
-		router.push('/')
-	}
 
-	async function routesIntermsOfUserRoles() {
-		mainStore.toggleIsLoading()
-		const token = getCookie('userToken')
-		if (token && token.length > 0) {
-			await loginWithToken(token)
-			mainStore.setIsLoggedIn()
-			if (userStore.isCurrentUserAdmin) {
-				router.push('/adminDashboard')
-			} else {
-				router.push('/userDashboard')
-			}
-		} else {
-			router.push('/')
-		}
-		mainStore.toggleIsLoading()
-	}
-
-	async function loginWithToken(token: string) {
-		try {
-			mainStore.toggleIsLoading()
-			const res = await axiosInstance.post(`user/token`, { token })
-			const user: UserType = parseEntity(res.data)
-			await setThemeClass()
-			userStore.setCurrent(user)
-			userStore.createOne(user)
-			mainStore.setIsLoggedIn()
-		} catch (error) {
-			console.error(error)
-		}
-		mainStore.toggleIsLoading()
-	}
 
 	return {
 		login,
-		logout,
-		loginWithToken,
-		routesIntermsOfUserRoles,
 	}
 }

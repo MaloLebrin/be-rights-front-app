@@ -14,7 +14,7 @@ export default function authHook() {
 	const eventStore = useEventStore()
 	const { setCookie, getCookie, removeCookie } = useCookie()
 	const { setThemeClass, setLightTheme } = mainHook()
-	const api = new API(userStore.getCurrent?.token as string)
+	const api = new API(userStore.getCurrentUserToken!)
 
 	function setBearerToken(token: string) {
 		axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`
