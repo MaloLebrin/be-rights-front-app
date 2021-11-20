@@ -14,7 +14,7 @@ export type ApiMethods = {
 	getToken: () => string | null
 	get: (url: string) => Promise<any>
 	post: <T>(url: string, data?: T) => Promise<any>
-	patch: <T>(path: string, data: Partial<T>) => Promise<unknown>
+	patch: <T>(path: string, data: Partial<T>) => Promise<any>
 	delete: <T>(url: string, data?: T) => Promise<any>
 }
 
