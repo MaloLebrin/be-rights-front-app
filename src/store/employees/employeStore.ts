@@ -14,6 +14,9 @@ const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
 	},
 	getters: {
 		...createGetters<EmployeeType>(employeState),
+		getAllByEventId: (state) => (eventId: number) => {
+			return Object.values(state.entities.byId).filter(employee => employee.event === eventId)
+		}
 	}
 })
 

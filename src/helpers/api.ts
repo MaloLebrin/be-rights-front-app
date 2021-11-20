@@ -34,8 +34,6 @@ export default class APi implements ApiMethods {
 	}
 
 	private setTokenFromCookie(token: string): void {
-		const cookies = useCookie()
-		// const token = cookies.getCookie('userToken')
 		this.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 	}
 
@@ -51,8 +49,6 @@ export default class APi implements ApiMethods {
 	}
 
 	public deleteCredentials() {
-		const cookies = useCookie()
-		cookies.removeCookie('userToken')
 		this.axios.defaults.headers.common['Authorization'] = ''
 	}
 

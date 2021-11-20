@@ -1,7 +1,6 @@
 import axiosInstance from "@/axios.config"
 import API from "@/helpers/api"
 import useMainStore from '@/store/mainStore'
-import useEventStore from '@/store/events/eventStore'
 import useUserStore from '@/store/users/userStore'
 import { useCookie } from 'vue-cookie-next'
 import mainHook from './mainHook'
@@ -11,8 +10,7 @@ import { UserType } from "@/store/users/types"
 export default function authHook() {
 	const userStore = useUserStore()
 	const mainStore = useMainStore()
-	const eventStore = useEventStore()
-	const { setCookie, getCookie, removeCookie } = useCookie()
+	const { getCookie } = useCookie()
 	const { setThemeClass, setLightTheme } = mainHook()
 	const api = new API(userStore.getCurrentUserToken!)
 
@@ -33,7 +31,6 @@ export default function authHook() {
 		try {
 			mainStore.toggleIsLoading()
 			const user = await api.post('user/token', { token: token })
-			console.log(user, 'user')
 			await setThemeClass()
 			userStore.setCurrent(user as UserType)
 			userStore.createOne(user as UserType)
