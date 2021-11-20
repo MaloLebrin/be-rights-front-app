@@ -10,6 +10,7 @@ export interface EmployeeType extends BaseEntity {
 	hasSigned: boolean
 	signedAt: Date
 	user: null | number | UserType //TODO fix this
+	event?: number
 }
 
 export interface EmployeeState extends State<EmployeeType> { }

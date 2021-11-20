@@ -11,6 +11,5 @@ const store = createPinia()
 app.use(library)
 app.use(router)
 app.use(store)
-
 app.use(VueCookieNext)
 app.mount('#app')
