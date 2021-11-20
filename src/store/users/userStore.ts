@@ -19,6 +19,9 @@ const useUserStore = defineStore(EntitiesEnum.USERS, {
 		isCurrentUserAdmin(state) {
 			return state.entities.current?.roles === RoleEnum.ADMIN
 		},
+		getCurrentUserToken(state) {
+			return state.entities.current?.token
+		}
 	},
 	actions: {
 		...createActions<UserType>(userState),
