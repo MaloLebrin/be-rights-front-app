@@ -6,34 +6,27 @@ export default function mainHook() {
 	const mainStore = useMainStore()
 	const { theme } = storeToRefs(mainStore)
 
-	async function setThemeClass() {
-		const themeLocalStorage = localStorage.theme
-		if (themeLocalStorage === ThemeEnum.DEFAULT) {
+	async function toggleTheme() {
+		const themeLocalStorage = theme.value
+		if (themeLocalStorage === ThemeEnum.LIGHT) {
 			document.getElementById('app')?.classList.remove(ThemeEnum.DARK)
-			theme.value = ThemeEnum.DEFAULT
+			theme.value = ThemeEnum.LIGHT
 		} else {
 			theme.value = ThemeEnum.DARK
 			document.getElementById('app')?.classList.add(ThemeEnum.DARK)
 		}
 	}
 
-	function setLightTheme() {
-		document.getElementById('app')?.classList.remove(ThemeEnum.DARK)
-		theme.value = ThemeEnum.DEFAULT
-		localStorage.theme = ThemeEnum.DEFAULT
-	}
-
-	function toggleThemeApp() {
-		if (theme.value === ThemeEnum.DARK) {
+	function setThemeClass(userTheme: ThemeEnum) {
+		if (userTheme === ThemeEnum.LIGHT) {
 			document.getElementById('app')?.classList.remove(ThemeEnum.DARK)
-			theme.value = ThemeEnum.DEFAULT
-			localStorage.theme = ThemeEnum.DEFAULT
-		} else if (theme.value === ThemeEnum.DEFAULT) {
-			document.getElementById('app')?.classList.add(ThemeEnum.DARK)
+			theme.value = ThemeEnum.LIGHT
+		} else {
 			theme.value = ThemeEnum.DARK
-			localStorage.theme = ThemeEnum.DARK
+			document.getElementById('app')?.classList.add(ThemeEnum.DARK)
 		}
 	}
+
 
 	function isProductionMode() {
 		return import.meta.env.MODE === 'production'
@@ -41,8 +34,7 @@ export default function mainHook() {
 
 	return {
 		setThemeClass,
-		toggleThemeApp,
-		setLightTheme,
 		isProductionMode,
+		toggleTheme,
 	}
 }

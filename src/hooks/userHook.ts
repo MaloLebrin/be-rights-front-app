@@ -9,12 +9,15 @@ import mainHook from './mainHook'
 import useEventStore from '@/store/events/eventStore'
 import { EventType } from '@/store/events/types'
 import authHook from './authHook'
+import APi from '@/helpers/api'
+import { ThemeEnum } from '@/types/globals'
 
 export default function userHook() {
 	const userStore = useUserStore()
 	const mainStore = useMainStore()
 	const eventStore = useEventStore()
 	const { setCookie } = useCookie()
+	const api = new APi(userStore.entities.current?.token!)
 
 	async function login({ email, password }: { email: string, password: string }) {
 		try {
@@ -42,9 +45,24 @@ export default function userHook() {
 		mainStore.toggleIsLoading()
 	}
 
+	async function userToggleTheme(theme: ThemeEnum) {
+		try {
+			mainStore.toggleIsLoading()
+			const id = userStore.entities.current?.id
+			if (id) {
+				const res = await api.patch(`user/theme/${id}`, { theme })
+				userStore.updateOne(id, res as UserType)
+			}
+		} catch (error) {
+			console.error(error)
+		}
+		mainStore.toggleIsLoading()
+	}
+
 
 
 	return {
 		login,
+		userToggleTheme,
 	}
 }

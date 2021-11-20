@@ -12,6 +12,6 @@ export type BaseEntity = {
 }
 
 export enum ThemeEnum {
-	DEFAULT = 'default',
+	LIGHT = 'light',
 	DARK = 'dark'
 }

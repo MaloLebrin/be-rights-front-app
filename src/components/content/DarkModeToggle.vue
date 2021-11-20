@@ -16,14 +16,17 @@
 import { storeToRefs } from 'pinia'
 import mainHook from '@/hooks/mainHook'
 import useMainStore from '@/store/mainStore'
+import userHook from '@/hooks/userHook'
 
   const main = useMainStore()
-  const { isDarkTheme } = storeToRefs(main)
-  const { toggleThemeApp } = mainHook()
+  const { isDarkTheme, theme } = storeToRefs(main)
+  const { toggleTheme } = mainHook()
+  const { userToggleTheme } = userHook()
 
-  function toggleTrue() {
-    toggleThemeApp()
-    isDarkTheme.value = !isDarkTheme.value
+  async function toggleTrue() {
+    toggleTheme()
+    await userToggleTheme(theme.value)
+    // isDarkTheme.value = !isDarkTheme.value
   }
 
 </script>

@@ -11,7 +11,7 @@ export default function authHook() {
 	const userStore = useUserStore()
 	const mainStore = useMainStore()
 	const { getCookie } = useCookie()
-	const { setThemeClass, setLightTheme } = mainHook()
+	const { setThemeClass } = mainHook()
 	const api = new API(userStore.getCurrentUserToken!)
 
 	function setBearerToken(token: string) {
@@ -20,7 +20,6 @@ export default function authHook() {
 
 	function logout() {
 		api.deleteCredentials()
-		setLightTheme()
 		mainStore.setIsLoggedOut()
 		userStore.removeCurrent()
 		mainStore.resetAllState()
@@ -31,7 +30,7 @@ export default function authHook() {
 		try {
 			mainStore.toggleIsLoading()
 			const user = await api.post('user/token', { token: token })
-			await setThemeClass()
+			setThemeClass(user.theme)
 			userStore.setCurrent(user as UserType)
 			userStore.createOne(user as UserType)
 			mainStore.setIsLoggedIn()
