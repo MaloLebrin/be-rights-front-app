@@ -10,8 +10,6 @@
 import { watch, onBeforeMount } from 'vue'
 import useMainStore from '@/store/mainStore'
 import userHook from '@/hooks/userHook'
-import useEventStore  from './store/events/eventStore'
-import { EventType } from './store/events/types'
 import useEmployeeStore  from '@/store/employees/employeStore'
 import { EmployeeType } from '@/store/employees/types'
 
@@ -19,14 +17,13 @@ const { createMany: createManyEmployees } = useEmployeeStore()
 
 // TODO remove wheen API up
 import employees from '@/data/employees.json'
-createManyEmployees(employees as EmployeeType[])
+import authHook from './hooks/authHook'
+// createManyEmployees(employees as EmployeeType[])
 
     const store = useMainStore()
-    const eventStore = useEventStore()
-    const { createMany } = eventStore
-    const { routesIntermsOfUserRoles } = userHook()
+    const { routesIntermsOfUserRoles } = authHook()
 
-    watch(() => [store.setIsLoggedIn,], async () => {
+    watch(() => [store.setIsLoggedIn], async () => {
       await routesIntermsOfUserRoles()
     })
 
@@ -124,7 +121,6 @@ createManyEmployees(employees as EmployeeType[])
                 userId: 1,
             }
         ]
-    // createMany(events as EventType[])
 
 </script>
 
