@@ -82,8 +82,8 @@ import {
   UserIcon,
 } from '@heroicons/vue/outline'
 import useUserStore  from '@/store/users/userStore'
-import userHook from '@/hooks/userHook'
 import { useCookie } from 'vue-cookie-next'
+import authHook from '@/hooks/authHook'
 
 
 interface Props { 
@@ -95,7 +95,7 @@ withDefaults(defineProps<Props>(), {
 })
 
 const store = useUserStore()
-const { logout } = userHook()
+const { logout } = authHook()
 
 const userFullName = computed(() => store.getUserFullName)
 const cookie = useCookie()
