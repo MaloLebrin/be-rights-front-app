@@ -25,10 +25,12 @@
 
       <div class="mt-2">
         <EmployeeEventItem
+          v-if="employees.length > 0"
           v-for="employee in employees"
           :key="employee.id"
           :employee="employee"
         />
+        <span v-else>Aucun employé</span>
       </div>
     </BAccordion>
 
@@ -53,12 +55,12 @@ import { storeToRefs } from 'pinia'
 
 const props = defineProps({
   event: {
-	type: Object as PropType<EventType>,
-	required: true
+    type: Object as PropType<EventType>,
+    required: true
   },
   index: {
-	type: Number,
-	required: true
+    type: Number,
+    required: true
   }
 })
 
@@ -66,10 +68,13 @@ const { getDate } = dateHook()
 const { getEventStatusTranslation, getEventStatusColor } = eventHook()
 const mainStore = useMainStore()
 const employeeStore = useEmployeeStore()
-
+// const { getAllByEventId, entities } = storeToRefs(employeeStore)
 const { isDarkTheme } = mainStore
 
-const employees = computed(() => employeeStore.getWhereArray(employee => employee.event === props.event.id))
+// TODO abstract this
+// console.log(Object.values(entities.value.byId), 'entities.value.byId')
+const employees = [] 
+// Object.values(entities.value.byId).filter(employee => employee.event === props.event.id)
 
 const extraButtonOpen = ref<null | number>(null)
 

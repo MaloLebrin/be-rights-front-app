@@ -44,6 +44,4 @@ const props = defineProps({
 })
 const { getEmployeeStatusColor, getEmployeeStatusSignature } = employeeHook()
 const { getDate } = dateHook()
-console.log(props.employee, 'props.employee')
-console.log(getEmployeeStatusColor(props?.employee), 'getEmployeeStatusColor(props.employee.status)')
 </script>
