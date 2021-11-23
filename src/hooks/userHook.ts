@@ -9,7 +9,7 @@ import mainHook from './mainHook'
 import useEventStore from '@/store/events/eventStore'
 import { EventType } from '@/store/events/types'
 import authHook from './authHook'
-import APi from '@/helpers/api'
+import APi, { PaginatedResponse } from '@/helpers/api'
 import { ThemeEnum } from '@/types/globals'
 
 export default function userHook() {
@@ -59,10 +59,25 @@ export default function userHook() {
 		mainStore.toggleIsLoading()
 	}
 
+	async function fetchAll() {
+		// mainStore.toggleIsLoading()
+		try {
+			const res = await api.get('user')
+			const { currentPage, data, limit, total }: PaginatedResponse<UserType> = res
+
+			// userStore.createMany(data)
+
+		} catch (error) {
+			console.error(error)
+		}
+		// mainStore.toggleIsLoading()
+	}
+
 
 
 	return {
 		login,
 		userToggleTheme,
+		fetchAll,
 	}
 }

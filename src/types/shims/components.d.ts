@@ -13,6 +13,7 @@ declare module 'vue' {
     EventItem: typeof import('./../../components/events/EventItem.vue')['default']
     Footer: typeof import('./../../components/footer/Footer.vue')['default']
     Header: typeof import('./../../components/header/Header.vue')['default']
+    HeaderList: typeof import('./../../components/header/HeaderList.vue')['default']
     Index: typeof import('./../../pages/Index.vue')['default']
     Login: typeof import('./../../pages/login.vue')['default']
     LoginModal: typeof import('./../../components/modals/LoginModal.vue')['default']
