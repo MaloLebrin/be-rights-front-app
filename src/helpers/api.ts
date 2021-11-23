@@ -52,22 +52,22 @@ export default class APi implements ApiMethods {
 		this.axios.defaults.headers.common['Authorization'] = ''
 	}
 
-	async get(path: string) {
+	async get(path: string): Promise<any> {
 		const res = await this.axios.get(`${this.baseUrl}${path}`)
 		return res.data
 	}
 
-	async post<T>(path: string, data: T) {
+	async post<T>(path: string, data: T): Promise<any> {
 		const res = await this.axios.post(`${this.baseUrl}${path}`, data)
 		return res.data
 	}
 
-	async patch<T>(path: string, data: Partial<T>) {
+	async patch<T>(path: string, data: Partial<T>): Promise<any> {
 		const res = await this.axios.patch(`${this.baseUrl}${path}`, data)
 		return res.data
 	}
 
-	async delete(path: string) {
+	async delete(path: string): Promise<any> {
 		const res = await this.axios.delete(`${this.baseUrl}${path}`)
 		return res.data
 	}
