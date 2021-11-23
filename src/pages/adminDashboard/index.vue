@@ -51,6 +51,6 @@ const events = computed(() => Object.values(eventStore.entities.byId))
 onMounted(async () => {
   isLoading.value = true
   await fetchAllEvents()
-  isLoading.value = true
+  isLoading.value = false
 })
 </script>
