@@ -1,18 +1,18 @@
 <template>
   <AdminMenuDrawer />
-  <main class="text-red w-full bg-white flex-shrink">
+  <main class="w-full flex-shrink">
     <BLoader
-      v-if="isLoading"
+      v-show="isLoading"
       :isLoading="isLoading"
     />
-    <router-view v-else />
+    <router-view />
   </main>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useMainStore } from "~/store/mainStore"
+import useMainStore from "@/store/mainStore"
 
 export default defineComponent({
   name: 'AdminDashboardLayout',

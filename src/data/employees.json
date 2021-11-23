@@ -1,0 +1,60 @@
+[
+	{
+		"id": 1,
+		"createdAt": "2021-11-10T17:00:27.770Z",
+		"updatedAt": "2021-11-10T17:00:27.770Z",
+		"email": "alexandrelegal@test.com",
+		"phone": "0202020202",
+		"firstName": "Alexandre",
+		"lastName": "Legal",
+		"hasSigned": false,
+		"event": 1
+	},
+	{
+		"id": 2,
+		"createdAt": "2021-11-12T16:15:44.085Z",
+		"updatedAt": "2021-11-12T16:15:44.085Z",
+		"email": "pierredurand@test.com",
+		"phone": "0202020202",
+		"firstName": "Pierre",
+		"lastName": "Durand",
+		"hasSigned": false,
+		"signedAt": "2021-11-12T16:15:49.005Z",
+		"event": 1
+	},
+	{
+		"id": 3,
+		"createdAt": "2021-11-12T16:15:47.042Z",
+		"updatedAt": "2021-11-12T16:15:47.042Z",
+		"email": "oldman@test.com",
+		"phone": "0202020202",
+		"firstName": "Kévin",
+		"lastName": "Oldman",
+		"hasSigned": true,
+		"signedAt": "2021-11-12T16:15:49.005Z",
+		"event": 1
+	},
+	{
+		"id": 4,
+		"createdAt": "2021-11-12T16:15:48.148Z",
+		"updatedAt": "2021-11-12T16:15:48.148Z",
+		"email": "martin@test.com",
+		"phone": "0202020202",
+		"firstName": "jean",
+		"lastName": "Martin",
+		"hasSigned": false,
+		"event": 1
+	},
+	{
+		"id": 5,
+		"createdAt": "2021-11-12T16:15:49.005Z",
+		"updatedAt": "2021-11-12T16:15:49.005Z",
+		"email": "vollin@test.com",
+		"phone": "0202020202",
+		"firstName": "Sebastien",
+		"lastName": "Vollin",
+		"hasSigned": true,
+		"signedAt": "2021-11-12T16:15:49.005Z",
+		"event": 1
+	}
+]
