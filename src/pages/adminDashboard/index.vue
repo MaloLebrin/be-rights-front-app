@@ -13,7 +13,10 @@
         <BInput type="text" placeholder="Recherchez" v-model="search" />
       </div>
     </div>
-
+    <BLoader
+      v-show="isLoading"
+      :isLoading="isLoading"
+    />
   <div
     v-for="(event, index) in events"
     :key="event.id"
@@ -32,11 +35,18 @@
 
 <script setup lang="ts">
 import { HomeIcon } from '@heroicons/vue/outline'
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import useEventStore  from '@/store/events/eventStore'
-
+import eventHook from '@/hooks/eventHook'
 const eventStore = useEventStore()
+const { fetchAllEvents } = eventHook()
 const search = ref('')
+const isLoading = ref(false)
 const events = computed(() => Object.values(eventStore.entities.byId))
 
+onMounted(async () => {
+  isLoading.value = true
+  await fetchAllEvents()
+  isLoading.value = false
+})
 </script>

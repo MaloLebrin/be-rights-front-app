@@ -4,6 +4,7 @@ import { EventStatusEnum, EventType, getEventStatusTranslationEnum } from "@/sto
 import useMainStore from "@/store/mainStore"
 import APi, { PaginatedResponse } from "@/helpers/api"
 import useUserStore from "@/store/users/userStore"
+import { EmployeeType } from "@/store/employees/types"
 
 export default function eventHook() {
 	const eventStore = useEventStore()
@@ -31,8 +32,11 @@ export default function eventHook() {
 		}
 	}
 
+	function getSignatureCount(employees: EmployeeType[]) {
+		return employees.filter(employee => employee.hasSigned).length
+	}
+
 	async function fetchAllEvents() {
-		mainStore.toggleIsLoading()
 
 		try {
 			const res: any = await api.get(`event`)
@@ -42,12 +46,10 @@ export default function eventHook() {
 				const events = data.filter(event => ids.includes(event.id))
 				eventStore.createMany(events)
 			}
-			console.log(res, 'res.data')
 
 		} catch (error) {
 			console.error(error)
 		}
-		mainStore.toggleIsLoading()
 	}
 
 	async function fetchEvent(id: number) {
@@ -71,6 +73,7 @@ export default function eventHook() {
 		getEventStatusTranslation,
 		getEventStatusColor,
 		fetchAllEvents,
-		fetchEvent
+		fetchEvent,
+		getSignatureCount,
 	}
 }

@@ -2,10 +2,10 @@
   <AdminMenuDrawer />
   <main class="w-full flex-shrink">
     <BLoader
-      v-if="isLoading"
+      v-show="isLoading"
       :isLoading="isLoading"
     />
-    <router-view v-else />
+    <router-view />
   </main>
 </template>
 

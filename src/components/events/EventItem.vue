@@ -15,7 +15,7 @@
             Relancer
           </button>
           <div class="flex items-center mx-3">
-            {{ event.signatureCount}}/{{ event.totalSignatureNeeded }}
+            {{ getSignatureCount(employees)}}/{{ event.totalSignatureNeeded }}
             <!-- // TODO algo to calcul the percentage -->
             <div class="ml-2 rounded-full border-red border-4 w-5 h-5" />
           </div>
@@ -52,6 +52,7 @@ import useMainStore from '@/store/mainStore'
 import useEmployeeStore  from '@/store/employees/employeStore'
 import EmployeeEventItem from '@/components/employees/employeeEventItem.vue'
 import { storeToRefs } from 'pinia'
+import employeeHook from '@/hooks/employeeHook'
 
 const props = defineProps({
   event: {
@@ -65,16 +66,15 @@ const props = defineProps({
 })
 
 const { getDate } = dateHook()
-const { getEventStatusTranslation, getEventStatusColor } = eventHook()
+const { getEventStatusTranslation, getEventStatusColor, getSignatureCount } = eventHook()
+const { getEmployeesByEventId } = employeeHook()
 const mainStore = useMainStore()
 const employeeStore = useEmployeeStore()
-// const { getAllByEventId, entities } = storeToRefs(employeeStore)
+const { entities} = storeToRefs(employeeStore)
 const { isDarkTheme } = mainStore
 
-// TODO abstract this
-// console.log(Object.values(entities.value.byId), 'entities.value.byId')
-const employees = [] 
-// Object.values(entities.value.byId).filter(employee => employee.event === props.event.id)
+const employees = computed(() => Object.values(entities.value.byId).filter(employee => employee.event === props.event.id))
+console.log(employees.value, 'employees.value')
 
 const extraButtonOpen = ref<null | number>(null)
 
@@ -82,7 +82,8 @@ function toggleExtraOptions(index: number|null) {
   extraButtonOpen.value = index
 }
 
-onMounted(() => {
+onMounted(async () => {
+  await getEmployeesByEventId(props.event.id)
   const eventItem = document.getElementById(`accordion${props.index}`)
   eventItem?.addEventListener('mouseover', () => {
 	toggleExtraOptions(props.index)
