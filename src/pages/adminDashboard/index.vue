@@ -14,10 +14,11 @@
       </div>
     </div>
     <BLoader
-      v-show="isLoading"
+      v-if="isLoading"
       :isLoading="isLoading"
     />
   <div
+    v-else
     v-for="(event, index) in events"
     :key="event.id"
     class="flex items-center"
