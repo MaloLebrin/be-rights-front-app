@@ -1,5 +1,5 @@
 import { BaseEntity } from "@/types/globals";
-import { RoleEnum } from "~/types/Roles";
+import { RoleEnum } from "@/types/Roles";
 
 export type UserState = {
 	users: UserType[]

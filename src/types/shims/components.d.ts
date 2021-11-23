@@ -9,8 +9,12 @@ declare module 'vue' {
     AdminMenuDrawer: typeof import('./../../components/drawer/AdminMenuDrawer.vue')['default']
     BDrawer: typeof import('./../../components/drawer/BDrawer.vue')['default']
     DarkModeToggle: typeof import('./../../components/content/DarkModeToggle.vue')['default']
+    DashboardItem: typeof import('./../../components/dashboard/DashboardItem.vue')['default']
+    EmployeeEventItem: typeof import('./../../components/employees/EmployeeEventItem.vue')['default']
+    EventItem: typeof import('./../../components/events/EventItem.vue')['default']
     Footer: typeof import('./../../components/footer/Footer.vue')['default']
     Header: typeof import('./../../components/header/Header.vue')['default']
+    HeaderList: typeof import('./../../components/header/HeaderList.vue')['default']
     Index: typeof import('./../../pages/Index.vue')['default']
     Login: typeof import('./../../pages/login.vue')['default']
     LoginModal: typeof import('./../../components/modals/LoginModal.vue')['default']
@@ -18,6 +22,7 @@ declare module 'vue' {
     SimpleLogo: typeof import('./../../components/logo/SimpleLogo.vue')['default']
     StepBubble: typeof import('./../../components/content/StepBubble.vue')['default']
     UserDashboard: typeof import('./../../pages/userDashboard/index.vue')['default']
+    Users: typeof import('./../../pages/adminDashboard/users.vue')['default']
   }
 }
 

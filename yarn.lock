@@ -254,10 +254,15 @@
     "@vue/compiler-dom" "3.2.20"
     "@vue/shared" "3.2.20"
 
-"@vue/devtools-api@^6.0.0-beta.14", "@vue/devtools-api@^6.0.0-beta.19":
+"@vue/devtools-api@^6.0.0-beta.14":
   version "6.0.0-beta.19"
   resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.0.0-beta.19.tgz#f8e88059daa424515992426a0c7ea5cde07e99bf"
   integrity sha512-ObzQhgkoVeoyKv+e8+tB/jQBL2smtk/NmC9OmFK8UqdDpoOdv/Kf9pyDWL+IFyM7qLD2C75rszJujvGSPSpGlw==
+
+"@vue/devtools-api@^6.0.0-beta.20.1":
+  version "6.0.0-beta.20.1"
+  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.0.0-beta.20.1.tgz#5b499647e929c35baf2a66a399578f9aa4601142"
+  integrity sha512-R2rfiRY+kZugzWh9ZyITaovx+jpU4vgivAEAiz80kvh3yviiTU3CBuGuyWpSwGz9/C7TkSWVM/FtQRGlZ16n8Q==
 
 "@vue/reactivity@3.2.19", "@vue/reactivity@^3.2.19":
   version "3.2.19"
@@ -428,10 +433,10 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
-be-right-vue3-lib@^0.1.19:
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/be-right-vue3-lib/-/be-right-vue3-lib-0.1.19.tgz#8b6acdba57b9b0f83b5a9d109185ef3550a682a7"
-  integrity sha512-/a+7LSf9syOrR2d9GaXpD10DO5eP4G2aX+Uk8xMcIwlxigcd7a1A2duWXMW9q6MiYQ8AU05nTpGwrFc6NpIE4g==
+be-right-vue3-lib@^0.1.24:
+  version "0.1.24"
+  resolved "https://registry.yarnpkg.com/be-right-vue3-lib/-/be-right-vue3-lib-0.1.24.tgz#1a7b190e1769d60b595e2a06d489e64132894b38"
+  integrity sha512-ygWLatlaWCOX04MR2/ror0d1ezNVZZ12dAslOQikPG4uHg+z0if5N3vdXUkJ+sZITU1ZuI+pYEes2egiUf3RCQ==
   dependencies:
     autoprefixer "^9.8.8"
     core-js "^3.6.5"
@@ -1597,11 +1602,11 @@ picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.2, picomatch@^2.2.3:
   integrity sha512-lY1Q/PiJGC2zOv/z391WOTD+Z02bCgsFfvxoXXf6h7kv9o+WmsmzYqrAwY63sNgOxE4xEdq0WyUnXfKeBrSvYw==
 
 pinia@^2.0.0-rc.13:
-  version "2.0.0-rc.13"
-  resolved "https://registry.yarnpkg.com/pinia/-/pinia-2.0.0-rc.13.tgz#b9f858da278130469ed8dd89f8348de54f216541"
-  integrity sha512-NLOqK+tCIx1a4qZByqLZVdAK7ilTxkG6Opmj1O8hTjxpu4VSO2+eL2pPcO3JE/4ifZ6FBx87X2DU7NTY36z7Bw==
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/pinia/-/pinia-2.0.4.tgz#06f6a03f6f19e6ec8b63cc06459011d96948e53d"
+  integrity sha512-nAc2f9HmOcBbWRlnGDuBGedM1G6uFAR10FnJWP1/dgm1I2tM5jbgKL/3IgynP4mBnPCy//ky7g0WpCZl5Mmxsg==
   dependencies:
-    "@vue/devtools-api" "^6.0.0-beta.19"
+    "@vue/devtools-api" "^6.0.0-beta.20.1"
     vue-demi "*"
 
 postcss-functions@^3:
@@ -2264,9 +2269,9 @@ vue-cookie-next@^1.3.0:
   integrity sha512-+EinbhSf0c0M8cijCXRVgcvYBIm0lmu3/WKeFUokU93R1J3DxkkBHn5wOc9IyJj9ugAPI0d9EnhcOiOFNA/YVQ==
 
 vue-demi@*:
-  version "0.11.4"
-  resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.11.4.tgz#6101992fe4724cf5634018a16e953f3052e94e2a"
-  integrity sha512-/3xFwzSykLW2HiiLie43a+FFgNOcokbBJ+fzvFXd0r2T8MYohqvphUyDQ8lbAwzQ3Dlcrb1c9ykifGkhSIAk6A==
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.12.1.tgz#f7e18efbecffd11ab069d1472d7a06e319b4174c"
+  integrity sha512-QL3ny+wX8c6Xm1/EZylbgzdoDolye+VpCXRhI2hug9dJTP3OUJ3lmiKN3CsVV3mOJKwFi0nsstbgob0vG7aoIw==
 
 vue-router@^4.0.11:
   version "4.0.11"

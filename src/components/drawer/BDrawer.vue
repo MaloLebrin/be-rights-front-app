@@ -46,7 +46,6 @@ const emit = defineEmits<{
 
 function toggleDrawer() {
   isDrawerActive.value = !isDrawerActive.value
-  console.log(isDrawerActive.value, 'isDrawerActive.value')
   return emit('toggleDrawer', isDrawerActive.value)
 }
 

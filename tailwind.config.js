@@ -3,6 +3,7 @@ const colors = require('tailwindcss/colors')
 
 /** @type {import("@types/tailwindcss/tailwind-config").TailwindConfig } */
 module.exports = {
+  mode: 'jit',
   purge: { content: ['./public/**/*.html', './src/**/*.vue'] },
   presets: [],
   darkMode: 'class', // or 'media' or 'class'
@@ -37,10 +38,11 @@ module.exports = {
         light: 'rgba(88,177,105,0.2)',
         DEFAULT: '#58B169'
       },
-      orange: {
-        light: 'rgba(239,126,73,0.2)',
-        DEFAULT: '#EF7E49',
-      },
+      orange: colors.orange,
+      // {
+      //   light: 'rgba(239,126,73,0.2)',
+      //   DEFAULT: '#EF7E49',
+      // },
       blue: {
         light: 'rgba(69,61,145,0.2)',
         DEFAULT: '#453D91',

@@ -6,14 +6,14 @@
         <div class="bg-red-light hover:bg-red rounded-lg mr-3 p-1">
           <HomeIcon class="text-white h-6" />
         </div>
-        <span class="dark:text-white">Événements</span>
+        <router-link to="/adminDashboard" class="dark:text-white">Événements</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer">
         <div class="bg-red-light hover:bg-red rounded-lg mr-3 p-1">
           <UserGroupIcon class="text-white h-6" />
         </div>
-        <span class="dark:text-white">Users</span>
+        <router-link to="/adminDashboard/users" class="dark:text-white">Users</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer">
@@ -65,8 +65,9 @@ import {
   UserGroupIcon,
   UserIcon,
 } from '@heroicons/vue/outline'
-import { useUserStore } from '@/store/users/userStore'
-import userHook from '~/hooks/userHook'
+import useUserStore  from '@/store/users/userStore'
+import { useCookie } from 'vue-cookie-next'
+import authHook from '@/hooks/authHook'
 
 interface Props {
   isActive?: boolean
@@ -76,11 +77,13 @@ withDefaults(defineProps<Props>(), {
   isActive: false,
 })  
     const store = useUserStore()
-    const { logout } = userHook()
+    const { logout } = authHook()
 
     const userFullName = computed(() => store.getUserFullName)
+    const cookie = useCookie()
 
     function onToggleLogout() {
+      cookie.removeCookie('userToken')
       logout()
     }
 </script>

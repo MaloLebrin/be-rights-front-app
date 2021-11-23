@@ -1,5 +1,5 @@
 <template>
-  <header class="flex items-center max-h-36 w-full px-4 py-2 mx-auto dark:bg-blue-dark_bold">
+  <header class="flex items-center max-h-36 w-full px-4 py-2 mx-auto dark:bg-blue-dark">
     <nav class="w-full">
       <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div class="relative m-8 md:m-0 flex items-center justify-e h-16">
