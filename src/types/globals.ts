@@ -20,3 +20,6 @@ export enum LoaderTypeEnum {
 	SPINNER = 'spinner',
 	BOUNCE = 'bounce',
 }
+
+export type OneToOne<T> = T | number
+export type OneToMany<T> = T[] | number[]

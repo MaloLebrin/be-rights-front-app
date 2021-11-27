@@ -1,5 +1,7 @@
-import { BaseEntity } from "@/types/globals";
+import { BaseEntity, OneToMany } from "@/types/globals";
 import { RoleEnum } from "@/types/Roles";
+import { EmployeeType } from "../employees/types";
+import { EventType } from "../events/types";
 
 export type UserState = {
 	users: UserType[]
@@ -15,9 +17,9 @@ export interface UserType extends BaseEntity {
 	siret: string
 	apiKey: string
 	roles: RoleEnum
-	suscription: any //TODO type user's roles
-	events?: number[]
-	employee?: number[]
+	subscription: any //TODO type user's roles
+	events?: OneToMany<EventType>
+	employee?: OneToMany<EmployeeType>
 }
 
 export enum UserSearchableFields {

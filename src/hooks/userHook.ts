@@ -1,16 +1,12 @@
 import useMainStore from '@/store/mainStore'
 import axiosInstance from "@/axios.config"
-import { UserType } from "@/store/users/types"
 import useUserStore from "@/store/users/userStore"
-import { parseEntity } from '@/store/utils/store'
 import { useCookie } from 'vue-cookie-next'
 import router from '@/router'
-import mainHook from './mainHook'
 import useEventStore from '@/store/events/eventStore'
-import { EventType } from '@/store/events/types'
-import authHook from './authHook'
 import APi, { PaginatedResponse } from '@/helpers/api'
-import { ThemeEnum } from '@/types/globals'
+import { ThemeEnum } from '@/types'
+import { EventType, UserType } from '@/store/typesExported'
 
 export default function userHook() {
 	const userStore = useUserStore()
@@ -60,17 +56,16 @@ export default function userHook() {
 	}
 
 	async function fetchAll() {
-		// mainStore.toggleIsLoading()
 		try {
 			const res = await api.get('user')
 			const { currentPage, data, limit, total }: PaginatedResponse<UserType> = res
-
+			console.log(data, 'data')
+			const events = data.map(user => user.events)
 			// userStore.createMany(data)
 
 		} catch (error) {
 			console.error(error)
 		}
-		// mainStore.toggleIsLoading()
 	}
 
 
