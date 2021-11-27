@@ -16,7 +16,7 @@
     <Loader
       v-if="isLoading"
       :isLoading="isLoading"
-      :type="LoaderTypeEnum.SPINNER"
+      :type="LoaderTypeEnum.BOUNCE"
     />
   <div
     v-else
