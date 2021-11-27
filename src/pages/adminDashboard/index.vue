@@ -24,7 +24,10 @@
     :key="event.id"
     class="flex items-center"
   >
-    <EventItem :event="event" :index="index"/>
+    <EventItem
+      :event="event"
+      :index="index"
+    />
     </div>
   </div>
 </template>
@@ -47,6 +50,7 @@ const { fetchAllEvents } = eventHook()
 const search = ref('')
 const isLoading = ref(false)
 const events = computed(() => Object.values(eventStore.entities.byId))
+
 
 onMounted(async () => {
   isLoading.value = true

@@ -1,5 +1,11 @@
 <template>
-<DashboardItem :index="index">
+<DashboardItem
+  :index="index"
+  @updateOneItem="testEvent"
+  @addOne="testEvent"
+  @deleteOne="testEvent"
+  @download="testEvent"
+>
   <template #title>
     <div class="flex items-center justify-between px-5 py-2 font-semibold text-black dark:text-white">
       <div>{{ event.id }}</div>
@@ -62,5 +68,9 @@ const employees = computed(() => Object.values(entities.value.byId).filter(emplo
 onMounted(async () => {
   await getEmployeesByEventId(props.event.id)
 })
+
+function testEvent(event: any) {
+  console.log(event, 'testEvent')
+}
 
 </script>

@@ -13,10 +13,10 @@
 	</BAccordion>
 
 	<div class="flex flex-col ml-4 px-4 py-2 rounded-xl text-xs duration-500 ease-in-out transition-all w-1/5" :class="extraButtonOpen === index ? 'opacity-1': 'opacity-0'">
-		<BLink :variant="extraButtonStyle" class="EventActionButton" @click="events('udpateOneItem', index)">modifier</BLink>
-		<BLink :variant="extraButtonStyle" class="EventActionButton" @click="events('addOne', index)">+ Ajouter</BLink>
-		<BLink :variant="extraButtonStyle" class="EventActionButton" @click="events('deleteOne', index)">Supprimer</BLink>
-		<BLink :variant="extraButtonStyle" class="EventActionButton" @click="events('downloadAll')">Tout télécharger</BLink>
+		<BLink :variant="extraButtonStyle" class="EventActionButton" @click="emit('udpateOneItem', index)">modifier</BLink>
+		<BLink :variant="extraButtonStyle" class="EventActionButton" @click="emit('addOne', index)">+ Ajouter</BLink>
+		<BLink :variant="extraButtonStyle" class="EventActionButton" @click="emit('deleteOne', index)">Supprimer</BLink>
+		<BLink :variant="extraButtonStyle" class="EventActionButton" @click="emit('downloadAll')">Tout télécharger</BLink>
 	</div>
 </div>
 
@@ -33,7 +33,7 @@ const props = defineProps({
 	}
 })
 
-const events = defineEmits<{
+const emit = defineEmits<{
 	(e: 'udpateOneItem', index: number): void
 	(e: 'addOne', index: number): void
 	(e: 'deleteOne', index: number): void
