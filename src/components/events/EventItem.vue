@@ -1,10 +1,6 @@
 <template>
 <DashboardItem
   :index="index"
-  @updateOneItem="testEvent"
-  @addOne="testEvent"
-  @deleteOne="testEvent"
-  @download="testEvent"
 >
   <template #title>
     <div class="flex items-center justify-between px-5 py-2 font-semibold text-black dark:text-white">
@@ -33,6 +29,13 @@
     />
     <span v-else class="ml-3">Aucun employé</span>
   </div>
+
+  <template #extraButton>
+    <BLink :variant="extraButtonStyle" class="EventActionButton" @click="emit('udpateOneItem', index)">modifier event</BLink>
+		<BLink :variant="extraButtonStyle" class="EventActionButton" @click="emit('addOne', index)">+ Ajouter</BLink>
+		<BLink :variant="extraButtonStyle" class="EventActionButton" @click="emit('deleteOne', index)">Supprimer</BLink>
+		<BLink :variant="extraButtonStyle" class="EventActionButton" @click="emit('downloadAll')">Tout télécharger</BLink>
+  </template>
 </DashboardItem>
 </template>
 
@@ -45,6 +48,7 @@ import EmployeeEventItem from '@/components/employees/employeeEventItem.vue'
 import { storeToRefs } from 'pinia'
 import employeeHook from '@/hooks/employeeHook'
 import { EventType } from '@/store/typesExported'
+import useMainStore from '@/store/mainStore'
 
 const props = defineProps({
   event: {
@@ -56,6 +60,8 @@ const props = defineProps({
     required: true
   }
 })
+const mainStore = useMainStore()
+const { isDarkTheme } = mainStore
 
 const { getDate } = dateHook()
 const { getEventStatusTranslation, getEventStatusColor, getSignatureCount } = eventHook()
@@ -69,8 +75,20 @@ onMounted(async () => {
   await getEmployeesByEventId(props.event.id)
 })
 
-function testEvent(event: any) {
-  console.log(event, 'testEvent')
-}
+const emit = defineEmits<{
+	(e: 'udpateOneItem', index: number): void
+	(e: 'addOne', index: number): void
+	(e: 'deleteOne', index: number): void
+	(e: 'downloadAll'): void
+}>()
+
+
+const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : "white")
 
 </script>
+<style scoped>
+  .EventActionButton {
+    @apply cursor-pointer bg-gray-500 rounded mb-1 py-2 px-4 font-semibold hover:translate-x-3 transform transition-all duration-500 
+    dark:bg-white-break dark:text-gray-900
+  }
+</style>
