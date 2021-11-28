@@ -28,3 +28,9 @@ export enum UserSearchableFields {
 	COMPANYNAME = 'companyName',
 	SIRET = 'siret'
 }
+
+export enum SubscriptionEnum {
+	PREMIUM = 'PREMIUM',
+	MEDIUM = 'MEDIUM',
+	BASIC = 'BASIC'
+}

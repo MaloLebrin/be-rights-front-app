@@ -26,7 +26,7 @@
         <div>{{ user.id }}</div>
         <span class="bg-gray mx-3">{{ `${user.firstName} ${user.lastName}` }}</span>
         <span class="dark:bg-gray-500 px-2 py-1 rounded-lg">{{ user.companyName}}</span>
-        <span class="mx-3">{{ user.subscription }}</span>
+        <span class="mx-3">{{ getSubscriptionTranslation(user.subscription) }}</span>
         <span>{{ getDate(new Date(user.createdAt.toString())) }}</span>
       </div>
     </template>
@@ -65,6 +65,7 @@ import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useEventStore, useMainStore, useUserStore } from '@/store'
 import { dateHook, userHook } from '@/hooks'
+import { SubscriptionEnum } from '@/store/typesExported'
 
 const userStore = useUserStore()
 const eventStore = useEventStore()
@@ -79,6 +80,20 @@ const { getAll: getAllEvents } = storeToRefs(eventStore)
 const users = computed(() => getAll.value)
 
 const eventByUserId = (id: number) => computed(() => Object.values(getAllEvents.value).filter(event => event.createdByUser === id))
+
+function getSubscriptionTranslation(subscription: SubscriptionEnum) {
+  switch (subscription) {
+    case SubscriptionEnum.BASIC:
+      return 'Basic'
+    case SubscriptionEnum.MEDIUM:
+      return 'Pro'
+    case SubscriptionEnum.PREMIUM:
+      return 'Premium'
+    
+    default:
+      return 'Gratuit'
+  }
+}
 
 onMounted(async() => {
   isLoading.value = true
