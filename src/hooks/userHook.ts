@@ -18,7 +18,7 @@ export function userHook() {
 			mainStore.toggleIsLoading()
 			const res = await axiosInstance.post('user/login', { email, password })
 			// const user: UserType = parseEntity(res.data)// TODO remove when SQL API has been deploy
-			const user: UserType = res.data
+			const user = res.data as UserType
 			if (user.events) {
 				const userEvents = user.events
 				eventStore.createMany(userEvents as unknown as EventType[])
@@ -57,8 +57,7 @@ export function userHook() {
 		try {
 			const res = await api.get('user')
 			const { currentPage, data, limit, total }: PaginatedResponse<UserType> = res
-			console.log(data, 'data')
-			const events = data.reduce((acc, user) => [...acc, ...user.events], [] as EventType[])
+			const events = data.reduce((acc, user) => [...acc, ...user.events as EventType[]], [] as EventType[])
 			const missingEventIds = events.map(event => event.id).filter(id => !eventStore.getAllIds.includes(id))
 			if (missingEventIds.length > 0) {
 				const missingEvents = events.filter(event => missingEventIds.includes(event.id))
