@@ -67,7 +67,7 @@ import {
 } from '@heroicons/vue/outline'
 import { useUserStore }  from '@/store/index'
 import { useCookie } from 'vue-cookie-next'
-import authHook from '@/hooks/authHook'
+import { authHook } from '@/hooks'
 
 interface Props {
   isActive?: boolean

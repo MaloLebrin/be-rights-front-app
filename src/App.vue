@@ -8,7 +8,7 @@
 </template>
 <script setup lang="ts">
 import { watch, onBeforeMount } from 'vue'
-import authHook from './hooks/authHook'
+import { authHook } from './hooks'
 import { useMainStore } from './store'
 
     const store = useMainStore()

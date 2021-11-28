@@ -3,7 +3,7 @@ import APi, { PaginatedResponse } from "@/helpers/api"
 import { EmployeeType } from "@/store/employees/types"
 import { useEventStore, useMainStore, useUserStore } from "@/store"
 
-export default function eventHook() {
+export function eventHook() {
 	const eventStore = useEventStore()
 	const mainStore = useMainStore()
 	const userStore = useUserStore()

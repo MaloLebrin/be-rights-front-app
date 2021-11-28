@@ -2,7 +2,7 @@ import { storeToRefs } from "pinia"
 import { ThemeEnum } from "@/types/globals"
 import { useMainStore } from "@/store"
 
-export default function mainHook() {
+export function mainHook() {
 	const mainStore = useMainStore()
 	const { theme } = storeToRefs(mainStore)
 

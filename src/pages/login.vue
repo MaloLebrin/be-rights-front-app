@@ -38,8 +38,8 @@
 </template>
 
 <script setup lang="ts">
+import { userHook } from '@/hooks'
 import { computed, reactive } from 'vue'
-import userHook from '@/hooks/userHook'
 
     const { login } = userHook()
     const form = reactive({

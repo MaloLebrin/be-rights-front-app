@@ -4,15 +4,13 @@ import router from '@/router'
 import APi, { PaginatedResponse } from '@/helpers/api'
 import { ThemeEnum } from '@/types'
 import { EventType, UserType } from '@/store/typesExported'
-import eventHook from './eventHook'
 import { useEventStore, useMainStore, useUserStore } from "@/store"
 
-export default function userHook() {
+export function userHook() {
 	const userStore = useUserStore()
 	const mainStore = useMainStore()
 	const eventStore = useEventStore()
 	const { setCookie } = useCookie()
-	const { isEventType } = eventHook()
 	const api = new APi(userStore.entities.current?.token!)
 
 	async function login({ email, password }: { email: string, password: string }) {

@@ -56,9 +56,8 @@
 import { LoaderTypeEnum } from '@/types/globals'
 import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import userHook from '@/hooks/userHook'
-import dateHook from '@/hooks/dateHook'
 import { useEventStore, useUserStore } from '@/store'
+import { dateHook, userHook } from '@/hooks'
 
 const isLoading = ref(false)
 const { getDate } = dateHook()

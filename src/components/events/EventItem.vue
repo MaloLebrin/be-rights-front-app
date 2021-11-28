@@ -41,13 +41,11 @@
 
 <script setup lang="ts">
 import { onMounted, PropType, computed } from 'vue'
-import eventHook from '@/hooks/eventHook'
-import dateHook from '@/hooks/dateHook'
 import EmployeeEventItem from '@/components/employees/employeeEventItem.vue'
 import { storeToRefs } from 'pinia'
-import employeeHook from '@/hooks/employeeHook'
 import { EventType } from '@/store/typesExported'
 import { useEmployeeStore, useMainStore } from '@/store'
+import { dateHook, employeeHook, eventHook } from '@/hooks'
 
 const props = defineProps({
   event: {

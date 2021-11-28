@@ -27,11 +27,10 @@
 </template>
 <script setup lang="ts">
 import { PropType } from 'vue'
-import dateHook from '@/hooks/dateHook'
-import eventHook from '@/hooks/eventHook'
 import { EventType } from '@/store/typesExported'
+import { dateHook, eventHook } from '@/hooks'
 
-const props = defineProps({
+defineProps({
 	event: Object as PropType<EventType>
 })
 const { getDate } = dateHook()

@@ -1,12 +1,12 @@
 import axiosInstance from "@/axios.config"
 import API from "@/helpers/api"
 import { useCookie } from 'vue-cookie-next'
-import mainHook from './mainHook'
 import router from '@/router'
 import { UserType } from "@/store/users/types"
 import { useMainStore, useUserStore } from "@/store"
+import { mainHook } from "."
 
-export default function authHook() {
+export function authHook() {
 	const userStore = useUserStore()
 	const mainStore = useMainStore()
 	const { getCookie } = useCookie()

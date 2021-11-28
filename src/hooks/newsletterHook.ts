@@ -1,7 +1,7 @@
 import axiosInstance from "@/axios.config"
 import { useMainStore } from "@/store"
 
-export default function newsleterHook() {
+export function newsleterHook() {
 	const { toggleIsLoading } = useMainStore()
 	async function newsletterSignup({ email, firstName, lastName, companyName }: { email: string, firstName: string | null, lastName: string | null, companyName: string | null }) {
 		toggleIsLoading()
