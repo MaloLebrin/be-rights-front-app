@@ -1,13 +1,11 @@
-import useMainStore from '@/store/mainStore'
 import axiosInstance from "@/axios.config"
-import useUserStore from "@/store/users/userStore"
 import { useCookie } from 'vue-cookie-next'
 import router from '@/router'
-import useEventStore from '@/store/events/eventStore'
 import APi, { PaginatedResponse } from '@/helpers/api'
 import { ThemeEnum } from '@/types'
 import { EventType, UserType } from '@/store/typesExported'
 import eventHook from './eventHook'
+import { useEventStore, useMainStore, useUserStore } from "@/store"
 
 export default function userHook() {
 	const userStore = useUserStore()

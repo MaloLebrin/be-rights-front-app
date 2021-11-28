@@ -6,7 +6,7 @@ import createGetters from '@/store/utils/createGetters'
 import createActions from '@/store/utils/createActions'
 import { RoleEnum } from '@/types/Roles'
 
-const useUserStore = defineStore(EntitiesEnum.USERS, {
+export const useUserStore = defineStore(EntitiesEnum.USERS, {
 	state: () => ({
 		...userState
 	}),
@@ -29,5 +29,3 @@ const useUserStore = defineStore(EntitiesEnum.USERS, {
 		...createActions<UserType>(userState),
 	},
 })
-
-export default useUserStore

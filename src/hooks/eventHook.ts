@@ -1,10 +1,7 @@
-// import { storeToRefs } from "pinia"
-import useEventStore from "@/store/events/eventStore"
 import { EventStatusEnum, EventType, getEventStatusTranslationEnum } from "@/store/events/types"
-import useMainStore from "@/store/mainStore"
 import APi, { PaginatedResponse } from "@/helpers/api"
-import useUserStore from "@/store/users/userStore"
 import { EmployeeType } from "@/store/employees/types"
+import { useEventStore, useMainStore, useUserStore } from "@/store"
 
 export default function eventHook() {
 	const eventStore = useEventStore()

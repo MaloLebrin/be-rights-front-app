@@ -58,8 +58,7 @@ import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import userHook from '@/hooks/userHook'
 import dateHook from '@/hooks/dateHook'
-import useEventStore from '@/store/events/eventStore'//TODO try to refacto imports
-import useUserStore from '@/store/users/userStore'
+import { useEventStore, useUserStore } from '@/store'
 
 const isLoading = ref(false)
 const { getDate } = dateHook()

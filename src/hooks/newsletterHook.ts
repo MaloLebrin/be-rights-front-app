@@ -1,5 +1,5 @@
 import axiosInstance from "@/axios.config"
-import useMainStore from "@/store/mainStore"
+import { useMainStore } from "@/store"
 
 export default function newsleterHook() {
 	const { toggleIsLoading } = useMainStore()

@@ -5,10 +5,9 @@ import createGetters from "@/store/utils/createGetters"
 import { eventState } from "./state"
 import { EventState, EventType } from "./types"
 import APi, { PaginatedResponse } from "@/helpers/api"
-import useUserStore from "../users/userStore"
-import useMainStore from "../mainStore"
+import { useMainStore, useUserStore } from "@/store/index"
 
-const useEventStore = defineStore(EntitiesEnum.EVENTS, {
+export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
 	state: (): EventState => ({
 		...eventState
 	}),
@@ -50,4 +49,3 @@ const useEventStore = defineStore(EntitiesEnum.EVENTS, {
 	},
 })
 
-export default useEventStore

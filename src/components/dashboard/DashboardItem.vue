@@ -25,7 +25,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted, PropType, onBeforeUnmount, computed, useSlots } from 'vue'
-import useMainStore from '@/store/mainStore'
 
 const props = defineProps({
 	index: {
@@ -33,8 +32,6 @@ const props = defineProps({
 		required: true
 	}
 })
-
-const mainStore = useMainStore()
 
 const extraButtonOpen = ref<null | number>(null)
 
@@ -56,5 +53,4 @@ onBeforeUnmount(() => {
 	item?.removeEventListener('mouseover', () => extraButtonOpen.value = null)
 	item?.removeEventListener('mouseout', () => extraButtonOpen.value = null)
 })
-
 </script>
