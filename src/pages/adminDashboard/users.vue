@@ -16,10 +16,6 @@
   >
   <DashboardItem
     :index="parseInt(index.toString())"
-    @updateOneItem="testEvent"
-    @addOne="testEvent"
-    @deleteOne="testEvent"
-    @download="testEvent"
   >
     <template #title>
       <div class="flex items-center justify-between px-5 py-2 font-semibold text-black dark:text-white">
