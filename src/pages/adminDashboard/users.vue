@@ -38,7 +38,7 @@
         :key="event.id"
         :event="event"
       />
-      <span v-else class="ml-4">Aucun événement</span>
+      <div v-else class="p-4 text-center">Aucun événement</div>
     </div>
 
     <template #extraButton>
