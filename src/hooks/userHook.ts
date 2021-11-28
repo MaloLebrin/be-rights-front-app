@@ -7,12 +7,14 @@ import useEventStore from '@/store/events/eventStore'
 import APi, { PaginatedResponse } from '@/helpers/api'
 import { ThemeEnum } from '@/types'
 import { EventType, UserType } from '@/store/typesExported'
+import eventHook from './eventHook'
 
 export default function userHook() {
 	const userStore = useUserStore()
 	const mainStore = useMainStore()
 	const eventStore = useEventStore()
 	const { setCookie } = useCookie()
+	const { isEventType } = eventHook()
 	const api = new APi(userStore.entities.current?.token!)
 
 	async function login({ email, password }: { email: string, password: string }) {
@@ -60,8 +62,14 @@ export default function userHook() {
 			const res = await api.get('user')
 			const { currentPage, data, limit, total }: PaginatedResponse<UserType> = res
 			console.log(data, 'data')
-			const events = data.map(user => user.events)
-			// userStore.createMany(data)
+			const events = data.reduce((acc, user) => [...acc, ...user.events], [] as EventType[])
+			const missingEventIds = events.map(event => event.id).filter(id => !eventStore.getAllIds.includes(id))
+			if (missingEventIds.length > 0) {
+				const missingEvents = events.filter(event => missingEventIds.includes(event.id))
+				eventStore.createMany(missingEvents)
+			}
+
+			userStore.createMany(data)
 
 		} catch (error) {
 			console.error(error)

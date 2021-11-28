@@ -14,7 +14,7 @@ export interface EventType extends BaseEntity {
 	country: string | null
 	signatureCount: number
 	totalSignatureNeeded: number
-	user?: any //TODO create user relation types
+	createdByUser?: any //TODO create user relation types
 	employees?: any//TODO create user relation types
 	imageRightCondition?: any//TODO create user relation types
 }

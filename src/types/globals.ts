@@ -23,3 +23,11 @@ export enum LoaderTypeEnum {
 
 export type OneToOne<T> = T | number
 export type OneToMany<T> = T[] | number[]
+
+export function isTOrNumber<T>(value: T) {
+	if (typeof value === 'number') {
+		return value as number
+	} else {
+		return value as T
+	}
+}

@@ -44,7 +44,11 @@ export default function eventHook() {
 			const ids = data.map((event: EventType) => event.id).filter(id => !getAllIds.includes(id))
 			if (ids.length > 0) {
 				const events = data.filter(event => ids.includes(event.id))
-				eventStore.createMany(events)
+				const eventToStore = events.map(event => ({
+					...event,
+					createdByUser: event.createdByUser.id,
+				}))
+				eventStore.createMany(eventToStore)
 			}
 
 		} catch (error) {
@@ -69,11 +73,16 @@ export default function eventHook() {
 		mainStore.toggleIsLoading()
 	}
 
+	function isEventType(event: any): event is EventType {
+		return event.start !== undefined
+	}
+
 	return {
-		getEventStatusTranslation,
-		getEventStatusColor,
 		fetchAllEvents,
 		fetchEvent,
+		getEventStatusColor,
+		getEventStatusTranslation,
 		getSignatureCount,
+		isEventType,
 	}
 }

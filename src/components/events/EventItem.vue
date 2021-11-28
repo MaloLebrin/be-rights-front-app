@@ -31,7 +31,7 @@
       :key="employee.id"
       :employee="employee"
     />
-    <span v-else>Aucun employé</span>
+    <span v-else class="ml-3">Aucun employé</span>
   </div>
 </DashboardItem>
 </template>

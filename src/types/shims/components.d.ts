@@ -12,6 +12,7 @@ declare module 'vue' {
     DashboardItem: typeof import('./../../components/dashboard/DashboardItem.vue')['default']
     EmployeeEventItem: typeof import('./../../components/employees/EmployeeEventItem.vue')['default']
     EventItem: typeof import('./../../components/events/EventItem.vue')['default']
+    EventUserItem: typeof import('./../../components/events/EventUserItem.vue')['default']
     Footer: typeof import('./../../components/footer/Footer.vue')['default']
     Header: typeof import('./../../components/header/Header.vue')['default']
     HeaderList: typeof import('./../../components/header/HeaderList.vue')['default']
