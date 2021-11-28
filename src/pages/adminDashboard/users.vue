@@ -25,13 +25,13 @@
       <div class="flex items-center justify-between px-5 py-2 font-semibold text-black dark:text-white">
         <div>{{ user.id }}</div>
         <span class="bg-gray mx-3">{{ `${user.firstName} ${user.lastName}` }}</span>
-        <span v-if="user.companyName" class="dark:bg-gray-500 px-2 py-1 rounded-lg">{{ user.companyName}}</span>
+        <span class="dark:bg-gray-500 px-2 py-1 rounded-lg">{{ user.companyName}}</span>
         <span class="mx-3">{{ user.subscription }}</span>
-        <span>{{ getDate(new Date(user.createdAt)) }}</span>
+        <span>{{ getDate(new Date(user.createdAt.toString())) }}</span>
       </div>
     </template>
 
-    <div class="mt-2">
+    <div class="mt-2 border-t-2 border-gray-200 dark:border-white-break">
       <EventUserItem
         v-if="eventByUserId(user.id).value.length"
         v-for="event in eventByUserId(user.id).value"
@@ -40,6 +40,13 @@
       />
       <span v-else class="ml-4">Aucun événement</span>
     </div>
+
+    <template #extraButton>
+      <BLink :variant="extraButtonStyle" class="EventActionButton">modifier</BLink>
+      <BLink :variant="extraButtonStyle" class="EventActionButton">Supprimer</BLink>
+      <BLink :variant="extraButtonStyle" class="EventActionButton">Voir</BLink>
+    </template>
+
   </DashboardItem>
 
   </div>
@@ -56,27 +63,29 @@
 import { LoaderTypeEnum } from '@/types/globals'
 import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useEventStore, useUserStore } from '@/store'
+import { useEventStore, useMainStore, useUserStore } from '@/store'
 import { dateHook, userHook } from '@/hooks'
 
-const isLoading = ref(false)
+const userStore = useUserStore()
+const eventStore = useEventStore()
+const mainStore = useMainStore()
 const { getDate } = dateHook()
 const { fetchAll } = userHook()
-const userStore = useUserStore()
+
+const { isDarkTheme } = mainStore
+const isLoading = ref(false)
 const { getAll } = storeToRefs(userStore)
-const eventStore = useEventStore()
 const { getAll: getAllEvents } = storeToRefs(eventStore)
 const users = computed(() => getAll.value)
 
 const eventByUserId = (id: number) => computed(() => Object.values(getAllEvents.value).filter(event => event.createdByUser === id))
+
 onMounted(async() => {
   isLoading.value = true
   await fetchAll()
   isLoading.value = false
-  console.log(getAllEvents.value, 'getAllEvents.value')
 })
 
-function testEvent(event: any) {
-  console.log(event)
-}
+const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : "white")
+
 </script>
