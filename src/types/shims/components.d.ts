@@ -25,6 +25,7 @@ declare module 'vue' {
     StepBubble: typeof import('./../../components/content/StepBubble.vue')['default']
     UserDashboard: typeof import('./../../pages/userDashboard/index.vue')['default']
     Users: typeof import('./../../pages/adminDashboard/users.vue')['default']
+    UsersAdminModal: typeof import('./../../components/modals/UsersAdminModal.vue')['default']
   }
 }
 

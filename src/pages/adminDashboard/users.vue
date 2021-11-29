@@ -23,7 +23,7 @@
         <span class="bg-gray mx-3">{{ `${user.firstName} ${user.lastName}` }}</span>
         <span class="dark:bg-gray-500 px-2 py-1 rounded-lg">{{ user.companyName}}</span>
         <span class="mx-3">{{ getSubscriptionTranslation(user.subscription) }}</span>
-        <span>{{ getDate(new Date(user.createdAt.toString())) }}</span>
+        <span>{{ getDate(new Date(user.createdAt!.toString())) }}</span>
       </div>
     </template>
 
@@ -38,15 +38,16 @@
     </div>
 
     <template #extraButton>
-      <BLink :variant="extraButtonStyle" class="EventActionButton">modifier</BLink>
-      <BLink :variant="extraButtonStyle" class="EventActionButton">Supprimer</BLink>
-      <BLink :variant="extraButtonStyle" class="EventActionButton">Voir</BLink>
+      <BLink :variant="extraButtonStyle" class="EventActionButton" @click="isOpen = !isOpen">modifier</BLink>
+      <BLink :variant="extraButtonStyle" class="EventActionButton" @click="isOpen = !isOpen">Supprimer</BLink>
+      <BLink :variant="extraButtonStyle" class="EventActionButton" @click="isOpen = !isOpen">Voir</BLink>
     </template>
 
   </DashboardItem>
 
   </div>
 </div>
+<UsersAdminModal :isActive="isOpen" />
 </template>
 <route>
 {meta: {
@@ -71,6 +72,7 @@ const { fetchAll } = userHook()
 
 const { isDarkTheme } = mainStore
 const isLoading = ref(false)
+const isOpen = ref(false)
 const { getAll } = storeToRefs(userStore)
 const { getAll: getAllEvents } = storeToRefs(eventStore)
 const users = computed(() => getAll.value)
