@@ -1,5 +1,5 @@
 <template>
-<div class="bg-white-light dark:bg-blue-dark min-h-screen transform ease-in-out transition-all duration-500 py-6 text-left pl-14 pr-8">
+<div class="bg-white-light dark:bg-blue-dark min-h-screen transform ease-in-out transition-all duration-500 py-6 text-left pl-14 pr-8 relative">
 	<HeaderList class="sticky"/>
 
   <Loader
@@ -38,16 +38,17 @@
     </div>
 
     <template #extraButton>
-      <BLink :variant="extraButtonStyle" class="EventActionButton" @click="isOpen = !isOpen">modifier</BLink>
-      <BLink :variant="extraButtonStyle" class="EventActionButton" @click="isOpen = !isOpen">Supprimer</BLink>
-      <BLink :variant="extraButtonStyle" class="EventActionButton" @click="isOpen = !isOpen">Voir</BLink>
+      <BLink :variant="extraButtonStyle" class="EventActionButton" @click="onToggleUsersModal('update', user)">Voir</BLink>
+      <BLink :variant="extraButtonStyle" class="EventActionButton" @click="onToggleUsersModal('delete', user)">Supprimer</BLink>
     </template>
 
   </DashboardItem>
 
   </div>
+  <UsersAdminModal :isActive="isOpen" :mode="modalMode" :user="activeUser">
+
+  </UsersAdminModal>
 </div>
-<UsersAdminModal :isActive="isOpen" />
 </template>
 <route>
 {meta: {
@@ -62,7 +63,7 @@ import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useEventStore, useMainStore, useUserStore } from '@/store'
 import { dateHook, userHook } from '@/hooks'
-import { SubscriptionEnum } from '@/store/typesExported'
+import { SubscriptionEnum, UserType } from '@/store/typesExported'
 
 const userStore = useUserStore()
 const eventStore = useEventStore()
@@ -73,6 +74,8 @@ const { fetchAll } = userHook()
 const { isDarkTheme } = mainStore
 const isLoading = ref(false)
 const isOpen = ref(false)
+const modalMode = ref<string | null>(null)
+const activeUser = ref<UserType | null>(null)
 const { getAll } = storeToRefs(userStore)
 const { getAll: getAllEvents } = storeToRefs(eventStore)
 const users = computed(() => getAll.value)
@@ -101,4 +104,9 @@ onMounted(async() => {
 
 const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : "white")
 
+function onToggleUsersModal(type: string, user: UserType) {
+  activeUser.value = user
+  isOpen.value = true
+  modalMode.value = type
+}
 </script>

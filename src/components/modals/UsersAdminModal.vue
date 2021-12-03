@@ -1,40 +1,68 @@
 <template>
-<transition name="fade">
-	<div
-		v-if="isModalOpen"
-		class="absolute left-80 top-0 bottom-0 flex items-center justify-center transition ease-in-out duration-700"
-	>
-		<div class="bg-white px-5 py-4 shadow-2xl rounded-lg">
-			<div class="text-center text-xl font-semibold text-black dark:text-white">
-				Supprimer l'utilisateur
-			</div>
-		
-		</div>
-	</div>
-</transition>
+
+    <BaseModal
+      class="w-48"
+      :title="getModaleTitle()"
+      :isLoading="state.isLoading"
+      :isActive="isActive"
+      @close="close"
+    >
+      <div
+        v-if="mode === UsersModalModeEnum.UPDATE"
+      >
+        test update
+        {{ user }}
+  
+      </div>
+      <div v-else-if="mode === UsersModalModeEnum.CREATE">
+        test create
+              {{ user }}
+  
+      </div>
+      <div v-else-if="mode === UsersModalModeEnum.DELETE">
+        test delete
+              {{ user }}
+  
+      </div>
+	</BaseModal>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, reactive } from 'vue'
+import { UserType } from '@/store/typesExported'
+
+enum UsersModalModeEnum {
+  CREATE = 'create',
+  UPDATE = 'update',
+  DELETE = 'delete',
+}
 
 interface Props {
-	isActive: boolean
+  mode: UsersModalModeEnum | null
+  user: UserType
+  isActive: boolean
 }
-const props = withDefaults(defineProps<Props>(), {
-	isActive: false,
+
+const state = reactive({
+  isLoading: false,
 })
 
-const isModalOpen = computed(() => props.isActive)
+const props = withDefaults(defineProps<Props>(), {
+  isActive: true,
+})
+
+const isActive = computed(() => props.isActive)
+
+function getModaleTitle() {
+  switch (props.mode) {
+    case UsersModalModeEnum.CREATE:
+      return 'Nouvel utilisateur'
+    case UsersModalModeEnum.UPDATE:
+      return 'Modifier utilisateur'
+    case UsersModalModeEnum.DELETE:
+      return 'Supprimer utilisateur'
+    default:
+      return 'Unknown mode'
+  }
+}
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease-in-out;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
