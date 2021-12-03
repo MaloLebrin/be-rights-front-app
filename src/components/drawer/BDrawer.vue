@@ -16,7 +16,7 @@
     <!-- https://codepen.io/boussadjra/pen/ExgzKyj link exemple to close and open drawer -->
     <nav
       v-if="isDrawerActive"
-      class="w-full h-full"
+      class="w-full h-full sticky"
     >
       <SimpleLogo class="mb-10" />
 

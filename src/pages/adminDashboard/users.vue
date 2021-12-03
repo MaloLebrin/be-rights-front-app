@@ -1,5 +1,5 @@
 <template>
-<div class="bg-white-light dark:bg-blue-dark min-h-screen transform ease-in-out transition-all duration-500 py-6 text-left pl-14 pr-8 relative">
+<div class="bg-white-light dark:bg-blue-dark min-h-screen transform ease-in-out transition-all duration-500 py-6 text-left pl-14 pr-8">
 	<HeaderList class="sticky"/>
 
   <Loader
@@ -7,47 +7,54 @@
     :isLoading="isLoading"
     :type="LoaderTypeEnum.BOUNCE"
   />
-
   <div
     v-else
-    v-for="(user, index) in users"
-    :key="user.id"
-    class="flex items-center"
+    class="relative h-full w-full"
   >
-  <DashboardItem
-    :index="parseInt(index.toString())"
-  >
-    <template #title>
-      <div class="flex items-center justify-between px-5 py-2 font-semibold text-black dark:text-white">
-        <div>{{ user.id }}</div>
-        <span class="bg-gray mx-3">{{ `${user.firstName} ${user.lastName}` }}</span>
-        <span class="dark:bg-gray-500 px-2 py-1 rounded-lg">{{ user.companyName}}</span>
-        <span class="mx-3">{{ getSubscriptionTranslation(user.subscription) }}</span>
-        <span>{{ getDate(new Date(user.createdAt!.toString())) }}</span>
+    <div
+      v-for="(user, index) in users"
+      :key="user.id"
+      class="flex items-center relative"
+    >
+    <DashboardItem
+      :index="parseInt(index.toString())"
+    >
+      <template #title>
+        <div class="flex items-center justify-between px-5 py-2 font-semibold text-black dark:text-white">
+          <div>{{ user.id }}</div>
+          <span class="bg-gray mx-3">{{ `${user.firstName} ${user.lastName}` }}</span>
+          <span class="dark:bg-gray-500 px-2 py-1 rounded-lg">{{ user.companyName}}</span>
+          <span class="mx-3">{{ getSubscriptionTranslation(user.subscription) }}</span>
+          <span>{{ getDate(new Date(user.createdAt!.toString())) }}</span>
+        </div>
+      </template>
+
+      <div class="mt-2 border-t-2 border-gray-200 dark:border-white-break">
+        <EventUserItem
+          v-if="eventByUserId(user.id).value.length"
+          v-for="event in eventByUserId(user.id).value"
+          :key="event.id"
+          :event="event"
+        />
+        <div v-else class="p-4 text-center">Aucun événement</div>
       </div>
-    </template>
 
-    <div class="mt-2 border-t-2 border-gray-200 dark:border-white-break">
-      <EventUserItem
-        v-if="eventByUserId(user.id).value.length"
-        v-for="event in eventByUserId(user.id).value"
-        :key="event.id"
-        :event="event"
-      />
-      <div v-else class="p-4 text-center">Aucun événement</div>
+      <template #extraButton>
+        <BLink :variant="extraButtonStyle" class="EventActionButton" @click="onToggleUsersModal('update', user)">Voir</BLink>
+        <BLink :variant="extraButtonStyle" class="EventActionButton" @click="onToggleUsersModal('delete', user)">Supprimer</BLink>
+      </template>
+
+    </DashboardItem>
+
     </div>
-
-    <template #extraButton>
-      <BLink :variant="extraButtonStyle" class="EventActionButton" @click="onToggleUsersModal('update', user)">Voir</BLink>
-      <BLink :variant="extraButtonStyle" class="EventActionButton" @click="onToggleUsersModal('delete', user)">Supprimer</BLink>
-    </template>
-
-  </DashboardItem>
-
+    <UsersAdminModal
+      v-if="isOpen && modalMode && activeUser"
+      :isActive="isOpen"
+      :mode="modalMode"
+      :user="activeUser"
+      @close="resetModal"
+    />
   </div>
-  <UsersAdminModal :isActive="isOpen" :mode="modalMode" :user="activeUser">
-
-  </UsersAdminModal>
 </div>
 </template>
 <route>
@@ -106,7 +113,13 @@ const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : "white")
 
 function onToggleUsersModal(type: string, user: UserType) {
   activeUser.value = user
-  isOpen.value = true
   modalMode.value = type
+  isOpen.value = true
+}
+
+function resetModal() {
+  modalMode.value = null
+  activeUser.value = null
+  isOpen.value = false
 }
 </script>

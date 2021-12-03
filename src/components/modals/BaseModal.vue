@@ -1,14 +1,16 @@
 <template>
 <transition name="fade">
 	<div
-		v-if="isModalOpen"
-		class="absolute right-0 top-0 bottom-0 flex items-center justify-center transition ease-in-out duration-700"
+		v-show="isModalOpen"
+		class="absolute dark:bg-blue-dark_bold bg-white top-0 left-0 right-0 w-full flex items-center
+			justify-center transition ease-in-out duration-700 overflow-hidden rounded-lg shadow-2xl"
 	>
-		<div class="bg-white px-5 py-4 shadow-2xl rounded-lg relative">
+		<div class="px-5 py-4 shadow-2xl rounded-lg relative w-full h-full">
 			<div class="text-center text-xl font-semibold text-black dark:text-white">
 				{{ title }}
 			<div
-				class="rotate-45 cursor-pointer absolute right-2 top-0"
+				class="rotate-45 cursor-pointer absolute right-2 top-2 bg-blue-dark_bold dark:bg-white rounded-full
+					h-6 w-6 text-white dark:text-blue-dark_bold text-2xl flex items-center justify-center"
 				@click="closeModal"
 			>+</div>
 			</div>
@@ -48,6 +50,7 @@ watch(() => props.isActive, newVal => {
 
 function closeModal() {
 	isModalOpen.value = false
+	emit('close')
 }
 
 const emit = defineEmits<{
