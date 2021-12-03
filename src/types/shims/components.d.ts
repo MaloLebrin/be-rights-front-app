@@ -7,6 +7,7 @@ declare module 'vue' {
     404: typeof import('./../../pages/404.vue')['default']
     AdminDashboard: typeof import('./../../pages/adminDashboard/index.vue')['default']
     AdminMenuDrawer: typeof import('./../../components/drawer/AdminMenuDrawer.vue')['default']
+    BaseModal: typeof import('./../../components/modals/BaseModal.vue')['default']
     BDrawer: typeof import('./../../components/drawer/BDrawer.vue')['default']
     DarkModeToggle: typeof import('./../../components/content/DarkModeToggle.vue')['default']
     DashboardItem: typeof import('./../../components/dashboard/DashboardItem.vue')['default']
