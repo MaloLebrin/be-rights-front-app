@@ -8,7 +8,7 @@ export function mainHook() {
 
 	async function toggleTheme() {
 		const themeLocalStorage = theme.value
-		if (themeLocalStorage === ThemeEnum.LIGHT) {
+		if (themeLocalStorage === ThemeEnum.DARK) {
 			document.getElementById('app')?.classList.remove(ThemeEnum.DARK)
 			theme.value = ThemeEnum.LIGHT
 		} else {
