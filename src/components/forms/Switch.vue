@@ -1,0 +1,45 @@
+<template>
+  <div class="flex justify-center">
+    <div class="relative inline-block w-12 mr-2 align-middle select-none transition transform duration-300 ease-in-out">
+      <input
+        :value="updatedValue"
+        type="checkbox"
+        id="toggle"
+        class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+        :class="{ 'right-0 border-green': updatedValue }"
+        @input="toggleSwitch"
+      />
+      <div
+        class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+        :class="{ 'bg-green': updatedValue }"
+      />
+    </div>
+    <label>
+      {{ label }}
+    </label>
+  </div>
+</template>
+
+<script setup lang='ts'>
+import { ref } from 'vue'
+
+interface SwitchProps {
+	label: string
+	value: boolean
+}
+
+const props = withDefaults(defineProps<SwitchProps>(), {
+	label: '',
+	value: false,
+})
+const emit = defineEmits<{
+	(e: 'switch', value: boolean): void
+}>()
+
+const updatedValue = ref(props.value)
+
+function toggleSwitch() {
+	updatedValue.value = !updatedValue.value
+	emit('switch', updatedValue.value)
+}
+</script>

@@ -25,6 +25,7 @@ declare module 'vue' {
     Select: typeof import('./../../components/content/Select.vue')['default']
     SimpleLogo: typeof import('./../../components/logo/SimpleLogo.vue')['default']
     StepBubble: typeof import('./../../components/content/StepBubble.vue')['default']
+    Switch: typeof import('./../../components/forms/Switch.vue')['default']
     UserDashboard: typeof import('./../../pages/userDashboard/index.vue')['default']
     Userform: typeof import('./../../components/users/Userform.vue')['default']
     Users: typeof import('./../../pages/adminDashboard/Users.vue')['default']
