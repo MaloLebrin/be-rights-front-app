@@ -27,20 +27,18 @@ import { ref } from 'vue'
 
 interface SwitchProps {
 	label: string
-	value?: boolean
   checked: boolean
 }
 
 const props = withDefaults(defineProps<SwitchProps>(), {
 	label: '',
-	value: false,
   checked: false,
 })
 const emit = defineEmits<{
 	(e: 'update:checked', value: boolean): void
 }>()
 
-const updatedValue = ref(props.value)
+const updatedValue = ref(props.checked)
 
 function toggleSwitch() {
 	updatedValue.value = !updatedValue.value
