@@ -16,7 +16,7 @@
         :class="{ 'bg-green': updatedValue }"
       />
     </div>
-    <label>
+    <label class="text-gray-700 dark:text-white-break">
       {{ label }}
     </label>
   </div>
@@ -27,7 +27,7 @@ import { ref } from 'vue'
 
 interface SwitchProps {
 	label: string
-	value: boolean
+	value?: boolean
   checked: boolean
 }
 

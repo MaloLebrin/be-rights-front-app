@@ -13,6 +13,9 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
 	}),
 	getters: {
 		...createGetters<EventType>(eventState),
+		getEventsByUserId: (state) => {
+			return (userId: number) => Object.values(state.entities.byId).filter(event => event.createdByUser === userId)
+		}
 	},
 	actions: {
 		...createActions<EventType>(eventState),

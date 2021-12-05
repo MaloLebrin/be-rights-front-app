@@ -1,6 +1,6 @@
 <template>
     <BaseModal
-      class="w-5/6 h-full text-black-light dark:text-white font-medium"
+      class="w-5/6 text-black-light dark:text-white font-medium"
       :title="getModaleTitle()"
       :isLoading="state.isLoading"
       :isActive="isActive"
@@ -8,6 +8,7 @@
     >
       <div
         v-if="mode === UsersModalModeEnum.UPDATE && user"
+        class="h-full"
       >
         <Userform :id="user.id" />
       </div>
