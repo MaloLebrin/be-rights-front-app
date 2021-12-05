@@ -23,7 +23,10 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
 			if (state.entities.current) {
 				return state.entities.current.token
 			}
-		}
+		},
+		getOne(state) {
+			return (id: number) => state.entities.byId[id]
+		},
 	},
 	actions: {
 		...createActions<UserType>(userState),

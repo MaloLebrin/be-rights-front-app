@@ -22,10 +22,12 @@ declare module 'vue' {
     Login: typeof import('./../../pages/login.vue')['default']
     LoginModal: typeof import('./../../components/modals/LoginModal.vue')['default']
     MenuDrawer: typeof import('./../../components/drawer/MenuDrawer.vue')['default']
+    Select: typeof import('./../../components/content/Select.vue')['default']
     SimpleLogo: typeof import('./../../components/logo/SimpleLogo.vue')['default']
     StepBubble: typeof import('./../../components/content/StepBubble.vue')['default']
     UserDashboard: typeof import('./../../pages/userDashboard/index.vue')['default']
-    Users: typeof import('./../../pages/adminDashboard/users.vue')['default']
+    Userform: typeof import('./../../components/users/Userform.vue')['default']
+    Users: typeof import('./../../pages/adminDashboard/Users.vue')['default']
     UsersAdminModal: typeof import('./../../components/modals/UsersAdminModal.vue')['default']
   }
 }

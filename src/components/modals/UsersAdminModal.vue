@@ -1,22 +1,15 @@
 <template>
     <BaseModal
-      class="w-5/6"
+      class="w-5/6 h-full text-black-light dark:text-white font-medium"
       :title="getModaleTitle()"
       :isLoading="state.isLoading"
       :isActive="isActive"
       @close="close"
     >
       <div
-        v-if="mode === UsersModalModeEnum.UPDATE"
+        v-if="mode === UsersModalModeEnum.UPDATE && user"
       >
-        test update
-        {{ user }}
-
-      </div>
-      <div v-else-if="mode === UsersModalModeEnum.CREATE">
-        test create
-              {{ user }}
-
+        <Userform :id="user.id" />
       </div>
       <div v-else-if="mode === UsersModalModeEnum.DELETE">
         test delete

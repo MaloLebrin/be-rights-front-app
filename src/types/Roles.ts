@@ -8,3 +8,5 @@ export enum RoleEnum {
 	DEVELOPER = 'DEVELOPER',
 	USER = 'USER'
 }
+
+export const userRolesArray = Object.values(RoleEnum)
