@@ -12,6 +12,7 @@ declare module 'vue' {
     DarkModeToggle: typeof import('./../../components/content/DarkModeToggle.vue')['default']
     DashboardItem: typeof import('./../../components/dashboard/DashboardItem.vue')['default']
     EmployeeEventItem: typeof import('./../../components/employees/EmployeeEventItem.vue')['default']
+    EmployeeUserItem: typeof import('./../../components/employees/EmployeeUserItem.vue')['default']
     EventItem: typeof import('./../../components/events/EventItem.vue')['default']
     EventUserItem: typeof import('./../../components/events/EventUserItem.vue')['default']
     Footer: typeof import('./../../components/footer/Footer.vue')['default']

@@ -1,0 +1,27 @@
+<template>
+	<div
+		v-if="employee"
+		class="grid grid-cols-5 gap-8 items-center px-4 py-3 w-full hover:bg-gray-300 text-sm dark:hover:bg-gray-700"
+	>
+		<div class="flex items-center col-span-2 dark:text-white-break">
+			{{ employee.firstName }}
+			{{ employee.lastName }}
+		</div>
+
+		<div :class="getEmployeeStatusColor(employee)">
+			{{ getEmployeeStatusSignature(employee) }}
+		</div>
+
+	</div>
+</template>
+
+<script setup lang="ts">
+import { PropType } from 'vue'
+import { EmployeeType } from '@/store/typesExported'
+import { employeeHook } from '@/hooks'
+
+defineProps({
+	employee: Object as PropType<EmployeeType>
+})
+const { getEmployeeStatusColor, getEmployeeStatusSignature } = employeeHook()
+</script>

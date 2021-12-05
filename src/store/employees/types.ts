@@ -9,7 +9,7 @@ export interface EmployeeType extends BaseEntity {
 	lastName: string
 	hasSigned: boolean
 	signedAt: Date
-	user: null | number | UserType //TODO fix this
+	createdByUser: null | number | UserType //TODO fix this
 	event?: number
 }
 

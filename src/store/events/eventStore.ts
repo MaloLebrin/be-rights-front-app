@@ -49,6 +49,24 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
 			}
 			mainStore.toggleIsLoading()
 		},
+
+		async fetchAllByUserId(userId: number) {
+			const userStore = useUserStore()
+			const api = new APi(userStore.entities.current?.token!)
+			try {
+				const res = await api.get(`event/user/${userId}`)
+				console.log(res, 'res')
+				const { data, count }: { data: EventType[], count: number } = res
+				const ids = data.map(event => event.id).filter(id => !this.getAllIds.includes(id))
+				if (ids.length > 0) {
+					const events = data.filter(event => !ids.includes(event.id))
+					this.createMany(events)
+				}
+			} catch (error) {
+				console.error(error)
+			}
+		}
+
 	},
 })
 

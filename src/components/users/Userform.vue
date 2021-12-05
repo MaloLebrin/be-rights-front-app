@@ -83,16 +83,21 @@
 					:key="event.id"
 					:event="event"
 				/>
-				<div v-else class="p-4 text-center">Aucun événement</div>
-
+				<!-- <div v-else-if="isEventMode && eventByUserId.length === 0" class="p-4 text-center">Aucun événement</div> -->
+				<EmployeeUserItem
+					v-if="employeeByUserId.length && !isEventMode"
+					v-for="employee in employeeByUserId"
+					:key="employee.id"
+					:employee="employee"
+				/>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup lang='ts'>
-import { computed, ref } from 'vue'
-import { useEventStore, useUserStore } from '@/store'
+import { computed, ref, watch } from 'vue'
+import { useEmployeeStore, useEventStore, useUserStore } from '@/store'
 import { userRolesArray } from '@/types'
 import { LoaderTypeEnum } from '@/types/index'
 
@@ -106,6 +111,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const userStore = useUserStore()
 const eventStore = useEventStore()
+const employeeStore = useEmployeeStore()
 
 const user = computed(() => userStore.getOne(props.id))
 
@@ -115,8 +121,20 @@ const isLoading = ref(false)
 
 const eventOrEmployeeSectionTitle = computed(() => isEventMode.value ? 'Événements' : 'Employés')
 
+watch(() => isEventMode.value, async (newValue) => {
+	isLoading.value = true
+	if(!newValue) {
+		await employeeStore.fetchAllByUserId(user.value.id)
+	} else {
+		await eventStore.fetchAllByUserId(user.value.id)
+		console.log(employeeStore.getEmployeesByUserId(user.value.id), 'employeeStore.getEmployeesByUserId(user.value.id)')
+	}
+	isLoading.value = false
+})
+
 const eventByUserId = computed(() => eventStore.getEventsByUserId(user.value.id))
 
+const employeeByUserId = computed(() => employeeStore.getEmployeesByUserId(user.value.id))
 
 const emits = defineEmits<{
 	(e: 'submit', id: number): void
