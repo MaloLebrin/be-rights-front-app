@@ -3,7 +3,7 @@
 	<div
 		v-show="isModalOpen"
 		class="absolute dark:bg-blue-dark_bold bg-white top-0 left-0 right-0 w-full flex items-center
-			justify-center transition ease-in-out duration-700 overflow-hidden rounded-lg shadow-2xl"
+			justify-center transition ease-in-out duration-700 rounded-lg shadow-2xl TranslateUpAnimation"
 	>
 		<div class="px-5 py-4 shadow-2xl rounded-lg relative w-full h-full">
 			<div class="text-center text-xl font-semibold text-black dark:text-white">
@@ -62,7 +62,7 @@ const emit = defineEmits<{
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.8s ease-in-out;
 }
 
 .fade-enter-from,
