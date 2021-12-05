@@ -51,7 +51,7 @@ interface Props {
 	options: string[]
 	default: string
 	tabindex?: number
-  required?: boolean
+	required?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {

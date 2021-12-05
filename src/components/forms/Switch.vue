@@ -3,6 +3,8 @@
     <div class="relative inline-block w-12 mr-2 align-middle select-none transition transform duration-300 ease-in-out">
       <input
         :value="updatedValue"
+        v-bind="$attrs"
+        :checked="updatedValue"
         type="checkbox"
         id="toggle"
         class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
@@ -26,20 +28,22 @@ import { ref } from 'vue'
 interface SwitchProps {
 	label: string
 	value: boolean
+  checked: boolean
 }
 
 const props = withDefaults(defineProps<SwitchProps>(), {
 	label: '',
 	value: false,
+  checked: false,
 })
 const emit = defineEmits<{
-	(e: 'switch', value: boolean): void
+	(e: 'update:checked', value: boolean): void
 }>()
 
 const updatedValue = ref(props.value)
 
 function toggleSwitch() {
 	updatedValue.value = !updatedValue.value
-	emit('switch', updatedValue.value)
+	emit('update:checked', updatedValue.value)
 }
 </script>
