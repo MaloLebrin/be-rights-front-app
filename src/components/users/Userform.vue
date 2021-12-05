@@ -125,9 +125,9 @@ watch(() => isEventMode.value, async (newValue) => {
 	isLoading.value = true
 	if(!newValue) {
 		await employeeStore.fetchAllByUserId(user.value.id)
+		// console.log(employeeStore.getEmployeesByUserId(user.value.id), 'employeeStore.getEmployeesByUserId(user.value.id)')
 	} else {
 		await eventStore.fetchAllByUserId(user.value.id)
-		console.log(employeeStore.getEmployeesByUserId(user.value.id), 'employeeStore.getEmployeesByUserId(user.value.id)')
 	}
 	isLoading.value = false
 })
