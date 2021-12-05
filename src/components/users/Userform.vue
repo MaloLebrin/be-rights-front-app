@@ -2,7 +2,6 @@
 	<div v-if="user" class="mt-4 px-4 w-full h-full">
 		<form
 			class="grid grid-cols-2 gap-4"
-			@submit.prevent="submit"
 		>
 			<BField label="Prénom" labelFor="firstName">
 				<BInput
@@ -92,6 +91,16 @@
 				/>
 			</div>
 		</div>
+		<div class="flex items-center justify-center w-full">
+			<BButton
+				class="mt-4 dark:text-black"
+				:disabled="isLoading"
+				:loading="isLoading"
+				@click="submit"
+			>
+				Enregistrer
+			</BButton>
+		</div>
 	</div>
 </template>
 
@@ -140,8 +149,10 @@ const emits = defineEmits<{
 	(e: 'submit', id: number): void
 }>()
 
-function submit() {
-	emits('submit', props.id)
+async function submit() {
+	isLoading.value = true
+	// await userStore.patchOne(props.id, user.value)
+	isLoading.value = false
 }
 
 </script>
