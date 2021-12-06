@@ -20,26 +20,7 @@ export function userHook() {
 			mainStore.toggleIsLoading()
 			const res = await axiosInstance.post('user/login', { email, password })
 			const user = res.data as UserType
-			if (user.events) {
-				const userEvents = user.events as EventType[]
-				const eventsToStore = userEvents.filter(event => !eventStore.getAllIds.includes(event.id))
-				eventStore.createMany(eventsToStore)
-				user.events = eventsToStore.map(event => event.id)
-			}
-			if (user.employee) {
-				const employees = user.employee as EmployeeType[]
-				const employeesToStore = employees.filter(employee => !employeeStore.getAllIds.includes(employee.id))
-				employeeStore.createMany(employeesToStore)
-				user.employee = employeesToStore.map(employee => employee.id)
-			}
-			if (user.files) {
-				const files = user.files as FileType[]
-				const filesToStore = files.filter(file => !fileStore.getAllIds.includes(file.id))
-				fileStore.createMany(filesToStore)
-				user.files = filesToStore.map(file => file.id)
-			}
-			userStore.setCurrent(user)
-			userStore.createOne(user)
+			storeEntitiesOnLoginOrToken(user)
 			setCookie('userToken', user.token)
 			if (user && userStore.isCurrentUserAdmin) {
 				router.push('/adminDashboard')
@@ -51,6 +32,29 @@ export function userHook() {
 			console.error(error)
 		}
 		mainStore.toggleIsLoading()
+	}
+
+	function storeEntitiesOnLoginOrToken(user: UserType) {
+		if (user.events) {
+			const userEvents = user.events as EventType[]
+			const eventsToStore = userEvents.filter(event => !eventStore.getAllIds.includes(event.id))
+			eventStore.createMany(eventsToStore)
+			user.events = eventsToStore.map(event => event.id)
+		}
+		if (user.employee) {
+			const employees = user.employee as EmployeeType[]
+			const employeesToStore = employees.filter(employee => !employeeStore.getAllIds.includes(employee.id))
+			employeeStore.createMany(employeesToStore)
+			user.employee = employeesToStore.map(employee => employee.id)
+		}
+		if (user.files) {
+			const files = user.files as FileType[]
+			const filesToStore = files.filter(file => !fileStore.getAllIds.includes(file.id))
+			fileStore.createMany(filesToStore)
+			user.files = filesToStore.map(file => file.id)
+		}
+		userStore.setCurrent(user)
+		userStore.createOne(user)
 	}
 
 	async function userToggleTheme(theme: ThemeEnum) {
@@ -91,5 +95,6 @@ export function userHook() {
 		login,
 		userToggleTheme,
 		fetchAll,
+		storeEntitiesOnLoginOrToken,
 	}
 }
