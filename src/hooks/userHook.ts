@@ -3,13 +3,15 @@ import { useCookie } from 'vue-cookie-next'
 import router from '@/router'
 import APi, { PaginatedResponse } from '@/helpers/api'
 import { ThemeEnum } from '@/types'
-import { EventType, UserType } from '@/store/typesExported'
-import { useEventStore, useMainStore, useUserStore } from "@/store"
+import { EmployeeType, EventType, FileType, UserType } from '@/store/typesExported'
+import { useEmployeeStore, useEventStore, useFileStore, useMainStore, useUserStore } from "@/store"
 
 export function userHook() {
 	const userStore = useUserStore()
 	const mainStore = useMainStore()
 	const eventStore = useEventStore()
+	const employeeStore = useEmployeeStore()
+	const fileStore = useFileStore()
 	const { setCookie } = useCookie()
 	const api = new APi(userStore.entities.current?.token!)
 
@@ -17,12 +19,24 @@ export function userHook() {
 		try {
 			mainStore.toggleIsLoading()
 			const res = await axiosInstance.post('user/login', { email, password })
-			// const user: UserType = parseEntity(res.data)// TODO remove when SQL API has been deploy
 			const user = res.data as UserType
 			if (user.events) {
-				const userEvents = user.events
-				eventStore.createMany(userEvents as unknown as EventType[])
-				delete user.events
+				const userEvents = user.events as EventType[]
+				const eventsToStore = userEvents.filter(event => !eventStore.getAllIds.includes(event.id))
+				eventStore.createMany(eventsToStore)
+				user.events = eventsToStore.map(event => event.id)
+			}
+			if (user.employee) {
+				const employees = user.employee as EmployeeType[]
+				const employeesToStore = employees.filter(employee => !employeeStore.getAllIds.includes(employee.id))
+				employeeStore.createMany(employeesToStore)
+				user.employee = employeesToStore.map(employee => employee.id)
+			}
+			if (user.files) {
+				const files = user.files as FileType[]
+				const filesToStore = files.filter(file => !fileStore.getAllIds.includes(file.id))
+				fileStore.createMany(filesToStore)
+				user.files = filesToStore.map(file => file.id)
 			}
 			userStore.setCurrent(user)
 			userStore.createOne(user)
