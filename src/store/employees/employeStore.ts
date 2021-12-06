@@ -27,7 +27,7 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
 			const api = new APi(userStore.entities.current?.token!)
 			try {
 				const res = await api.get(`employee/user/${userId}`)
-				const { data, count }: { data: EmployeeType[], count: number } = res
+				const data = res as EmployeeType[]
 				const ids = data.map(employee => employee.id).filter(id => !this.getAllIds.includes(id))
 				if (ids.length > 0) {
 					const employees = data.filter(employee => ids.includes(employee.id)).map(employee => ({
