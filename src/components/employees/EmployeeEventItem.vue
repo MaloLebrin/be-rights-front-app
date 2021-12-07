@@ -30,14 +30,13 @@
 </template>
 
 <script setup lang="ts">
-import { EmployeeType } from '@/store/employees/types'
 import { DateFormatEnum } from '@/types/Date'
 import { PropType } from 'vue'
-import employeeHook from '@/hooks/employeeHook'
-import dateHook from '@/hooks/dateHook'
 import { 
 	DocumentDownloadIcon
  } from '@heroicons/vue/outline'
+import { EmployeeType } from '@/store/typesExported'
+import { dateHook, employeeHook } from '@/hooks'
 
 const props = defineProps({
 	employee: Object as PropType<EmployeeType>

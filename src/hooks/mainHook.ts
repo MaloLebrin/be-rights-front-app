@@ -1,14 +1,14 @@
 import { storeToRefs } from "pinia"
-import useMainStore from "@/store/mainStore"
 import { ThemeEnum } from "@/types/globals"
+import { useMainStore } from "@/store"
 
-export default function mainHook() {
+export function mainHook() {
 	const mainStore = useMainStore()
 	const { theme } = storeToRefs(mainStore)
 
 	async function toggleTheme() {
 		const themeLocalStorage = theme.value
-		if (themeLocalStorage === ThemeEnum.LIGHT) {
+		if (themeLocalStorage === ThemeEnum.DARK) {
 			document.getElementById('app')?.classList.remove(ThemeEnum.DARK)
 			theme.value = ThemeEnum.LIGHT
 		} else {

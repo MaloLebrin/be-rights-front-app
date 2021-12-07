@@ -1,9 +1,8 @@
 import { EmployeeType } from "@/store/employees/types"
-import useEmployeeStore from "@/store/employees/employeStore"
-import useUserStore from '@/store/users/userStore'
 import API from "@/helpers/api"
+import { useEmployeeStore, useUserStore } from "@/store"
 
-export default function employeeHook() {
+export function employeeHook() {
 	const employeeStore = useEmployeeStore()
 	const userStore = useUserStore()
 	const api = new API(userStore.entities.current?.token!)

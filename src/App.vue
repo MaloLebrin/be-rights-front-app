@@ -8,17 +8,8 @@
 </template>
 <script setup lang="ts">
 import { watch, onBeforeMount } from 'vue'
-import useMainStore from '@/store/mainStore'
-import userHook from '@/hooks/userHook'
-import useEmployeeStore  from '@/store/employees/employeStore'
-import { EmployeeType } from '@/store/employees/types'
-
-const { createMany: createManyEmployees } = useEmployeeStore()
-
-// TODO remove wheen API up
-import employees from '@/data/employees.json'
-import authHook from './hooks/authHook'
-// createManyEmployees(employees as EmployeeType[])
+import { authHook } from './hooks'
+import { useMainStore } from './store'
 
     const store = useMainStore()
     const { routesIntermsOfUserRoles } = authHook()
@@ -28,99 +19,6 @@ import authHook from './hooks/authHook'
     })
 
     onBeforeMount(async () => await routesIntermsOfUserRoles())
-
-    const events =[
-            {
-                documentId: [],
-                employeeList: [],
-                status: "PENDING",
-                creadtedAt: "2021-11-05T13:37:12.030Z",
-                updatedAt: "2021-11-05T13:37:12.030Z",
-                signatureCount: 0,
-                totalSignatureNeeded: 0,
-                id: 1,
-                name: "Event1",
-                start: "2022-09-22T15:00:00.000Z",
-                end: "2023-09-22T15:00:00.000Z",
-                address: "2 rue de france",
-                postalCode: 41000,
-                city: "ville",
-                country: "France",
-                userId: 1,
-            },
-            {
-                documentId: [],
-                employeeList: [],
-                status: "COMPLETED",
-                creadtedAt: "2021-11-05T13:37:12.030Z",
-                updatedAt: "2021-11-05T13:37:12.030Z",
-                signatureCount: 0,
-                totalSignatureNeeded: 0,
-                id: 2,
-                name: "Event1",
-                start: "2022-09-22T15:00:00.000Z",
-                end: "2023-09-22T15:00:00.000Z",
-                address: "2 rue de france",
-                postalCode: 41000,
-                city: "ville",
-                country: "France",
-                userId: 1,
-            },
-            {
-                documentId: [],
-                employeeList: [],
-                status: "CLOSED",
-                creadtedAt: "2021-11-05T13:37:12.030Z",
-                updatedAt: "2021-11-05T13:37:12.030Z",
-                signatureCount: 0,
-                totalSignatureNeeded: 0,
-                id: 3,
-                name: "Event1",
-                start: "2022-09-22T15:00:00.000Z",
-                end: "2023-09-22T15:00:00.000Z",
-                address: "2 rue de france",
-                postalCode: 41000,
-                city: "ville",
-                country: "France",
-                userId: 1,
-            },
-            {
-                documentId: [],
-                employeeList: [],
-                status: "CREATE",
-                creadtedAt: "2021-11-05T13:37:12.030Z",
-                updatedAt: "2021-11-05T13:37:12.030Z",
-                signatureCount: 0,
-                totalSignatureNeeded: 0,
-                id: 4,
-                name: "Event1",
-                start: "2022-09-22T15:00:00.000Z",
-                end: "2023-09-22T15:00:00.000Z",
-                address: "2 rue de france",
-                postalCode: 41000,
-                city: "ville",
-                country: "France",
-                userId: 1,
-            },
-            {
-                documentId: [],
-                employeeList: [],
-                status: "CREATE",
-                creadtedAt: "2021-11-05T13:37:12.030Z",
-                updatedAt: "2021-11-05T13:37:12.030Z",
-                signatureCount: 0,
-                totalSignatureNeeded: 0,
-                id: 5,
-                name: "Event1",
-                start: "2022-09-22T15:00:00.000Z",
-                end: "2023-09-22T15:00:00.000Z",
-                address: "2 rue de france",
-                postalCode: 41000,
-                city: "ville",
-                country: "France",
-                userId: 1,
-            }
-        ]
 
 </script>
 

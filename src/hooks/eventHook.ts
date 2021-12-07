@@ -1,12 +1,9 @@
-// import { storeToRefs } from "pinia"
-import useEventStore from "@/store/events/eventStore"
 import { EventStatusEnum, EventType, getEventStatusTranslationEnum } from "@/store/events/types"
-import useMainStore from "@/store/mainStore"
 import APi, { PaginatedResponse } from "@/helpers/api"
-import useUserStore from "@/store/users/userStore"
 import { EmployeeType } from "@/store/employees/types"
+import { useEventStore, useMainStore, useUserStore } from "@/store"
 
-export default function eventHook() {
+export function eventHook() {
 	const eventStore = useEventStore()
 	const mainStore = useMainStore()
 	const userStore = useUserStore()
@@ -44,7 +41,11 @@ export default function eventHook() {
 			const ids = data.map((event: EventType) => event.id).filter(id => !getAllIds.includes(id))
 			if (ids.length > 0) {
 				const events = data.filter(event => ids.includes(event.id))
-				eventStore.createMany(events)
+				const eventToStore = events.map(event => ({
+					...event,
+					createdByUser: event.createdByUser.id,
+				}))
+				eventStore.createMany(eventToStore)
 			}
 
 		} catch (error) {
@@ -69,11 +70,16 @@ export default function eventHook() {
 		mainStore.toggleIsLoading()
 	}
 
+	function isEventType(event: any): event is EventType {
+		return event.start !== undefined
+	}
+
 	return {
-		getEventStatusTranslation,
-		getEventStatusColor,
 		fetchAllEvents,
 		fetchEvent,
+		getEventStatusColor,
+		getEventStatusTranslation,
 		getSignatureCount,
+		isEventType,
 	}
 }

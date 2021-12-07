@@ -301,8 +301,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
-import newsleterHook from '@/hooks/newsletterHook'
-import useMainStore from '@/store/mainStore'
+import { useMainStore } from '@/store/'
+import { newsleterHook } from '@/hooks'
 
 const { newsletterSignup } = newsleterHook()
 

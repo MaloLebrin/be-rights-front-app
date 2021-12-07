@@ -1,6 +1,6 @@
 import { DateFormatEnum } from "@/types/Date"
 
-export default function dateHook() {
+export function dateHook() {
 
 	function getDate(date: Date, format?: DateFormatEnum) {
 		const options: any = {}

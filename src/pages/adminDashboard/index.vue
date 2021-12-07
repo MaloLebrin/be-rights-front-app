@@ -41,9 +41,9 @@
 <script setup lang="ts">
 import { HomeIcon } from '@heroicons/vue/outline'
 import { computed, ref, onMounted } from 'vue'
-import useEventStore  from '@/store/events/eventStore'
-import eventHook from '@/hooks/eventHook'
+import { useEventStore } from '@/store/index'
 import { LoaderTypeEnum } from '@/types/globals'
+import { eventHook } from '@/hooks'
 
 const eventStore = useEventStore()
 const { fetchAllEvents } = eventHook()

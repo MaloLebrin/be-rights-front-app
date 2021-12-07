@@ -14,9 +14,9 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import mainHook from '@/hooks/mainHook'
-import useMainStore from '@/store/mainStore'
-import userHook from '@/hooks/userHook'
+import { useMainStore } from '@/store/index'
+import { mainHook, userHook } from '@/hooks'
+import { ThemeEnum } from '@/types'
 
   const main = useMainStore()
   const { isDarkTheme, theme } = storeToRefs(main)
@@ -25,8 +25,9 @@ import userHook from '@/hooks/userHook'
 
   async function toggleTrue() {
     toggleTheme()
+    isDarkTheme.value = !isDarkTheme.value
+    theme.value = isDarkTheme.value ? ThemeEnum.DARK : ThemeEnum.LIGHT
     await userToggleTheme(theme.value)
-    // isDarkTheme.value = !isDarkTheme.value
   }
 
 </script>

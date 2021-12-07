@@ -12,19 +12,19 @@
 		<slot />
 	</BAccordion>
 
-	<div class="flex flex-col ml-4 px-4 py-2 rounded-xl text-xs duration-500 ease-in-out transition-all w-1/5" :class="extraButtonOpen === index ? 'opacity-1': 'opacity-0'">
-		<BLink :variant="extraButtonStyle" class="EventActionButton" @click="emit('udpateOneItem', index)">modifier</BLink>
-		<BLink :variant="extraButtonStyle" class="EventActionButton" @click="emit('addOne', index)">+ Ajouter</BLink>
-		<BLink :variant="extraButtonStyle" class="EventActionButton" @click="emit('deleteOne', index)">Supprimer</BLink>
-		<BLink :variant="extraButtonStyle" class="EventActionButton" @click="emit('downloadAll')">Tout télécharger</BLink>
+	<div
+		v-if="hasSlotButtons"
+		class="flex flex-col ml-4 px-4 py-2 rounded-xl text-xs duration-500 ease-in-out transition-all w-1/5"
+		:class="extraButtonOpen === index ? 'opacity-1': 'opacity-0'"
+	>
+		<slot name="extraButton" />
 	</div>
 </div>
 
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, PropType, onBeforeUnmount, computed } from 'vue'
-import useMainStore from '@/store/mainStore'
+import { ref, onMounted, PropType, onBeforeUnmount, computed, useSlots } from 'vue'
 
 const props = defineProps({
 	index: {
@@ -33,44 +33,24 @@ const props = defineProps({
 	}
 })
 
-const emit = defineEmits<{
-	(e: 'udpateOneItem', index: number): void
-	(e: 'addOne', index: number): void
-	(e: 'deleteOne', index: number): void
-	(e: 'downloadAll'): void
-}>()
-
-const mainStore = useMainStore()
-const { isDarkTheme } = mainStore
-
 const extraButtonOpen = ref<null | number>(null)
 
-function toggleExtraOptions(index: number|null) {
-  extraButtonOpen.value = index
-}
+const slots = useSlots()
+const hasSlotButtons = computed(() => slots.extraButton)
 
 onMounted(() => {
   const item = document.getElementById(`accordion${props.index}`)
   item?.addEventListener('mouseover', () => {
-	toggleExtraOptions(props.index)
+	extraButtonOpen.value = props.index
   })
   item?.addEventListener('mouseout', () => {
-	toggleExtraOptions(null)
+	extraButtonOpen.value = null
   })
 })
 
 onBeforeUnmount(() => {
     const item = document.getElementById(`accordion${props.index}`)
-	item?.removeEventListener('mouseover', () => toggleExtraOptions(null))
-	item?.removeEventListener('mouseout', () => toggleExtraOptions(null))
+	item?.removeEventListener('mouseover', () => extraButtonOpen.value = null)
+	item?.removeEventListener('mouseout', () => extraButtonOpen.value = null)
 })
-
-const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : "white")
 </script>
-
-<style scoped>
-  .EventActionButton {
-    @apply cursor-pointer bg-gray-500 rounded mb-1 py-2 px-4 font-semibold hover:translate-x-3 transform transition-all duration-500 
-    dark:bg-white-break dark:text-gray-900
-  }
-</style>

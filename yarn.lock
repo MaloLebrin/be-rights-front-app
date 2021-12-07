@@ -96,10 +96,10 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
-"@types/node@^16.10.3":
-  version "16.10.3"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.10.3.tgz#7a8f2838603ea314d1d22bb3171d899e15c57bd5"
-  integrity sha512-ho3Ruq+fFnBrZhUYI46n/bV2GjwzSkwuT4dTf0GkuNFmnb8nq4ny2z9JEVemFi6bdEJanHLlYfy9c6FN9B9McQ==
+"@types/node@^16.11.9":
+  version "16.11.10"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.10.tgz#2e3ad0a680d96367103d3e670d41c2fed3da61ae"
+  integrity sha512-3aRnHa1KlOEEhJ6+CvyHKK5vE9BcLGjtUpwvqYLRvYNQKMfabu3BwfJaA/SLW8dxe28LsNDjtHwePTuzn3gmOA==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -433,10 +433,10 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
-be-right-vue3-lib@^0.1.24:
-  version "0.1.24"
-  resolved "https://registry.yarnpkg.com/be-right-vue3-lib/-/be-right-vue3-lib-0.1.24.tgz#1a7b190e1769d60b595e2a06d489e64132894b38"
-  integrity sha512-ygWLatlaWCOX04MR2/ror0d1ezNVZZ12dAslOQikPG4uHg+z0if5N3vdXUkJ+sZITU1ZuI+pYEes2egiUf3RCQ==
+be-right-vue3-lib@^0.1.27:
+  version "0.1.27"
+  resolved "https://registry.yarnpkg.com/be-right-vue3-lib/-/be-right-vue3-lib-0.1.27.tgz#4c132c51a8e78a3ec476bfd88bf40b17b15fd5a4"
+  integrity sha512-crk7OaW50LiP1Ryzki/+ptBHKC3kIrzwWxODufCZ53gIYHYwn53p4AkBAzcNYIHkHXf5/yayoClC9MPfgmJhQQ==
   dependencies:
     autoprefixer "^9.8.8"
     core-js "^3.6.5"

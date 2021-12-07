@@ -1,17 +1,16 @@
 import axiosInstance from "@/axios.config"
 import API from "@/helpers/api"
-import useMainStore from '@/store/mainStore'
-import useUserStore from '@/store/users/userStore'
 import { useCookie } from 'vue-cookie-next'
-import mainHook from './mainHook'
 import router from '@/router'
-import { UserType } from "@/store/users/types"
+import { useMainStore, useUserStore } from "@/store"
+import { mainHook, userHook } from "."
 
-export default function authHook() {
+export function authHook() {
 	const userStore = useUserStore()
 	const mainStore = useMainStore()
 	const { getCookie } = useCookie()
 	const { setThemeClass } = mainHook()
+	const { storeEntitiesOnLoginOrToken } = userHook()
 	const api = new API(userStore.getCurrentUserToken!)
 
 	function setBearerToken(token: string) {
@@ -31,8 +30,7 @@ export default function authHook() {
 			mainStore.toggleIsLoading()
 			const user = await api.post('user/token', { token: token })
 			setThemeClass(user.theme)
-			userStore.setCurrent(user as UserType)
-			userStore.createOne(user as UserType)
+			storeEntitiesOnLoginOrToken(user)
 			mainStore.setIsLoggedIn()
 		} catch (error) {
 			console.error(error)

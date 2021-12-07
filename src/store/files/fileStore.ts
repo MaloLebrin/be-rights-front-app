@@ -5,7 +5,7 @@ import { EntitiesEnum } from "@/types/globals"
 import { fileState } from "./state"
 import { FileState, FileType } from "./types"
 
-const useFileStore = defineStore(EntitiesEnum.FILES, {
+export const useFileStore = defineStore(EntitiesEnum.FILES, {
 	state: (): FileState => ({
 		...fileState
 	}),
@@ -16,5 +16,3 @@ const useFileStore = defineStore(EntitiesEnum.FILES, {
 		...createGetters<FileType>(fileState)
 	}
 })
-
-export default useFileStore
