@@ -52,7 +52,7 @@ export default function createActions<T extends WithId>(state: State<T>) {
 	 * @param payload data of entity to update
 	 */
 	function updateMany(payload: T[]): void {
-		payload.map(entity => updateOne(entity.id, entity))
+		payload.forEach(entity => updateOne(entity.id, entity))
 	}
 
 	/**
@@ -69,7 +69,7 @@ export default function createActions<T extends WithId>(state: State<T>) {
 	 * @param ids of entities to delete
 	 */
 	function deleteMany(ids: number[]) {
-		ids.map(id => deleteOne(id))
+		ids.forEach(id => deleteOne(id))
 	}
 
 	return {
