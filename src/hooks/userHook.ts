@@ -35,19 +35,19 @@ export function userHook() {
 	}
 
 	function storeEntitiesOnLoginOrToken(user: UserType) {
-		if (user.events) {
+		if (user.events && user.events.length > 0) {
 			const userEvents = user.events as EventType[]
 			const eventsToStore = userEvents.filter(event => !eventStore.getAllIds.includes(event.id))
 			eventStore.createMany(eventsToStore)
 			user.events = eventsToStore.map(event => event.id)
 		}
-		if (user.employee) {
+		if (user.employee && user.employee.length > 0) {
 			const employees = user.employee as EmployeeType[]
 			const employeesToStore = employees.filter(employee => !employeeStore.getAllIds.includes(employee.id))
 			employeeStore.createMany(employeesToStore)
 			user.employee = employeesToStore.map(employee => employee.id)
 		}
-		if (user.files) {
+		if (user.files && user.files.length > 0) {
 			const files = user.files as FileType[]
 			const filesToStore = files.filter(file => !fileStore.getAllIds.includes(file.id))
 			fileStore.createMany(filesToStore)
@@ -81,15 +81,11 @@ export function userHook() {
 				const missingEvents = events.filter(event => missingEventIds.includes(event.id))
 				eventStore.createMany(missingEvents)
 			}
-
 			userStore.createMany(data)
-
 		} catch (error) {
 			console.error(error)
 		}
 	}
-
-
 
 	return {
 		login,
