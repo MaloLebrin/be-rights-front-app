@@ -29,7 +29,7 @@ declare module 'vue' {
     Switch: typeof import('./../../components/forms/Switch.vue')['default']
     UserDashboard: typeof import('./../../pages/userDashboard/index.vue')['default']
     Userform: typeof import('./../../components/users/Userform.vue')['default']
-    Users: typeof import('./../../pages/adminDashboard/Users.vue')['default']
+    Users: typeof import('./../../pages/adminDashboard/users.vue')['default']
     UsersAdminModal: typeof import('./../../components/modals/UsersAdminModal.vue')['default']
   }
 }

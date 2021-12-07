@@ -15,7 +15,7 @@ export default function createActions<T extends WithId>(state: State<T>) {
 	 * @params payload Entities to create
 	 */
 	function createMany(payload: T[]): void {
-		payload.map(entity => createOne(entity))
+		payload.forEach(entity => createOne(entity))
 	}
 
 	/**
