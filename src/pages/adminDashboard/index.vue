@@ -1,9 +1,12 @@
 <template>
-  <div class="bg-white-light dark:bg-blue-dark min-h-screen transform ease-in-out transition-all duration-500 py-6 text-left pl-14 pr-8 relative">
+  <div
+    class="bg-white-light dark:bg-blue-dark min-h-screen transform ease-in-out transition-all duration-500 py-6 text-left pl-14 pr-8 relative"
+  >
     <div class="grid grid-cols-3 items-center mb-14">
-      <h3 class="text-2xl font-semibold text-gray-800 dark:text-white flex items-center max-w-xs mt">
-        <HomeIcon class="h-8 mr-4 dark:bg-red rounded-lg p-1" />
-        Événements
+      <h3
+        class="text-2xl font-semibold text-gray-800 dark:text-white flex items-center max-w-xs mt"
+      >
+        <HomeIcon class="h-8 mr-4 dark:bg-red rounded-lg p-1" />Événements
       </h3>
       <div class="flex col-span-2 items-center justify-center">
         <BButton class="mr-2 dark:text-black">Tout</BButton>
@@ -13,21 +16,23 @@
         <BInput type="text" placeholder="Recherchez" v-model="search" />
       </div>
     </div>
-    <Loader
-      v-if="isLoading"
-      :isLoading="isLoading"
-      :type="LoaderTypeEnum.BOUNCE"
-    />
-  <div
-    v-else
-    v-for="(event, index) in events"
-    :key="event.id"
-    class="flex items-center"
-  >
-    <EventItem
-      :event="event"
-      :index="index"
-    />
+    <div class="relative">
+      <Loader v-if="isLoading" :isLoading="isLoading" :type="LoaderTypeEnum.BOUNCE" />
+      <div v-else v-for="(event, index) in events" :key="event.id" class="flex items-center relative">
+        <EventItem
+          :event="event"
+          :index="index"
+          @addOne="addOneEmployeeToEvent(event.id)"
+        />
+      </div>
+      <AddEmployeeModal
+        v-if="state.isOpen && state.mode === 'create'"
+        :isActive="state.isOpen"
+        :mode="state.mode"
+        :eventId="events.filter(event => event.id === state.activeEvent)[0].id"
+        @close="resetState"
+        @onSubmit="resetState"
+      />
     </div>
   </div>
 </template>
@@ -40,10 +45,11 @@
 
 <script setup lang="ts">
 import { HomeIcon } from '@heroicons/vue/outline'
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted, reactive } from 'vue'
 import { useEventStore } from '@/store/index'
 import { LoaderTypeEnum } from '@/types/globals'
 import { eventHook } from '@/hooks'
+import { AdminModalNameEnum } from '@/store/typesExported'
 
 const eventStore = useEventStore()
 const { fetchAllEvents } = eventHook()
@@ -51,10 +57,35 @@ const search = ref('')
 const isLoading = ref(false)
 const events = computed(() => Object.values(eventStore.entities.byId))
 
+interface State {
+  isOpen: boolean
+  mode: null|'create'|'update'
+  activeEvent: number | null
+  modalName: AdminModalNameEnum | null
+}
+
+const state = reactive<State>({
+  isOpen: false,
+  mode: null,
+  activeEvent: null,
+  modalName: null,
+})
 
 onMounted(async () => {
   isLoading.value = true
   await fetchAllEvents()
   isLoading.value = false
 })
+
+function resetState() {
+  state.isOpen = false
+  state.mode = null
+  state.activeEvent = null
+}
+
+function addOneEmployeeToEvent(eventId: number) {
+  state.isOpen = true
+  state.mode = 'create'
+  state.activeEvent = eventId
+}
 </script>
