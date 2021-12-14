@@ -26,10 +26,10 @@
         />
       </div>
       <AddEmployeeModal
-        v-if="state.isOpen && state.mode === 'create'"
-        :isActive="state.isOpen"
-        :mode="state.mode"
-        :eventId="events.filter(event => event.id === state.activeEvent)[0].id"
+        v-if="getUIState.isActive && getUIState.modalName === AdminModalNameEnum.ADD_EMPLOYEE"
+        :isActive="getUIState.isActive"
+        :mode="getUIState.modalMode"
+        :eventId="events.filter(event => event.id === getUIState.data.eventId)[0].id"
         @close="resetState"
         @onSubmit="resetState"
       />
@@ -46,30 +46,18 @@
 <script setup lang="ts">
 import { HomeIcon } from '@heroicons/vue/outline'
 import { computed, ref, onMounted, reactive } from 'vue'
-import { useEventStore } from '@/store/index'
+import { useEventStore, useUiStore } from '@/store/index'
 import { LoaderTypeEnum } from '@/types/globals'
 import { eventHook } from '@/hooks'
-import { AdminModalNameEnum } from '@/store/typesExported'
+import { AdminModalNameEnum, ModalModeEnum } from '@/store/typesExported'
 
 const eventStore = useEventStore()
+const uiStore = useUiStore()
+const { getUIState, resetUIState, setUiModal } = uiStore
 const { fetchAllEvents } = eventHook()
 const search = ref('')
 const isLoading = ref(false)
 const events = computed(() => Object.values(eventStore.entities.byId))
-
-interface State {
-  isOpen: boolean
-  mode: null|'create'|'update'
-  activeEvent: number | null
-  modalName: AdminModalNameEnum | null
-}
-
-const state = reactive<State>({
-  isOpen: false,
-  mode: null,
-  activeEvent: null,
-  modalName: null,
-})
 
 onMounted(async () => {
   isLoading.value = true
@@ -78,14 +66,17 @@ onMounted(async () => {
 })
 
 function resetState() {
-  state.isOpen = false
-  state.mode = null
-  state.activeEvent = null
+  resetUIState()
 }
 
 function addOneEmployeeToEvent(eventId: number) {
-  state.isOpen = true
-  state.mode = 'create'
-  state.activeEvent = eventId
+  setUiModal({
+    isActive: true,
+    modalName: AdminModalNameEnum.ADD_EMPLOYEE,
+    modalMode: ModalModeEnum.CREATE,
+    data: {
+      eventId: eventId,
+    }
+  })
 }
 </script>

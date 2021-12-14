@@ -15,12 +15,12 @@
 </template>
 
 <script setup lang='ts'>
-import { EmployeeType } from '@/store/typesExported'
+import { EmployeeType, ModalModeEnum } from '@/store/typesExported'
 import { reactive } from 'vue'
 
 
 interface Props {
-	mode?: 'create' | 'update'
+	mode?: ModalModeEnum
 	isActive: boolean
 	employee?: EmployeeType
 	eventId?: number
