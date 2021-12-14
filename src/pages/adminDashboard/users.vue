@@ -40,18 +40,18 @@
       </div>
 
       <template #extraButton>
-        <BLink :variant="extraButtonStyle" class="EventActionButton" @click="onToggleUsersModal('update', user)">Voir</BLink>
-        <BLink :variant="extraButtonStyle" class="EventActionButton" @click="onToggleUsersModal('delete', user)">Supprimer</BLink>
+        <BLink :variant="extraButtonStyle" class="EventActionButton" @click="onToggleUsersModal(ModalModeEnum.UPDATE, user)">Voir</BLink>
+        <BLink :variant="extraButtonStyle" class="EventActionButton" @click="onToggleUsersModal(ModalModeEnum.DELETE, user)">Supprimer</BLink>
       </template>
 
     </DashboardItem>
 
     </div>
     <UsersAdminModal
-      v-if="isOpen && modalMode && activeUser"
-      :isActive="isOpen"
-      :mode="modalMode"
-      :user="activeUser"
+      v-if="getUIState.isActive && getUIState.modalName === AdminModalNameEnum.USER_ADMIN"
+      :isActive="getUIState.isActive"
+      :mode="getUIState.modalMode"
+      :user="getUIState.data.user"
       @close="resetModal"
     />
   </div>
@@ -68,21 +68,22 @@
 import { LoaderTypeEnum } from '@/types/globals'
 import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useEventStore, useMainStore, useUserStore } from '@/store'
+import { useEventStore, useMainStore, useUiStore, useUserStore } from '@/store'
 import { dateHook, userHook } from '@/hooks'
-import { SubscriptionEnum, UserType } from '@/store/typesExported'
+import { AdminModalNameEnum, ModalModeEnum, SubscriptionEnum, UserType } from '@/store/typesExported'
 
 const userStore = useUserStore()
 const eventStore = useEventStore()
 const mainStore = useMainStore()
+const uiStore = useUiStore()
+const { getUIState, resetUIState, setUiModal } = uiStore
+
 const { getDate } = dateHook()
 const { fetchAll } = userHook()
 
 const { isDarkTheme } = mainStore
 const isLoading = ref(false)
-const isOpen = ref(false)
-const modalMode = ref<string | null>(null)
-const activeUser = ref<UserType | null>(null)
+
 const { getAll } = storeToRefs(userStore)
 const { getAll: getAllEvents } = storeToRefs(eventStore)
 const users = computed(() => getAll.value)
@@ -111,15 +112,19 @@ onMounted(async() => {
 
 const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : "white")
 
-function onToggleUsersModal(type: string, user: UserType) {
-  activeUser.value = user
-  modalMode.value = type
-  isOpen.value = true
+function onToggleUsersModal(type: ModalModeEnum, user: UserType) {
+    setUiModal({
+    isActive: true,
+    modalName: AdminModalNameEnum.USER_ADMIN,
+    modalMode: type,
+    data: {
+      user,
+    }
+  })
+
 }
 
 function resetModal() {
-  modalMode.value = null
-  activeUser.value = null
-  isOpen.value = false
+  resetUIState()
 }
 </script>

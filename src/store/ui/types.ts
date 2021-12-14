@@ -7,7 +7,7 @@ export enum ModalModeEnum {
 	CREATE = 'CREATE',
 	EDIT = 'EDIT',
 	UPDATE = 'UPDATE',
-	DELETe = 'DELETE',
+	DELETE = 'DELETE',
 	READ = 'READ',
 }
 
@@ -16,6 +16,7 @@ export interface UiState {
 	isActive: boolean
 	data: Record<string, any> | null
 	modalMode: ModalModeEnum
+	isLoading: boolean
 }
 
 export interface ModalOptionsUi {

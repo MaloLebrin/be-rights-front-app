@@ -7,12 +7,12 @@
       @close="close"
     >
       <div
-        v-if="mode === UsersModalModeEnum.UPDATE && user"
+        v-if="mode === ModalModeEnum.UPDATE && user"
         class="h-full"
       >
         <Userform :id="user.id" />
       </div>
-      <div v-else-if="mode === UsersModalModeEnum.DELETE">
+      <div v-else-if="mode === ModalModeEnum.DELETE">
         test delete
               {{ user }}
 
@@ -22,17 +22,12 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
-import { UserType } from '@/store/typesExported'
+import { ModalModeEnum, UserType } from '@/store/typesExported'
 
-enum UsersModalModeEnum {
-  CREATE = 'create',
-  UPDATE = 'update',
-  DELETE = 'delete',
-}
 
 interface Props {
-  user: null | UserType
-  mode: null | UsersModalModeEnum
+  user?:  UserType
+  mode?: ModalModeEnum
   isActive: boolean
 }
 
@@ -42,18 +37,18 @@ const state = reactive({
 
 const props = withDefaults(defineProps<Props>(), {
   isActive: false,
-  user: null,
-  mode: null,
+  user: undefined,
+  mode: undefined,
 })
 
 function getModaleTitle() {
   if (props.user) {
     switch (props.mode) {
-      case UsersModalModeEnum.CREATE:
+      case ModalModeEnum.CREATE:
         return 'Nouvel utilisateur'
-      case UsersModalModeEnum.UPDATE:
+      case ModalModeEnum.UPDATE:
         return `Modifier utilisateur ${props.user.id}`
-      case UsersModalModeEnum.DELETE:
+      case ModalModeEnum.DELETE:
         return `Supprimer utilisateur ${props.user.id}`
       default:
         return 'Unknown mode'
