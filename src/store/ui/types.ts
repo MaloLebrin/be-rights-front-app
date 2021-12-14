@@ -7,7 +7,7 @@ export enum ModalModeEnum {
 	CREATE = 'CREATE',
 	EDIT = 'EDIT',
 	UPDATE = 'UPDATE',
-	DELETe = 'DELETE',
+	DELETE = 'DELETE',
 	READ = 'READ',
 }
 
