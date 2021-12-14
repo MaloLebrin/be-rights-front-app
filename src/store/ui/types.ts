@@ -17,3 +17,10 @@ export interface UiState {
 	data: Record<string, any> | null
 	modalMode: ModalModeEnum
 }
+
+export interface ModalOptionsUi {
+	modalName: AdminModalNameEnum
+	isActive: boolean
+	data: Record<string, any>
+	modalMode: ModalModeEnum
+}
