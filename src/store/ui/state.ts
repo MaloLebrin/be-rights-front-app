@@ -5,4 +5,5 @@ export const uiState: UiState = {
 	isActive: false,
 	data: null,
 	modalMode: ModalModeEnum.READ,
+	isLoading: false
 }

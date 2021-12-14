@@ -19,6 +19,12 @@ export const useUiStore = defineStore(EntitiesEnum.UI, {
 			this.isActive = options.isActive
 			this.data = options.data
 			this.modalMode = options.modalMode
-		}
+		},
+		setIsLoadingStart() {
+			this.isLoading = true
+		},
+		setIsLoadingEnd() {
+			this.isLoading = false
+		},
 	},
 })

@@ -16,6 +16,7 @@ export interface UiState {
 	isActive: boolean
 	data: Record<string, any> | null
 	modalMode: ModalModeEnum
+	isLoading: boolean
 }
 
 export interface ModalOptionsUi {
