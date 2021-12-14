@@ -3,6 +3,10 @@ export enum EntitiesEnum {
 	EVENTS = 'events',
 	EMPLOYEES = 'employees',
 	FILES = 'files',
+	ANSWERS = 'answers',
+	UI = 'ui',
+	PAYMENTS = 'payments',
+	SUBSCRIPTIONS = 'subscriptions',
 }
 
 export type BaseEntity = {
