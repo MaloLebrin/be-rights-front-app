@@ -25,12 +25,17 @@
         />
       </BField>
       <div class="grid grid-cols-1 gap-4">
-        <BLink>S'inscrire</BLink>
         <BButton
           :disabled="isSubmitDisabled"
           variant="danger"
           @click="submitLogin"
         >Se Connecter</BButton>
+				<BLink
+					tag="router-link"
+					to="/register"
+				>
+					S'inscrire
+				</BLink>
         <BLink>Mot de passe oublié</BLink>
       </div>
     </BCard>
