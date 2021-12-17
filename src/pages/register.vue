@@ -9,7 +9,7 @@
 			<div class="flex items-center">
 				<input
 					:id="RoleEnum.PHOTOGRAPHER"
-					v-model="form.roles"
+					v-model="roles"
 					:value="RoleEnum.PHOTOGRAPHER"
 					:name="RoleEnum.PHOTOGRAPHER"
 					type="radio"
@@ -23,7 +23,7 @@
 			<div class="flex items-center">
 				<input
 					:id="RoleEnum.COMPANY"
-					v-model="form.roles"
+					v-model="roles"
 					:value="RoleEnum.COMPANY"
 					:name="RoleEnum.COMPANY"
 					type="radio"
@@ -35,25 +35,48 @@
 				>je suis une enteprise ou un particulier</label>
 			</div>
 
-			<BField class="col-span-2" label="Nom de l'entreprise">
-				<BInput type="text" class="text-black" v-model="form.companyName" />
+			<BField
+				class="col-span-2"
+				label="Nom de l'entreprise"
+				:message="companyNameError"
+				:status="companyNameMeta.dirty && companyNameMeta.valid ? 'success' : 'error'"
+			>
+				<BInput type="text" class="text-black" v-model="companyName" />
 			</BField>
 
-			<BField label="Prénom">
-				<BInput type="text" class="text-black" v-model="form.firstName" />
+			<BField
+				label="Prénom"
+				:message="firstNameError"
+				:status="firstNameMeta.dirty && firstNameMeta.valid ? 'success' : 'error'"
+			>
+				<BInput type="text" class="text-black" v-model="firstName" />
 			</BField>
-			<BField label="Nom">
-				<BInput type="text" class="text-black" v-model="form.lastName" />
+			<BField
+				label="Nom"
+				:message="lastNameError"
+				:status="lastNameMeta.dirty && lastNameMeta.valid ? 'success' : 'error'"
+			>
+				<BInput type="text" class="text-black" v-model="lastName" />
 			</BField>
-			<BField class="col-span-2" label="Address e-mail">
-				<BInput type="email" class="text-black" v-model="form.email" />
+			<BField
+				class="col-span-2"
+				label="Address e-mail"
+				:message="emailError"
+				:status="emailMeta.dirty && emailMeta.valid ? 'success' : 'error'"
+			>
+				<BInput type="email" class="text-black" v-model="email" />
 			</BField>
-			<BField class="col-span-2" label="Mot de passe">
-				<BInput type="password" class="text-black" v-model="form.password" />
+			<BField
+				class="col-span-2"
+				label="Mot de passe"
+				:message="passwordError"
+				:status="passwordMeta.dirty && passwordMeta.valid ? 'success' : 'error'"
+			>
+				<BInput type="password" class="text-black" v-model="password" />
 			</BField>
 
 			<div class="col-span-2 flex flex-col justify-center items-center">
-				<BButton class="mb-8" variant="danger" @click="submitregister">S'inscrire</BButton>
+				<BButton :disabled="!meta.valid || !meta.dirty" class="mb-8" @click="submitregister">S'inscrire</BButton>
 				<BLink tag="router-link" to="/login">J'ai déjà un compte</BLink>
 			</div>
 		</div>
@@ -61,23 +84,38 @@
 </template>
 
 <script setup lang='ts'>
-import { reactive } from 'vue'
 import { userHook } from '@/hooks'
 import { RoleEnum } from '@/types'
-
+import { useField, useForm } from 'vee-validate'
+import * as yup from 'yup'
 const { register } = userHook()
 
-const form = reactive({
-	companyName: '',
-	email: '',
-	password: '',
-	firstName: '',
-	lastName: '',
-	roles: RoleEnum.PHOTOGRAPHER
+const schema = yup.object({
+	companyName: yup.string().required().label('Nom de l\'entreprise'),
+	email: yup.string().email().required().label('Adresse email'),
+	password: yup.string().required().label('Mot de passe'),
+	firstName: yup.string().required().label('Prénom'),
+	lastName: yup.string().required().label('Nom'),
+	roles: yup.string().required()
 })
+const { meta } = useForm({ validationSchema: schema })
+const { errorMessage: emailError, value: email, meta: emailMeta, setErrors } = useField<string>('email')
+const { errorMessage: passwordError, value: password, meta: passwordMeta } = useField<string>('password')
+const { errorMessage: companyNameError, value: companyName, meta: companyNameMeta } = useField<string>('companyName')
+const { errorMessage: firstNameError, value: firstName, meta: firstNameMeta } = useField<string>('firstName')
+const { errorMessage: lastNameError, value: lastName, meta: lastNameMeta } = useField<string>('lastName')
+const { value: roles, meta: rolesMeta } = useField<RoleEnum>('roles', undefined, { initialValue: RoleEnum.COMPANY })
+
 
 async function submitregister() {
-	await register(form)
+	await register({
+		email: email.value,
+		password: password.value,
+		companyName: companyName.value,
+		firstName: firstName.value,
+		lastName: lastName.value,
+		roles: roles.value,
+	})
 }
 
 
