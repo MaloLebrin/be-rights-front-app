@@ -433,10 +433,10 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
-be-right-vue3-lib@^0.1.27:
-  version "0.1.27"
-  resolved "https://registry.yarnpkg.com/be-right-vue3-lib/-/be-right-vue3-lib-0.1.27.tgz#4c132c51a8e78a3ec476bfd88bf40b17b15fd5a4"
-  integrity sha512-crk7OaW50LiP1Ryzki/+ptBHKC3kIrzwWxODufCZ53gIYHYwn53p4AkBAzcNYIHkHXf5/yayoClC9MPfgmJhQQ==
+be-right-vue3-lib@^0.1.28:
+  version "0.1.28"
+  resolved "https://registry.yarnpkg.com/be-right-vue3-lib/-/be-right-vue3-lib-0.1.28.tgz#b1d498e434dbea63891dbe0100dd8b8799882bff"
+  integrity sha512-4dlsuDRIgGLFaISE2g+a99RnI69w/Y5VR6FGOTW1L/nEuDIw4lA7+ChICqskAspG2lwiNtZs1Qmj1t910Kf9hw==
   dependencies:
     autoprefixer "^9.8.8"
     core-js "^3.6.5"
