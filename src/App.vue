@@ -1,9 +1,6 @@
 <template>
-  <router-view v-slot="{ Component, route }">
-    <component
-      :is="Component"
-      :key="route.path"
-    />
+  <router-view class="bg-white dark:bg-blue-dark min-h-screen" v-slot="{ Component, route }">
+    <component :is="Component" :key="route.path" />
   </router-view>
 </template>
 <script setup lang="ts">
@@ -11,14 +8,14 @@ import { watch, onBeforeMount } from 'vue'
 import { authHook } from './hooks'
 import { useMainStore } from './store'
 
-    const store = useMainStore()
-    const { routesIntermsOfUserRoles } = authHook()
+const store = useMainStore()
+const { routesIntermsOfUserRoles } = authHook()
 
-    watch(() => [store.setIsLoggedIn], async () => {
-      await routesIntermsOfUserRoles()
-    })
+watch(() => [store.setIsLoggedIn], async () => {
+  await routesIntermsOfUserRoles()
+})
 
-    onBeforeMount(async () => await routesIntermsOfUserRoles())
+onBeforeMount(async () => routesIntermsOfUserRoles())
 
 </script>
 

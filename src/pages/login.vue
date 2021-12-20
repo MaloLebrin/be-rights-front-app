@@ -1,7 +1,7 @@
 <template>
   <transition name="fade">
-    <div class="container grid grid-cols-1 md:grid-cols-2 gap-12 h-full w-full bg-white mt-52">
-      <div class="flex flex-col space-y-12">
+    <div class="mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 mt-32 px-8 py-8">
+      <div class="flex flex-col space-y-12 space-x-12 max-w-1/2">
         <div class="mb-26">
           <h1 class="text-black dark:text-white">Connectez vous sur</h1>
           <SimpleLogo />
@@ -29,13 +29,13 @@
             :isLoading="isLoading"
             @click="submitLogin"
           >Se Connecter</BButton>
-          <BLink tag="router-link" to="/register">S'inscrire</BLink>
-          <BLink>Mot de passe oublié</BLink>
+          <BLink class="dark:text-white" tag="router-link" to="/register">S'inscrire</BLink>
+          <BLink class="dark:text-white">Mot de passe oublié</BLink>
         </div>
       </div>
 
       <img
-        class="shadow-2xl TranslateUpAnimation cursor-none"
+        class="shadow-2xl TranslateUpAnimation cursor-none hidden md:block max-w-5xl object-cover w-2/3"
         src="@/assets/camera.jpg"
         alt="camera picture"
       />

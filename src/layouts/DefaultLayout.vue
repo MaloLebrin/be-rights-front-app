@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col justify-center w-full">
+  <div class="w-full">
     <Header />
-    <main class="container w-full mx-auto">
+    <main class="w-full">
       <Loader :isLoading="isLoading" :type="LoaderTypeEnum.BOUNCE" />
       <router-view />
     </main>
