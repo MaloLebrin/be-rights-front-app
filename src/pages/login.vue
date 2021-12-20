@@ -12,7 +12,7 @@
           :message="emailError"
           :status="emailMeta.dirty && emailMeta.valid ? 'success' : 'error'"
         >
-          <BInput type="email" class="text-black" v-model="email" />
+          <BInput type="email" class="text-black dark:text-gray-900" v-model="email" />
         </BField>
         <BField
           label="Mot de passe"
@@ -25,7 +25,7 @@
           <BButton
             :disabled="!meta.valid || !meta.dirty"
             :class="{ 'cursor-not-allowed opacity-70': !meta.valid || !meta.dirty }"
-            variant="danger"
+            :variant="isDarkTheme ? 'white' : 'primary'"
             :isLoading="isLoading"
             @click="submitLogin"
           >Se Connecter</BButton>
@@ -45,11 +45,14 @@
 
 <script setup lang="ts">
 import { userHook } from '@/hooks'
+import { useMainStore } from '@/store'
 import { useField, useForm } from 'vee-validate'
 import { ref } from 'vue'
 import * as yup from 'yup'
 
 const { login } = userHook()
+const mainStore = useMainStore()
+const { isDarkTheme } = mainStore
 
 const schema = yup.object({
   email: yup.string().email().required().label('Adresse email'),

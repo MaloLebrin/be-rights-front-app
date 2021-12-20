@@ -1,6 +1,6 @@
 <template>
-  <router-view class="bg-white dark:bg-blue-dark min-h-screen" v-slot="{ Component, route }">
-    <component :is="Component" :key="route.path" />
+  <router-view v-slot="{ Component, route }">
+    <component :is="Component" :key="route.path" class="bg-white dark:bg-blue-dark min-h-screen" />
   </router-view>
 </template>
 <script setup lang="ts">
@@ -28,5 +28,6 @@ onBeforeMount(async () => routesIntermsOfUserRoles())
   color: #2c3e50;
   display: flex;
   justify-content: center;
+  flex: 1;
 }
 </style>
