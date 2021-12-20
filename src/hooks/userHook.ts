@@ -2,7 +2,7 @@ import axiosInstance from "@/axios.config"
 import { useCookie } from 'vue-cookie-next'
 import router from '@/router'
 import APi, { PaginatedResponse } from '@/helpers/api'
-import { ThemeEnum } from '@/types'
+import { RoleEnum, ThemeEnum } from '@/types'
 import { EmployeeType, EventType, FileType, UserType } from '@/store/typesExported'
 import { useEmployeeStore, useEventStore, useFileStore, useMainStore, useUserStore } from "@/store"
 
@@ -19,6 +19,25 @@ export function userHook() {
 		try {
 			mainStore.toggleIsLoading()
 			const res = await axiosInstance.post('user/login', { email, password })
+			const user = res.data as UserType
+			storeEntitiesOnLoginOrToken(user)
+			setCookie('userToken', user.token)
+			if (user && userStore.isCurrentUserAdmin) {
+				router.push('/adminDashboard')
+			} else {
+				router.push('/userDashboard')
+			}
+			mainStore.setIsLoggedIn()
+		} catch (error) {
+			console.error(error)
+		}
+		mainStore.toggleIsLoading()
+	}
+
+	async function register({ companyName, email, password, firstName, lastName, roles }: { companyName: string, email: string, password: string, firstName: string, lastName: string, roles: RoleEnum }) {
+		try {
+			mainStore.toggleIsLoading()
+			const res = await axiosInstance.post('user', { companyName, email, password, firstName, lastName, roles })
 			const user = res.data as UserType
 			storeEntitiesOnLoginOrToken(user)
 			setCookie('userToken', user.token)
@@ -88,9 +107,10 @@ export function userHook() {
 	}
 
 	return {
-		login,
-		userToggleTheme,
 		fetchAll,
+		login,
+		register,
 		storeEntitiesOnLoginOrToken,
+		userToggleTheme,
 	}
 }

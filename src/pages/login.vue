@@ -1,61 +1,83 @@
 <template>
-  <div class="flex flex-col items-center justify-center h-full w-full
-  bg-white">
-    <BCard
-      variant="white"
-      class="p-16 dark:bg-blue-dark_bold DarkModeAnimation"
-    >
-      <div class="mb-6">
-        <h1 class="text-black dark:text-white">Bienvenue sur</h1>
-        <SimpleLogo />
+  <transition name="fade">
+    <div class="container grid grid-cols-1 md:grid-cols-2 gap-12 h-full w-full bg-white mt-52">
+      <div class="flex flex-col space-y-12">
+        <div class="mb-26">
+          <h1 class="text-black dark:text-white">Connectez vous sur</h1>
+          <SimpleLogo />
+        </div>
+
+        <BField
+          label="Address e-mail"
+          :message="emailError"
+          :status="emailMeta.dirty && emailMeta.valid ? 'success' : 'error'"
+        >
+          <BInput type="email" class="text-black" v-model="email" />
+        </BField>
+        <BField
+          label="Mot de passe"
+          :message="passwordError"
+          :status="passwordMeta.dirty && passwordMeta.valid ? 'success' : 'error'"
+        >
+          <BInput type="password" class="text-black" v-model="password" />
+        </BField>
+        <div class="flex flex-col justify-center items-center space-y-6">
+          <BButton
+            :disabled="!meta.valid || !meta.dirty"
+            :class="{ 'cursor-not-allowed opacity-70': !meta.valid || !meta.dirty }"
+            variant="danger"
+            :isLoading="isLoading"
+            @click="submitLogin"
+          >Se Connecter</BButton>
+          <BLink tag="router-link" to="/register">S'inscrire</BLink>
+          <BLink>Mot de passe oublié</BLink>
+        </div>
       </div>
 
-      <BField label="Address e-mail">
-        <BInput
-          type="email"
-          class="text-black"
-          v-model="form.email"
-        />
-      </BField>
-      <BField label="Mot de passe">
-        <BInput
-          type="password"
-          class="text-black"
-          v-model="form.password"
-        />
-      </BField>
-      <div class="grid grid-cols-1 gap-4">
-        <BButton
-          :disabled="isSubmitDisabled"
-          variant="danger"
-          @click="submitLogin"
-        >Se Connecter</BButton>
-				<BLink
-					tag="router-link"
-					to="/register"
-				>
-					S'inscrire
-				</BLink>
-        <BLink>Mot de passe oublié</BLink>
-      </div>
-    </BCard>
-  </div>
+      <img
+        class="shadow-2xl TranslateUpAnimation cursor-none"
+        src="@/assets/camera.jpg"
+        alt="camera picture"
+      />
+    </div>
+  </transition>
 </template>
 
 <script setup lang="ts">
 import { userHook } from '@/hooks'
-import { computed, reactive } from 'vue'
+import { useField, useForm } from 'vee-validate'
+import { ref } from 'vue'
+import * as yup from 'yup'
 
-    const { login } = userHook()
-    const form = reactive({
-      email: '',
-      password: '',
-    })
+const { login } = userHook()
 
-    async function submitLogin() {
-      await login({ email: form.email, password: form.password })
-    }
+const schema = yup.object({
+  email: yup.string().email().required().label('Adresse email'),
+  password: yup.string().required().label('Mot de passe'),
+})
 
-    const isSubmitDisabled = computed(() => form.email.length === 0 || form.password.length === 0)
+const isLoading = ref(false)
+
+const { meta } = useForm({ validationSchema: schema })
+const { errorMessage: emailError, value: email, meta: emailMeta, setErrors } = useField<string>('email')
+const { errorMessage: passwordError, value: password, meta: passwordMeta } = useField<string>('password')
+
+async function submitLogin() {
+  isLoading.value = true
+  await login({ email: email.value, password: password.value })
+  isLoading.value = false
+}
 
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.8s ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

@@ -25,7 +25,7 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
 			const res = await api.get(`event/${id}`)
 			const event = res as EventType
 			if (this.getAllIds.includes(event.id)) {
-				this.createOne(event as EventType)
+				this.createOne(event)
 			}
 		},
 
@@ -55,11 +55,13 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
 			const api = new APi(userStore.entities.current?.token!)
 			try {
 				const res = await api.get(`event/user/${userId}`)
-				const { data, count }: { data: EventType[], count: number } = res
-				const ids = data.map(event => event.id).filter(id => !this.getAllIds.includes(id))
-				if (ids.length > 0) {
-					const events = data.filter(event => !ids.includes(event.id))
-					this.createMany(events)
+				const { data }: { data: EventType[], count: number } = res
+				if (data.length > 0) {
+					const ids = data.map(event => event.id).filter(id => !this.getAllIds.includes(id))
+					if (ids.length > 0) {
+						const events = data.filter(event => !ids.includes(event.id))
+						this.createMany(events)
+					}
 				}
 			} catch (error) {
 				console.error(error)
