@@ -66,7 +66,7 @@
 				:status="subscriptionMeta.valid ? 'success' : 'error'"
 			>
 				<Select
-					:options="userRolesArray"
+					:options="subscriptionArray"
 					:default="subscription ? subscription : 'Sélectionnez un Abonnement'"
 					@selected="subscription = $event"
 				/>
@@ -118,7 +118,7 @@ import { useEmployeeStore, useEventStore, useUserStore } from '@/store'
 import { RoleEnum, userRolesArray, LoaderTypeEnum } from '@/types'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
-import { SubscriptionEnum } from '@/store/typesExported'
+import { subscriptionArray, SubscriptionEnum } from '@/store/typesExported'
 
 interface Props {
 	id: number
@@ -141,11 +141,11 @@ const isLoading = ref(false)
 const eventOrEmployeeSectionTitle = computed(() => isEventMode.value ? 'Événements' : 'Employés')
 
 const schema = yup.object({
-	companyName: yup.string().label('Nom de l\'entreprise'),
+	companyName: yup.string().nullable().label('Nom de l\'entreprise'),
 	email: yup.string().email().required().label('Adresse email'),
 	firstName: yup.string().required().label('Prénom'),
 	lastName: yup.string().required().label('Nom'),
-	siret: yup.string().label('N° Siret'),
+	siret: yup.string().nullable().label('N° Siret'),
 	roles: yup.string().required().label('Role'),
 	subscription: yup.string().required().label('Abonnement')
 })
