@@ -26,6 +26,7 @@
             :disabled="!meta.valid || !meta.dirty"
             :class="{ 'cursor-not-allowed opacity-70': !meta.valid || !meta.dirty }"
             variant="danger"
+            :isLoading="isLoading"
             @click="submitLogin"
           >Se Connecter</BButton>
           <BLink tag="router-link" to="/register">S'inscrire</BLink>
@@ -45,6 +46,7 @@
 <script setup lang="ts">
 import { userHook } from '@/hooks'
 import { useField, useForm } from 'vee-validate'
+import { ref } from 'vue'
 import * as yup from 'yup'
 
 const { login } = userHook()
@@ -53,12 +55,17 @@ const schema = yup.object({
   email: yup.string().email().required().label('Adresse email'),
   password: yup.string().required().label('Mot de passe'),
 })
+
+const isLoading = ref(false)
+
 const { meta } = useForm({ validationSchema: schema })
 const { errorMessage: emailError, value: email, meta: emailMeta, setErrors } = useField<string>('email')
 const { errorMessage: passwordError, value: password, meta: passwordMeta } = useField<string>('password')
 
 async function submitLogin() {
+  isLoading.value = true
   await login({ email: email.value, password: password.value })
+  isLoading.value = false
 }
 
 </script>

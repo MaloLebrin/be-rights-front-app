@@ -79,6 +79,7 @@
 				<BButton
 					:disabled="!meta.valid || !meta.dirty"
 					:class="['mb-8', { 'cursor-not-allowed opacity-70': !meta.valid || !meta.dirty }]"
+					:isLoading="isLoading"
 					@click="submitregister"
 				>S'inscrire</BButton>
 				<BLink tag="router-link" to="/login">J'ai déjà un compte</BLink>
@@ -91,6 +92,7 @@
 import { userHook } from '@/hooks'
 import { RoleEnum } from '@/types'
 import { useField, useForm } from 'vee-validate'
+import { ref } from 'vue'
 import * as yup from 'yup'
 const { register } = userHook()
 
@@ -102,6 +104,9 @@ const schema = yup.object({
 	lastName: yup.string().required().label('Nom'),
 	roles: yup.string().required()
 })
+
+const isLoading = ref(false)
+
 const { meta } = useForm({ validationSchema: schema })
 const { errorMessage: emailError, value: email, meta: emailMeta, setErrors } = useField<string>('email')
 const { errorMessage: passwordError, value: password, meta: passwordMeta } = useField<string>('password')
@@ -112,6 +117,7 @@ const { value: roles } = useField<RoleEnum>('roles', undefined, { initialValue: 
 
 
 async function submitregister() {
+	isLoading.value = true
 	await register({
 		email: email.value,
 		password: password.value,
@@ -120,6 +126,7 @@ async function submitregister() {
 		lastName: lastName.value,
 		roles: roles.value,
 	})
+	isLoading.value = false
 }
 
 
