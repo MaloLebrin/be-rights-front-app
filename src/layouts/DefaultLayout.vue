@@ -1,11 +1,8 @@
 <template>
   <div class="flex flex-col justify-center w-full">
     <Header />
-    <main class="w-full min-h-screen mx-auto">
-      <Loader
-        :isLoading="isLoading"
-        :type="LoaderTypeEnum.BOUNCE"
-      />
+    <main class="container w-full mx-auto">
+      <Loader :isLoading="isLoading" :type="LoaderTypeEnum.BOUNCE" />
       <router-view />
     </main>
     <Footer />
@@ -24,7 +21,7 @@ export default defineComponent({
     const mainStore = useMainStore()
     const { isLoading } = storeToRefs(mainStore)
 
-  return {
+    return {
       isLoading,
       LoaderTypeEnum,
     }

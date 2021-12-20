@@ -76,7 +76,11 @@
 			</BField>
 
 			<div class="col-span-2 flex flex-col justify-center items-center">
-				<BButton :disabled="!meta.valid || !meta.dirty" class="mb-8" @click="submitregister">S'inscrire</BButton>
+				<BButton
+					:disabled="!meta.valid || !meta.dirty"
+					:class="['mb-8', { 'cursor-not-allowed opacity-70': !meta.valid || !meta.dirty }]"
+					@click="submitregister"
+				>S'inscrire</BButton>
 				<BLink tag="router-link" to="/login">J'ai déjà un compte</BLink>
 			</div>
 		</div>
@@ -104,7 +108,7 @@ const { errorMessage: passwordError, value: password, meta: passwordMeta } = use
 const { errorMessage: companyNameError, value: companyName, meta: companyNameMeta } = useField<string>('companyName')
 const { errorMessage: firstNameError, value: firstName, meta: firstNameMeta } = useField<string>('firstName')
 const { errorMessage: lastNameError, value: lastName, meta: lastNameMeta } = useField<string>('lastName')
-const { value: roles, meta: rolesMeta } = useField<RoleEnum>('roles', undefined, { initialValue: RoleEnum.COMPANY })
+const { value: roles } = useField<RoleEnum>('roles', undefined, { initialValue: RoleEnum.COMPANY })
 
 
 async function submitregister() {
