@@ -92,7 +92,7 @@ export function userHook() {
 
 	async function fetchAll() {
 		try {
-			const res = await api.get('user')
+			const res = await api.get('user/?limit=999999')
 			const { currentPage, data, limit, total }: PaginatedResponse<UserType> = res
 			const events = data.reduce((acc, user) => [...acc, ...user.events as EventType[]], [] as EventType[])
 			const missingEventIds = events.map(event => event.id).filter(id => !eventStore.getAllIds.includes(id))
@@ -106,7 +106,20 @@ export function userHook() {
 		}
 	}
 
+	async function deleteUser(id: number) {
+		try {
+			mainStore.toggleIsLoading()
+			const res = await api.delete(`user/${id}`)
+			console.log(res, 'res')
+			userStore.deleteOne(id)
+		} catch (error) {
+			console.error(error)
+		}
+		mainStore.toggleIsLoading()
+	}
+
 	return {
+		deleteUser,
 		fetchAll,
 		login,
 		register,

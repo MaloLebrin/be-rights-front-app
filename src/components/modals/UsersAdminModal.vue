@@ -6,7 +6,7 @@
     :isActive="isActive"
     @close="close"
   >
-    <div v-if="mode === ModalModeEnum.UPDATE && user" class="h-full">
+    <div v-if="mode === ModalModeEnum.UPDATE && user" class="h-full mt-12">
       <Userform :id="user.id" />
     </div>
     <div v-else-if="mode === ModalModeEnum.DELETE" class="py-6">
@@ -14,7 +14,7 @@
         class="text-center text-gray-800 dark:text-white"
       >Êtes vous sur de supprimer cet utilisateur ?</p>
       <div class="flex items-center justify-center mt-12 space-x-6">
-        <BButton variant="danger" :isLoading="state.isLoading" @click="deleteUser">Supprimer</BButton>
+        <BButton variant="danger" :isLoading="state.isLoading" @click="deleteOne">Supprimer</BButton>
         <BButton :variant="isDarkTheme ? 'white' : 'primary'" @click="close">Annuler</BButton>
       </div>
     </div>
@@ -25,7 +25,7 @@
 import { reactive } from 'vue'
 import { ModalModeEnum, UserType } from '@/store/typesExported'
 import { useMainStore } from '@/store'
-
+import { userHook } from '@/hooks'
 
 interface Props {
   user?: UserType
@@ -40,6 +40,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const mainStore = useMainStore()
 const { isDarkTheme } = mainStore
+const { deleteUser } = userHook()
 
 const state = reactive({
   isLoading: false,
@@ -60,9 +61,9 @@ function getModaleTitle() {
   }
 }
 
-async function deleteUser() {
+async function deleteOne() {
   state.isLoading = true
-  // await mainStore.deleteUser(props.user.id)
+  await deleteUser(props.user.id)
   state.isLoading = false
   close()
 }
