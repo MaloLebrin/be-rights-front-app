@@ -1,5 +1,5 @@
 <template>
-	<div v-if="user" class="mt-4 px-4 w-full h-full">
+	<div v-if="user" class="mt-4 px-6 w-full h-full">
 		<form class="grid grid-cols-2 gap-4">
 			<BField
 				label="Prénom"
@@ -72,7 +72,7 @@
 				/>
 			</BField>
 		</form>
-		<div class="mt-4 text-black-light">
+		<div class="mt-12 text-black-light">
 			<div class="flex items-center justify-between text-blue dark:text-indigo-50">
 				<h5 class="text-blue dark:text-white-break font-bold text-xl">{{ eventOrEmployeeSectionTitle }}</h5>
 				<Switch
@@ -100,7 +100,7 @@
 				/>
 			</div>
 		</div>
-		<div class="flex items-center justify-center w-full">
+		<div class="flex items-center justify-center w-full mt-12">
 			<BButton
 				variant="white"
 				class="mt-4 dark:text-black"
