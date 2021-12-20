@@ -9,6 +9,9 @@ export const useUiStore = defineStore(EntitiesEnum.UI, {
 		getUIState(state) {
 			return state
 		},
+		getUiIsLoading(state) {
+			return state.isLoading
+		}
 	},
 	actions: {
 		resetUIState() {
