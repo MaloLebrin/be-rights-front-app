@@ -37,7 +37,6 @@ import { reactive } from 'vue'
 import { CheckIcon } from '@heroicons/vue/outline'
 import APi, { PaginatedResponse } from "@/helpers/api"
 import { useUserStore } from '@/store'
-import { EmployeeType } from '@/store/typesExported'
 import { TagVariantsEnum } from '@/types'
 
 interface Props {
@@ -58,10 +57,16 @@ const emit = defineEmits<{
 
 const userStore = useUserStore()
 
-const state = reactive({
+interface State {
+	search: string
+	data: any[]
+	selectedItems: any[]
+	timeout: number
+}
+
+const state = reactive<State>({
 	search: '',
 	data: [],
-	waitingSearch: false,
 	timeout: 0,
 	selectedItems: [],
 })
