@@ -176,9 +176,17 @@ const { value: subscription, errorMessage: subscriptionError, meta: subscription
 watch(() => isEventMode.value, async (newValue) => {
 	isLoading.value = true
 	if (!newValue) {
-		await employeeStore.fetchAllByUserId(user.value.id)
+		const employeeIds = userStore.getCurrent?.employee as number[]
+		const missingIds = employeeIds.filter(id => !employeeStore.getOne(id))
+		if (missingIds.length > 0) {
+			await employeeStore.fetchAllByUserId(user.value.id)
+		}
 	} else {
-		await eventStore.fetchAllByUserId(user.value.id)
+		const eventIds = userStore.getCurrent?.events as number[]
+		const missingIds = eventIds.filter(id => !eventStore.getOne(id))
+		if (missingIds.length > 0) {
+			await eventStore.fetchAllByUserId(user.value.id)
+		}
 	}
 	isLoading.value = false
 })
