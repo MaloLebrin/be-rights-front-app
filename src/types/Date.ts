@@ -3,3 +3,8 @@ export enum DateFormatEnum {
 	DAYMONTHYEAR = 'DAYMONTHYEAR',
 	DDMM = 'DDMM',
 }
+
+export interface Period {
+	end: Date,
+	start: Date,
+}

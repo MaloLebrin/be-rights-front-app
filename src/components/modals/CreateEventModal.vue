@@ -1,5 +1,6 @@
 <template>
 	<BaseModal
+		class="mt-32"
 		title="Créer un événement"
 		:isLoading="getUiIsLoading"
 		:isActive="isActive"
@@ -21,7 +22,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const uiStore = useUiStore()
 
-const { getUiIsLoading, getUIState } = uiStore
+const { getUiIsLoading, getUIState, resetUIState } = uiStore
 
 const emit = defineEmits<{
 	(e: 'close'): void
@@ -29,6 +30,7 @@ const emit = defineEmits<{
 
 function close() {
 	emit('close')
+	resetUIState()
 }
 
 </script>

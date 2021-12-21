@@ -10,37 +10,61 @@
 			<BInput class="text-white dark:text-blue-dark" type="text" id="name" v-model="name" />
 		</BField>
 		<BField
-			label="Adresse"
-			labelFor="address"
-			:message="addressError"
-			:status="addressMeta.valid ? 'success' : 'error'"
+			class
+			label="Dates"
+			labelFor="dates"
+			:message="datesError"
+			:status="datesMeta.valid ? 'success' : 'error'"
 		>
-			<BInput class="text-white dark:text-blue-dark" type="text" id="address" v-model="address" />
+			<v-date-picker
+				v-model="period"
+				mode="dateTime"
+				:is-dark="isDarkTheme"
+				is-range
+				is24hr
+				is-expanded
+			/>
 		</BField>
-		<BField
-			label="Code postal"
-			labelFor="postalCode"
-			:message="postalCodeError"
-			:status="postalCodeMeta.valid ? 'success' : 'error'"
-		>
-			<BInput class="text-white dark:text-blue-dark" type="text" id="postalCode" v-model="postalCode" />
-		</BField>
-		<BField
-			label="Ville"
-			labelFor="city"
-			:message="cityError"
-			:status="cityMeta.valid ? 'success' : 'error'"
-		>
-			<BInput class="text-white dark:text-blue-dark" type="text" id="city" v-model="city" />
-		</BField>
-		<BField
-			label="Pays"
-			labelFor="country"
-			:message="countryError"
-			:status="countryMeta.valid ? 'success' : 'error'"
-		>
-			<BInput class="text-white dark:text-blue-dark" type="text" id="country" v-model="country" />
-		</BField>
+
+		<div>
+			<BField
+				label="Adresse"
+				labelFor="address"
+				:message="addressError"
+				:status="addressMeta.valid ? 'success' : 'error'"
+			>
+				<BInput class="text-white dark:text-blue-dark" type="text" id="address" v-model="address" />
+			</BField>
+			<BField
+				label="Code postal"
+				labelFor="postalCode"
+				:message="postalCodeError"
+				:status="postalCodeMeta.valid ? 'success' : 'error'"
+			>
+				<BInput
+					class="text-white dark:text-blue-dark"
+					type="text"
+					id="postalCode"
+					v-model="postalCode"
+				/>
+			</BField>
+			<BField
+				label="Ville"
+				labelFor="city"
+				:message="cityError"
+				:status="cityMeta.valid ? 'success' : 'error'"
+			>
+				<BInput class="text-white dark:text-blue-dark" type="text" id="city" v-model="city" />
+			</BField>
+			<BField
+				label="Pays"
+				labelFor="country"
+				:message="countryError"
+				:status="countryMeta.valid ? 'success' : 'error'"
+			>
+				<BInput class="text-white dark:text-blue-dark" type="text" id="country" v-model="country" />
+			</BField>
+		</div>
 		<BField
 			v-if="isCurrentUserAdmin"
 			label="Utilisateur"
@@ -50,21 +74,30 @@
 		>
 			<BInput class="text-white dark:text-blue-dark" type="text" id="userId" v-model="userId" />
 		</BField>
+		<BField
+			label="Destinataires"
+			labelFor="employee"
+			:message="employeeError"
+			:status="employeeMeta.valid ? 'success' : 'error'"
+		>
+			<BInput class="text-white dark:text-blue-dark" type="text" id="employee" v-model="employees" />
+		</BField>
 	</form>
 	<div class="flex items-center justify-center mt-6">
 		<BButton
-			variant="white"
 			:disabled="!meta.valid || !meta.dirty"
+			variant="white"
 			class="mr-2 dark:text-black"
 			@click="submit"
 		>{{ mode === ModalModeEnum.CREATE ? 'Créer' : 'Enregistrer' }}</BButton>
 	</div>
 </template>
 <script setup lang='ts'>
-import { useEventStore, useUserStore } from '@/store'
+import { useEventStore, useMainStore, useUserStore } from '@/store'
 import { ModalModeEnum } from '@/store/typesExported'
+import { Period } from '@/types'
 import { useField, useForm } from 'vee-validate'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import * as yup from 'yup'
 
 interface Props {
@@ -76,14 +109,23 @@ const props = withDefaults(defineProps<Props>(), {
 	mode: undefined,
 })
 
+const mainStore = useMainStore()
 const eventStore = useEventStore()
 const userStore = useUserStore()
-const { isCurrentUserAdmin } = userStore
+const { isDarkTheme } = mainStore
+const { isCurrentUserAdmin, getCurrent } = userStore
 
 const event = computed(() => eventStore.getOne(props.eventId))
 
 const schema = yup.object({
 	name: yup.string().required().label('Nom'),
+	start: yup.date().required().label('Début'),
+	end: yup.date().required().label('Fin'),
+	address: yup.string().label('Adresse'),
+	postalCode: yup.string().label('Code postal'),
+	city: yup.string().label('Ville'),
+	country: yup.string().label('Pays'),
+	userId: yup.string().required().label('Utilisateur'),
 })
 
 const { meta, errors } = useForm({ validationSchema: schema })
@@ -105,8 +147,36 @@ const { errorMessage: countryError, value: country, meta: countryMeta } = useFie
 const { errorMessage: userIdError, value: userId, meta: userIdMeta } = useField<number | null>('Utilisateur', undefined, {
 	initialValue: event.value ? event.value.userId : '',
 })
+const { errorMessage: datesError, meta: datesMeta, value: period } = useField<Period>('Dates', undefined, {
+	initialValue: event.value ? { start: event.value.start, end: event.value.end } : { start: new Date(), end: new Date() },
+})
+// TODO typing this
+const { errorMessage: employeeError, value: employees, meta: employeeMeta } = useField<any[] | null>('Destinataires', undefined, {
+	initialValue: event.value ? event.value.employees : '',
+})
+
+const userCreateEvent = computed(() => {
+	if (isCurrentUserAdmin) {
+		return userId.value
+	} else {
+		return getCurrent?.id
+	}
+})
 
 async function submit() {
-	return
+	console.log(period.value, 'date.value')
+	const payload = {
+		name: name.value,
+		start: period.value.start,
+		end: period.value.end,
+		address: address.value,
+		postalCode: postalCode.value,
+		city: city.value,
+		country: country.value,
+		userId: userCreateEvent.value,
+	}
+	if (employees.value && employees.value.length > 0) {
+		// await createManyForEvent
+	}
 }
 </script>
