@@ -53,7 +53,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-	(e: 'selected', selectedData: any[] | null): void
+	(e: 'selected', selectedData: any[] | any | null): void
 	(e: 'close'): void
 }>()
 
@@ -84,7 +84,6 @@ async function searchEntity(event: Event) {
 }
 
 function onOptionClick(item: any) {
-	console.log(props.isMultiple, 'props.isMultiple')
 	if (props.isMultiple) {
 		if (state.selectedItems.includes(item)) {
 			removeItem(item.id)
