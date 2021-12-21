@@ -23,6 +23,7 @@ declare module 'vue' {
     Header: typeof import('./../../components/header/Header.vue')['default']
     HeaderList: typeof import('./../../components/header/HeaderList.vue')['default']
     Index: typeof import('./../../pages/Index.vue')['default']
+    InputSearchSelect: typeof import('./../../components/forms/InputSearchSelect.vue')['default']
     Loader: typeof import('./../../components/content/Loader.vue')['default']
     Login: typeof import('./../../pages/login.vue')['default']
     LoginModal: typeof import('./../../components/modals/LoginModal.vue')['default']
