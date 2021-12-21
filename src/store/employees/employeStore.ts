@@ -22,6 +22,7 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
 	},
 	actions: {
 		...createActions<EmployeeType>(employeState),
+
 		async fetchAllByUserId(userId: number) {
 			const userStore = useUserStore()
 			const api = new APi(userStore.entities.current?.token!)
