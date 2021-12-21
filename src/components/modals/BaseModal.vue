@@ -2,7 +2,7 @@
 	<div
 		id="base-modal"
 		v-show="isModalOpen"
-		class="absolute dark:bg-blue-dark_bold bg-white top-0 left-0 right-0 w-full flex items-center justify-center transition ease-in-out duration-700 rounded-lg shadow-2xl TranslateUpAnimation"
+		class="absolute dark:bg-blue-dark_bold bg-white top-0 left-0 right-0 w-full flex items-center justify-center transition ease-in-out duration-700 rounded-lg shadow-2xl"
 	>
 		<div class="px-5 py-4 shadow-2xl rounded-lg relative w-full h-full">
 			<div class="text-center text-xl font-semibold text-black dark:text-white">

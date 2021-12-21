@@ -33,6 +33,7 @@ declare module 'vue' {
     SimpleLogo: typeof import('./../../components/logo/SimpleLogo.vue')['default']
     StepBubble: typeof import('./../../components/content/StepBubble.vue')['default']
     Switch: typeof import('./../../components/forms/Switch.vue')['default']
+    Tag: typeof import('./../../components/content/Tag.vue')['default']
     UserDashboard: typeof import('./../../pages/userDashboard/index.vue')['default']
     Userform: typeof import('./../../components/users/Userform.vue')['default']
     Users: typeof import('./../../pages/adminDashboard/users.vue')['default']

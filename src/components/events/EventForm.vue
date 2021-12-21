@@ -75,12 +75,14 @@
 			<BInput class="text-white dark:text-blue-dark" type="text" id="userId" v-model="userId" />
 		</BField>
 		<BField
+			class="col-span-2"
 			label="Destinataires"
 			labelFor="employee"
 			:message="employeeError"
 			:status="employeeMeta.valid ? 'success' : 'error'"
 		>
-			<BInput class="text-white dark:text-blue-dark" type="text" id="employee" v-model="employees" />
+			<InputSearchSelect baseUrl="employee" :modelValue="[]" />
+			<!-- <BInput class="text-white dark:text-blue-dark" type="text" id="employee" v-model="employees" /> -->
 		</BField>
 	</form>
 	<div class="flex items-center justify-center mt-6">

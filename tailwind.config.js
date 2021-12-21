@@ -32,11 +32,13 @@ module.exports = {
       red: {
         light: '#EA535E',
         DEFAULT: '#E73047',
+        ...colors.red,
       },
       yellow: colors.amber,
       green: {
         light: 'rgba(88,177,105,0.2)',
-        DEFAULT: '#58B169'
+        DEFAULT: '#58B169',
+        ...colors.green,
       },
       orange: colors.orange,
       // {
@@ -55,6 +57,7 @@ module.exports = {
       purple: {
         light: 'rgba(72,53,163,0.2)',
         DEFAULT: '#4835A3',
+        ...colors.purple,
       },
       pink: colors.pink,
     },
