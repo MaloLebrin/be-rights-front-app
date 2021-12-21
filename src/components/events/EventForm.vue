@@ -67,12 +67,14 @@
 		</div>
 		<BField
 			v-if="isCurrentUserAdmin"
+			class="col-span-2"
 			label="Utilisateur"
 			labelFor="userId"
 			:message="userIdError"
 			:status="userIdMeta.valid ? 'success' : 'error'"
 		>
-			<BInput class="text-white dark:text-blue-dark" type="text" id="userId" v-model="userId" />
+			<InputSearchSelect baseUrl="user" @selected="userId = $event.id" />
+			{{ userId }}
 		</BField>
 		<BField
 			class="col-span-2"
@@ -81,8 +83,8 @@
 			:message="employeeError"
 			:status="employeeMeta.valid ? 'success' : 'error'"
 		>
-			<InputSearchSelect baseUrl="employee" :modelValue="[]" />
-			<!-- <BInput class="text-white dark:text-blue-dark" type="text" id="employee" v-model="employees" /> -->
+			<InputSearchSelect baseUrl="employee" @selected="employees = $event" is-multiple />
+			{{ employees }}
 		</BField>
 	</form>
 	<div class="flex items-center justify-center mt-6">
@@ -127,7 +129,7 @@ const schema = yup.object({
 	postalCode: yup.string().label('Code postal'),
 	city: yup.string().label('Ville'),
 	country: yup.string().label('Pays'),
-	userId: yup.string().required().label('Utilisateur'),
+	userId: yup.number().required().label('Utilisateur'),
 })
 
 const { meta, errors } = useForm({ validationSchema: schema })

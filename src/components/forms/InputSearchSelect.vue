@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div :id="`InputSearchSelect${baseUrl}`">
 		<div v-if="state.selectedItems.length > 0" class="grid grid-cols-5 gap-4 mb-4">
 			<Tag
 				v-for="item in state.selectedItems"
@@ -16,7 +16,7 @@
 			@keyup="searchEntity($event)"
 		/>
 		<div
-			v-if="state.data.length > 0"
+			v-if="state.data.length > 0 && state.search.length > 0"
 			class="relative bg-white w-full border border-gray-400 dark:border-indigo-100 text-gray-700 shadow-inner cursor-pointer overflow-y-auto max-h-48"
 			:tabindex="0"
 		>
@@ -43,15 +43,17 @@ interface Props {
 	disabled?: boolean
 	placeholder?: string
 	baseUrl: string
+	isMultiple?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
 	disabled: false,
 	placeholder: undefined,
+	isMultiple: false,
 	baseUrl: '',
 })
 
 const emit = defineEmits<{
-	(e: 'selected', selectedData: any[]): void
+	(e: 'selected', selectedData: any[] | null): void
 	(e: 'close'): void
 }>()
 
@@ -82,16 +84,24 @@ async function searchEntity(event: Event) {
 }
 
 function onOptionClick(item: any) {
-	if (state.selectedItems.includes(item)) {
-		removeItem(item.id)
+	console.log(props.isMultiple, 'props.isMultiple')
+	if (props.isMultiple) {
+		if (state.selectedItems.includes(item)) {
+			removeItem(item.id)
+		} else {
+			state.selectedItems.push(item)
+		}
+		emit('selected', state.selectedItems)
 	} else {
-		state.selectedItems.push(item)
+		state.selectedItems = [item]
+		emit('selected', state.selectedItems[0])
 	}
-	emit('selected', state.selectedItems)
+
 }
 
 function removeItem(id: number) {
 	state.selectedItems = state.selectedItems.filter(i => i.id !== id)
+	emit('selected', state.selectedItems)
 }
 
 </script>
