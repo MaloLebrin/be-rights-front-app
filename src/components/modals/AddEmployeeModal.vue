@@ -6,18 +6,12 @@
 		:isActive="isActive"
 		@close="close"
 	>
-		<EmployeeForm
-			:eventId="eventId"
-			:userId="userId"
-			@submit="onSubmit"
-		/>
+		<EmployeeForm :eventId="eventId" :userId="userId" @submit="onSubmit" />
 	</BaseModal>
 </template>
 
 <script setup lang='ts'>
 import { EmployeeType, ModalModeEnum } from '@/store/typesExported'
-import { reactive } from 'vue'
-
 
 interface Props {
 	mode?: ModalModeEnum

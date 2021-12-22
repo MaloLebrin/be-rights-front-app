@@ -22,7 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
 import { ModalModeEnum, UserType } from '@/store/typesExported'
 import { useMainStore } from '@/store'
 import { userHook } from '@/hooks'
@@ -77,4 +76,4 @@ function close() {
 }
 
 
-</script>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </script>

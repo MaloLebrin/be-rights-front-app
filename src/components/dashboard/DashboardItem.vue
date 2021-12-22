@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, PropType, onBeforeUnmount, computed, useSlots } from 'vue'
+import { PropType } from 'vue'
 
 const props = defineProps({
 	index: {

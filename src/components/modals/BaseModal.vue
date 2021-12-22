@@ -21,7 +21,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
 import { LoaderTypeEnum } from '@/types/index'
 
 interface Props {

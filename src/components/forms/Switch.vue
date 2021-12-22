@@ -1,6 +1,8 @@
 <template>
   <div class="flex justify-center">
-    <div class="relative inline-block w-12 mr-2 align-middle select-none transition transform duration-300 ease-in-out">
+    <div
+      class="relative inline-block w-12 mr-2 align-middle select-none transition transform duration-300 ease-in-out"
+    >
       <input
         :value="updatedValue"
         v-bind="$attrs"
@@ -16,32 +18,29 @@
         :class="{ 'bg-green': updatedValue }"
       />
     </div>
-    <label class="text-gray-700 dark:text-white-break">
-      {{ label }}
-    </label>
+    <label class="text-gray-700 dark:text-white-break">{{ label }}</label>
   </div>
 </template>
 
 <script setup lang='ts'>
-import { ref } from 'vue'
 
 interface SwitchProps {
-	label: string
+  label: string
   checked: boolean
 }
 
 const props = withDefaults(defineProps<SwitchProps>(), {
-	label: '',
+  label: '',
   checked: false,
 })
 const emit = defineEmits<{
-	(e: 'update:checked', value: boolean): void
+  (e: 'update:checked', value: boolean): void
 }>()
 
 const updatedValue = ref(props.checked)
 
 function toggleSwitch() {
-	updatedValue.value = !updatedValue.value
-	emit('update:checked', updatedValue.value)
+  updatedValue.value = !updatedValue.value
+  emit('update:checked', updatedValue.value)
 }
 </script>

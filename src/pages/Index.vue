@@ -305,7 +305,6 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
 import { useMainStore } from '@/store/'
 import { newsleterHook } from '@/hooks'
 
