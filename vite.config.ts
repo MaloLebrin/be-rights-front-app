@@ -5,6 +5,7 @@ import Layouts from 'vite-plugin-vue-layouts'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import path from 'path'
+import { BeRightUiResolver } from './src/utils/resolver/BeRightComponentLibrary'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -40,6 +41,7 @@ export default defineConfig({
         'src/pages',
       ],
       resolvers: [
+        BeRightUiResolver().resolve,
         (name) => {
           if (name.includes('IconSolid')) {
             const realName = name.split('Solid')[0]
