@@ -1,31 +1,32 @@
 <template>
-  <section
-    class="dark:bg-blue-dark_bold grid gap-4 grid-cols-1 md:grid-cols-2 justify-center md:flex-row items-center pt-10 DarkModeAnimation"
-  >
-    <!--Left Col-->
-    <div class="flex flex-col justify-center items-center mx-auto">
-      <h1
-        class="text-xl my-4 md:text-5xl font-bold md:leading-snug dark:text-gray-100"
-      >Gérez enfin le droit à l'image de vos clients facilement !</h1>
-      <p
-        class="leading-normal text-lg text-center md:text-2xl mb-8 dark:text-gray-400"
-      >Commencez maintenant avec un mois gratuit.</p>
-      <button
-        class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:-translate-y-2 hover:scale-105 duration-300 ease-in-out"
-        href="#Newsletter"
-      >Commencez</button>
-    </div>
-    <!--Right Col-->
-    <div class="hidden sm:block shadow-xl bg-transparent rounded-lg">
-      <img
-        class="w-full z-50 rounded-lg transform duration-300 ease-in-out hover:-translate-x-1"
-        src="../assets/photographer.jpg"
-        alt="photographer"
-      />
+  <section class="pt-10 container mx-auto">
+    <div
+      class="grid gap-4 grid-cols-1 md:grid-cols-2 justify-center md:flex-row items-center DarkModeAnimation"
+    >
+      <div class="flex flex-col justify-center items-center mx-auto">
+        <h1
+          class="text-xl my-4 md:text-5xl font-bold md:leading-snug dark:text-gray-100"
+        >Gérez enfin le droit à l'image de vos clients facilement !</h1>
+        <p
+          class="leading-normal text-lg text-center md:text-2xl mb-8 dark:text-gray-400"
+        >Commencez maintenant avec un mois gratuit.</p>
+        <button
+          class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:-translate-y-2 hover:scale-105 duration-300 ease-in-out"
+          href="#Newsletter"
+        >Commencez</button>
+      </div>
+      <!--Right Col-->
+      <div class="hidden sm:block shadow-xl bg-transparent rounded-lg">
+        <img
+          class="w-full z-50 rounded-lg transform duration-300 ease-in-out hover:-translate-x-1"
+          src="../assets/photographer.jpg"
+          alt="photographer"
+        />
+      </div>
     </div>
   </section>
 
-  <section id="Solution" class="py-8 w-full relative bg-white dark:bg-blue-dark DarkModeAnimation">
+  <section id="Solution" class="py-8 w-full relative DarkModeAnimation">
     <img
       class="hidden md:inline absolute right-0 transform duration-500 ease-in-out hover:-translate-y-2 animate-fade-in-down"
       src="../assets/mokup-phone.png"
@@ -157,7 +158,7 @@
     </div>
   </section>
 
-  <section id="Pricings" class="bg-white dark:bg-blue-dark DarkModeAnimation py-8">
+  <section id="Pricings" class="DarkModeAnimation py-8">
     <div class="container mx-auto px-2 pt-4 pb-12 text-gray-800">
       <h1
         class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800 dark:text-gray-50"
