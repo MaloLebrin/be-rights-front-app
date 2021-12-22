@@ -10,6 +10,7 @@ import path from 'path'
 export default defineConfig({
   plugins: [
     AutoImport({
+      dts: 'src/types/shims/auto-imports.d.ts',
       include: [
         /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
         /\.vue$/, /\.vue\?vue/, // .vue
