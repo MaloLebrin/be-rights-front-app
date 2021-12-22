@@ -3,12 +3,12 @@
     class="navbar min-h-screen top-0 left-0 flex flex-col items-center px-2 py-4 bg-white dark:bg-blue-dark_bold max-w-96 shadow-2xl relative DarkModeAnimation z-50"
     :class="isDrawerActive ? 'navbar-open w-96' : 'navbar-close w-0 px-0 py-0'"
   >
-    <ChevronLeftIcon
+    <ChevronLeftIconOutline
       v-if="isDrawerActive"
       class="text-gray-400 absolute top-2 -right-6 h-12 shadowl bg-white dark:bg-blue-dark_bold dark:text-white rounded-r-xl transform transition duration-500 hover:scale-125 cursor-pointer z-30"
       @click="toggleDrawer"
     />
-    <ChevronRightIcon
+    <ChevronRightIconOutline
       v-else
       class="text-gray-400 absolute top-2 -right-12 h-12 shadow-2xl bg-white dark:bg-blue-dark_bold dark:text-white rounded-r-xl transform transition duration-500 hover:scale-125 cursor-pointer z-30"
       @click="toggleDrawer"
@@ -24,11 +24,6 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from '@heroicons/vue/outline'
-import DarkModeToggleVue from '@/components/content/darkModeToggle.vue'
 
 interface Props {
   isActive?: boolean,

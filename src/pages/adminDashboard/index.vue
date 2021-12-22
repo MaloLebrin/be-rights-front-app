@@ -6,7 +6,7 @@
       <h3
         class="text-2xl font-semibold text-gray-800 dark:text-white flex items-center max-w-xs mt"
       >
-        <HomeIcon class="h-8 mr-4 dark:bg-red rounded-lg p-1" />Événements
+        <HomeIconOutline class="h-8 mr-4 dark:bg-red rounded-lg p-1" />Événements
       </h3>
       <div class="flex col-span-2 items-center justify-center">
         <BButton class="mr-2 dark:text-black">Tout</BButton>
@@ -45,7 +45,6 @@
 </route>
 
 <script setup lang="ts">
-import { HomeIcon } from '@heroicons/vue/outline'
 import { useEventStore, useUiStore } from '@/store/index'
 import { LoaderTypeEnum } from '@/types/globals'
 import { eventHook } from '@/hooks'

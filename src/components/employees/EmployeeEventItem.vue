@@ -8,23 +8,19 @@
 			{{ employee.lastName }}
 		</div>
 
-		<div :class="getEmployeeStatusColor(employee)">
-			{{ getEmployeeStatusSignature(employee) }}
-		</div>
+		<div :class="getEmployeeStatusColor(employee)">{{ getEmployeeStatusSignature(employee) }}</div>
 
-		<DocumentDownloadIcon  class="h-6 w-6 cursor-pointer dark:text-white" />
+		<DocumentDownloadIconOutline class="h-6 w-6 cursor-pointer dark:text-white" />
 
 		<div class="flex items-center justify-center text-center">
 			<div
 				v-if="employee.signedAt"
 				class="text-center dark:text-white-break"
-			>
-				{{ getDate(new Date(employee.signedAt), DateFormatEnum.DDMM) }}
-			</div>
-			<button v-else class="px-1 py-1 border-2 border-green rounded-lg text-green font-medium text-xs
-				hover:text-white hover:bg-green">
-				Relancer
-			</button> 
+			>{{ getDate(new Date(employee.signedAt), DateFormatEnum.DDMM) }}</div>
+			<button
+				v-else
+				class="px-1 py-1 border-2 border-green rounded-lg text-green font-medium text-xs hover:text-white hover:bg-green"
+			>Relancer</button>
 		</div>
 	</div>
 </template>
@@ -32,9 +28,6 @@
 <script setup lang="ts">
 import { DateFormatEnum } from '@/types/Date'
 import { PropType } from 'vue'
-import { 
-	DocumentDownloadIcon
- } from '@heroicons/vue/outline'
 import { EmployeeType } from '@/store/typesExported'
 import { dateHook, employeeHook } from '@/hooks'
 

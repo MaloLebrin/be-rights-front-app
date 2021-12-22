@@ -106,7 +106,6 @@
   </header>
 </template>
 <script setup lang='ts'>
-import { UserIcon } from '@heroicons/vue/outline'
 
 const isMenuOpen = ref<boolean>(false)
 function toggleMobileMenu() {

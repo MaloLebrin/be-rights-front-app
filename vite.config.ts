@@ -27,6 +27,17 @@ export default defineConfig({
         //   }), {}),
         // },
       ],
+    }),
+    vue(),
+    Pages({
+      pagesDir: 'src/pages',
+    }),
+    Components({
+      dts: 'src/types/shims/components.d.ts',
+      dirs: [
+        'src/components',
+        'src/pages',
+      ],
       resolvers: [
         (name) => {
           if (name.includes('IconSolid')) {
@@ -38,18 +49,6 @@ export default defineConfig({
             return { importName: 'default', path: `@heroicons/vue/outline/esm/${realName}.js` }
           }
         },
-      ]
-
-    }),
-    vue(),
-    Pages({
-      pagesDir: 'src/pages',
-    }),
-    Components({
-      dts: 'src/types/shims/components.d.ts',
-      dirs: [
-        'src/components',
-        'src/pages',
       ],
       include: [/\.vue$/, /\.vue\?vue/],
       extensions: ['vue'],

@@ -27,13 +27,12 @@
 				@click="onOptionClick(item)"
 			>
 				<span>{{ item.firstName }} {{ item.lastName }}</span>
-				<CheckIcon v-if="state.selectedItems.includes(item)" class="text-green w-6 h-6" />
+				<CheckIconOutline v-if="state.selectedItems.includes(item)" class="text-green w-6 h-6" />
 			</div>
 		</div>
 	</div>
 </template>
 <script setup lang='ts'>
-import { CheckIcon } from '@heroicons/vue/outline'
 import APi, { PaginatedResponse } from "@/helpers/api"
 import { useUserStore } from '@/store'
 import { TagVariantsEnum } from '@/types'
