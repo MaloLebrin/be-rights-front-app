@@ -59,7 +59,6 @@
 <script setup lang="ts">
 import { PropType } from 'vue'
 import EmployeeEventItem from '@/components/employees/employeeEventItem.vue'
-import { storeToRefs } from 'pinia'
 import { EventType } from '@/store/typesExported'
 import { useEmployeeStore, useMainStore } from '@/store'
 import { dateHook, employeeHook, eventHook } from '@/hooks'

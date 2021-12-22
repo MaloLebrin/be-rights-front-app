@@ -304,7 +304,6 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
 import { useMainStore } from '@/store/'
 import { newsleterHook } from '@/hooks'
 

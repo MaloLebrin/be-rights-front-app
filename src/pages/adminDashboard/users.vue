@@ -64,7 +64,6 @@
 
 <script setup lang="ts">
 import { LoaderTypeEnum } from '@/types/globals'
-import { storeToRefs } from 'pinia'
 import { useEventStore, useMainStore, useUiStore, useUserStore } from '@/store'
 import { dateHook, userHook } from '@/hooks'
 import { ModalNameEnum, ModalModeEnum, SubscriptionEnum, UserType } from '@/store/typesExported'
