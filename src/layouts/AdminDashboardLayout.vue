@@ -5,7 +5,7 @@
   </main>
   <Teleport to="#portal-target">
     <CreateEventModal
-      class="top-32 w-6/12 mx-auto"
+      class="top-32"
       :isActive="getUIState.isActive && getUIState.modalName === ModalNameEnum.EVENT_FORM"
     />
   </Teleport>

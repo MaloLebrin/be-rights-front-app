@@ -1,6 +1,6 @@
 <template>
 	<BaseModal
-		class="mt-32 w-auto z-50 mx-12"
+		class="mt-32 w-4/6 max-w-2xl z-50 mx-72"
 		title="Créer un événement"
 		:isLoading="getUiIsLoading"
 		:isActive="isActive"

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white-light dark:bg-blue-dark min-h-screen transform ease-in-out transition-all duration-500 py-6 text-left pl-14 pr-8"
+    class="min-h-screen transform ease-in-out transition-all duration-500 py-6 text-left pl-14 pr-8"
   >
     <HeaderList class="sticky" />
 
