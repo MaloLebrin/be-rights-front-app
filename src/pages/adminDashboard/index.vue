@@ -30,7 +30,7 @@
         v-if="getUIState.isActive && getUIState.modalName === ModalNameEnum.ADD_EMPLOYEE"
         :isActive="getUIState.isActive"
         :mode="getUIState.modalMode"
-        :eventId="events.filter(event => event.id === getUIState.data.eventId)[0].id"
+        :eventId="eventID"
         @close="resetState"
         @onSubmit="resetState"
       />
@@ -62,6 +62,12 @@ onMounted(async () => {
   isLoading.value = true
   await fetchAllEvents()
   isLoading.value = false
+})
+
+const eventID = computed(() => {
+  if (getUIState.data && getUIState.data.eventId) {
+    return eventStore.entities.byId[getUIState.data.eventId].id
+  }
 })
 
 function resetState() {
