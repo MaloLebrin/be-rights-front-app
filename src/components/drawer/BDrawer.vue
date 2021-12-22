@@ -14,10 +14,7 @@
       @click="toggleDrawer"
     />
     <!-- https://codepen.io/boussadjra/pen/ExgzKyj link exemple to close and open drawer -->
-    <nav
-      v-if="isDrawerActive"
-      class="w-full h-full sticky"
-    >
+    <nav v-if="isDrawerActive" class="w-full h-full sticky">
       <SimpleLogo class="mb-10" />
 
       <slot />
@@ -27,7 +24,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -35,15 +31,15 @@ import {
 import DarkModeToggleVue from '@/components/content/darkModeToggle.vue'
 
 interface Props {
-    isActive?: boolean,
+  isActive?: boolean,
 }
 const props = withDefaults(defineProps<Props>(), {
-    isActive: true,
-})  
+  isActive: true,
+})
 const isDrawerActive = ref<boolean>(props.isActive)
 
 const emit = defineEmits<{
-    (e: 'toggleDrawer', value: boolean): boolean
+  (e: 'toggleDrawer', value: boolean): boolean
 }>()
 
 

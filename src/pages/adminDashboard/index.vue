@@ -46,7 +46,6 @@
 
 <script setup lang="ts">
 import { HomeIcon } from '@heroicons/vue/outline'
-import { computed, ref, onMounted, reactive } from 'vue'
 import { useEventStore, useUiStore } from '@/store/index'
 import { LoaderTypeEnum } from '@/types/globals'
 import { eventHook } from '@/hooks'

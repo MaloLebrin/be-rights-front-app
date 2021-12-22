@@ -101,7 +101,6 @@ import { userHook } from '@/hooks'
 import { useMainStore } from '@/store'
 import { RoleEnum } from '@/types'
 import { useField, useForm } from 'vee-validate'
-import { ref } from 'vue'
 import * as yup from 'yup'
 const { register } = userHook()
 const mainStore = useMainStore()

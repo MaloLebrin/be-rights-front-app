@@ -64,7 +64,6 @@
 
 <script setup lang="ts">
 import { LoaderTypeEnum } from '@/types/globals'
-import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useEventStore, useMainStore, useUiStore, useUserStore } from '@/store'
 import { dateHook, userHook } from '@/hooks'
@@ -83,7 +82,6 @@ const { isDarkTheme } = mainStore
 const isLoading = ref(false)
 
 const { getAll, getCurrent } = storeToRefs(userStore)
-const { getMany: getManyEvents } = eventStore
 const users = computed(() => getAll.value)
 
 const eventByUserId = (ids: number[]) => computed(() => eventStore.getMany(ids))

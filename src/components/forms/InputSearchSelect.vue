@@ -33,7 +33,6 @@
 	</div>
 </template>
 <script setup lang='ts'>
-import { reactive } from 'vue'
 import { CheckIcon } from '@heroicons/vue/outline'
 import APi, { PaginatedResponse } from "@/helpers/api"
 import { useUserStore } from '@/store'

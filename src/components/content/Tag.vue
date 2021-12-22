@@ -25,7 +25,6 @@
 	</div>
 </template>
 <script setup lang='ts'>
-import { computed } from 'vue'
 import { TagVariantsEnum } from '@/types/Tag'
 
 interface Props {

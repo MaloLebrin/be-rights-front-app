@@ -99,7 +99,6 @@ import { useEventStore, useMainStore, useUserStore } from '@/store'
 import { ModalModeEnum } from '@/store/typesExported'
 import { Period } from '@/types'
 import { useField, useForm } from 'vee-validate'
-import { computed, ref } from 'vue'
 import * as yup from 'yup'
 
 interface Props {
