@@ -22,8 +22,8 @@
 
           <div class="mt-2 border-t-2 border-gray-200 dark:border-white-break">
             <EventUserItem
-              v-if="eventByUserId(user.id).value.length"
-              v-for="event in eventByUserId(user.id).value"
+              v-if="eventByUserId(user.events).value.length"
+              v-for="event in eventByUserId(user.events).value"
               :key="event.id"
               :event="event"
             />
@@ -83,10 +83,10 @@ const { isDarkTheme } = mainStore
 const isLoading = ref(false)
 
 const { getAll, getCurrent } = storeToRefs(userStore)
-const { getAll: getAllEvents } = storeToRefs(eventStore)
+const { getMany: getManyEvents } = eventStore
 const users = computed(() => getAll.value)
 
-const eventByUserId = (id: number) => computed(() => Object.values(getAllEvents.value).filter(event => event.createdByUser === id))
+const eventByUserId = (ids: number[]) => computed(() => eventStore.getMany(ids))
 
 function getSubscriptionTranslation(subscription: SubscriptionEnum) {
   switch (subscription) {

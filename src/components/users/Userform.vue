@@ -176,13 +176,13 @@ const { value: subscription, errorMessage: subscriptionError, meta: subscription
 watch(() => isEventMode.value, async (newValue) => {
 	isLoading.value = true
 	if (!newValue) {
-		const employeeIds = userStore.getCurrent?.employee as number[]
+		const employeeIds = user.value?.employee as number[]
 		const missingIds = employeeIds.filter(id => !employeeStore.getOne(id))
 		if (missingIds.length > 0) {
 			await employeeStore.fetchAllByUserId(user.value.id)
 		}
 	} else {
-		const eventIds = userStore.getCurrent?.events as number[]
+		const eventIds = user.value?.events as number[]
 		const missingIds = eventIds.filter(id => !eventStore.getOne(id))
 		if (missingIds.length > 0) {
 			await eventStore.fetchAllByUserId(user.value.id)
@@ -191,7 +191,7 @@ watch(() => isEventMode.value, async (newValue) => {
 	isLoading.value = false
 })
 
-const eventByUserId = computed(() => eventStore.getEventsByUserId(user.value.id))
+const eventByUserId = computed(() => eventStore.getMany(user.value.events as number[]))
 
 const employeeByUserId = computed(() => employeeStore.getEmployeesByUserId(user.value.id))
 

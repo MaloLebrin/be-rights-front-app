@@ -19,6 +19,9 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
 		getOne(state) {
 			return (id: number) => state.entities.byId[id]
 		},
+		getMany(state) {
+			return (ids: number[]) => ids.map(id => state.entities.byId[id])
+		}
 	},
 	actions: {
 		...createActions<EventType>(eventState),
@@ -45,7 +48,6 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
 					const events = data.filter(event => ids.includes(event.id))
 					this.createMany(events)
 				}
-				console.log(res, 'res.data')
 
 			} catch (error) {
 				console.error(error)

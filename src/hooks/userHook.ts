@@ -20,7 +20,7 @@ export function userHook() {
 			mainStore.toggleIsLoading()
 			const res = await axiosInstance.post('user/login', { email, password })
 			const user = res.data as UserType
-			storeEntitiesOnLoginOrToken(user)
+			storeUsersEntities(user)
 			setCookie('userToken', user.token)
 			if (user && userStore.isCurrentUserAdmin) {
 				router.push('/adminDashboard')
@@ -39,7 +39,7 @@ export function userHook() {
 			mainStore.toggleIsLoading()
 			const res = await axiosInstance.post('user', { companyName, email, password, firstName, lastName, roles })
 			const user = res.data as UserType
-			storeEntitiesOnLoginOrToken(user)
+			storeUsersEntities(user)
 			setCookie('userToken', user.token)
 			if (user && userStore.isCurrentUserAdmin) {
 				router.push('/adminDashboard')
@@ -53,7 +53,7 @@ export function userHook() {
 		mainStore.toggleIsLoading()
 	}
 
-	function storeEntitiesOnLoginOrToken(user: UserType) {
+	function storeUsersEntities(user: UserType) {
 		if (user.events && user.events.length > 0) {
 			const userEvents = user.events as EventType[]
 			const eventsToStore = userEvents.filter(event => !eventStore.getAllIds.includes(event.id))
@@ -76,6 +76,44 @@ export function userHook() {
 		userStore.createOne(user)
 	}
 
+	function storeUsersEntitiesForManyUsers(users: UserType[]) {
+		if (users.length > 0) {
+			const events = users.reduce((acc, user) => [...acc, ...user.events as EventType[]], [] as EventType[])
+			const eventsToStore = events.filter(event => !eventStore.getAllIds.includes(event.id))
+			if (eventsToStore.length > 0) {
+				eventStore.createMany(eventsToStore)
+			}
+
+			const employees = users.reduce((acc, user) => [...acc, ...user.employee as EmployeeType[]], [] as EmployeeType[])
+			const employeesToStore = employees.filter(employee => !employeeStore.getAllIds.includes(employee.id))
+			if (employeesToStore.length > 0) {
+				employeeStore.createMany(employeesToStore)
+			}
+
+			const files = users.reduce((acc, user) => [...acc, ...user.files as FileType[]], [] as FileType[])
+			const filesToStore = files.filter(file => !fileStore.getAllIds.includes(file.id))
+			if (filesToStore.length > 0) {
+				fileStore.createMany(filesToStore)
+			}
+
+			const missingsUsers = users.filter(user => !userStore.getAllIds.includes(user.id))
+			if (missingsUsers.length > 0) {
+				const usersToStore = missingsUsers.map(user => {
+					const userEvents = user.events as EventType[]
+					const userEmployees = user.employee as EmployeeType[]
+					const userFiles = user.files as FileType[]
+					return {
+						...user,
+						events: userEvents.map(event => event.id),
+						employee: userEmployees.map(employee => employee.id),
+						files: userFiles.map(file => file.id)
+					}
+				})
+				userStore.createMany(usersToStore)
+			}
+		}
+	}
+
 	async function userToggleTheme(theme: ThemeEnum) {
 		try {
 			mainStore.toggleIsLoading()
@@ -94,13 +132,14 @@ export function userHook() {
 		try {
 			const res = await api.get('user/?limit=999999')
 			const { currentPage, data, limit, total }: PaginatedResponse<UserType> = res
-			const events = data.reduce((acc, user) => [...acc, ...user.events as EventType[]], [] as EventType[])
-			const missingEventIds = events.map(event => event.id).filter(id => !eventStore.getAllIds.includes(id))
-			if (missingEventIds.length > 0) {
-				const missingEvents = events.filter(event => missingEventIds.includes(event.id))
-				eventStore.createMany(missingEvents)
-			}
-			userStore.createMany(data)
+			storeUsersEntitiesForManyUsers(data)
+			// const events = data.reduce((acc, user) => [...acc, ...user.events as EventType[]], [] as EventType[])
+			// const missingEventIds = events.map(event => event.id).filter(id => !eventStore.getAllIds.includes(id))
+			// if (missingEventIds.length > 0) {
+			// 	const missingEvents = events.filter(event => missingEventIds.includes(event.id))
+			// 	eventStore.createMany(missingEvents)
+			// }
+			// userStore.createMany(data)
 		} catch (error) {
 			console.error(error)
 		}
@@ -123,7 +162,7 @@ export function userHook() {
 		fetchAll,
 		login,
 		register,
-		storeEntitiesOnLoginOrToken,
+		storeUsersEntities,
 		userToggleTheme,
 	}
 }
