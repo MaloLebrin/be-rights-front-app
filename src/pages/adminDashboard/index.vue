@@ -26,14 +26,6 @@
       >
         <EventItem :event="event" :index="index" @addOne="addOneEmployeeToEvent(event.id)" />
       </div>
-      <AddEmployeeModal
-        v-if="getUIState.isActive && getUIState.modalName === ModalNameEnum.ADD_EMPLOYEE"
-        :isActive="getUIState.isActive"
-        :mode="getUIState.modalMode"
-        :eventId="eventID"
-        @close="resetState"
-        @onSubmit="resetState"
-      />
     </div>
   </div>
 </template>
@@ -52,7 +44,7 @@ import { ModalNameEnum, ModalModeEnum } from '@/store/typesExported'
 
 const eventStore = useEventStore()
 const uiStore = useUiStore()
-const { getUIState, resetUIState, setUiModal } = uiStore
+const { setUiModal } = uiStore
 const { fetchAllEvents } = eventHook()
 const search = ref('')
 const isLoading = ref(false)
@@ -64,15 +56,6 @@ onMounted(async () => {
   isLoading.value = false
 })
 
-const eventID = computed(() => {
-  if (getUIState.data && getUIState.data.eventId) {
-    return eventStore.entities.byId[getUIState.data.eventId].id
-  }
-})
-
-function resetState() {
-  resetUIState()
-}
 
 function addOneEmployeeToEvent(eventId: number) {
   setUiModal({
