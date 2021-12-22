@@ -61,7 +61,7 @@
 import { EmployeeType } from '@/store/typesExported'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
-import { useUserStore, useEventStore, useEmployeeStore } from '@/store'
+import { useUserStore, useEventStore, useEmployeeStore, useUiStore } from '@/store'
 
 interface Props {
 	employee?: EmployeeType,
@@ -80,6 +80,7 @@ const props = withDefaults(defineProps<Props>(), {
 const { isCurrentUserAdmin, getCurrent } = useUserStore()
 const eventStore = useEventStore()
 const { postOne, postManyForEvent } = useEmployeeStore()
+const { setIsLoadingStart, setIsLoadingEnd } = useUiStore()
 
 const schema = yup.object({
 	email: yup.string().email().required().label('Adresse email'),
@@ -113,6 +114,7 @@ const emit = defineEmits<{
 }>()
 
 async function submit() {
+	setIsLoadingStart()
 	emit('submit')
 	if (props.eventId) {
 		const createdByUser = eventStore.getOne(props.eventId)?.createdByUser as number
@@ -134,5 +136,6 @@ async function submit() {
 		const createdByUser = isCurrentUserAdmin ? userId.value! : getCurrent!.id
 		await postOne(employeeToPost, createdByUser)
 	}
+	setIsLoadingEnd()
 }
 </script>
