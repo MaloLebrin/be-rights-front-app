@@ -62,7 +62,7 @@ const schema = yup.object({
 const isLoading = ref(false)
 
 const { meta } = useForm({ validationSchema: schema })
-const { errorMessage: emailError, value: email, meta: emailMeta, setErrors } = useField<string>('email')
+const { errorMessage: emailError, value: email, meta: emailMeta } = useField<string>('email')
 const { errorMessage: passwordError, value: password, meta: passwordMeta } = useField<string>('password')
 
 async function submitLogin() {

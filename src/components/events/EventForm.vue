@@ -74,7 +74,6 @@
 			:status="userIdMeta.valid ? 'success' : 'error'"
 		>
 			<InputSearchSelect baseUrl="user" @selected="userId = $event.id" />
-			{{ userId }}
 		</BField>
 		<BField
 			class="col-span-2"
@@ -84,7 +83,6 @@
 			:status="employeeMeta.valid ? 'success' : 'error'"
 		>
 			<InputSearchSelect baseUrl="employee" @selected="employees = $event" is-multiple />
-			{{ employees }}
 		</BField>
 	</form>
 	<div class="flex items-center justify-center mt-6">
@@ -123,39 +121,42 @@ const event = computed(() => eventStore.getOne(props.eventId))
 
 const schema = yup.object({
 	name: yup.string().required().label('Nom'),
-	start: yup.date().required().label('Début'),
-	end: yup.date().required().label('Fin'),
-	address: yup.string().label('Adresse'),
-	postalCode: yup.string().label('Code postal'),
-	city: yup.string().label('Ville'),
-	country: yup.string().label('Pays'),
+	period: yup.object().shape({
+		start: yup.date().required().label('Début'),
+		end: yup.date().required().label('Fin'),
+	}).required().label('Dates'),
+	address: yup.string().required().label('Adresse'),
+	postalCode: yup.string().required().label('Code postal'),
+	city: yup.string().required().label('Ville'),
+	country: yup.string().required().label('Pays'),
 	userId: yup.number().required().label('Utilisateur'),
 })
 
-const { meta, errors } = useForm({ validationSchema: schema })
-const { errorMessage: nameError, value: name, meta: nameMeta } = useField<string>('Nom', undefined, {
+const { meta, errors, } = useForm({ validationSchema: schema })
+console.log(schema, 'schema')
+const { errorMessage: nameError, value: name, meta: nameMeta } = useField<string>('name', undefined, {
 	initialValue: event.value ? event.value.name : '',
 })
-const { errorMessage: addressError, value: address, meta: addressMeta } = useField<string | null>('Adresse', undefined, {
-	initialValue: event.value ? event.value.address : '',
-})
-const { errorMessage: postalCodeError, value: postalCode, meta: postalCodeMeta } = useField<string | null>('Code postal', undefined, {
-	initialValue: event.value ? event.value.postalCode : '',
-})
-const { errorMessage: cityError, value: city, meta: cityMeta } = useField<string | null>('Ville', undefined, {
-	initialValue: event.value ? event.value.city : '',
-})
-const { errorMessage: countryError, value: country, meta: countryMeta } = useField<string | null>('Pays', undefined, {
-	initialValue: event.value ? event.value.country : '',
-})
-const { errorMessage: userIdError, value: userId, meta: userIdMeta } = useField<number | null>('Utilisateur', undefined, {
-	initialValue: event.value ? event.value.userId : '',
-})
-const { errorMessage: datesError, meta: datesMeta, value: period } = useField<Period>('Dates', undefined, {
+const { errorMessage: datesError, meta: datesMeta, value: period } = useField<Period>('period', undefined, {
 	initialValue: event.value ? { start: event.value.start, end: event.value.end } : { start: new Date(), end: new Date() },
 })
-// TODO typing this
-const { errorMessage: employeeError, value: employees, meta: employeeMeta } = useField<any[] | null>('Destinataires', undefined, {
+const { errorMessage: addressError, value: address, meta: addressMeta } = useField<string | null>('address', undefined, {
+	initialValue: event.value ? event.value.address : '',
+})
+const { errorMessage: postalCodeError, value: postalCode, meta: postalCodeMeta } = useField<string | null>('postalCode', undefined, {
+	initialValue: event.value ? event.value.postalCode : '',
+})
+const { errorMessage: cityError, value: city, meta: cityMeta } = useField<string | null>('city', undefined, {
+	initialValue: event.value ? event.value.city : '',
+})
+const { errorMessage: countryError, value: country, meta: countryMeta } = useField<string | null>('country', undefined, {
+	initialValue: event.value ? event.value.country : '',
+})
+const { errorMessage: userIdError, value: userId, meta: userIdMeta } = useField<number | null>('userId', undefined, {
+	initialValue: event.value ? event.value.createdByUser : '',
+})
+
+const { errorMessage: employeeError, value: employees, meta: employeeMeta } = useField<any[] | null>('employees', undefined, {
 	initialValue: event.value ? event.value.employees : '',
 })
 
