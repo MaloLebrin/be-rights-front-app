@@ -133,7 +133,7 @@ const schema = yup.object({
 })
 
 const { meta, errors, } = useForm({ validationSchema: schema })
-console.log(schema, 'schema')
+
 const { errorMessage: nameError, value: name, meta: nameMeta } = useField<string>('name', undefined, {
 	initialValue: event.value ? event.value.name : '',
 })

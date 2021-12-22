@@ -4,13 +4,14 @@ import { useCookie } from 'vue-cookie-next'
 import router from '@/router'
 import { useMainStore, useUserStore } from "@/store"
 import { mainHook, userHook } from "."
+import { UserType } from "@/store/typesExported"
 
 export function authHook() {
 	const userStore = useUserStore()
 	const mainStore = useMainStore()
 	const { getCookie } = useCookie()
 	const { setThemeClass } = mainHook()
-	const { storeEntitiesOnLoginOrToken } = userHook()
+	const { storeUsersEntities } = userHook()
 	const api = new API(userStore.getCurrentUserToken!)
 
 	function setBearerToken(token: string) {
@@ -30,8 +31,9 @@ export function authHook() {
 			mainStore.toggleIsLoading()
 			const user = await api.post('user/token', { token: token })
 			setThemeClass(user.theme)
-			storeEntitiesOnLoginOrToken(user)
+			storeUsersEntities(user)
 			mainStore.setIsLoggedIn()
+			return user as UserType
 		} catch (error) {
 			console.error(error)
 		}
@@ -59,6 +61,7 @@ export function authHook() {
 	return {
 		setBearerToken,
 		logout,
+		loginWithToken,
 		routesIntermsOfUserRoles,
 	}
 }
