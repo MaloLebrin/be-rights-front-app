@@ -31,10 +31,7 @@
       </div>
 
       <h6 class="text-gray-500 font-bold mb-4">Options</h6>
-      <div
-        v-if="store.getCurrent"
-        class="flex items-center w-full mb-5 cursor-pointer"
-      >
+      <div v-if="store.getCurrent" class="flex items-center w-full mb-5 cursor-pointer">
         <div class="bg-red-light hover:bg-red rounded-lg mr-3 p-1">
           <UserIcon class="text-white h-6" />
         </div>
@@ -47,25 +44,16 @@
         </div>
         <span @click="onToggleLogout">Se déconnecter</span>
       </div>
-
     </div>
     <!-- TODO add CTA if suscrption basic -->
     <!-- TODO abstract to library create modal custom comp -->
-    <BCard
-      variant="danger"
-    >
+    <BCard variant="danger">
       <div class="px-6 py-4">
         <div class="font-bold text-xl mb-2">Découvrez notre abonnement</div>
-        <p class="text-gray-700 text-base">
-          Dès 9.99€ par mois
-        </p>
+        <p class="text-gray-700 text-base">Dès 9.99€ par mois</p>
       </div>
       <div class="px-6 pt-4 pb-2">
-        <BButton
-          class="text-black"
-          size="small"
-          variant="white"
-        >En savoir plus</BButton>
+        <BButton class="text-black" size="small" variant="white">En savoir plus</BButton>
       </div>
     </BCard>
   </BDrawer>
@@ -81,12 +69,12 @@ import {
   UserGroupIcon,
   UserIcon,
 } from '@heroicons/vue/outline'
-import { useUserStore }  from '@/store/index'
+import { useUserStore } from '@/store/index'
 import { useCookie } from 'vue-cookie-next'
 import { authHook } from '@/hooks'
 
-interface Props { 
-  isActive: boolean
+interface Props {
+  isActive?: boolean
 }
 
 withDefaults(defineProps<Props>(), {

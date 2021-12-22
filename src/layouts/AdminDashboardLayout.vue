@@ -1,6 +1,6 @@
 <template>
   <AdminMenuDrawer />
-  <main class="w-full flex-shrink">
+  <main v-bind="$attrs" class="w-full flex-shrink">
     <router-view />
   </main>
   <Teleport to="#portal-target">
