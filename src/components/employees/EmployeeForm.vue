@@ -115,7 +115,6 @@ const emit = defineEmits<{
 
 async function submit() {
 	setIsLoadingStart()
-	emit('submit')
 	if (props.eventId) {
 		const createdByUser = eventStore.getOne(props.eventId)?.createdByUser as number
 		const employeeToPost = {
@@ -136,6 +135,7 @@ async function submit() {
 		const createdByUser = isCurrentUserAdmin ? userId.value! : getCurrent!.id
 		await postOne(employeeToPost, createdByUser)
 	}
+	emit('submit')
 	setIsLoadingEnd()
 }
 </script>
