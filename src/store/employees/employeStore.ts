@@ -18,10 +18,14 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
 		},
 		getEmployeesByUserId: (state) => {
 			return (userId: number) => Object.values(state.entities.byId).filter(employee => employee.createdByUser === userId)
+		},
+		getOne(state) {
+			return (id: number) => state.entities.byId[id]
 		}
 	},
 	actions: {
 		...createActions<EmployeeType>(employeState),
+
 		async fetchAllByUserId(userId: number) {
 			const userStore = useUserStore()
 			const api = new APi(userStore.entities.current?.token!)

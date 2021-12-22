@@ -18,15 +18,16 @@
     </div>
     <div class="relative">
       <Loader v-if="isLoading" :isLoading="isLoading" :type="LoaderTypeEnum.BOUNCE" />
-      <div v-else v-for="(event, index) in events" :key="event.id" class="flex items-center relative">
-        <EventItem
-          :event="event"
-          :index="index"
-          @addOne="addOneEmployeeToEvent(event.id)"
-        />
+      <div
+        v-else
+        v-for="(event, index) in events"
+        :key="event.id"
+        class="flex items-center relative"
+      >
+        <EventItem :event="event" :index="index" @addOne="addOneEmployeeToEvent(event.id)" />
       </div>
       <AddEmployeeModal
-        v-if="getUIState.isActive && getUIState.modalName === AdminModalNameEnum.ADD_EMPLOYEE"
+        v-if="getUIState.isActive && getUIState.modalName === ModalNameEnum.ADD_EMPLOYEE"
         :isActive="getUIState.isActive"
         :mode="getUIState.modalMode"
         :eventId="events.filter(event => event.id === getUIState.data.eventId)[0].id"
@@ -49,7 +50,7 @@ import { computed, ref, onMounted, reactive } from 'vue'
 import { useEventStore, useUiStore } from '@/store/index'
 import { LoaderTypeEnum } from '@/types/globals'
 import { eventHook } from '@/hooks'
-import { AdminModalNameEnum, ModalModeEnum } from '@/store/typesExported'
+import { ModalNameEnum, ModalModeEnum } from '@/store/typesExported'
 
 const eventStore = useEventStore()
 const uiStore = useUiStore()
@@ -72,7 +73,7 @@ function resetState() {
 function addOneEmployeeToEvent(eventId: number) {
   setUiModal({
     isActive: true,
-    modalName: AdminModalNameEnum.ADD_EMPLOYEE,
+    modalName: ModalNameEnum.ADD_EMPLOYEE,
     modalMode: ModalModeEnum.CREATE,
     data: {
       eventId: eventId,

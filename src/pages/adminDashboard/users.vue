@@ -46,7 +46,7 @@
         </DashboardItem>
       </div>
       <UsersAdminModal
-        v-if="getUIState.isActive && getUIState.modalName === AdminModalNameEnum.USER_ADMIN"
+        v-if="getUIState.isActive && getUIState.modalName === ModalNameEnum.USER_ADMIN"
         :isActive="getUIState.isActive"
         :mode="getUIState.modalMode"
         :user="getUIState.data.user"
@@ -68,7 +68,7 @@ import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useEventStore, useMainStore, useUiStore, useUserStore } from '@/store'
 import { dateHook, userHook } from '@/hooks'
-import { AdminModalNameEnum, ModalModeEnum, SubscriptionEnum, UserType } from '@/store/typesExported'
+import { ModalNameEnum, ModalModeEnum, SubscriptionEnum, UserType } from '@/store/typesExported'
 
 const userStore = useUserStore()
 const eventStore = useEventStore()
@@ -113,7 +113,7 @@ const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : "white")
 function onToggleUsersModal(type: ModalModeEnum, user: UserType) {
   setUiModal({
     isActive: true,
-    modalName: AdminModalNameEnum.USER_ADMIN,
+    modalName: ModalNameEnum.USER_ADMIN,
     modalMode: type,
     data: {
       user,

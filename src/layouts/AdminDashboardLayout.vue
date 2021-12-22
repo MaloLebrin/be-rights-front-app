@@ -3,12 +3,19 @@
   <main class="w-full flex-shrink">
     <router-view />
   </main>
+  <Teleport to="#portal-target">
+    <CreateEventModal
+      class="top-32 w-6/12 mx-auto"
+      :isActive="getUIState.isActive && getUIState.modalName === ModalNameEnum.EVENT_FORM"
+    />
+  </Teleport>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { useUiStore } from "@/store"
+import { ModalNameEnum } from "@/store/typesExported";
 
-export default defineComponent({
-  name: 'AdminDashboardLayout',
-})
+const uiStore = useUiStore()
+const { getUiIsLoading, getUIState } = uiStore
+
 </script>

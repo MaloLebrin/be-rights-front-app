@@ -10,20 +10,24 @@ export function mainHook() {
 		const themeLocalStorage = theme.value
 		if (themeLocalStorage === ThemeEnum.DARK) {
 			document.getElementById('app')?.classList.remove(ThemeEnum.DARK)
+			document.getElementById('portal-target')?.classList.remove(ThemeEnum.DARK)
 			theme.value = ThemeEnum.LIGHT
 		} else {
 			theme.value = ThemeEnum.DARK
 			document.getElementById('app')?.classList.add(ThemeEnum.DARK)
+			document.getElementById('portal-target')?.classList.add(ThemeEnum.DARK)
 		}
 	}
 
 	function setThemeClass(userTheme: ThemeEnum) {
 		if (userTheme === ThemeEnum.LIGHT) {
 			document.getElementById('app')?.classList.remove(ThemeEnum.DARK)
+			document.getElementById('portal-target')?.classList.remove(ThemeEnum.DARK)
 			theme.value = ThemeEnum.LIGHT
 		} else {
 			theme.value = ThemeEnum.DARK
 			document.getElementById('app')?.classList.add(ThemeEnum.DARK)
+			document.getElementById('portal-target')?.classList.add(ThemeEnum.DARK)
 		}
 	}
 

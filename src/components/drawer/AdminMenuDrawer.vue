@@ -23,7 +23,7 @@
         <span class="dark:text-white">Archives</span>
       </div>
 
-      <div class="flex items-center w-full mb-5 cursor-pointer">
+      <div class="flex items-center w-full mb-5 cursor-pointer" @click="toggleEventFormModal">
         <div class="bg-purple-light hover:bg-purple rounded-lg mr-3 p-1">
           <PlusIcon class="text-white h-6" />
         </div>
@@ -31,10 +31,7 @@
       </div>
 
       <h6 class="text-gray-500 font-bold mb-4">Options</h6>
-      <div
-        v-if="store.getCurrent"
-        class="flex items-center w-full mb-5 cursor-pointer"
-      >
+      <div v-if="store.getCurrent" class="flex items-center w-full mb-5 cursor-pointer">
         <div class="bg-red-light hover:bg-red rounded-lg mr-3 p-1">
           <UserIcon class="text-white h-6" />
         </div>
@@ -45,12 +42,8 @@
         <div class="bg-purple-light hover:bg-purple rounded-lg mr-3 p-1 shadow-2xl">
           <LogoutIcon class="text-white h-6" />
         </div>
-        <span
-          class="dark:text-white"
-          @click="onToggleLogout"
-        >Se déconnecter</span>
+        <span class="dark:text-white" @click="onToggleLogout">Se déconnecter</span>
       </div>
-
     </div>
   </BDrawer>
 </template>
@@ -65,9 +58,10 @@ import {
   UserGroupIcon,
   UserIcon,
 } from '@heroicons/vue/outline'
-import { useUserStore }  from '@/store/index'
+import { useUserStore, useUiStore } from '@/store/index'
 import { useCookie } from 'vue-cookie-next'
 import { authHook } from '@/hooks'
+import { ModalModeEnum, ModalNameEnum } from '@/store/typesExported'
 
 interface Props {
   isActive?: boolean
@@ -75,15 +69,26 @@ interface Props {
 
 withDefaults(defineProps<Props>(), {
   isActive: false,
-})  
-    const store = useUserStore()
-    const { logout } = authHook()
+})
+const store = useUserStore()
+const uiStore = useUiStore()
+const { setUiModal } = uiStore
+const { logout } = authHook()
 
-    const userFullName = computed(() => store.getUserFullName)
-    const cookie = useCookie()
+const userFullName = computed(() => store.getUserFullName)
+const cookie = useCookie()
 
-    function onToggleLogout() {
-      cookie.removeCookie('userToken')
-      logout()
-    }
+function onToggleLogout() {
+  cookie.removeCookie('userToken')
+  logout()
+}
+
+function toggleEventFormModal() {
+  setUiModal({
+    isActive: true,
+    modalName: ModalNameEnum.EVENT_FORM,
+    modalMode: ModalModeEnum.CREATE,
+    data: {},
+  })
+}
 </script>
