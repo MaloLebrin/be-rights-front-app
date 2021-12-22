@@ -33,6 +33,17 @@
 			>
 				<BInput class="text-white dark:text-blue-dark" type="text" id="phone" v-model="phone" />
 			</BField>
+
+			<BField
+				v-if="isCurrentUserAdmin"
+				class="col-span-2"
+				label="Utilisateur"
+				labelFor="userId"
+				:message="userIdError"
+				:status="userIdMeta.valid ? 'success' : 'error'"
+			>
+				<InputSearchSelect baseUrl="user" @selected="userId = $event.id" />
+			</BField>
 		</form>
 		<div class="flex items-center justify-center mt-6">
 			<BButton
@@ -46,9 +57,11 @@
 </template>
 
 <script setup lang='ts'>
+
 import { EmployeeType } from '@/store/typesExported'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
+import { useUserStore, useEventStore } from '@/store'
 
 interface Props {
 	employee?: EmployeeType,
@@ -64,11 +77,15 @@ const props = withDefaults(defineProps<Props>(), {
 	userId: 0,
 })
 
+const { isCurrentUserAdmin, getCurrent } = useUserStore()
+const eventStore = useEventStore()
+
 const schema = yup.object({
 	email: yup.string().email().required().label('Adresse email'),
 	firstName: yup.string().required().label('Prénom'),
 	lastName: yup.string().required().label('Nom'),
 	phone: yup.string().required().label('Téléphone'),
+	userId: yup.number().required().label('Utilisateur'),
 })
 
 const { meta } = useForm({ validationSchema: schema })
@@ -85,6 +102,10 @@ const { errorMessage: lastNameError, value: lastName, meta: lastNameMeta } = use
 	initialValue: props.employee ? props.employee.lastName : '',
 })
 
+const { errorMessage: userIdError, value: userId, meta: userIdMeta } = useField<number | null>('userId', undefined, {
+	initialValue: isCurrentUserAdmin ? null : getCurrent?.id,
+})
+
 
 const emit = defineEmits<{
 	(e: 'submit'): void
@@ -93,9 +114,7 @@ const emit = defineEmits<{
 async function submit() {
 	emit('submit')
 	if (props.eventId) {
-
-	} else if (props.userId) {
-
+		const createdByUser = eventStore.getOne(props.eventId)?.createdByUser as number
 	}
 }
 </script>

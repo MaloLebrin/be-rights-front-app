@@ -1,6 +1,6 @@
 <template>
 	<BaseModal
-		class="w-5/6"
+		class="w-5/6 max-w-2xl"
 		title="Créer un destinataire"
 		:isLoading="state.isLoading"
 		:isActive="isActive"

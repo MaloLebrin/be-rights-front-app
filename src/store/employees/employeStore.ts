@@ -43,7 +43,45 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
 			} catch (error) {
 				console.error(error)
 			}
-		}
+		},
+
+		async postOne(employee: EmployeeType, userId: number) {
+			try {
+				const userStore = useUserStore()
+				const api = new APi(userStore.entities.current?.token!)
+				const res = await api.post<EmployeeType>(`employee/${userId}`, employee)
+				console.log(res, 'res')
+				const data = res as EmployeeType
+				const user = userStore.getOne(userId)
+				const userEmployee = user.employee as number[]
+				userStore.updateOne(userId, {
+					...user,
+					employee: [...userEmployee, data.id],
+				})
+				this.createOne(data)
+			} catch (error) {
+				console.error(error)
+			}
+		},
+
+		async postManyForEvent(employees: EmployeeType[], eventId: number, userId: number) {
+			try {
+				const userStore = useUserStore()
+				const api = new APi(userStore.entities.current?.token!)
+				const res = await api.post<EmployeeType[]>(`employee/manyonevent/${eventId}/${userId}`, employees)
+				const data = res as EmployeeType[]
+				const employeeIds = data.map(employee => employee.id)
+				const user = userStore.getOne(userId)
+				const userEmployee = user.employee as number[]
+				userStore.updateOne(userId, {
+					...user,
+					employee: [...userEmployee, ...employeeIds],
+				})
+				this.createMany(data)
+			} catch (error) {
+				console.error(error)
+			}
+		},
 
 	},
 })
