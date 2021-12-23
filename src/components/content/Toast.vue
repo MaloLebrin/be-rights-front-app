@@ -1,12 +1,12 @@
 <template>
 	<div class="absolute inset-0 flex items-center justify-center">
-		<div v-if="isActive" class="Toast px-6 py-4 border-0 rounded relative mb-4" :class="classes">
-			<span class="inline-block align-middle mr-8">
+		<div v-if="isActive" class="Toast px-6 py-4 border-0 rounded-2xl relative mb-4" :class="classes">
+			<span class="inline-block align-middle">
 				<slot />
 			</span>
 			<button
 				v-if="isCloseable"
-				class="absolute -top-1.5 -right-1.5 bg-white border-2 border-black-light text-black rounded-full cursor-pointer"
+				class="absolute -top-1 -right-1 bg-white border-2 border-black-light text-black rounded-full cursor-pointer"
 				@click="closeAlert()"
 			>
 				<svg
