@@ -1,5 +1,5 @@
 <template>
-	<div :id="`InputSearchSelect${baseUrl}`">
+	<div :id="`InputSearchSelect${baseUrl}`" class="relative">
 		<div v-if="state.selectedItems.length > 0" class="grid grid-cols-5 gap-4 mb-4">
 			<Tag
 				v-for="item in state.selectedItems"
@@ -15,6 +15,8 @@
 			v-model="state.search"
 			@keyup="searchEntity($event)"
 		/>
+		<ProcessingIcon v-if="state.isLoading" />
+		<SearchIconOutline v-else class="text-blue absolute top-4 right-3 h-5 w-5" />
 		<div
 			v-if="state.data.length > 0 && state.search.length > 0"
 			class="relative bg-white w-full border border-gray-400 dark:border-indigo-100 text-gray-700 shadow-inner cursor-pointer overflow-y-auto max-h-48"
@@ -43,6 +45,7 @@ interface Props {
 	baseUrl: string
 	isMultiple?: boolean
 }
+
 const props = withDefaults(defineProps<Props>(), {
 	disabled: false,
 	placeholder: undefined,
@@ -62,6 +65,7 @@ interface State {
 	data: any[]
 	selectedItems: any[]
 	timeout: number
+	isLoading: boolean
 }
 
 const state = reactive<State>({
@@ -69,15 +73,18 @@ const state = reactive<State>({
 	data: [],
 	timeout: 0,
 	selectedItems: [],
+	isLoading: false,
 })
 const api = new APi(userStore.entities.current?.token!)
 
 async function searchEntity(event: Event) {
 	clearTimeout(state.timeout)
 	state.timeout = setTimeout(async () => {
+		state.isLoading = true
 		await api.get(`${props.baseUrl}?search=${state.search}&limit=99999`).then((response: PaginatedResponse<any>) => {
 			state.data = response.data
 		})
+		state.isLoading = false
 	}, 500)
 }
 
