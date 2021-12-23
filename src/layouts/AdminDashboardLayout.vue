@@ -5,18 +5,26 @@
   </main>
   <Teleport to="#portal-target">
     <CreateEventModal
-      v-if="getUIState.isActive && getUIState.modalName === ModalNameEnum.EVENT_FORM"
+      v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.EVENT_FORM"
       class="top-32"
-      :isActive="getUIState.isActive && getUIState.modalName === ModalNameEnum.EVENT_FORM"
+      :isActive="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.EVENT_FORM"
+      @close="resetUiModalState"
+      @onSubmit="resetUiModalState"
     />
     <AddEmployeeModal
-      v-if="getUIState.isActive && getUIState.modalName === ModalNameEnum.ADD_EMPLOYEE"
-      :isActive="getUIState.isActive"
-      :mode="getUIState.modalMode"
+      v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.ADD_EMPLOYEE"
+      :isActive="getUiModalState.isActive"
+      :mode="getUiModalState.modalMode"
       :eventId="eventID"
-      @close="resetUIState"
-      @onSubmit="resetUIState"
+      @close="resetUiModalState"
+      @onSubmit="resetUiModalState"
     />
+    <Toast
+      :variant="getUiToastState.variant"
+      :isToastOpen="getUiToastState.isActive"
+      :toastDuration="getUiToastState.duration"
+      @close="resetUiToastState"
+    >{{ getUiToastState.message }}</Toast>
   </Teleport>
 </template>
 
@@ -26,12 +34,11 @@ import { ModalNameEnum } from "@/store/typesExported"
 
 const eventStore = useEventStore()
 const uiStore = useUiStore()
-const { getUiIsLoading, getUIState, resetUIState } = uiStore
+const { getUiModalState, resetUiModalState, resetUiToastState, getUiToastState } = uiStore
+
 const eventID = computed(() => {
-  if (getUIState.data && getUIState.data.eventId) {
-    return eventStore.entities.byId[getUIState.data.eventId].id
+  if (getUiModalState.data && getUiModalState.data.eventId) {
+    return eventStore.entities.byId[getUiModalState.data.eventId].id
   }
 })
-
-
 </script>

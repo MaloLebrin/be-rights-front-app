@@ -4,7 +4,7 @@ import router from '@/router'
 import APi, { PaginatedResponse } from '@/helpers/api'
 import { RoleEnum, ThemeEnum } from '@/types'
 import { EmployeeType, EventType, FileType, UserType } from '@/store/typesExported'
-import { useEmployeeStore, useEventStore, useFileStore, useMainStore, useUserStore } from "@/store"
+import { useEmployeeStore, useEventStore, useFileStore, useMainStore, useUiStore, useUserStore } from "@/store"
 
 export function userHook() {
 	const userStore = useUserStore()
@@ -12,6 +12,7 @@ export function userHook() {
 	const eventStore = useEventStore()
 	const employeeStore = useEmployeeStore()
 	const fileStore = useFileStore()
+	const { setUIErrorToast, setUISucessToast } = useUiStore()
 	const { setCookie } = useCookie()
 	const api = new APi(userStore.entities.current?.token!)
 
@@ -27,9 +28,11 @@ export function userHook() {
 			} else {
 				router.push('/userDashboard')
 			}
+			setUISucessToast('Vous êtes connecté')
 			mainStore.setIsLoggedIn()
 		} catch (error) {
 			console.error(error)
+			setUIErrorToast()
 		}
 		mainStore.toggleIsLoading()
 	}
@@ -46,9 +49,11 @@ export function userHook() {
 			} else {
 				router.push('/userDashboard')
 			}
+			setUISucessToast('Vous êtes inscrit avec succès')
 			mainStore.setIsLoggedIn()
 		} catch (error) {
 			console.error(error)
+			setUIErrorToast()
 		}
 		mainStore.toggleIsLoading()
 	}
@@ -124,6 +129,7 @@ export function userHook() {
 			}
 		} catch (error) {
 			console.error(error)
+			setUIErrorToast()
 		}
 		mainStore.toggleIsLoading()
 	}
@@ -133,14 +139,9 @@ export function userHook() {
 			const res = await api.get('user/?limit=999999')
 			const { currentPage, data, limit, total }: PaginatedResponse<UserType> = res
 			storeUsersEntitiesForManyUsers(data)
-			// const events = data.reduce((acc, user) => [...acc, ...user.events as EventType[]], [] as EventType[])
-			// const missingEventIds = events.map(event => event.id).filter(id => !eventStore.getAllIds.includes(id))
-			// if (missingEventIds.length > 0) {
-			// 	const missingEvents = events.filter(event => missingEventIds.includes(event.id))
-			// 	eventStore.createMany(missingEvents)
-			// }
-			// userStore.createMany(data)
+			setUISucessToast('Utilisateurs récupérés avec succès')
 		} catch (error) {
+			setUIErrorToast()
 			console.error(error)
 		}
 	}
@@ -151,7 +152,9 @@ export function userHook() {
 			const res = await api.delete(`user/${id}`)
 			console.log(res, 'res')
 			userStore.deleteOne(id)
+			setUISucessToast('Utilisateurs à été supprimé avec succès')
 		} catch (error) {
+			setUIErrorToast()
 			console.error(error)
 		}
 		mainStore.toggleIsLoading()

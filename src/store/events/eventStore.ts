@@ -5,7 +5,7 @@ import createGetters from "@/store/utils/createGetters"
 import { eventState } from "./state"
 import { EventState, EventType } from "./types"
 import APi, { PaginatedResponse } from "@/helpers/api"
-import { useMainStore, useUserStore } from "@/store/index"
+import { useMainStore, useUiStore, useUserStore } from "@/store/index"
 
 export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
 	state: (): EventState => ({
@@ -26,18 +26,26 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
 	actions: {
 		...createActions<EventType>(eventState),
 		async fetchOne(id: number) {
-			const userStore = useUserStore()
-			const api = new APi(userStore.entities.current?.token!)
-			const res = await api.get(`event/${id}`)
-			const event = res as EventType
-			if (this.getAllIds.includes(event.id)) {
-				this.createOne(event)
+			const { setUISucessToast, setUIErrorToast } = useUiStore()
+			try {
+				const userStore = useUserStore()
+				const api = new APi(userStore.entities.current?.token!)
+				const res = await api.get(`event/${id}`)
+				const event = res as EventType
+				if (this.getAllIds.includes(event.id)) {
+					this.createOne(event)
+				}
+				setUISucessToast('L\'événement a été récupéré avec succès')
+			} catch (error) {
+				console.error(error)
+				setUIErrorToast()
 			}
 		},
 
 		async fetchAll(search?: string, page?: number, limitPerPage?: number, totalEvent?: number) {
 			const mainStore = useMainStore()
 			const userStore = useUserStore()
+			const { setUISucessToast, setUIErrorToast } = useUiStore()
 			const api = new APi(userStore.entities.current?.token!)
 			try {
 				mainStore.toggleIsLoading()
@@ -48,14 +56,16 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
 					const events = data.filter(event => ids.includes(event.id))
 					this.createMany(events)
 				}
-
+				setUISucessToast('Les événements ont été récupéré avec succès')
 			} catch (error) {
 				console.error(error)
+				setUIErrorToast()
 			}
 			mainStore.toggleIsLoading()
 		},
 
 		async fetchAllByUserId(userId: number) {
+			const { setUISucessToast, setUIErrorToast } = useUiStore()
 			const userStore = useUserStore()
 			const api = new APi(userStore.entities.current?.token!)
 			try {
@@ -67,9 +77,11 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
 						const events = data.filter(event => !ids.includes(event.id))
 						this.createMany(events)
 					}
+					setUISucessToast('Les événements ont été récupéré avec succès')
 				}
 			} catch (error) {
 				console.error(error)
+				setUIErrorToast()
 			}
 		}
 

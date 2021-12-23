@@ -16,7 +16,7 @@
         <router-link to="/adminDashboard/users" class="dark:text-white">Users</router-link>
       </div>
 
-      <div class="flex items-center w-full mb-5 cursor-pointer">
+      <div class="flex items-center w-full mb-5 cursor-pointer" @click="toggleToastTest">
         <div class="bg-red-light hover:bg-red rounded-lg mr-3 p-1">
           <DatabaseIconOutline class="text-white h-6" />
         </div>
@@ -59,7 +59,7 @@
 import { useUserStore, useUiStore } from '@/store/index'
 import { useCookie } from 'vue-cookie-next'
 import { authHook } from '@/hooks'
-import { ModalModeEnum, ModalNameEnum } from '@/store/typesExported'
+import { ModalModeEnum, ModalNameEnum, ToastVariantsEnum } from '@/store/typesExported'
 
 interface Props {
   isActive?: boolean
@@ -70,7 +70,7 @@ withDefaults(defineProps<Props>(), {
 })
 const store = useUserStore()
 const uiStore = useUiStore()
-const { setUiModal } = uiStore
+const { setUiModal, setUIToast } = uiStore
 const { logout } = authHook()
 
 const userFullName = computed(() => store.getUserFullName)
@@ -96,6 +96,15 @@ function toggleEmployeeFormModal() {
     modalName: ModalNameEnum.ADD_EMPLOYEE,
     modalMode: ModalModeEnum.CREATE,
     data: {},
+  })
+}
+
+function toggleToastTest() {
+  setUIToast({
+    isActive: true,
+    message: 'test',
+    variant: ToastVariantsEnum.DANGER,
+    duration: 1000,
   })
 }
 </script>

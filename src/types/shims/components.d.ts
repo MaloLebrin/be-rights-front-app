@@ -50,6 +50,7 @@ declare module 'vue' {
     StepBubble: typeof import('./../../components/content/StepBubble.vue')['default']
     Switch: typeof import('./../../components/forms/Switch.vue')['default']
     Tag: typeof import('./../../components/content/Tag.vue')['default']
+    Toast: typeof import('./../../components/content/Toast.vue')['default']
     UserDashboard: typeof import('./../../pages/userDashboard/index.vue')['default']
     Userform: typeof import('./../../components/users/Userform.vue')['default']
     UserGroupIconOutline: typeof import('@heroicons/vue/outline/esm/UserGroupIcon.js')['default']

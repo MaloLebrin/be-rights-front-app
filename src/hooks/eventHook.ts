@@ -1,12 +1,13 @@
 import { EventStatusEnum, EventType, getEventStatusTranslationEnum } from "@/store/events/types"
 import APi, { PaginatedResponse } from "@/helpers/api"
 import { EmployeeType } from "@/store/employees/types"
-import { useEventStore, useMainStore, useUserStore } from "@/store"
+import { useEventStore, useMainStore, useUiStore, useUserStore } from "@/store"
 
 export function eventHook() {
 	const eventStore = useEventStore()
 	const mainStore = useMainStore()
 	const userStore = useUserStore()
+	const { setUISucessToast, setUIErrorToast } = useUiStore()
 	const api = new APi(userStore.entities.current?.token!)
 	const { getAllIds } = eventStore
 
@@ -47,9 +48,10 @@ export function eventHook() {
 				}))
 				eventStore.createMany(eventToStore)
 			}
-
+			setUISucessToast(`${ids.length} événements ont été récupérés avec succès`)
 		} catch (error) {
 			console.error(error)
+			setUIErrorToast()
 		}
 	}
 
@@ -58,14 +60,14 @@ export function eventHook() {
 
 		try {
 			const res: any = await api.get(`event/${id}`)
-			// const { data }: PaginatedResponse<EventType> = res
 			if (!getAllIds.includes(res.id)) {
 				eventStore.createOne(res)
 			}
 			console.log(res, 'res.data')
-
+			setUISucessToast(`L'événement a été récupéré avec succès`)
 		} catch (error) {
 			console.error(error)
+			setUIErrorToast()
 		}
 		mainStore.toggleIsLoading()
 	}
