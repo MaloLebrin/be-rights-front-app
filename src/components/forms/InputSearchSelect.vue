@@ -39,6 +39,7 @@
 <script setup lang='ts'>
 import APi, { PaginatedResponse } from "@/helpers/api"
 import { useUserStore } from '@/store'
+import { EmployeeType } from "@/store/typesExported"
 import { TagVariantsEnum } from '@/types'
 
 interface Props {
@@ -83,7 +84,7 @@ async function searchEntity(event: Event) {
 	clearTimeout(state.timeout)
 	state.timeout = setTimeout(async () => {
 		state.isLoading = true
-		await api.get(`${props.baseUrl}?search=${state.search}&limit=99999`).then((response: PaginatedResponse<any>) => {
+		await api.get(`${props.baseUrl}?search=${state.search}&limit=99999`).then((response: PaginatedResponse<EmployeeType>) => {
 			state.data = response.data
 		})
 		state.isLoading = false
