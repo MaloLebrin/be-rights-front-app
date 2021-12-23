@@ -19,14 +19,12 @@
       @close="resetUiModalState"
       @onSubmit="resetUiModalState"
     />
-    <div v-if="getUiToastState.isActive" class="absolute inset-0 flex items-center justify-center">
-      <BToast
-        :variant="getUiToastState.variant"
-        :isToastOpen="getUiToastState.isActive"
-        :toastDuration="getUiToastState.duration"
-        @close="resetUiToastState"
-      >{{ getUiToastState.message }}</BToast>
-    </div>
+    <Toast
+      :variant="getUiToastState.variant"
+      :isToastOpen="getUiToastState.isActive"
+      :toastDuration="getUiToastState.duration"
+      @close="resetUiToastState"
+    >{{ getUiToastState.message }}</Toast>
   </Teleport>
 </template>
 

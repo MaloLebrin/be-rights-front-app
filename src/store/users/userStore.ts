@@ -20,9 +20,7 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
 			return state.entities.current?.roles === RoleEnum.ADMIN
 		},
 		getCurrentUserToken(state) {
-			if (state.entities.current) {
-				return state.entities.current.token
-			}
+			return state.entities.current?.token
 		},
 		getOne(state) {
 			return (id: number) => state.entities.byId[id]

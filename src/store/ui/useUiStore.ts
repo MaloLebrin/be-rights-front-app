@@ -53,7 +53,7 @@ export const useUiStore = defineStore(EntitiesEnum.UI, {
 			this.toast.isActive = options.isActive
 			this.toast.message = options.message
 			this.toast.variant = options.variant
-			this.toast.duration = options.duration ? options.duration : 3000
+			this.toast.duration = options.duration ? options.duration : this.toast.duration
 		},
 	},
 })
