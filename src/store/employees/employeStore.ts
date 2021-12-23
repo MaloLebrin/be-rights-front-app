@@ -4,7 +4,7 @@ import createGetters from "@/store/utils/createGetters"
 import { EntitiesEnum } from "@/types/globals"
 import { employeState } from "./state"
 import { EmployeeState, EmployeeType } from "./types"
-import { useUserStore } from ".."
+import { useUiStore, useUserStore } from ".."
 import APi from "@/helpers/api"
 
 export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
@@ -28,6 +28,7 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
 
 		async fetchAllByUserId(userId: number) {
 			const userStore = useUserStore()
+			const { setUISucessToast, setUIErrorToast } = useUiStore()
 			const api = new APi(userStore.entities.current?.token!)
 			try {
 				const res = await api.get(`employee/user/${userId}`)
@@ -39,13 +40,16 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
 						createdByUser: userId,
 					}))
 					this.createMany(employees)
+					setUISucessToast('Destinataires récupéré avec succès')
 				}
 			} catch (error) {
 				console.error(error)
+				setUIErrorToast()
 			}
 		},
 
 		async postOne(employee: EmployeeType, userId: number) {
+			const { setUISucessToast, setUIErrorToast } = useUiStore()
 			try {
 				const userStore = useUserStore()
 				const api = new APi(userStore.entities.current?.token!)
@@ -59,12 +63,15 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
 					employee: [...userEmployee, data.id],
 				})
 				this.createOne(data)
+				setUISucessToast('Destinataire créé avec succès')
 			} catch (error) {
 				console.error(error)
+				setUIErrorToast()
 			}
 		},
 
 		async postManyForEvent(employees: EmployeeType[], eventId: number, userId: number) {
+			const { setUISucessToast, setUIErrorToast } = useUiStore()
 			try {
 				const userStore = useUserStore()
 				const api = new APi(userStore.entities.current?.token!)
@@ -78,8 +85,10 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
 					employee: [...userEmployee, ...employeeIds],
 				})
 				this.createMany(data)
+				setUISucessToast('Destinataires créés avec succès')
 			} catch (error) {
 				console.error(error)
+				setUIErrorToast()
 			}
 		},
 

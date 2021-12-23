@@ -55,5 +55,17 @@ export const useUiStore = defineStore(EntitiesEnum.UI, {
 			this.toast.variant = options.variant
 			this.toast.duration = options.duration ? options.duration : this.toast.duration
 		},
+		setUIErrorToast() {
+			this.toast.isActive = true
+			this.toast.message = 'Une erreur est survenue'
+			this.toast.variant = ToastVariantsEnum.DANGER
+			this.toast.duration = 1000
+		},
+		setUISucessToast(message: string) {
+			this.toast.isActive = true
+			this.toast.message = message
+			this.toast.variant = ToastVariantsEnum.SUCCESS
+			this.toast.duration = 1000
+		}
 	},
 })

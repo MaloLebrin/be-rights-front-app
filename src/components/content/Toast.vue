@@ -1,6 +1,6 @@
 <template>
-	<div class="absolute inset-0 flex items-center justify-center">
-		<div v-if="isActive" class="Toast px-6 py-4 border-0 rounded-2xl relative mb-4" :class="classes">
+	<div v-if="isActive" class="absolute inset-0 flex items-center justify-center shadow-2xl">
+		<div class="Toast px-6 py-4 border-0 rounded-2xl relative mb-4 shadow-2xl" :class="classes">
 			<span class="inline-block align-middle">
 				<slot />
 			</span>
@@ -28,9 +28,10 @@
 </template>
 
 <script setup lang="ts">
+import { useUiStore } from '@/store'
 import { ToastVariantsEnum, ToastVariantsMap } from '@/store/typesExported'
 
-
+const { resetUiToastState } = useUiStore()
 
 interface Props {
 	variant?: ToastVariantsEnum
@@ -63,6 +64,7 @@ watch(() => props.isToastOpen, newValue => {
 function closeAlert() {
 	isActive.value = false
 	emit('close')
+	resetUiToastState()
 }
 
 </script>

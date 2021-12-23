@@ -1,10 +1,11 @@
 import { EmployeeType } from "@/store/employees/types"
 import API from "@/helpers/api"
-import { useEmployeeStore, useUserStore } from "@/store"
+import { useEmployeeStore, useUiStore, useUserStore } from "@/store"
 
 export function employeeHook() {
 	const employeeStore = useEmployeeStore()
 	const userStore = useUserStore()
+	const { setUISucessToast, setUIErrorToast } = useUiStore()
 	const api = new API(userStore.entities.current?.token!)
 
 	function getEmployeeStatusSignature(employee: EmployeeType): string {
@@ -30,13 +31,19 @@ export function employeeHook() {
 	}
 
 	async function getEmployeesByEventId(eventId: number) {
-		const res: any = await api.get(`employee/event/${eventId}`)
-		const employeeArray = res.data as EmployeeType[]
-		const employees: EmployeeType[] = employeeArray.map(employe => ({
-			...employe,
-			event: eventId,
-		}))
-		employeeStore.createMany(employees)
+		try {
+			const res: any = await api.get(`employee/event/${eventId}`)
+			const employeeArray = res.data as EmployeeType[]
+			const employees: EmployeeType[] = employeeArray.map(employe => ({
+				...employe,
+				event: eventId,
+			}))
+			employeeStore.createMany(employees)
+			setUISucessToast('Les employés ont été récupérés avec succès')
+		} catch (error) {
+			console.error(error)
+			setUIErrorToast()
+		}
 	}
 
 	return {
