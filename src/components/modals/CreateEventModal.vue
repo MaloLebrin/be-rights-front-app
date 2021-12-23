@@ -4,7 +4,7 @@
 		title="Créer un événement"
 		:isLoading="getUiIsLoading"
 		:isActive="isActive"
-		:mode="getUIState.modalMode"
+		:mode="getUiModalState.modalMode"
 		@close="close"
 	>
 		<EventForm />
@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const uiStore = useUiStore()
 
-const { getUiIsLoading, getUIState, resetUIState } = uiStore
+const { getUiIsLoading, getUiModalState, resetUIState } = uiStore
 
 const emit = defineEmits<{
 	(e: 'close'): void

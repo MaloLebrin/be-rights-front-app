@@ -12,12 +12,34 @@ export enum ModalModeEnum {
 	READ = 'READ',
 }
 
+export enum ToastVariantsEnum {
+	'PRIMARY' = 'primary',
+	'WARNING' = 'warning',
+	'DANGER' = 'danger',
+	'SUCCESS' = 'success',
+}
+
 export interface UiState {
-	modalName: ModalNameEnum | null
+	modal: {
+		modalName: ModalNameEnum | null
+		isActive: boolean
+		data: Record<string, any> | null
+		modalMode: ModalModeEnum
+		isLoading: boolean
+	},
+	toast: {
+		isActive: boolean
+		message: string
+		variant: ToastVariantsEnum
+		duration?: number
+	}
+}
+
+export interface ToastOptionsUi {
 	isActive: boolean
-	data: Record<string, any> | null
-	modalMode: ModalModeEnum
-	isLoading: boolean
+	message: string
+	variant: ToastVariantsEnum
+	duration?: number
 }
 
 export interface ModalOptionsUi {

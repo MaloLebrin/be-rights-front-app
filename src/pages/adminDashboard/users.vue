@@ -46,10 +46,10 @@
         </DashboardItem>
       </div>
       <UsersAdminModal
-        v-if="getUIState.isActive && getUIState.modalName === ModalNameEnum.USER_ADMIN"
-        :isActive="getUIState.isActive"
-        :mode="getUIState.modalMode"
-        :user="getUIState.data.user"
+        v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.USER_ADMIN"
+        :isActive="getUiModalState.isActive"
+        :mode="getUiModalState.modalMode"
+        :user="getUiModalState.data.user"
         @close="resetModal"
       />
     </div>
@@ -72,7 +72,7 @@ const userStore = useUserStore()
 const eventStore = useEventStore()
 const mainStore = useMainStore()
 const uiStore = useUiStore()
-const { getUIState, resetUIState, setUiModal } = uiStore
+const { getUiModalState, resetUIState, setUiModal } = uiStore
 
 const { getDate } = dateHook()
 const { fetchAll } = userHook()

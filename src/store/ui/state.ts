@@ -1,9 +1,18 @@
-import { ModalModeEnum, UiState } from "./types"
+import { ModalModeEnum, ToastVariantsEnum, UiState } from "./types"
 
 export const uiState: UiState = {
-	modalName: null,
-	isActive: false,
-	data: null,
-	modalMode: ModalModeEnum.READ,
-	isLoading: false
+	modal: {
+		modalName: null,
+		isActive: false,
+		data: null,
+		modalMode: ModalModeEnum.READ,
+		isLoading: false
+	},
+	toast: {
+		isActive: false,
+		message: '',
+		variant: ToastVariantsEnum.PRIMARY,
+		duration: undefined,
+	}
+
 }
