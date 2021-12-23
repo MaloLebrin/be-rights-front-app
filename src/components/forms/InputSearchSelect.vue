@@ -1,5 +1,5 @@
 <template>
-	<div :id="`InputSearchSelect${baseUrl}`" class="relative">
+	<div :id="`InputSearchSelect${baseUrl}`">
 		<div v-if="state.selectedItems.length > 0" class="grid grid-cols-5 gap-4 mb-4">
 			<Tag
 				v-for="item in state.selectedItems"
@@ -8,15 +8,17 @@
 				@close="removeItem(item.id)"
 			>{{ item.firstName }} {{ item.lastName }}</Tag>
 		</div>
-		<BInput
-			class="text-white dark:text-blue-dark"
-			type="text"
-			id="search"
-			v-model="state.search"
-			@keyup="searchEntity($event)"
-		/>
-		<ProcessingIcon v-if="state.isLoading" />
-		<SearchIconOutline v-else class="text-blue absolute top-4 right-3 h-5 w-5" />
+		<div class="relative">
+			<BInput
+				class="text-white dark:text-blue-dark"
+				type="text"
+				id="search"
+				v-model="state.search"
+				@keyup="searchEntity($event)"
+			/>
+			<ProcessingIcon v-if="state.isLoading" />
+			<SearchIconOutline v-else class="text-blue absolute top-4 right-3 h-5 w-5" />
+		</div>
 		<div
 			v-if="state.data.length > 0 && state.search.length > 0"
 			class="relative bg-white w-full border border-gray-400 dark:border-indigo-100 text-gray-700 shadow-inner cursor-pointer overflow-y-auto max-h-48"
