@@ -60,7 +60,6 @@ export function eventHook() {
 
 		try {
 			const res: any = await api.get(`event/${id}`)
-			// const { data }: PaginatedResponse<EventType> = res
 			if (!getAllIds.includes(res.id)) {
 				eventStore.createOne(res)
 			}
