@@ -5,6 +5,7 @@
 				<slot />
 			</span>
 			<button
+				v-if="isCloseable"
 				class="absolute -top-1.5 -right-1.5 bg-white border-2 border-black-light text-black rounded-full cursor-pointer"
 				@click="closeAlert()"
 			>
