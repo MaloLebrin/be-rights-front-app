@@ -8,7 +8,14 @@
 			</template>
 		</HeaderList>
 
-		<div class="container bg-white dark:bg-blue-dark_bold shadow-xl py-4 rounded-2xl space-y-12">
+		<div
+			class="container bg-white dark:bg-blue-dark_bold shadow-xl py-4 rounded-2xl space-y-12 relative"
+		>
+			<ChevronLeftIconOutline
+				v-if="state.mode !== ModalModeEnum.READ"
+				class="text-gray-400 absolute top-0 -left-6 h-12 shadowl bg-white dark:bg-blue-dark_bold dark:text-white rounded-l-xl transform transition duration-500 hover:scale-125 cursor-pointer z-30"
+				@click="switchMode"
+			/>
 			<Userform v-if="state.mode === ModalModeEnum.EDIT" :id="getCurrent?.id" />
 			<UserDetails v-if="state.mode === ModalModeEnum.READ" :id="getCurrent?.id" />
 			<div v-if="state.mode === ModalModeEnum.READ" class="flex items-center justify-center">
