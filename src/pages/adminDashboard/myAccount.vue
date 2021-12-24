@@ -9,6 +9,17 @@
 		</HeaderList>
 
 		<div
+			class="container bg-white dark:bg-blue-dark_bold shadow-xl px-4 py-5 rounded-2xl space-y-12 relative"
+		>
+			<BField label="Logo" labelFor="firstName" class="text-blue-dark dark:text-white-break">
+				<InputFile message="Sélectionnez votre logo" @upload="testFile" />
+			</BField>
+			<div class="flex items-center justify-center">
+				<BButton variant="white" class="text-blue-dark" @click="submitFile">Enregistrer le Logo</BButton>
+			</div>
+		</div>
+
+		<div
 			class="container bg-white dark:bg-blue-dark_bold shadow-xl py-4 rounded-2xl space-y-12 relative"
 		>
 			<ChevronLeftIconOutline
@@ -33,17 +44,21 @@
 </route>
 
 <script setup lang='ts'>
+import { fileHook } from '@/hooks'
 import { useUserStore } from '@/store'
-import { ModalModeEnum } from '@/store/typesExported'
+import { FileTypeEnum, ModalModeEnum } from '@/store/typesExported'
 
 const { getCurrent } = useUserStore()
+const { postOne } = fileHook()
 
 interface State {
 	mode: ModalModeEnum
+	file: FormData | null
 }
 
-const state = reactive({
+const state = reactive<State>({
 	mode: ModalModeEnum.READ,
+	file: null,
 })
 
 function getButtonLabel() {
@@ -55,6 +70,22 @@ function switchMode() {
 		state.mode = ModalModeEnum.EDIT
 	} else {
 		state.mode = ModalModeEnum.READ
+	}
+}
+
+function testFile(fileUploaded: File) {
+	const formData = new FormData()
+	formData.append('file', fileUploaded)
+	formData.append('type', FileTypeEnum.LOGO)
+	formData.append('userId', getCurrent!.id.toString())
+	formData.append('name', 'logo')
+	formData.append('description', 'Logo de l\'utilisateur')
+	state.file = formData
+}
+
+async function submitFile() {
+	if (state.file) {
+		await postOne(state.file)
 	}
 }
 </script>

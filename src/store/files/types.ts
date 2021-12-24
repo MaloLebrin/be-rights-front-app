@@ -24,6 +24,7 @@ export interface FileType extends BaseEntity {
 export enum FileTypeEnum {
 	MODEL = 'MODEL',
 	IMAGE_RIGHT = 'IMAGE_RIGHT',
+	LOGO = 'LOGO',
 }
 
 export interface FileState extends State<FileType> { }
