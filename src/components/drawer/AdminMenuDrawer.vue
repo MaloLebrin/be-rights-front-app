@@ -16,13 +16,6 @@
         <router-link to="/adminDashboard/users" class="dark:text-white">Users</router-link>
       </div>
 
-      <div class="flex items-center w-full mb-5 cursor-pointer" @click="toggleToastTest">
-        <div class="bg-red-light hover:bg-red rounded-lg mr-3 p-1">
-          <DatabaseIconOutline class="text-white h-6" />
-        </div>
-        <span class="dark:text-white">Archives</span>
-      </div>
-
       <div class="flex items-center w-full mb-5 cursor-pointer" @click="toggleEventFormModal">
         <div class="bg-purple-light hover:bg-purple rounded-lg mr-3 p-1">
           <PlusIconOutline class="text-white h-6" />
@@ -42,7 +35,7 @@
         <div class="bg-red-light hover:bg-red rounded-lg mr-3 p-1">
           <UserIconOutline class="text-white h-6" />
         </div>
-        <span class="dark:text-white">{{ userFullName }}</span>
+        <router-link to="/adminDashboard/myAccount" class="dark:text-white">{{ userFullName }}</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer">

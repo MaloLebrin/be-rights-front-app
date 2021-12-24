@@ -2,7 +2,11 @@
   <div
     class="min-h-screen transform ease-in-out transition-all duration-500 py-6 text-left pl-14 pr-8"
   >
-    <HeaderList class="sticky" />
+    <HeaderList>
+      <template #title>
+        <HomeIconOutline class="h-8 mr-4 dark:bg-red rounded-lg p-1" />Événements
+      </template>
+    </HeaderList>
 
     <Loader v-if="isLoading" :isLoading="isLoading" :type="LoaderTypeEnum.BOUNCE" />
     <div v-else class="relative h-full w-full">
