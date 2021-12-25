@@ -12,13 +12,12 @@
 			class="container bg-white dark:bg-blue-dark_bold shadow-xl px-4 py-5 rounded-2xl space-y-12 relative"
 		>
 			<BField label="Logo" labelFor="firstName" class="text-blue-dark dark:text-white-break">
-				<InputFile message="Sélectionnez votre logo" @upload="testFile" />
+				<InputFile message="Sélectionnez votre logo" :url="userLogo.secure_url" @upload="testFile" />
 			</BField>
 			<div class="flex items-center justify-center">
 				<BButton variant="white" class="text-blue-dark" @click="submitFile">Enregistrer le Logo</BButton>
 			</div>
 		</div>
-
 		<div
 			class="container bg-white dark:bg-blue-dark_bold shadow-xl py-4 rounded-2xl space-y-12 relative"
 		>
@@ -45,16 +44,19 @@
 
 <script setup lang='ts'>
 import { fileHook } from '@/hooks'
-import { useUserStore } from '@/store'
+import { useFileStore, useUserStore } from '@/store'
 import { FileTypeEnum, ModalModeEnum } from '@/store/typesExported'
 
 const { getCurrent } = useUserStore()
 const { postOne } = fileHook()
+const { getAllArray } = useFileStore()
 
 interface State {
 	mode: ModalModeEnum
 	file: FormData | null
 }
+
+const userLogo = computed(() => getAllArray.filter(file => file.createdByUser === getCurrent?.id && file.type === FileTypeEnum.LOGO)[0])
 
 const state = reactive<State>({
 	mode: ModalModeEnum.READ,

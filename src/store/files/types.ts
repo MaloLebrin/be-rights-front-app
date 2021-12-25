@@ -18,7 +18,7 @@ export interface FileType extends BaseEntity {
 	original_filename: string
 	event: number
 	employee: number
-	user: number
+	createdByUser: number
 }
 
 export enum FileTypeEnum {

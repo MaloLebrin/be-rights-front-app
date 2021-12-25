@@ -1,6 +1,6 @@
 import APi from "@/helpers/api"
 import { useFileStore, useUiStore, useUserStore } from "@/store"
-import { FileTypeEnum } from "@/store/typesExported"
+import { FileType, FileTypeEnum } from "@/store/typesExported"
 
 export function fileHook() {
 	const { getCurrent } = useUserStore()
@@ -11,7 +11,9 @@ export function fileHook() {
 	async function postOne(fileForm: FormData) {
 
 		try {
-
+			const res = await api.post("file", fileForm)
+			console.log(res, 'res')
+			fileStore.createOne(res as FileType)
 
 		} catch (error) {
 			console.error(error)
