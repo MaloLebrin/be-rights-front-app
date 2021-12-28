@@ -202,6 +202,7 @@ async function submit() {
 	isLoading.value = true
 	// await userStore.patchOne(props.id, user.value)
 	isLoading.value = false
+	emits('submit', props.id)
 }
 
 </script>
