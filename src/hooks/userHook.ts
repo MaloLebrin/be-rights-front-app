@@ -160,10 +160,22 @@ export function userHook() {
 		mainStore.toggleIsLoading()
 	}
 
+	async function patchOne(id: number, user: UserType) {
+		try {
+			const res = await api.patch(`user/${id}`, { user })
+			userStore.updateOne(id, res as UserType)
+			setUISucessToast('Utilisateur à été modifié avec succès')
+		} catch (error) {
+			setUIErrorToast()
+			console.error(error)
+		}
+	}
+
 	return {
 		deleteUser,
 		fetchAll,
 		login,
+		patchOne,
 		register,
 		storeUsersEntities,
 		userToggleTheme,

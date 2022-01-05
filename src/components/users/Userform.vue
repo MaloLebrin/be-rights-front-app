@@ -72,32 +72,41 @@
 				/>
 			</BField>
 		</form>
-		<div class="mt-12 text-black-light">
-			<div class="flex items-center justify-between text-blue dark:text-indigo-50">
-				<h5 class="text-blue dark:text-white-break font-bold text-xl">{{ eventOrEmployeeSectionTitle }}</h5>
-				<Switch
-					:label="isEventMode ? 'Voir les employés' : 'Voir les événements'"
-					v-model:checked="isEventMode"
-				/>
-			</div>
+		<div class="mt-12 text-black-light text-blue dark:text-white-break">
 			<Loader v-if="isLoading" :isLoading="isLoading" :type="LoaderTypeEnum.BOUNCE" />
-			<div v-else>
-				<EventUserItem
-					v-if="eventByUserId.length && isEventMode"
-					v-for="event in eventByUserId"
-					:key="event.id"
-					:event="event"
-				/>
+			<div class="grid grid-cols-1 md:grid-cols-2 mb-12">
 				<div
-					v-else-if="isEventMode && eventByUserId.length === 0"
-					class="p-4 text-center"
-				>Aucun événement</div>
-				<EmployeeUserItem
-					v-if="employeeByUserId.length && !isEventMode"
-					v-for="employee in employeeByUserId"
-					:key="employee.id"
-					:employee="employee"
-				/>
+					:class="[activeClasse(1).value, 'text-center uppercase cursor-pointer text-blue dark:text-white-break font-bold text-xl']"
+					@click="toggleActiveTab(1)"
+				>Événements</div>
+				<div
+					:class="[activeClasse(2).value, 'text-center uppercase cursor-pointer text-blue dark:text-white-break font-bold text-xl']"
+					@click="toggleActiveTab(2)"
+				>Destinaires Enregistrés</div>
+			</div>
+
+			<div v-if="activeTabs === 1" class="space-y-12">
+				<div class="space-y-24">
+					<EventUserItem
+						v-if="eventByUserId.length"
+						v-for="event in eventByUserId"
+						:key="event.id"
+						:event="event"
+					/>
+					<div v-else class="p-4 text-center">Aucun événement</div>
+				</div>
+			</div>
+
+			<div v-if="activeTabs === 2" class="space-y-12">
+				<div class="space-y-24">
+					<EmployeeUserItem
+						v-if="employeeByUserId.length"
+						v-for="employee in employeeByUserId"
+						:key="employee.id"
+						:employee="employee"
+					/>
+					<div v-else class="p-4 text-center">Aucun destinataires nregistrés</div>
+				</div>
 			</div>
 		</div>
 		<div class="flex items-center justify-center w-full mt-12">
@@ -117,7 +126,8 @@ import { useEmployeeStore, useEventStore, useUserStore } from '@/store'
 import { RoleEnum, userRolesArray, LoaderTypeEnum } from '@/types'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
-import { subscriptionArray, SubscriptionEnum } from '@/store/typesExported'
+import { subscriptionArray, SubscriptionEnum, UserType } from '@/store/typesExported'
+import { userHook } from '@/hooks'
 
 interface Props {
 	id: number
@@ -130,14 +140,11 @@ const props = withDefaults(defineProps<Props>(), {
 const userStore = useUserStore()
 const eventStore = useEventStore()
 const employeeStore = useEmployeeStore()
+const { patchOne } = userHook()
 
 const user = computed(() => userStore.getOne(props.id))
 
-const isEventMode = ref(true)
-
 const isLoading = ref(false)
-
-const eventOrEmployeeSectionTitle = computed(() => isEventMode.value ? 'Événements' : 'Employés')
 
 const schema = yup.object({
 	companyName: yup.string().nullable().label('Nom de l\'entreprise'),
@@ -165,27 +172,24 @@ const { errorMessage: firstNameError, value: firstName, meta: firstNameMeta } = 
 const { errorMessage: lastNameError, value: lastName, meta: lastNameMeta } = useField<string>('lastName', undefined, {
 	initialValue: user.value ? user.value.lastName : '',
 })
-const { value: roles, errorMessage: rolesError, meta: rolesMeta } = useField<RoleEnum | null>('roles', undefined, {
-	initialValue: user.value ? user.value.roles : null
+const { value: roles, errorMessage: rolesError, meta: rolesMeta } = useField<RoleEnum>('roles', undefined, {
+	initialValue: user.value ? user.value.roles : RoleEnum.USER,
 })
 const { value: subscription, errorMessage: subscriptionError, meta: subscriptionMeta } = useField<SubscriptionEnum | null>('subscription', undefined, {
 	initialValue: user.value ? user.value.subscription : null
 })
 
-watch(() => isEventMode.value, async (newValue) => {
+onMounted(async () => {
 	isLoading.value = true
-	if (!newValue) {
-		const employeeIds = user.value?.employee as number[]
-		const missingIds = employeeIds.filter(id => !employeeStore.getOne(id))
-		if (missingIds.length > 0) {
-			await employeeStore.fetchAllByUserId(user.value.id)
-		}
-	} else {
-		const eventIds = user.value?.events as number[]
-		const missingIds = eventIds.filter(id => !eventStore.getOne(id))
-		if (missingIds.length > 0) {
-			await eventStore.fetchAllByUserId(user.value.id)
-		}
+	const employeeIds = user.value?.employee as number[]
+	const missingEmployeeIds = employeeIds.filter(id => !employeeStore.getOne(id))
+	if (missingEmployeeIds.length > 0) {
+		await employeeStore.fetchAllByUserId(user.value.id)
+	}
+	const eventIds = user.value?.events as number[]
+	const missingEventIds = eventIds.filter(id => !eventStore.getOne(id))
+	if (missingEventIds.length > 0) {
+		await eventStore.fetchAllByUserId(user.value.id)
 	}
 	isLoading.value = false
 })
@@ -200,9 +204,30 @@ const emits = defineEmits<{
 
 async function submit() {
 	isLoading.value = true
-	// await userStore.patchOne(props.id, user.value)
+
+	const payload: UserType = {
+		...user.value,
+		companyName: companyName.value,
+		email: email.value,
+		firstName: firstName.value,
+		lastName: lastName.value,
+		siret: siret.value,
+		roles: roles.value,
+		subscription: subscription.value,
+	}
+
+
+	await patchOne(props.id, payload)
 	isLoading.value = false
 	emits('submit', props.id)
+}
+
+const activeTabs = ref(1)
+
+const activeClasse = (tab: number) => computed(() => activeTabs.value === tab ? 'border-b-4 border-green-300' : '')
+
+function toggleActiveTab(tab: number) {
+	activeTabs.value = tab
 }
 
 </script>
