@@ -95,8 +95,9 @@
 	</div>
 </template>
 <script setup lang='ts'>
-import { useEventStore, useMainStore, useUserStore } from '@/store'
-import { ModalModeEnum } from '@/store/typesExported'
+import { answerHook, eventHook } from '@/hooks'
+import { useEventStore, useMainStore, useUiStore, useUserStore } from '@/store'
+import { EmployeeType, EventType, ModalModeEnum } from '@/store/typesExported'
 import { Period } from '@/types'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
@@ -113,8 +114,12 @@ const props = withDefaults(defineProps<Props>(), {
 const mainStore = useMainStore()
 const eventStore = useEventStore()
 const userStore = useUserStore()
+const uiStore = useUiStore()
 const { isDarkTheme } = mainStore
 const { isCurrentUserAdmin, getCurrent } = userStore
+const { getUiModalState } = uiStore
+const { postMany: postManyAnswers } = answerHook()
+const { postOne: PostOneEvent } = eventHook()
 
 const event = computed(() => eventStore.getOne(props.eventId))
 
@@ -131,7 +136,7 @@ const schema = yup.object({
 	userId: yup.number().required().label('Utilisateur'),
 })
 
-const { meta, errors, } = useForm({ validationSchema: schema })
+const { meta } = useForm({ validationSchema: schema })
 
 const { errorMessage: nameError, value: name, meta: nameMeta } = useField<string>('name', undefined, {
 	initialValue: event.value ? event.value.name : '',
@@ -155,7 +160,7 @@ const { errorMessage: userIdError, value: userId, meta: userIdMeta } = useField<
 	initialValue: event.value ? event.value.createdByUser : '',
 })
 
-const { errorMessage: employeeError, value: employees, meta: employeeMeta } = useField<any[] | null>('employees', undefined, {
+const { errorMessage: employeeError, value: employees, meta: employeeMeta } = useField<EmployeeType[] | null>('employees', undefined, {
 	initialValue: event.value ? event.value.employees : '',
 })
 
@@ -168,7 +173,7 @@ const userCreateEvent = computed(() => {
 })
 
 async function submit() {
-	console.log(period.value, 'date.value')
+
 	const payload = {
 		name: name.value,
 		start: period.value.start,
@@ -177,10 +182,30 @@ async function submit() {
 		postalCode: postalCode.value,
 		city: city.value,
 		country: country.value,
-		userId: userCreateEvent.value,
+		createdByUser: userCreateEvent.value,
 	}
-	if (employees.value && employees.value.length > 0) {
-		// await createManyForEvent
+
+	if (getUiModalState.modalMode === ModalModeEnum.CREATE) {
+		const newEvent = await PostOneEvent(payload as EventType, userCreateEvent.value!)
+		if (employees.value && employees.value.length > 0 && newEvent) {
+			const employeesIds = employees.value.map(employee => employee.id)
+			const eventId = newEvent.id
+			await postManyAnswers(
+				eventId,
+				employeesIds
+			)
+		}
+	}
+	if (getUiModalState.modalMode === ModalModeEnum.EDIT) {
+		// await PostOneEvent(payload as EventType, userCreateEvent.value!, props.eventId!)
+		if (employees.value && employees.value.length > 0) {
+			// const employeesIds = employees.value.map(employee => employee.id)
+			// const eventId = props.eventId!
+			// await postManyAnswers(
+			// 	eventId,
+			// 	employeesIds
+			// )
+		}
 	}
 }
 </script>

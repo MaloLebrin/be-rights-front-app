@@ -72,6 +72,18 @@ export function eventHook() {
 		mainStore.toggleIsLoading()
 	}
 
+	async function postOne(event: EventType, userId?: number): Promise<EventType | undefined> {
+		try {
+			const res = await api.post(`event/${userId}`, { event })
+			eventStore.createOne(res)
+			setUISucessToast(`L'événement a été créé avec succès`)
+			return res
+		} catch (error) {
+			console.error(error)
+			setUIErrorToast()
+		}
+	}
+
 	function isEventType(event: any): event is EventType {
 		return event.start !== undefined
 	}
@@ -83,5 +95,6 @@ export function eventHook() {
 		getEventStatusTranslation,
 		getSignatureCount,
 		isEventType,
+		postOne,
 	}
 }

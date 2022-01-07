@@ -1,8 +1,8 @@
-import { EntitiesEnum } from "@/types";
-import createActions from "../utils/createActions";
-import createGetters from "../utils/createGetters";
-import { answerState } from "./state";
-import { AnswerState, AnswerType } from "./types";
+import { EntitiesEnum } from "@/types"
+import createActions from "../utils/createActions"
+import createGetters from "../utils/createGetters"
+import { answerState } from "./state"
+import { AnswerState, AnswerType } from "./types"
 
 
 export const useAnswerStore = defineStore(EntitiesEnum.ANSWERS, {
