@@ -97,16 +97,14 @@
 				</div>
 			</div>
 
-			<div v-if="activeTabs === 2" class="space-y-12">
-				<div class="space-y-24">
-					<EmployeeUserItem
-						v-if="employeeByUserId.length"
-						v-for="employee in employeeByUserId"
-						:key="employee.id"
-						:employee="employee"
-					/>
-					<div v-else class="p-4 text-center">Aucun destinataires nregistrés</div>
-				</div>
+			<div v-if="activeTabs === 2" class="space-y-8">
+				<EmployeeUserItem
+					v-if="employeeByUserId.length"
+					v-for="employee in employeeByUserId"
+					:key="employee.id"
+					:employee="employee"
+				/>
+				<div v-else class="p-4 text-center">Aucun destinataires nregistrés</div>
 			</div>
 		</div>
 		<div class="flex items-center justify-center w-full mt-12">
