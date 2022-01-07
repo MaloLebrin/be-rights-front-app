@@ -1,6 +1,8 @@
 <template>
   <transition name="fade">
-    <div class="mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 mt-32 px-8 py-8">
+    <div
+      class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 mt-32 px-8 py-8 min-h-screen"
+    >
       <div class="flex flex-col space-y-12 space-x-12 max-w-1/2">
         <div class="mb-26">
           <h1 class="text-black dark:text-white">Connectez vous sur</h1>
