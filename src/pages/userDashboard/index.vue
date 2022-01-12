@@ -31,6 +31,4 @@ onMounted(async () => {
   await fetchEventsByUser(getCurrent!?.id)
   isLoading.value = false
 })
-
-
 </script>
