@@ -10,13 +10,14 @@
     <div class="relative mt-32">
       <Loader v-if="isLoading" :isLoading="isLoading" :type="LoaderTypeEnum.BOUNCE" />
       <div
-        v-else
+        v-else-if="!isLoading && events.length > 0"
         v-for="(event, index) in events"
         :key="event.id"
         class="flex items-center relative"
       >
         <EventItem :event="event" :index="index" @addOne="addOneEmployeeToEvent(event.id)" />
       </div>
+      <h4 v-else class="text-white font-semibold text-2xl">Vous n'avez aucun événement</h4>
     </div>
   </div>
 </template>
@@ -35,9 +36,8 @@ import { eventHook } from '@/hooks'
 import { ModalNameEnum, ModalModeEnum } from '@/store/typesExported'
 
 const { getEventsByUserId } = useEventStore()
-const uiStore = useUiStore()
+const { setUiModal } = useUiStore()
 const { getCurrent } = useUserStore()
-const { setUiModal } = uiStore
 const { fetchEventsByUser } = eventHook()
 const search = ref('')
 const isLoading = ref(false)
