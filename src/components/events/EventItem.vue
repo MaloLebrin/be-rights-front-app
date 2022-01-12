@@ -80,9 +80,9 @@ const { getDate } = dateHook()
 const { getEventStatusTranslation, getEventStatusColor, getSignatureCount } = eventHook()
 const { getEmployeesByEventId } = employeeHook()
 const employeeStore = useEmployeeStore()
-const { entities } = storeToRefs(employeeStore)
+const { getAllByEventId } = employeeStore
 
-const employees = computed(() => Object.values(entities.value.byId).filter(employee => employee.event === props.event.id))
+const employees = computed(() => getAllByEventId(props.event.id))
 
 onMounted(async () => {
   await getEmployeesByEventId(props.event.id)
