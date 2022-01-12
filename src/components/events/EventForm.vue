@@ -82,7 +82,11 @@
 			:message="employeeError"
 			:status="employeeMeta.valid ? 'success' : 'error'"
 		>
-			<InputSearchSelect baseUrl="employee" @selected="employees = $event" is-multiple />
+			<InputSearchSelect
+				:baseUrl="isCurrentUserAdmin ? 'employee' : `employee?filters[createdByUser]=${getCurrent?.id}`"
+				@selected="employees = $event"
+				is-multiple
+			/>
 		</BField>
 	</form>
 	<div class="flex items-center justify-center mt-6">
