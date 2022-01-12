@@ -10,7 +10,7 @@
 		<EventForm />
 	</BaseModal>
 </template>
-<script setup lang='ts'>
+<script setup lang="ts">
 import { useUiStore } from '@/store'
 
 interface Props {

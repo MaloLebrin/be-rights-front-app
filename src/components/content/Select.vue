@@ -26,7 +26,8 @@
 		</ul>
 	</div>
 </template>
-<script setup lang='ts'>
+
+<script setup lang="ts">
 
 interface Props {
 	options: string[]
@@ -36,7 +37,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	options: [],
+	options: () => [],
 	default: '',
 	tabindex: 0,
 })

@@ -28,9 +28,9 @@
     </div>
   </BCardModal>
 </template>
-<script setup lang='ts'>
+<script setup lang="ts">
 
-interface Props {
+  interface Props {
   isOpen: boolean
 }
 

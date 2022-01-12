@@ -56,8 +56,7 @@
 	</div>
 </template>
 
-<script setup lang='ts'>
-
+<script setup lang="ts">
 import { EmployeeType } from '@/store/typesExported'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'

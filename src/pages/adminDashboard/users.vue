@@ -4,12 +4,12 @@
   >
     <HeaderList>
       <template #title>
-        <HomeIconOutline class="h-8 mr-4 dark:bg-red rounded-lg p-1" />Événements
+        <UserGroupIconOutline class="h-8 mr-4 dark:bg-red rounded-lg p-1" />Utilisateurs
       </template>
     </HeaderList>
 
     <Loader v-if="isLoading" :isLoading="isLoading" :type="LoaderTypeEnum.BOUNCE" />
-    <div v-else class="relative h-full w-full">
+    <div v-else class="relative h-full w-full mt-40">
       <div v-for="(user, index) in users" :key="user.id" class="flex items-center relative">
         <DashboardItem :index="parseInt(index.toString())">
           <template #title>

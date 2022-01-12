@@ -13,7 +13,8 @@
 		/>
 	</svg>
 </template>
-<script setup lang='ts'>
+
+<script setup lang="ts">
 
 interface Props {
 	color?: string

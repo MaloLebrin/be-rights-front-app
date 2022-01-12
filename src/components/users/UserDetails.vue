@@ -69,7 +69,7 @@
 	</div>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 import { subscriptionHook } from '@/hooks'
 import { useEmployeeStore, useEventStore, useUserStore } from '@/store'
 import { LoaderTypeEnum } from '@/types'

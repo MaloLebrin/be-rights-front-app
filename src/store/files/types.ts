@@ -18,12 +18,13 @@ export interface FileType extends BaseEntity {
 	original_filename: string
 	event: number
 	employee: number
-	user: number
+	createdByUser: number
 }
 
 export enum FileTypeEnum {
 	MODEL = 'MODEL',
 	IMAGE_RIGHT = 'IMAGE_RIGHT',
+	LOGO = 'LOGO',
 }
 
 export interface FileState extends State<FileType> { }

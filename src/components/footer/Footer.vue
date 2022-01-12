@@ -1,5 +1,5 @@
 <template>
-  <footer class="shadow-3xl dark:bg-blue-dark_bold DarkModeAnimation fixed bottom-0 w-full z-50">
+  <footer class="shadow-3xl dark:bg-blue-dark_bold DarkModeAnimation w-full z-50">
     <div class="grid grid-cols-1 md:grid-cols-2">
       <div
         class="w-full h-full flex flex-col mb-6 text-black justify-between mx-auto items-center py-6 dark:text-white bg-white dark:bg-blue-dark_bold"
