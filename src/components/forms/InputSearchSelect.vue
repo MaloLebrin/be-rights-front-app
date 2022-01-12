@@ -36,7 +36,8 @@
 		</div>
 	</div>
 </template>
-<script setup lang='ts'>
+
+<script setup lang="ts">
 import APi, { PaginatedResponse } from "@/helpers/api"
 import { useUserStore } from '@/store'
 import { EmployeeType } from "@/store/typesExported"

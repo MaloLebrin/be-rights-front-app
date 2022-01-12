@@ -24,7 +24,8 @@
 		</div>
 	</div>
 </template>
-<script setup lang='ts'>
+
+<script setup lang="ts">
 import { TagVariantsEnum } from '@/types/Tag'
 
 interface Props {

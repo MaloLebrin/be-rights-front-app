@@ -94,7 +94,8 @@
 		>{{ mode === ModalModeEnum.CREATE ? 'Créer' : 'Enregistrer' }}</BButton>
 	</div>
 </template>
-<script setup lang='ts'>
+
+<script setup lang="ts">
 import { answerHook, eventHook } from '@/hooks'
 import { useEventStore, useMainStore, useUiStore, useUserStore } from '@/store'
 import { EmployeeType, EventType, ModalModeEnum } from '@/store/typesExported'

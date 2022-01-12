@@ -10,7 +10,7 @@
 	</BaseModal>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 import { EmployeeType, ModalModeEnum } from '@/store/typesExported'
 
 interface Props {

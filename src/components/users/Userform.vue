@@ -119,7 +119,7 @@
 	</div>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 import { useEmployeeStore, useEventStore, useUserStore } from '@/store'
 import { RoleEnum, userRolesArray, LoaderTypeEnum } from '@/types'
 import { useField, useForm } from 'vee-validate'

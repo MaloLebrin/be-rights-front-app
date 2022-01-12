@@ -105,7 +105,8 @@
     </nav>
   </header>
 </template>
-<script setup lang='ts'>
+
+<script setup lang="ts">
 
 const isMenuOpen = ref<boolean>(false)
 function toggleMobileMenu() {

@@ -96,7 +96,7 @@
 	</div>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 import { userHook } from '@/hooks'
 import { useMainStore } from '@/store'
 import { RoleEnum } from '@/types'

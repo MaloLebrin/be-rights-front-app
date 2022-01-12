@@ -42,7 +42,7 @@
 }
 </route>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 import { fileHook } from '@/hooks'
 import { useFileStore, useUserStore } from '@/store'
 import { FileTypeEnum, ModalModeEnum } from '@/store/typesExported'

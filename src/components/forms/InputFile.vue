@@ -11,7 +11,8 @@
 		<input type="file" id="file" ref="file" class="opacity-0" @change="emitFile" />
 	</label>
 </template>
-<script setup lang='ts'>
+
+<script setup lang="ts">
 import { FileType } from '@/store/typesExported'
 
 interface Props {
