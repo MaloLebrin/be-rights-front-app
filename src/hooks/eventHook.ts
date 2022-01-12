@@ -34,6 +34,10 @@ export function eventHook() {
 		return employees.filter(employee => employee.hasSigned).length
 	}
 
+	function filteringEventsNotInStore(events: EventType[]) {
+		return events.filter(event => !getAllIds.includes(event.id))
+	}
+
 	async function fetchAllEvents() {
 
 		try {
@@ -72,6 +76,17 @@ export function eventHook() {
 		mainStore.toggleIsLoading()
 	}
 
+	async function fetchEventsByUser(id: number) {
+		try {
+			const res = await api.get(`event/user/${id}`)
+			console.log(res, 'res')
+			setUISucessToast(`Vos événements ont été récupéré avec succès`)
+		} catch (error) {
+			console.error(error)
+			setUIErrorToast()
+		}
+	}
+
 	async function postOne(event: EventType, userId?: number): Promise<EventType | undefined> {
 		try {
 			const res = await api.post(`event/${userId}`, { event })
@@ -90,6 +105,7 @@ export function eventHook() {
 
 	return {
 		fetchAllEvents,
+		fetchEventsByUser,
 		fetchEvent,
 		getEventStatusColor,
 		getEventStatusTranslation,
