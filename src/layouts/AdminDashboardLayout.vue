@@ -32,13 +32,13 @@
 import { useEventStore, useUiStore } from "@/store"
 import { ModalNameEnum } from "@/store/typesExported"
 
-const eventStore = useEventStore()
+const { entities: eventsEntities } = useEventStore()
 const uiStore = useUiStore()
 const { getUiModalState, resetUiModalState, resetUiToastState, getUiToastState } = uiStore
 
 const eventID = computed(() => {
   if (getUiModalState.data && getUiModalState.data.eventId) {
-    return eventStore.entities.byId[getUiModalState.data.eventId].id
+    return eventsEntities.byId[getUiModalState.data.eventId].id
   }
 })
 </script>

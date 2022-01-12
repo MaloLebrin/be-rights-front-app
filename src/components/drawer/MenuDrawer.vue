@@ -6,7 +6,7 @@
         <div class="bg-red-light hover:bg-red rounded-lg mr-3 p-1">
           <HomeIcon class="text-white h-6" />
         </div>
-        <span class="dark:text-white">Événements</span>
+        <router-link to="/userDashboard" class="dark:text-white">Événements</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer">
@@ -23,11 +23,18 @@
         <span class="dark:text-white">Archives</span>
       </div>
 
-      <div class="flex items-center w-full mb-5 cursor-pointer">
+      <div class="flex items-center w-full mb-5 cursor-pointer" @click="toggleEventFormModal">
         <div class="bg-purple-light hover:bg-purple rounded-lg mr-3 p-1">
           <PlusIcon class="text-white h-6" />
         </div>
         <span class="dark:text-white">Créer un nouvel événement</span>
+      </div>
+
+      <div class="flex items-center w-full mb-5 cursor-pointer" @click="toggleEmployeeFormModal">
+        <div class="bg-purple-light hover:bg-purple rounded-lg mr-3 p-1">
+          <PlusIconOutline class="text-white h-6" />
+        </div>
+        <span class="dark:text-white">Créer un nouveau destinataire</span>
       </div>
 
       <h6 class="text-gray-500 font-bold mb-4">Options</h6>
@@ -38,11 +45,11 @@
         <span class="dark:text-white">{{ userFullName }}</span>
       </div>
 
-      <div class="flex items-center w-full mb-5 cursor-pointer">
+      <div class="flex items-center w-full mb-5 cursor-pointer" @click="onToggleLogout">
         <div class="bg-purple-light hover:bg-purple rounded-lg mr-3 p-1">
           <LogoutIcon class="text-white h-6" />
         </div>
-        <span @click="onToggleLogout">Se déconnecter</span>
+        <span>Se déconnecter</span>
       </div>
     </div>
     <!-- TODO add CTA if suscrption basic -->
@@ -68,9 +75,10 @@ import {
   UserGroupIcon,
   UserIcon,
 } from '@heroicons/vue/outline'
-import { useUserStore } from '@/store/index'
+import { useUserStore, useUiStore } from '@/store/index'
 import { useCookie } from 'vue-cookie-next'
 import { authHook } from '@/hooks'
+import { ModalModeEnum, ModalNameEnum } from '@/store/typesExported'
 
 interface Props {
   isActive?: boolean
@@ -81,6 +89,8 @@ withDefaults(defineProps<Props>(), {
 })
 
 const store = useUserStore()
+const { setUiModal, setUIToast } = useUiStore()
+
 const { logout } = authHook()
 
 const userFullName = computed(() => store.getUserFullName)
@@ -88,8 +98,26 @@ const cookie = useCookie()
 
 function onToggleLogout() {
   cookie.removeCookie('userToken')
-  console.log('logout')
   logout()
 }
+
+function toggleEventFormModal() {
+  setUiModal({
+    isActive: true,
+    modalName: ModalNameEnum.EVENT_FORM,
+    modalMode: ModalModeEnum.CREATE,
+    data: {},
+  })
+}
+
+function toggleEmployeeFormModal() {
+  setUiModal({
+    isActive: true,
+    modalName: ModalNameEnum.ADD_EMPLOYEE,
+    modalMode: ModalModeEnum.CREATE,
+    data: {},
+  })
+}
+
 
 </script>

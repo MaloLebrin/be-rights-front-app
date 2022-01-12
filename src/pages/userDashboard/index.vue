@@ -1,5 +1,24 @@
 <template>
-  <div class="text-black dark:bg-blue-dark dark:text-white min-h-screen">as user</div>
+  <div
+    class="bg-white-light dark:bg-blue-dark min-h-screen transform ease-in-out transition-all duration-500 py-6 text-left pl-14 pr-8 relative"
+  >
+    <HeaderList>
+      <template #title>
+        <HomeIconOutline class="h-8 mr-4 dark:bg-red rounded-lg p-1" />Événements
+      </template>
+    </HeaderList>
+    <div class="relative mt-32">
+      <Loader v-if="isLoading" :isLoading="isLoading" :type="LoaderTypeEnum.BOUNCE" />
+      <div
+        v-else
+        v-for="(event, index) in events"
+        :key="event.id"
+        class="flex items-center relative"
+      >
+        <EventItem :event="event" :index="index" @addOne="addOneEmployeeToEvent(event.id)" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <route>
@@ -15,15 +34,14 @@ import { LoaderTypeEnum } from '@/types/globals'
 import { eventHook } from '@/hooks'
 import { ModalNameEnum, ModalModeEnum } from '@/store/typesExported'
 
-const eventStore = useEventStore()
+const { getEventsByUserId } = useEventStore()
 const uiStore = useUiStore()
-const userStore = useUserStore()
 const { getCurrent } = useUserStore()
 const { setUiModal } = uiStore
 const { fetchEventsByUser } = eventHook()
 const search = ref('')
 const isLoading = ref(false)
-const events = computed(() => Object.values(eventStore.entities.byId))
+const events = computed(() => getEventsByUserId(getCurrent!.id))
 
 onMounted(async () => {
   console.log(getCurrent, 'getCurrent')
@@ -31,4 +49,16 @@ onMounted(async () => {
   await fetchEventsByUser(getCurrent!?.id)
   isLoading.value = false
 })
+
+function addOneEmployeeToEvent(eventId: number) {
+  setUiModal({
+    isActive: true,
+    modalName: ModalNameEnum.ADD_EMPLOYEE,
+    modalMode: ModalModeEnum.CREATE,
+    data: {
+      eventId: eventId,
+    }
+  })
+}
+
 </script>
