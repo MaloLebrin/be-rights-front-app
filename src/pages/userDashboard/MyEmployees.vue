@@ -8,16 +8,19 @@
 			</template>
 		</HeaderList>
 		<div class="relative mt-32">
-			<Loader v-if="isLoading" :isLoading="isLoading" :type="LoaderTypeEnum.BOUNCE" />
+			<Loader v-if="state.getIsLoading" :isLoading="state.getIsLoading" :type="LoaderTypeEnum.BOUNCE" />
 			<div
-				v-else-if="!isLoading && events.length > 0"
-				v-for="(event, index) in events"
-				:key="event.id"
+				v-else-if="!state.getIsLoading && employees.length > 0"
+				v-for="(employee, index) in employees"
+				:key="employee.id"
 				class="flex items-center relative"
 			>
-				<!-- <EventItem :event="event" :index="index" @addOne="addOneEmployeeToEvent(event.id)" /> -->
+				<EmployeeUserItem :employee="employee" />
 			</div>
-			<h4 v-else class="text-white font-semibold text-2xl">Vous n'avez aucun destinataire enregistré</h4>
+			<h4
+				v-else
+				class="text-blue-dark dark:text-white font-semibold text-2xl"
+			>Vous n'avez aucun destinataire enregistré</h4>
 		</div>
 	</div>
 </template>
@@ -30,23 +33,26 @@
 </route>
 
 <script setup lang="ts">
-import { useEmployeeStore, useUiStore, useUserStore } from '@/store/index'
+import { useEmployeeStore, useMainStore, useUiStore, useUserStore } from '@/store/index'
 import { LoaderTypeEnum } from '@/types/globals'
-import { eventHook } from '@/hooks'
-import { ModalNameEnum, ModalModeEnum } from '@/store/typesExported'
+import { ModalNameEnum, ModalModeEnum, EmployeeType } from '@/store/typesExported'
 
 const { setUiModal } = useUiStore()
 const { getCurrent } = useUserStore()
-const { fetchEventsByUser } = eventHook()
-const search = ref('')
-const isLoading = ref(false)
 
-onMounted(async () => {
-	// console.log(getCurrent, 'getCurrent')
-	isLoading.value = true
-	// await fetchEventsByUser(getCurrent!?.id)
-	isLoading.value = false
+const { fetchAllByUserId, getWhereArray: getWhereArrayEmployees } = useEmployeeStore()
+
+const state = reactive<{
+	getIsLoading: boolean
+}>({
+	getIsLoading: false,
 })
 
+const employees = computed(() => getWhereArrayEmployees(employee => employee.createdByUser === getCurrent!.id))
 
+onMounted(async () => {
+	state.getIsLoading = true
+	await fetchAllByUserId(getCurrent!.id)
+	state.getIsLoading = false
+})
 </script>

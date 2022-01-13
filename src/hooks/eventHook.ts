@@ -67,7 +67,6 @@ export function eventHook() {
 			if (!getAllIds.includes(res.id)) {
 				eventStore.createOne(res)
 			}
-			console.log(res, 'res.data')
 			setUISucessToast(`L'événement a été récupéré avec succès`)
 		} catch (error) {
 			console.error(error)
@@ -79,7 +78,6 @@ export function eventHook() {
 	async function fetchEventsByUser(id: number) {
 		try {
 			const res = await api.get(`event/user/${id}`)
-			console.log(res, 'res')
 			setUISucessToast(`Vos événements ont été récupéré avec succès`)
 		} catch (error) {
 			console.error(error)

@@ -38,3 +38,5 @@ export const useMainStore = defineStore('main', {
 		},
 	},
 })
+// TODO make loader number incrementing or decrementing loader = false when = 0 this is for multiple async calls
+// TODO loader must be onlyu use in this store check all files

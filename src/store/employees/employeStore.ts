@@ -54,7 +54,6 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
 				const userStore = useUserStore()
 				const api = new APi(userStore.entities.current?.token!)
 				const res = await api.post(`employee/${userId}`, { employee })
-				console.log(res, 'res')
 				const data = res as EmployeeType
 				const user = userStore.getOne(userId)
 				const userEmployee = user.employee as number[]

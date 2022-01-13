@@ -17,7 +17,10 @@
       >
         <EventItem :event="event" :index="index" @addOne="addOneEmployeeToEvent(event.id)" />
       </div>
-      <h4 v-else class="text-white font-semibold text-2xl">Vous n'avez aucun événement</h4>
+      <h4
+        v-else
+        class="text-blue-dark dark:text-white font-semibold text-2xl"
+      >Vous n'avez aucun événement</h4>
     </div>
   </div>
 </template>
@@ -44,7 +47,6 @@ const isLoading = ref(false)
 const events = computed(() => getEventsByUserId(getCurrent!.id))
 
 onMounted(async () => {
-  console.log(getCurrent, 'getCurrent')
   isLoading.value = true
   await fetchEventsByUser(getCurrent!?.id)
   isLoading.value = false
