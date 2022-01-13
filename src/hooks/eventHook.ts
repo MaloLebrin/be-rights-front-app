@@ -7,7 +7,7 @@ export function eventHook() {
 	const eventStore = useEventStore()
 	const mainStore = useMainStore()
 	const userStore = useUserStore()
-	const { setUISucessToast, setUIErrorToast } = useUiStore()
+	const { setUISucessToast, setUIErrorToast, DecLoading, IncLoading } = useUiStore()
 	const api = new APi(userStore.entities.current?.token!)
 	const { getAllIds } = eventStore
 
@@ -35,11 +35,14 @@ export function eventHook() {
 	}
 
 	function filteringEventsNotInStore(events: EventType[]) {
-		return events.filter(event => !getAllIds.includes(event.id))
+		return events.filter(event => !getAllIds.includes(event.id)).map(event => ({
+			...event,
+			createdByUser: event.createdByUser.id,
+		}))
 	}
 
 	async function fetchAllEvents() {
-
+		IncLoading()
 		try {
 			const res: any = await api.get(`event`)
 			const { currentPage, data, limit, total }: PaginatedResponse<EventType> = res
@@ -57,11 +60,11 @@ export function eventHook() {
 			console.error(error)
 			setUIErrorToast()
 		}
+		DecLoading()
 	}
 
 	async function fetchEvent(id: number) {
-		mainStore.toggleIsLoading()
-
+		IncLoading()
 		try {
 			const res: any = await api.get(`event/${id}`)
 			if (!getAllIds.includes(res.id)) {
@@ -72,20 +75,35 @@ export function eventHook() {
 			console.error(error)
 			setUIErrorToast()
 		}
-		mainStore.toggleIsLoading()
+		DecLoading()
 	}
 
-	async function fetchEventsByUser(id: number) {
+	async function fetchEventsByUser(eventId: number) {
+		IncLoading()
 		try {
-			const res = await api.get(`event/user/${id}`)
-			setUISucessToast(`Vos événements ont été récupéré avec succès`)
+			if (eventId) {
+				const res = await api.get(`event/user/${eventId}`)
+				const data = res as EventType[]
+				const ids = data.map((event: EventType) => event.id).filter(id => !getAllIds.includes(id))
+				if (ids.length > 0) {
+					const events = data.filter(event => ids.includes(event.id))
+					const eventToStore = events.map(event => ({
+						...event,
+						createdByUser: event.createdByUser.id,
+					}))
+					eventStore.createMany(eventToStore)
+				}
+				setUISucessToast(`Vos événements ont été récupéré avec succès`)
+			}
 		} catch (error) {
 			console.error(error)
 			setUIErrorToast()
 		}
+		DecLoading()
 	}
 
 	async function postOne(event: EventType, userId?: number): Promise<EventType | undefined> {
+		IncLoading()
 		try {
 			const res = await api.post(`event/${userId}`, { event })
 			eventStore.createOne(res)
@@ -95,6 +113,7 @@ export function eventHook() {
 			console.error(error)
 			setUIErrorToast()
 		}
+		DecLoading()
 	}
 
 	function isEventType(event: any): event is EventType {

@@ -2,9 +2,8 @@ import axiosInstance from "@/axios.config"
 import API from "@/helpers/api"
 import { useCookie } from 'vue-cookie-next'
 import router from '@/router'
-import { useMainStore, useUserStore } from "@/store"
+import { useMainStore, useUiStore, useUserStore } from "@/store"
 import { mainHook, userHook } from "."
-import { UserType } from "@/store/typesExported"
 
 export function authHook() {
 	const userStore = useUserStore()
@@ -12,6 +11,7 @@ export function authHook() {
 	const { getCookie } = useCookie()
 	const { setThemeClass } = mainHook()
 	const { storeUsersEntities } = userHook()
+	const { IncLoading, DecLoading } = useUiStore()
 	const api = new API(userStore.getCurrentUserToken!)
 
 	function setBearerToken(token: string) {
@@ -27,21 +27,19 @@ export function authHook() {
 	}
 
 	async function loginWithToken(token: string) {
+		IncLoading()
 		try {
-			mainStore.toggleIsLoading()
 			const user = await api.post('user/token', { token: token })
 			setThemeClass(user.theme)
 			storeUsersEntities(user)
-			mainStore.setIsLoggedIn()
-			return user as UserType
 		} catch (error) {
 			console.error(error)
 		}
-		mainStore.toggleIsLoading()
+		DecLoading()
 	}
 
 	async function routesIntermsOfUserRoles() {
-		mainStore.toggleIsLoading()
+		IncLoading()
 		const token = getCookie('userToken')
 		if (token && token.length > 0) {
 			await loginWithToken(token)
@@ -54,7 +52,7 @@ export function authHook() {
 		} else {
 			router.push('/')
 		}
-		mainStore.toggleIsLoading()
+		DecLoading()
 	}
 
 

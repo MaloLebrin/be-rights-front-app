@@ -8,9 +8,13 @@
 			</template>
 		</HeaderList>
 		<div class="relative mt-32">
-			<Loader v-if="state.getIsLoading" :isLoading="state.getIsLoading" :type="LoaderTypeEnum.BOUNCE" />
+			<Loader
+				v-if="uiStore.getUIIsLoading"
+				:isLoading="uiStore.getUIIsLoading"
+				:type="LoaderTypeEnum.BOUNCE"
+			/>
 			<div
-				v-else-if="!state.getIsLoading && employees.length > 0"
+				v-else-if="!uiStore.getUIIsLoading && employees.length > 0"
 				v-for="(employee, index) in employees"
 				:key="employee.id"
 				class="flex items-center relative"
@@ -20,7 +24,7 @@
 			<h4
 				v-else
 				class="text-blue-dark dark:text-white font-semibold text-2xl"
-			>Vous n'avez aucun destinataire enregistré</h4>
+			>Vous n'avez aucun destinataire enregistré user : {{ userStore.getCurrentUserId }}</h4>
 		</div>
 	</div>
 </template>
@@ -33,26 +37,27 @@
 </route>
 
 <script setup lang="ts">
-import { useEmployeeStore, useMainStore, useUiStore, useUserStore } from '@/store/index'
+import { useEmployeeStore, useUiStore, useUserStore } from '@/store/index'
 import { LoaderTypeEnum } from '@/types/globals'
-import { ModalNameEnum, ModalModeEnum, EmployeeType } from '@/store/typesExported'
 
-const { setUiModal } = useUiStore()
-const { getCurrent } = useUserStore()
+const { IncLoading, DecLoading } = useUiStore()
+const uiStore = useUiStore()
+const userStore = useUserStore()
 
 const { fetchAllByUserId, getWhereArray: getWhereArrayEmployees } = useEmployeeStore()
 
-const state = reactive<{
-	getIsLoading: boolean
-}>({
-	getIsLoading: false,
+const employees = computed(() => {
+	if (userStore.getCurrentUserId) {
+		return getWhereArrayEmployees(employee => employee.createdByUser === userStore.getCurrentUserId)
+	}
+	return []
 })
 
-const employees = computed(() => getWhereArrayEmployees(employee => employee.createdByUser === getCurrent!.id))
-
 onMounted(async () => {
-	state.getIsLoading = true
-	await fetchAllByUserId(getCurrent!.id)
-	state.getIsLoading = false
+	if (userStore.getCurrentUserId) {
+		IncLoading()
+		await fetchAllByUserId(userStore.getCurrentUserId)
+		DecLoading()
+	}
 })
 </script>

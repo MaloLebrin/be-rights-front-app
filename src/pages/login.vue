@@ -28,7 +28,7 @@
             :disabled="!meta.valid || !meta.dirty"
             :class="{ 'cursor-not-allowed opacity-70': !meta.valid || !meta.dirty }"
             :variant="isDarkTheme ? 'white' : 'primary'"
-            :isLoading="isLoading"
+            :isLoading="uiStore.getUIIsLoading"
             @click="submitLogin"
           >Se Connecter</BButton>
           <BLink class="dark:text-white" tag="router-link" to="/register">S'inscrire</BLink>
@@ -47,12 +47,14 @@
 
 <script setup lang="ts">
 import { userHook } from '@/hooks'
-import { useMainStore } from '@/store'
+import { useMainStore, useUiStore } from '@/store'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 
 const { login } = userHook()
 const mainStore = useMainStore()
+const uiStore = useUiStore()
+const { IncLoading, DecLoading } = uiStore
 const { isDarkTheme } = mainStore
 
 const schema = yup.object({
@@ -60,16 +62,15 @@ const schema = yup.object({
   password: yup.string().required().label('Mot de passe'),
 })
 
-const isLoading = ref(false)
 
 const { meta } = useForm({ validationSchema: schema })
 const { errorMessage: emailError, value: email, meta: emailMeta } = useField<string>('email')
 const { errorMessage: passwordError, value: password, meta: passwordMeta } = useField<string>('password')
 
 async function submitLogin() {
-  isLoading.value = true
+  IncLoading()
   await login({ email: email.value, password: password.value })
-  isLoading.value = false
+  DecLoading()
 }
 
 </script>

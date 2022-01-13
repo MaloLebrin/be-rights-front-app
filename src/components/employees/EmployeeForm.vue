@@ -79,7 +79,7 @@ const props = withDefaults(defineProps<Props>(), {
 const { isCurrentUserAdmin, getCurrent } = useUserStore()
 const eventStore = useEventStore()
 const { postOne, postManyForEvent } = useEmployeeStore()
-const { setIsLoadingStart, setIsLoadingEnd } = useUiStore()
+const { IncLoading, DecLoading } = useUiStore()
 
 const schema = yup.object({
 	email: yup.string().email().required().label('Adresse email'),
@@ -113,7 +113,7 @@ const emit = defineEmits<{
 }>()
 
 async function submit() {
-	setIsLoadingStart()
+	IncLoading()
 	if (props.eventId) {
 		const createdByUser = eventStore.getOne(props.eventId)?.createdByUser as number
 		const employeeToPost = {
@@ -135,6 +135,6 @@ async function submit() {
 		await postOne(employeeToPost, createdByUser)
 	}
 	emit('submit')
-	setIsLoadingEnd()
+	DecLoading()
 }
 </script>

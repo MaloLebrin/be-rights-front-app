@@ -8,9 +8,13 @@
       </template>
     </HeaderList>
     <div class="relative mt-32">
-      <Loader v-if="isLoading" :isLoading="isLoading" :type="LoaderTypeEnum.BOUNCE" />
+      <Loader
+        v-if="uiStore.getUIIsLoading"
+        :isLoading="uiStore.getUIIsLoading"
+        :type="LoaderTypeEnum.BOUNCE"
+      />
       <div
-        v-else-if="!isLoading && events.length > 0"
+        v-else-if="!uiStore.getUIIsLoading && events.length > 0"
         v-for="(event, index) in events"
         :key="event.id"
         class="flex items-center relative"
@@ -18,9 +22,8 @@
         <EventItem :event="event" :index="index" @addOne="addOneEmployeeToEvent(event.id)" />
       </div>
       <h4
-        v-else
         class="text-blue-dark dark:text-white font-semibold text-2xl"
-      >Vous n'avez aucun événement</h4>
+      >Vous n'avez aucun événement ! user : {{ userStore.getCurrentUserId }}</h4>
     </div>
   </div>
 </template>
@@ -39,17 +42,25 @@ import { eventHook } from '@/hooks'
 import { ModalNameEnum, ModalModeEnum } from '@/store/typesExported'
 
 const { getEventsByUserId } = useEventStore()
-const { setUiModal } = useUiStore()
-const { getCurrent } = useUserStore()
+const { setUiModal, IncLoading, DecLoading } = useUiStore()
+const uiStore = useUiStore()
+const userStore = useUserStore()
 const { fetchEventsByUser } = eventHook()
 const search = ref('')
-const isLoading = ref(false)
-const events = computed(() => getEventsByUserId(getCurrent!.id))
+
+const events = computed(() => {
+  if (userStore.getCurrentUserId) {
+    return getEventsByUserId(userStore.getCurrentUserId)
+  }
+  return []
+})
 
 onMounted(async () => {
-  isLoading.value = true
-  await fetchEventsByUser(getCurrent!?.id)
-  isLoading.value = false
+  if (userStore.getCurrentUserId) {
+    IncLoading()
+    await fetchEventsByUser(userStore.getCurrentUserId)
+    DecLoading()
+  }
 })
 
 function addOneEmployeeToEvent(eventId: number) {

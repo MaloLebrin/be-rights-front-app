@@ -8,7 +8,11 @@
       </template>
     </HeaderList>
     <div class="relative mt-32">
-      <Loader v-if="isLoading" :isLoading="isLoading" :type="LoaderTypeEnum.BOUNCE" />
+      <Loader
+        v-if="uiStore.getUIIsLoading"
+        :isLoading="uiStore.getUIIsLoading"
+        :type="LoaderTypeEnum.BOUNCE"
+      />
       <div
         v-else
         v-for="(event, index) in events"
@@ -35,16 +39,16 @@ import { ModalNameEnum, ModalModeEnum } from '@/store/typesExported'
 
 const eventStore = useEventStore()
 const uiStore = useUiStore()
-const { setUiModal } = uiStore
+const { setUiModal, IncLoading, DecLoading } = uiStore
 const { fetchAllEvents } = eventHook()
 const search = ref('')
-const isLoading = ref(false)
+
 const events = computed(() => Object.values(eventStore.entities.byId))
 
 onMounted(async () => {
-  isLoading.value = true
+  IncLoading()
   await fetchAllEvents()
-  isLoading.value = false
+  DecLoading()
 })
 
 

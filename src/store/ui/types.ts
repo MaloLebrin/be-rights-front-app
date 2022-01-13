@@ -32,7 +32,8 @@ export interface UiState {
 		message: string
 		variant: ToastVariantsEnum
 		duration?: number
-	}
+	},
+	isLoading: number,
 }
 
 export interface ToastOptionsUi {

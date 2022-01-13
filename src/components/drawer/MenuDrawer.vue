@@ -38,11 +38,11 @@
       </div>
 
       <h6 class="text-gray-500 font-bold mb-4">Options</h6>
-      <div v-if="store.getCurrent" class="flex items-center w-full mb-5 cursor-pointer">
+      <div v-if="store.getUserFullName" class="flex items-center w-full mb-5 cursor-pointer">
         <div class="bg-red-light hover:bg-red rounded-lg mr-3 p-1">
           <UserIconOutline class="text-white h-6" />
         </div>
-        <span class="dark:text-white">{{ userFullName }}</span>
+        <span class="dark:text-white">{{ store.getUserFullName }}</span>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer" @click="onToggleLogout">
@@ -81,11 +81,10 @@ withDefaults(defineProps<Props>(), {
 })
 
 const store = useUserStore()
-const { setUiModal, setUIToast } = useUiStore()
+const { setUiModal } = useUiStore()
 
 const { logout } = authHook()
 
-const userFullName = computed(() => store.getUserFullName)
 const cookie = useCookie()
 
 function onToggleLogout() {

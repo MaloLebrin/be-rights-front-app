@@ -2,7 +2,7 @@
 	<BaseModal
 		class="mt-32 w-4/6 max-w-2xl z-50 mx-72"
 		title="Créer un destinataire"
-		:isLoading="state.isLoading"
+		:isLoading="uiStore.getUIIsLoading"
 		:isActive="isActive"
 		@close="close"
 	>
@@ -11,6 +11,7 @@
 </template>
 
 <script setup lang="ts">
+import { useUiStore } from '@/store'
 import { EmployeeType, ModalModeEnum } from '@/store/typesExported'
 
 interface Props {
@@ -21,10 +22,6 @@ interface Props {
 	userId?: number
 }
 
-const state = reactive({
-	isLoading: false,
-})
-
 const props = withDefaults(defineProps<Props>(), {
 	isActive: false,
 	employee: undefined,
@@ -32,6 +29,8 @@ const props = withDefaults(defineProps<Props>(), {
 	eventId: undefined,
 	userId: undefined,
 })
+
+const uiStore = useUiStore()
 
 const emit = defineEmits<{
 	(e: 'close'): void

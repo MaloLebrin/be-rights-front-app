@@ -6,22 +6,21 @@ import { ModalModeEnum, ModalOptionsUi, ToastOptionsUi, ToastVariantsEnum } from
 export const useUiStore = defineStore(EntitiesEnum.UI, {
 	state: () => ({ ...uiState }),
 	getters: {
-		getUIState(state) {
-			return state
-		},
-		getUiIsLoading(state) {
-			return state.modal.isLoading
-		},
-		getUiModalState(state) {
-			return state.modal
-		},
-		getUiToastState(state) {
-			return state.toast
-		}
+		getUIState: (state) => state,
+		getUiIsLoading: (state) => state.modal.isLoading,
+		getUiModalState: (state) => state.modal,
+		getUiToastState: (state) => state.toast,
+		getUIIsLoading: (state) => state.isLoading > 0,
 	},
 	actions: {
 		resetUIState() {
 			this.$reset()
+		},
+		IncLoading() {
+			this.isLoading++
+		},
+		DecLoading() {
+			this.isLoading--
 		},
 		setUiModal(options: ModalOptionsUi) {
 			this.modal.modalName = options.modalName
@@ -42,12 +41,6 @@ export const useUiStore = defineStore(EntitiesEnum.UI, {
 			this.toast.message = ''
 			this.toast.variant = ToastVariantsEnum.PRIMARY
 			this.toast.duration = undefined
-		},
-		setIsLoadingStart() {
-			this.modal.isLoading = true
-		},
-		setIsLoadingEnd() {
-			this.modal.isLoading = false
 		},
 		setUIToast(options: ToastOptionsUi) {
 			this.toast.isActive = options.isActive

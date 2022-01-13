@@ -8,7 +8,11 @@
       </template>
     </HeaderList>
 
-    <Loader v-if="isLoading" :isLoading="isLoading" :type="LoaderTypeEnum.BOUNCE" />
+    <Loader
+      v-if="uiStore.getUIIsLoading"
+      :isLoading="uiStore.getUIIsLoading"
+      :type="LoaderTypeEnum.BOUNCE"
+    />
     <div v-else class="relative h-full w-full mt-40">
       <div v-for="(user, index) in users" :key="user.id" class="flex items-center relative">
         <DashboardItem :index="parseInt(index.toString())">
@@ -76,13 +80,12 @@ const userStore = useUserStore()
 const eventStore = useEventStore()
 const mainStore = useMainStore()
 const uiStore = useUiStore()
-const { getUiModalState, resetUIState, setUiModal } = uiStore
+const { getUiModalState, resetUIState, setUiModal, IncLoading, DecLoading } = uiStore
 
 const { getDate } = dateHook()
 const { fetchAll } = userHook()
 
 const { isDarkTheme } = mainStore
-const isLoading = ref(false)
 
 const { getAll, getCurrent } = storeToRefs(userStore)
 const users = computed(() => getAll.value)
@@ -104,9 +107,9 @@ function getSubscriptionTranslation(subscription: SubscriptionEnum) {
 }
 
 onMounted(async () => {
-  isLoading.value = true
+  IncLoading()
   await fetchAll()
-  isLoading.value = false
+  DecLoading()
 })
 
 const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : "white")

@@ -43,12 +43,11 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
 		},
 
 		async fetchAll(search?: string, page?: number, limitPerPage?: number, totalEvent?: number) {
-			const mainStore = useMainStore()
 			const userStore = useUserStore()
-			const { setUISucessToast, setUIErrorToast } = useUiStore()
+			const { setUISucessToast, setUIErrorToast, IncLoading, DecLoading } = useUiStore()
+			IncLoading()
 			const api = new APi(userStore.entities.current?.token!)
 			try {
-				mainStore.toggleIsLoading()
 				const res: any = await api.get(`event`)
 				const { currentPage, data, limit, total }: PaginatedResponse<EventType> = res
 				const ids = data.map((event: EventType) => event.id).filter(id => !this.getAllIds.includes(id))
@@ -61,11 +60,12 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
 				console.error(error)
 				setUIErrorToast()
 			}
-			mainStore.toggleIsLoading()
+			DecLoading()
 		},
 
 		async fetchAllByUserId(userId: number) {
-			const { setUISucessToast, setUIErrorToast } = useUiStore()
+			const { setUISucessToast, setUIErrorToast, IncLoading, DecLoading } = useUiStore()
+			IncLoading()
 			const userStore = useUserStore()
 			const api = new APi(userStore.entities.current?.token!)
 			try {
@@ -83,6 +83,7 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
 				console.error(error)
 				setUIErrorToast()
 			}
+			DecLoading()
 		}
 
 	},
