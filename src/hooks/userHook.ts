@@ -4,15 +4,16 @@ import router from '@/router'
 import APi, { PaginatedResponse } from '@/helpers/api'
 import { RoleEnum, ThemeEnum } from '@/types'
 import { EmployeeType, EventType, FileType, UserType } from '@/store/typesExported'
-import { useEmployeeStore, useEventStore, useFileStore, useMainStore, useUiStore, useUserStore } from "@/store"
+import { useEventStore, useFileStore, useMainStore, useUiStore, useUserStore } from "@/store"
+import { employeeHook } from "."
 
 export function userHook() {
 	const userStore = useUserStore()
 	const mainStore = useMainStore()
 	const eventStore = useEventStore()
-	const employeeStore = useEmployeeStore()
 	const fileStore = useFileStore()
 	const { setUIErrorToast, setUISucessToast, IncLoading, DecLoading } = useUiStore()
+	const { storeEmployeeRelationsEntities } = employeeHook()
 	const { setCookie } = useCookie()
 	const api = new APi(userStore.entities.current?.token!)
 
@@ -23,6 +24,7 @@ export function userHook() {
 			const user = res.data as UserType
 			storeUsersEntities(user)
 			setCookie('userToken', user.token)
+			new Promise(resolve => setTimeout(resolve, 3000))
 			if (user && userStore.isCurrentUserAdmin) {
 				router.push('/adminDashboard')
 			} else {
@@ -66,9 +68,8 @@ export function userHook() {
 			user.events = eventsToStore.map(event => event.id)
 		}
 		if (user.employee && user.employee.length > 0) {
-			const employees = user.employee as EmployeeType[]
-			const employeesToStore = employees.filter(employee => !employeeStore.getAllIds.includes(employee.id))
-			employeeStore.createMany(employeesToStore)
+			// FIXME 
+			const employeesToStore = storeEmployeeRelationsEntities(user.employee as EmployeeType[])
 			user.employee = employeesToStore.map(employee => employee.id)
 		}
 		if (user.files && user.files.length > 0) {
@@ -77,11 +78,12 @@ export function userHook() {
 			fileStore.createMany(filesToStore)
 			user.files = filesToStore.map(file => file.id)
 		}
+		console.log(user, 'user')
 		userStore.setCurrent(user)
 		userStore.createOne(user)
 	}
 
-	function storeUsersEntitiesForManyUsers(users: UserType[]) {
+	function storeUsersEntitiesForManyUsers(users: UserType[]): void {
 		if (users.length > 0) {
 			const events = users.reduce((acc, user) => [...acc, ...user.events as EventType[]], [] as EventType[])
 			const eventsToStore = events.filter(event => !eventStore.getAllIds.includes(event.id))
@@ -90,10 +92,7 @@ export function userHook() {
 			}
 
 			const employees = users.reduce((acc, user) => [...acc, ...user.employee as EmployeeType[]], [] as EmployeeType[])
-			const employeesToStore = employees.filter(employee => !employeeStore.getAllIds.includes(employee.id))
-			if (employeesToStore.length > 0) {
-				employeeStore.createMany(employeesToStore)
-			}
+			storeEmployeeRelationsEntities(employees)
 
 			const files = users.reduce((acc, user) => [...acc, ...user.files as FileType[]], [] as FileType[])
 			const filesToStore = files.filter(file => !fileStore.getAllIds.includes(file.id))
