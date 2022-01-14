@@ -26,12 +26,14 @@ export function authHook() {
 		router.push('/')
 	}
 
+	// FIXME must be more stable
 	async function loginWithToken(token: string) {
 		IncLoading()
 		try {
 			const user = await api.post('user/token', { token: token })
 			setThemeClass(user.theme)
 			storeUsersEntities(user)
+			new Promise(resolve => setTimeout(resolve, 3000))
 		} catch (error) {
 			console.error(error)
 		}
