@@ -38,11 +38,14 @@
       </div>
 
       <h6 class="text-gray-500 font-bold mb-4">Options</h6>
-      <div v-if="store.getUserFullName" class="flex items-center w-full mb-5 cursor-pointer">
+      <div
+        v-if="getCurrentUserId && getUserFullName"
+        class="flex items-center w-full mb-5 cursor-pointer"
+      >
         <div class="bg-red-light hover:bg-red rounded-lg mr-3 p-1">
           <UserIconOutline class="text-white h-6" />
         </div>
-        <span class="dark:text-white">{{ store.getUserFullName }}</span>
+        <span class="dark:text-white">{{ getUserFullName }}</span>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer" @click="onToggleLogout">
@@ -80,7 +83,8 @@ withDefaults(defineProps<Props>(), {
   isActive: true,
 })
 
-const store = useUserStore()
+const userStore = useUserStore()
+const { getUserFullName, getCurrentUserId } = storeToRefs(userStore)
 const { setUiModal } = useUiStore()
 
 const { logout } = authHook()
