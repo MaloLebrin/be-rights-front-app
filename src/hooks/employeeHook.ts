@@ -1,11 +1,16 @@
-import { EmployeeType } from "@/store/employees/types"
 import API from "@/helpers/api"
-import { useEmployeeStore, useUiStore, useUserStore } from "@/store"
+import { useEmployeeStore, useUiStore, useUserStore, useAnswerStore, useFileStore } from "@/store"
+import { answerHook, fileHook } from "."
+import { FileType, EmployeeType, AnswerType } from "@/store/typesExported"
 
 export function employeeHook() {
 	const employeeStore = useEmployeeStore()
 	const userStore = useUserStore()
-	const { setUISucessToast, setUIErrorToast } = useUiStore()
+	const { createMany: createManyAnswers } = useAnswerStore()
+	const { createMany: createManyFiles } = useFileStore()
+	const { setUISucessToast, setUIErrorToast, IncLoading, DecLoading } = useUiStore()
+	const { filteringFilesNotInStore } = fileHook()
+	const { filteringAnswersNotInStore } = answerHook()
 	const api = new API(userStore.entities.current?.token!)
 
 	function getEmployeeStatusSignature(employee: EmployeeType): string {
@@ -30,7 +35,44 @@ export function employeeHook() {
 		}
 	}
 
+	function storeEmployeeRelationsEntities(employees: EmployeeType[]) {
+		if (employees.length > 0) {
+			const ids = employees.map(employee => employee.id).filter(id => !employeeStore.getAllIds.includes(id))
+			if (ids.length > 0) {
+				// TODO : see to optimize this with reduce
+				const employeesToStore = employees.filter(employee => ids.includes(employee.id)).map(employee => {
+					let employeeAnswers: AnswerType[] = []
+					let employeeFiles: FileType[] = []
+
+					if (employee.files && employee.files.length > 0) {
+						employeeFiles = filteringFilesNotInStore(employee.files as FileType[])
+						if (employeeFiles.length > 0) {
+							createManyFiles(employeeFiles)
+						}
+					}
+
+					if (employee.answers && employee.answers.length > 0) {
+						employeeAnswers = filteringAnswersNotInStore(employee.answers as AnswerType[])
+						if (employeeAnswers.length > 0) {
+							createManyAnswers(employeeAnswers)
+						}
+					}
+
+					return {
+						...employee,
+						answers: employeeAnswers.map(answer => answer.id),
+						files: employeeFiles.map(file => file.id),
+					}
+				})
+				employeeStore.createMany(employeesToStore)
+				return employeesToStore
+			}
+		}
+		return []
+	}
+
 	async function getEmployeesByEventId(eventId: number) {
+		IncLoading()
 		try {
 			const res: any = await api.get(`employee/event/${eventId}`)
 			const employeeArray = res.data as EmployeeType[]
@@ -44,11 +86,29 @@ export function employeeHook() {
 			console.error(error)
 			setUIErrorToast()
 		}
+		DecLoading()
 	}
 
+	async function fetchAllByUserId(userId: number) {
+		IncLoading()
+		try {
+			const res = await api.get(`employee/user/${userId}`)
+			const data = res as EmployeeType[]
+			storeEmployeeRelationsEntities(data)
+			setUISucessToast('Destinataires récupéré avec succès')
+		} catch (error) {
+			console.error(error)
+			setUIErrorToast()
+		}
+		DecLoading()
+	}
+
+
 	return {
+		fetchAllByUserId,
 		getEmployeeStatusSignature,
 		getEmployeeStatusColor,
 		getEmployeesByEventId,
+		storeEmployeeRelationsEntities,
 	}
 }

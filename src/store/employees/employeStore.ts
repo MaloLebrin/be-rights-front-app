@@ -26,28 +26,7 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
 	actions: {
 		...createActions<EmployeeType>(employeState),
 
-		async fetchAllByUserId(userId: number) {
-			const userStore = useUserStore()
-			const { setUISucessToast, setUIErrorToast } = useUiStore()
-			const api = new APi(userStore.entities.current?.token!)
-			try {
-				const res = await api.get(`employee/user/${userId}`)
-				const data = res as EmployeeType[]
-				const ids = data.map(employee => employee.id).filter(id => !this.getAllIds.includes(id))
-				if (ids.length > 0) {
-					const employees = data.filter(employee => ids.includes(employee.id)).map(employee => ({
-						...employee,
-						createdByUser: userId,
-					}))
-					this.createMany(employees)
-					setUISucessToast('Destinataires récupéré avec succès')
-				}
-			} catch (error) {
-				console.error(error)
-				setUIErrorToast()
-			}
-		},
-
+		// TODO refacto in hook
 		async postOne(employee: EmployeeType, userId: number) {
 			const { setUISucessToast, setUIErrorToast } = useUiStore()
 			try {
@@ -69,6 +48,7 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
 			}
 		},
 
+		// TODO refacto in hook
 		async postManyForEvent(employees: EmployeeType[], eventId: number, userId: number) {
 			const { setUISucessToast, setUIErrorToast } = useUiStore()
 			try {
