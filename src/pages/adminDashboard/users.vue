@@ -15,7 +15,7 @@
     />
     <div v-else class="relative h-full w-full mt-40">
       <div v-for="(user, index) in users" :key="user.id" class="flex items-center relative">
-        <DashboardItem :index="parseInt(index.toString())">
+        <DashboardItem :index="index">
           <template #title>
             <div
               class="flex items-center justify-between px-5 py-2 font-semibold text-black dark:text-white"
@@ -24,7 +24,7 @@
               <span class="bg-gray mx-3">{{ `${user.firstName} ${user.lastName}` }}</span>
               <span class="dark:bg-gray-500 px-2 py-1 rounded-lg">{{ user.companyName }}</span>
               <span class="mx-3">{{ getSubscriptionTranslation(user.subscription) }}</span>
-              <span>{{ getDate(new Date(user.createdAt!.toString())) }}</span>
+              <span>{{ getDate(user.createdAt.toString()) }}</span>
             </div>
           </template>
 
