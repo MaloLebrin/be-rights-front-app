@@ -17,9 +17,33 @@
 				v-else-if="!uiStore.getUIIsLoading && employees.length > 0"
 				v-for="(employee, index) in employees"
 				:key="employee.id"
-				class="flex items-center relative"
 			>
-				<EmployeeUserItem :employee="employee" />
+				<DashboardItem :index="index">
+					<template #title>
+						<div class="grid grid-cols-4 gap-4 py-4 px-4">
+							<span class="text-sm text-gray-500">Prénom - Nom</span>
+							<span class="text-sm text-gray-500">Email</span>
+							<span class="text-sm text-gray-500">Téléphone</span>
+							<span class="text-sm text-gray-500">Créé le :</span>
+							<span>{{ employee.firstName }} {{ employee.lastName }}</span>
+							<span>{{ employee.email }}</span>
+							<span>{{ employee.phone }}</span>
+							<span>{{ getDate(employee.createdAt.toString()) }}</span>
+						</div>
+					</template>
+					<template #extraButton>
+						<BLink
+							:variant="extraButtonStyle"
+							class="EventActionButton"
+							@click="updateOneEmployee(employee)"
+						>modifier {{ employee.firstName }} {{ employee.lastName }}</BLink>
+						<BLink
+							:variant="extraButtonStyle"
+							class="EventActionButton"
+							@click="deleteOneEmployee(employee.id)"
+						>Supprimer {{ employee.firstName }} {{ employee.lastName }}</BLink>
+					</template>
+				</DashboardItem>
 			</div>
 			<h4
 				v-else
@@ -37,14 +61,21 @@
 </route>
 
 <script setup lang="ts">
-import { useEmployeeStore, useUiStore, useUserStore } from '@/store/index'
+import { employeeHook, dateHook } from '@/hooks'
+import { useEmployeeStore, useMainStore, useUiStore, useUserStore } from '@/store/index'
+import { EmployeeType } from '@/store/typesExported'
 import { LoaderTypeEnum } from '@/types/globals'
 
 const { IncLoading, DecLoading } = useUiStore()
+const { isDarkTheme } = useMainStore()
 const uiStore = useUiStore()
 const userStore = useUserStore()
 
-const { fetchAllByUserId, getWhereArray: getWhereArrayEmployees } = useEmployeeStore()
+const { getWhereArray: getWhereArrayEmployees } = useEmployeeStore()
+const { fetchAllByUserId } = employeeHook()
+const { getDate } = dateHook()
+
+const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : "white")
 
 const employees = computed(() => {
 	if (userStore.getCurrentUserId) {
@@ -60,4 +91,12 @@ onMounted(async () => {
 		DecLoading()
 	}
 })
+
+function updateOneEmployee(employee: EmployeeType) {
+
+}
+
+function deleteOneEmployee(id: number) {
+	return
+}
 </script>
