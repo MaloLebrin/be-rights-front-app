@@ -1,6 +1,6 @@
 <template>
   <MenuDrawer />
-  <main v-bind="$attrs" class="text-center text-red w-full">
+  <main v-bind="$attrs" class="text-center w-full">
     <router-view />
   </main>
   <Teleport to="#portal-target">
