@@ -33,7 +33,6 @@ export function authHook() {
 			const user = await api.post('user/token', { token: token })
 			setThemeClass(user.theme)
 			storeUsersEntities(user)
-			new Promise(resolve => setTimeout(resolve, 3000))
 		} catch (error) {
 			console.error(error)
 		}
@@ -46,6 +45,7 @@ export function authHook() {
 		if (token && token.length > 0) {
 			await loginWithToken(token)
 			mainStore.setIsLoggedIn()
+			console.log(userStore.isCurrentUserAdmin, 'userStore.isCurrentUserAdmin')
 			if (userStore.isCurrentUserAdmin) {
 				router.push('/adminDashboard')
 			} else {
