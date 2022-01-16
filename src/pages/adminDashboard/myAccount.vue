@@ -1,29 +1,29 @@
 <template>
 	<div
-		class="min-h-screen transform ease-in-out transition-all duration-500 py-6 text-left pl-14 pr-8 space-y-20"
+		class="min-h-screen py-6 pr-8 space-y-20 text-left transition-all duration-500 ease-in-out transform pl-14"
 	>
 		<HeaderList :withAdditionnalButtons="false" class="mb-32">
 			<template #title>
-				<UserIconOutline class="h-8 mr-4 dark:bg-red rounded-lg p-1" />Mon compte
+				<UserIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Mon compte
 			</template>
 		</HeaderList>
 
 		<div
-			class="container bg-white dark:bg-blue-dark_bold shadow-xl px-4 py-5 rounded-2xl space-y-12 relative"
+			class="container relative px-4 py-5 space-y-12 bg-white shadow-xl dark:bg-blue-dark_bold rounded-2xl"
 		>
 			<BField label="Logo" labelFor="firstName" class="text-blue-dark dark:text-white-break">
-				<InputFile message="Sélectionnez votre logo" :url="userLogo.secure_url" @upload="testFile" />
+				<InputFile message="Sélectionnez votre logo" :url="userLogoUrl" @upload="testFile" />
 			</BField>
 			<div class="flex items-center justify-center">
 				<BButton variant="white" class="text-blue-dark" @click="submitFile">Enregistrer le Logo</BButton>
 			</div>
 		</div>
 		<div
-			class="container bg-white dark:bg-blue-dark_bold shadow-xl py-4 rounded-2xl space-y-12 relative"
+			class="container relative py-4 space-y-12 bg-white shadow-xl dark:bg-blue-dark_bold rounded-2xl"
 		>
 			<ChevronLeftIconOutline
 				v-if="state.mode !== ModalModeEnum.READ"
-				class="text-gray-400 absolute top-0 -left-6 h-12 shadowl bg-white dark:bg-blue-dark_bold dark:text-white rounded-l-xl transform transition duration-500 hover:scale-125 cursor-pointer z-30"
+				class="absolute top-0 z-30 h-12 text-gray-400 transition duration-500 transform bg-white cursor-pointer -left-6 shadowl dark:bg-blue-dark_bold dark:text-white rounded-l-xl hover:scale-125"
 				@click="switchMode"
 			/>
 			<Userform v-if="state.mode === ModalModeEnum.EDIT" :id="getCurrent?.id" />
@@ -56,7 +56,7 @@ interface State {
 	file: FormData | null
 }
 
-const userLogo = computed(() => getAllArray.filter(file => file.createdByUser === getCurrent?.id && file.type === FileTypeEnum.LOGO)[0])
+const userLogoUrl = computed(() => getAllArray.filter(file => file.createdByUser === getCurrent?.id && file.type === FileTypeEnum.LOGO)[0]?.secure_url)
 
 const state = reactive<State>({
 	mode: ModalModeEnum.READ,
