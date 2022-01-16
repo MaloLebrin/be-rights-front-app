@@ -24,7 +24,6 @@ export function userHook() {
 			const user = res.data as UserType
 			storeUsersEntities(user)
 			setCookie('userToken', user.token)
-			new Promise(resolve => setTimeout(resolve, 3000))
 			if (user && userStore.isCurrentUserAdmin) {
 				router.push('/adminDashboard')
 			} else {
@@ -60,7 +59,8 @@ export function userHook() {
 		DecLoading()
 	}
 
-	function storeUsersEntities(user: UserType) {
+	//FIXME passe boolean to set current user 
+	function storeUsersEntities(user: UserType, isUserToSetCurrent = true) {
 		if (user.events && user.events.length > 0) {
 			const userEvents = user.events as EventType[]
 			const eventsToStore = userEvents.filter(event => !eventStore.getAllIds.includes(event.id))
@@ -78,8 +78,9 @@ export function userHook() {
 			fileStore.createMany(filesToStore)
 			user.files = filesToStore.map(file => file.id)
 		}
-		console.log(user, 'user')
-		userStore.setCurrent(user)
+		if (isUserToSetCurrent) {
+			userStore.setCurrentUser(user)
+		}
 		userStore.createOne(user)
 	}
 

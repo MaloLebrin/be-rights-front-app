@@ -32,5 +32,9 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
 
 	actions: {
 		...createActions<UserType>(userState),
+
+		setCurrentUser(user: UserType) {
+			this.entities.current = user
+		}
 	},
 })
