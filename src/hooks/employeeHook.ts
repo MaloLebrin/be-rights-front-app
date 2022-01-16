@@ -1,4 +1,4 @@
-import API from "@/helpers/api"
+import API, { PaginatedResponse } from "@/helpers/api"
 import { useEmployeeStore, useUiStore, useUserStore, useAnswerStore, useFileStore } from "@/store"
 import { answerHook, fileHook } from "."
 import { FileType, EmployeeType, AnswerType } from "@/store/typesExported"
@@ -103,6 +103,26 @@ export function employeeHook() {
 		DecLoading()
 	}
 
+	async function fetchAll(perPage?: number) {
+		IncLoading()
+		try {
+			let url = `employee`
+
+			if (perPage) {
+				url += `?limit=${perPage}`
+			}
+
+			const res = await api.get(url)
+			const { currentPage, data, limit, total }: PaginatedResponse<EmployeeType> = res
+			storeEmployeeRelationsEntities(data)
+			setUISucessToast('Destinataires récupéré avec succès')
+		} catch (error) {
+			console.error(error)
+			setUIErrorToast()
+		}
+		DecLoading()
+	}
+
 	async function deleteOne(id: number) {
 		IncLoading()
 		try {
@@ -117,13 +137,28 @@ export function employeeHook() {
 		DecLoading()
 	}
 
+	async function patchOne(id: number, data: EmployeeType) {
+		IncLoading()
+		try {
+			const res = await api.patch(`employee/${id}`, { employee: data })
+			employeeStore.updateOne(id, res)
+			setUISucessToast('Destinataire modifié avec succès')
+		} catch (error) {
+			console.error(error)
+			setUIErrorToast()
+		}
+		DecLoading()
+	}
+
 
 	return {
 		deleteOne,
+		fetchAll,
 		fetchAllByUserId,
 		getEmployeeStatusSignature,
 		getEmployeeStatusColor,
 		getEmployeesByEventId,
+		patchOne,
 		storeEmployeeRelationsEntities,
 	}
 }

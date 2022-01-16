@@ -1,6 +1,6 @@
 <template>
 	<BaseModal
-		class="mt-32 w-4/6 max-w-2xl z-50 mx-72"
+		class="z-50 w-4/6 max-w-2xl mt-32 mx-72"
 		:title="getModalTitle"
 		:isLoading="uiStore.getUIIsLoading"
 		:isActive="isActive"
@@ -8,6 +8,8 @@
 	>
 		<EmployeeForm
 			v-if="mode === ModalModeEnum.EDIT || mode === ModalModeEnum.CREATE"
+			:mode="mode"
+			:employee="uiStore.getUiModalData?.employee"
 			:eventId="eventId"
 			:userId="userId"
 			@submit="onSubmit"
@@ -59,7 +61,7 @@ const props = withDefaults(defineProps<Props>(), {
 const uiStore = useUiStore()
 const { IncLoading, DecLoading, resetUiModalState } = uiStore
 const { deleteOne } = employeeHook()
-
+console.log(uiStore.getUiModalData, 'uiStore.getUiModalData')
 async function deleteEmployee() {
 	if (uiStore.getUiModalState && uiStore.getUiModalData?.employee) {
 		IncLoading()

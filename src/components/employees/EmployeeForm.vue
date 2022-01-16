@@ -1,5 +1,5 @@
 <template>
-	<div class="mt-4 px-4 w-full h-full">
+	<div class="w-full h-full px-4 mt-4">
 		<form class="grid grid-cols-2 gap-4">
 			<BField
 				label="Prénom"
@@ -35,7 +35,7 @@
 			</BField>
 
 			<BField
-				v-if="isCurrentUserAdmin"
+				v-if="isCurrentUserAdmin && ModalModeEnum.CREATE"
 				class="col-span-2"
 				label="Utilisateur"
 				labelFor="userId"
@@ -51,27 +51,28 @@
 				:disabled="!meta.valid || !meta.dirty"
 				class="mr-2 dark:text-black"
 				@click="submit"
-			>{{ mode === 'create' ? 'Créer' : 'Enregistrer' }}</BButton>
+			>{{ mode === ModalModeEnum.CREATE ? 'Créer' : 'Enregistrer' }}</BButton>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { EmployeeType } from '@/store/typesExported'
+import { EmployeeType, ModalModeEnum } from '@/store/typesExported'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { useUserStore, useEventStore, useEmployeeStore, useUiStore } from '@/store'
+import { employeeHook } from '@/hooks'
 
 interface Props {
 	employee?: EmployeeType,
-	mode?: 'create' | 'update' | 'delete',
+	mode?: ModalModeEnum,
 	eventId?: number,
 	userId?: number,
 }
 
 const props = withDefaults(defineProps<Props>(), {
 	employee: undefined,
-	mode: 'create',
+	mode: ModalModeEnum.CREATE,
 	eventId: 0,
 	userId: 0,
 })
@@ -80,6 +81,7 @@ const { isCurrentUserAdmin, getCurrentUserId } = useUserStore()
 const eventStore = useEventStore()
 const { postOne, postManyForEvent } = useEmployeeStore()
 const { IncLoading, DecLoading } = useUiStore()
+const { patchOne } = employeeHook()
 
 const schema = yup.object({
 	email: yup.string().email().required().label('Adresse email'),
@@ -88,6 +90,17 @@ const schema = yup.object({
 	phone: yup.string().required().label('Téléphone'),
 	userId: yup.number().required().label('Utilisateur'),
 })
+
+const userIdField = computed(() => {
+	if (props.employee) {
+		return props.employee.createdByUser as number
+	}
+	if (isCurrentUserAdmin) {
+		return null
+	}
+	return getCurrentUserId
+})
+
 
 const { meta } = useForm({ validationSchema: schema })
 const { errorMessage: emailError, value: email, meta: emailMeta, setErrors } = useField<string>('email', undefined, {
@@ -104,7 +117,7 @@ const { errorMessage: lastNameError, value: lastName, meta: lastNameMeta } = use
 })
 
 const { errorMessage: userIdError, value: userId, meta: userIdMeta } = useField<number | null>('userId', undefined, {
-	initialValue: isCurrentUserAdmin ? null : getCurrentUserId,
+	initialValue: userIdField.value,
 })
 
 
@@ -114,25 +127,25 @@ const emit = defineEmits<{
 
 async function submit() {
 	IncLoading()
-	if (props.eventId) {
-		const createdByUser = eventStore.getOne(props.eventId)?.createdByUser as number
-		const employeeToPost = {
-			email: email.value,
-			firstName: firstName.value,
-			lastName: lastName.value,
-			phone: phone.value,
-		} as EmployeeType
-		await postManyForEvent([employeeToPost],
-			props.eventId, createdByUser)
-	} else {
-		const employeeToPost = {
-			email: email.value,
-			firstName: firstName.value,
-			lastName: lastName.value,
-			phone: phone.value,
-		} as EmployeeType
-		const createdByUser = isCurrentUserAdmin ? userId.value! : getCurrentUserId!
-		await postOne(employeeToPost, createdByUser)
+
+	const employeeToPost = {
+		email: email.value,
+		firstName: firstName.value,
+		lastName: lastName.value,
+		phone: phone.value,
+	} as EmployeeType
+
+	if (props.mode === ModalModeEnum.CREATE) {
+		if (props.eventId) {
+			const createdByUser = eventStore.getOne(props.eventId)?.createdByUser as number
+			await postManyForEvent([employeeToPost],
+				props.eventId, createdByUser)
+		} else {
+			const createdByUser = isCurrentUserAdmin ? userId.value! : getCurrentUserId!
+			await postOne(employeeToPost, createdByUser)
+		}
+	} else if (props.mode === ModalModeEnum.EDIT && props.employee) {
+		await patchOne(props.employee.id, { ...employeeToPost, createdByUser: props.employee.createdByUser })
 	}
 	emit('submit')
 	DecLoading()
