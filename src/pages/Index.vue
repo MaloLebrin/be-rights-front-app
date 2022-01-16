@@ -313,7 +313,6 @@ const { newsletterSignup } = newsleterHook()
 const mainStore = useMainStore()
 const { isDarkTheme } = storeToRefs(mainStore)
 const uiStore = useUiStore()
-// TODO setup vee validate
 
 const email = ref('')
 const isSuccess = ref(false)

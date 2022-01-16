@@ -5,7 +5,6 @@
 declare module 'vue' {
   export interface GlobalComponents {
     404: typeof import('./../../pages/404.vue')['default']
-    EmployeeModal: typeof import('../../components/modals/EmployeeModal.vue')['default']
     AdminDashboard: typeof import('./../../pages/adminDashboard/index.vue')['default']
     AdminMenuDrawer: typeof import('./../../components/drawer/AdminMenuDrawer.vue')['default']
     BAccordion: typeof import('be-right-vue3-lib')['BAccordion']
@@ -29,6 +28,7 @@ declare module 'vue' {
     EmployeeDeleteConfirm: typeof import('./../../components/employees/EmployeeDeleteConfirm.vue')['default']
     EmployeeEventItem: typeof import('./../../components/employees/EmployeeEventItem.vue')['default']
     EmployeeForm: typeof import('./../../components/employees/EmployeeForm.vue')['default']
+    EmployeeModal: typeof import('./../../components/modals/EmployeeModal.vue')['default']
     EmployeeUserItem: typeof import('./../../components/employees/EmployeeUserItem.vue')['default']
     EventForm: typeof import('./../../components/events/EventForm.vue')['default']
     EventItem: typeof import('./../../components/events/EventItem.vue')['default']
@@ -42,7 +42,6 @@ declare module 'vue' {
     InputSearchSelect: typeof import('./../../components/forms/InputSearchSelect.vue')['default']
     Loader: typeof import('./../../components/content/Loader.vue')['default']
     Login: typeof import('./../../pages/login.vue')['default']
-    LoginModal: typeof import('./../../components/modals/LoginModal.vue')['default']
     LogoutIconOutline: typeof import('@heroicons/vue/outline/esm/LogoutIcon.js')['default']
     MenuDrawer: typeof import('./../../components/drawer/MenuDrawer.vue')['default']
     MyAccount: typeof import('./../../pages/adminDashboard/myAccount.vue')['default']

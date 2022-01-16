@@ -2,7 +2,7 @@ import axiosInstance from "@/axios.config"
 import { useUiStore } from "@/store"
 
 export function newsleterHook() {
-	const { IncLoading, DecLoading } = useUiStore()
+	const { IncLoading, DecLoading, setUISucessToast, setUIErrorToast } = useUiStore()
 
 	async function newsletterSignup({
 		email,
@@ -21,12 +21,12 @@ export function newsleterHook() {
 			const res = await axiosInstance.post('createOnenewsletter', { email, firstName, lastName, companyName })
 
 			if (res.status === 200) {
-				// TODO toast
+				setUISucessToast('Votre inscription a bien été prise en compte')
 				DecLoading()
 				return res.status
 			}
 		} catch (error) {
-			// TODO toast
+			setUIErrorToast()
 			console.error(error)
 		}
 		DecLoading()

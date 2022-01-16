@@ -59,7 +59,6 @@ export function userHook() {
 		DecLoading()
 	}
 
-	//FIXME passe boolean to set current user 
 	function storeUsersEntities(user: UserType, isUserToSetCurrent = true) {
 		if (user.events && user.events.length > 0) {
 			const userEvents = user.events as EventType[]
@@ -68,7 +67,6 @@ export function userHook() {
 			user.events = eventsToStore.map(event => event.id)
 		}
 		if (user.employee && user.employee.length > 0) {
-			// FIXME 
 			const employeesToStore = storeEmployeeRelationsEntities(user.employee as EmployeeType[])
 			user.employee = employeesToStore.map(employee => employee.id)
 		}
@@ -137,7 +135,7 @@ export function userHook() {
 	async function fetchAll() {
 		try {
 			const res = await api.get('user/?limit=999999')
-			const { currentPage, data, limit, total }: PaginatedResponse<UserType> = res
+			const { data }: PaginatedResponse<UserType> = res
 			storeUsersEntitiesForManyUsers(data)
 			setUISucessToast('Utilisateurs récupérés avec succès')
 		} catch (error) {
