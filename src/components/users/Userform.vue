@@ -48,6 +48,7 @@
 				<BInput class="text-white dark:text-blue-dark" type="text" id="siret" v-model="siret" />
 			</BField>
 			<BField
+				v-if="isCurrentUserAdmin"
 				label="Role"
 				labelFor="role"
 				:message="rolesError"
@@ -60,6 +61,7 @@
 				/>
 			</BField>
 			<BField
+				v-if="isCurrentUserAdmin"
 				label="Abonnement"
 				labelFor="subscription"
 				:message="subscriptionError"
@@ -93,7 +95,7 @@
 						:key="event.id"
 						:event="event"
 					/>
-					<div v-else class="p-4 text-center">Aucun événement</div>
+					<div v-else class="px-4 text-center text-gray-800 dark:text-gray-600">Aucun événement</div>
 				</div>
 			</div>
 
@@ -104,7 +106,10 @@
 					:key="employee.id"
 					:employee="employee"
 				/>
-				<div v-else class="p-4 text-center">Aucun destinataires nregistrés</div>
+				<div
+					v-else
+					class="px-4 text-center text-gray-800 dark:text-gray-600"
+				>Aucun destinataire enregistré</div>
 			</div>
 		</div>
 		<div class="flex items-center justify-center w-full mt-12">
@@ -136,6 +141,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const userStore = useUserStore()
+const { isCurrentUserAdmin } = useUserStore()
 const eventStore = useEventStore()
 const employeeStore = useEmployeeStore()
 const { patchOne } = userHook()

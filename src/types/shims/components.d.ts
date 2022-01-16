@@ -60,6 +60,7 @@ declare module 'vue' {
     Tag: typeof import('./../../components/content/Tag.vue')['default']
     Toast: typeof import('./../../components/content/Toast.vue')['default']
     TrashIconOutline: typeof import('@heroicons/vue/outline/esm/TrashIcon.js')['default']
+    UserAccountContent: typeof import('./../../components/users/UserAccountContent.vue')['default']
     UserDashboard: typeof import('./../../pages/userDashboard/index.vue')['default']
     UserDetails: typeof import('./../../components/users/UserDetails.vue')['default']
     Userform: typeof import('./../../components/users/Userform.vue')['default']
