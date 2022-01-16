@@ -76,7 +76,7 @@ const props = withDefaults(defineProps<Props>(), {
 	userId: 0,
 })
 
-const { isCurrentUserAdmin, getCurrent } = useUserStore()
+const { isCurrentUserAdmin, getCurrentUserId } = useUserStore()
 const eventStore = useEventStore()
 const { postOne, postManyForEvent } = useEmployeeStore()
 const { IncLoading, DecLoading } = useUiStore()
@@ -104,7 +104,7 @@ const { errorMessage: lastNameError, value: lastName, meta: lastNameMeta } = use
 })
 
 const { errorMessage: userIdError, value: userId, meta: userIdMeta } = useField<number | null>('userId', undefined, {
-	initialValue: isCurrentUserAdmin ? null : getCurrent?.id,
+	initialValue: isCurrentUserAdmin ? null : getCurrentUserId,
 })
 
 
@@ -131,7 +131,7 @@ async function submit() {
 			lastName: lastName.value,
 			phone: phone.value,
 		} as EmployeeType
-		const createdByUser = isCurrentUserAdmin ? userId.value! : getCurrent!.id
+		const createdByUser = isCurrentUserAdmin ? userId.value! : getCurrentUserId!
 		await postOne(employeeToPost, createdByUser)
 	}
 	emit('submit')

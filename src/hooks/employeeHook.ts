@@ -103,8 +103,23 @@ export function employeeHook() {
 		DecLoading()
 	}
 
+	async function deleteOne(id: number) {
+		IncLoading()
+		try {
+			await api.delete(`employee/${id}`)
+			employeeStore.deleteOne(id)
+			//fix deletion in store
+			setUISucessToast('Destinataire supprimé avec succès')
+		} catch (error) {
+			console.error(error)
+			setUIErrorToast()
+		}
+		DecLoading()
+	}
+
 
 	return {
+		deleteOne,
 		fetchAllByUserId,
 		getEmployeeStatusSignature,
 		getEmployeeStatusColor,

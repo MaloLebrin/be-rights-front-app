@@ -26,6 +26,7 @@ declare module 'vue' {
     DashboardItem: typeof import('./../../components/dashboard/DashboardItem.vue')['default']
     DatabaseIconOutline: typeof import('@heroicons/vue/outline/esm/DatabaseIcon.js')['default']
     DocumentDownloadIconOutline: typeof import('@heroicons/vue/outline/esm/DocumentDownloadIcon.js')['default']
+    EmployeeDeleteConfirm: typeof import('./../../components/employees/EmployeeDeleteConfirm.vue')['default']
     EmployeeEventItem: typeof import('./../../components/employees/EmployeeEventItem.vue')['default']
     EmployeeForm: typeof import('./../../components/employees/EmployeeForm.vue')['default']
     EmployeeUserItem: typeof import('./../../components/employees/EmployeeUserItem.vue')['default']
@@ -56,6 +57,7 @@ declare module 'vue' {
     Switch: typeof import('./../../components/forms/Switch.vue')['default']
     Tag: typeof import('./../../components/content/Tag.vue')['default']
     Toast: typeof import('./../../components/content/Toast.vue')['default']
+    TrashIconOutline: typeof import('@heroicons/vue/outline/esm/TrashIcon.js')['default']
     UserDashboard: typeof import('./../../pages/userDashboard/index.vue')['default']
     UserDetails: typeof import('./../../components/users/UserDetails.vue')['default']
     Userform: typeof import('./../../components/users/Userform.vue')['default']
@@ -63,6 +65,7 @@ declare module 'vue' {
     UserIconOutline: typeof import('@heroicons/vue/outline/esm/UserIcon.js')['default']
     Users: typeof import('./../../pages/adminDashboard/users.vue')['default']
     UsersAdminModal: typeof import('./../../components/modals/UsersAdminModal.vue')['default']
+    XCircleIconOutline: typeof import('@heroicons/vue/outline/esm/XCircleIcon.js')['default']
   }
 }
 

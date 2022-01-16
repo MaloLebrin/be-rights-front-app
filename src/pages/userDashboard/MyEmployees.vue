@@ -20,7 +20,7 @@
 			>
 				<DashboardItem :index="index">
 					<template #title>
-						<div class="grid grid-cols-4 gap-4 py-4 px-4">
+						<div class="grid grid-cols-1 gap-4 py-4 px-4 md:grid-cols-4">
 							<span class="text-sm text-gray-500">Prénom - Nom</span>
 							<span class="text-sm text-gray-500">Email</span>
 							<span class="text-sm text-gray-500">Téléphone</span>
@@ -40,7 +40,7 @@
 						<BLink
 							:variant="extraButtonStyle"
 							class="EventActionButton"
-							@click="deleteOneEmployee(employee.id)"
+							@click="deleteOneEmployee(employee)"
 						>Supprimer {{ employee.firstName }} {{ employee.lastName }}</BLink>
 					</template>
 				</DashboardItem>
@@ -48,7 +48,7 @@
 			<h4
 				v-else
 				class="text-blue-dark dark:text-white font-semibold text-2xl"
-			>Vous n'avez aucun destinataire enregistré user : {{ userStore.getCurrentUserId }}</h4>
+			>Vous n'avez aucun destinataire enregistré</h4>
 		</div>
 	</div>
 </template>
@@ -63,12 +63,13 @@
 <script setup lang="ts">
 import { employeeHook, dateHook } from '@/hooks'
 import { useEmployeeStore, useMainStore, useUiStore, useUserStore } from '@/store/index'
-import { EmployeeType } from '@/store/typesExported'
+import { EmployeeType, ModalModeEnum, ModalNameEnum } from '@/store/typesExported'
 import { LoaderTypeEnum } from '@/types/globals'
 
 const { IncLoading, DecLoading } = useUiStore()
 const { isDarkTheme } = useMainStore()
 const uiStore = useUiStore()
+const { setUiModal } = uiStore
 const userStore = useUserStore()
 
 const { getWhereArray: getWhereArrayEmployees } = useEmployeeStore()
@@ -93,10 +94,21 @@ onMounted(async () => {
 })
 
 function updateOneEmployee(employee: EmployeeType) {
-
+	setUiModal({
+		isActive: true,
+		modalName: ModalNameEnum.ADD_EMPLOYEE,
+		modalMode: ModalModeEnum.EDIT,
+		data: { employee },
+	})
 }
 
-function deleteOneEmployee(id: number) {
-	return
+function deleteOneEmployee(employee: EmployeeType) {
+	setUiModal({
+		isActive: true,
+		modalName: ModalNameEnum.ADD_EMPLOYEE,
+		modalMode: ModalModeEnum.DELETE,
+		data: { employee },
+	})
+
 }
 </script>

@@ -11,6 +11,7 @@ export const useUiStore = defineStore(EntitiesEnum.UI, {
 		getUiModalState: (state) => state.modal,
 		getUiToastState: (state) => state.toast,
 		getUIIsLoading: (state) => state.isLoading > 0,
+		getUiModalData: (state) => state.modal.data,
 	},
 	actions: {
 		resetUIState() {
