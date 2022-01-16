@@ -5,7 +5,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     404: typeof import('./../../pages/404.vue')['default']
-    AddEmployeeModal: typeof import('./../../components/modals/AddEmployeeModal.vue')['default']
+    EmployeeModal: typeof import('../../components/modals/EmployeeModal.vue')['default']
     AdminDashboard: typeof import('./../../pages/adminDashboard/index.vue')['default']
     AdminMenuDrawer: typeof import('./../../components/drawer/AdminMenuDrawer.vue')['default']
     BAccordion: typeof import('be-right-vue3-lib')['BAccordion']

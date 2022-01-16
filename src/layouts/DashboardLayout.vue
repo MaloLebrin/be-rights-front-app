@@ -11,7 +11,7 @@
       @close="resetUiModalState"
       @onSubmit="resetUiModalState"
     />
-    <AddEmployeeModal
+    <EmployeeModal
       v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.ADD_EMPLOYEE"
       :isActive="getUiModalState.isActive"
       :mode="getUiModalState.modalMode"

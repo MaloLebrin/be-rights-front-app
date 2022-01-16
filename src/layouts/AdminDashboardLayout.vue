@@ -1,6 +1,6 @@
 <template>
   <AdminMenuDrawer />
-  <main v-bind="$attrs" class="w-full flex-shrink">
+  <main v-bind="$attrs" class="flex-shrink w-full">
     <router-view />
   </main>
   <Teleport to="#portal-target">
@@ -11,7 +11,7 @@
       @close="resetUiModalState"
       @onSubmit="resetUiModalState"
     />
-    <AddEmployeeModal
+    <EmployeeModal
       v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.ADD_EMPLOYEE"
       :isActive="getUiModalState.isActive"
       :mode="getUiModalState.modalMode"
