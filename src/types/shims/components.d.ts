@@ -29,6 +29,7 @@ declare module 'vue' {
     EmployeeEventItem: typeof import('./../../components/employees/EmployeeEventItem.vue')['default']
     EmployeeForm: typeof import('./../../components/employees/EmployeeForm.vue')['default']
     EmployeeModal: typeof import('./../../components/modals/EmployeeModal.vue')['default']
+    Employees: typeof import('./../../pages/adminDashboard/employees.vue')['default']
     EmployeeUserItem: typeof import('./../../components/employees/EmployeeUserItem.vue')['default']
     EventForm: typeof import('./../../components/events/EventForm.vue')['default']
     EventItem: typeof import('./../../components/events/EventItem.vue')['default']
@@ -65,6 +66,7 @@ declare module 'vue' {
     UserIconOutline: typeof import('@heroicons/vue/outline/esm/UserIcon.js')['default']
     Users: typeof import('./../../pages/adminDashboard/users.vue')['default']
     UsersAdminModal: typeof import('./../../components/modals/UsersAdminModal.vue')['default']
+    UsersIconOutline: typeof import('@heroicons/vue/outline/esm/UsersIcon.js')['default']
     XCircleIconOutline: typeof import('@heroicons/vue/outline/esm/XCircleIcon.js')['default']
   }
 }

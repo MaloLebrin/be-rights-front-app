@@ -4,7 +4,7 @@
 	>
 		<HeaderList>
 			<template #title>
-				<UserGroupIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Mes destinataires
+				<UsersIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Destinataires
 			</template>
 		</HeaderList>
 		<div class="relative mt-32">
@@ -48,49 +48,37 @@
 			<h4
 				v-else
 				class="text-2xl font-semibold text-blue-dark dark:text-white"
-			>Vous n'avez aucun destinataire enregistré</h4>
+			>Aucun destinataire enregistré dans la base de donnée</h4>
 		</div>
 	</div>
 </template>
 
 <route>
 {meta: {
-  layout: "DashboardLayout"
+  layout: "AdminDashboardLayout"
 }
 }
 </route>
 
 <script setup lang="ts">
-import { employeeHook, dateHook } from '@/hooks'
-import { useEmployeeStore, useMainStore, useUiStore, useUserStore } from '@/store/index'
+import { dateHook, employeeHook } from '@/hooks'
+import { useEmployeeStore, useMainStore, useUiStore } from '@/store'
 import { EmployeeType, ModalModeEnum, ModalNameEnum } from '@/store/typesExported'
 import { LoaderTypeEnum } from '@/types/globals'
 
-const { IncLoading, DecLoading } = useUiStore()
-const { isDarkTheme } = useMainStore()
 const uiStore = useUiStore()
-const { setUiModal } = uiStore
-const userStore = useUserStore()
-
-const { getWhereArray: getWhereArrayEmployees } = useEmployeeStore()
-const { fetchAllByUserId } = employeeHook()
+const { isDarkTheme } = useMainStore()
+const { setUiModal, IncLoading, DecLoading } = uiStore
+const { fetchAll } = employeeHook()
+const { getAllArray } = useEmployeeStore()
 const { getDate } = dateHook()
 
-const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : "white")
-
-const employees = computed(() => {
-	if (userStore.getCurrentUserId) {
-		return getWhereArrayEmployees(employee => employee.createdByUser === userStore.getCurrentUserId)
-	}
-	return []
-})
+const employees = computed(() => getAllArray)
 
 onMounted(async () => {
-	if (userStore.getCurrentUserId) {
-		IncLoading()
-		await fetchAllByUserId(userStore.getCurrentUserId)
-		DecLoading()
-	}
+	IncLoading()
+	await fetchAll(50)
+	DecLoading()
 })
 
 function updateOneEmployee(employee: EmployeeType) {
@@ -109,6 +97,7 @@ function deleteOneEmployee(employee: EmployeeType) {
 		modalMode: ModalModeEnum.DELETE,
 		data: { employee },
 	})
-
 }
+
+const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : "white")
 </script>
