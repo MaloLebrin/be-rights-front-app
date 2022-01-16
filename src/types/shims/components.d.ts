@@ -47,6 +47,7 @@ declare module 'vue' {
     MenuDrawer: typeof import('./../../components/drawer/MenuDrawer.vue')['default']
     MyAccount: typeof import('./../../pages/adminDashboard/myAccount.vue')['default']
     MyEmployees: typeof import('./../../pages/userDashboard/MyEmployees.vue')['default']
+    MyUserAccount: typeof import('./../../pages/userDashboard/MyUserAccount.vue')['default']
     PhotographIconOutline: typeof import('@heroicons/vue/outline/esm/PhotographIcon.js')['default']
     PlusIconOutline: typeof import('@heroicons/vue/outline/esm/PlusIcon.js')['default']
     ProcessingIcon: typeof import('./../../components/content/ProcessingIcon.vue')['default']
