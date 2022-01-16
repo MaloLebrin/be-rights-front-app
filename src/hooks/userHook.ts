@@ -4,21 +4,22 @@ import router from '@/router'
 import APi, { PaginatedResponse } from '@/helpers/api'
 import { RoleEnum, ThemeEnum } from '@/types'
 import { EmployeeType, EventType, FileType, UserType } from '@/store/typesExported'
-import { useEmployeeStore, useEventStore, useFileStore, useMainStore, useUiStore, useUserStore } from "@/store"
+import { useEventStore, useFileStore, useMainStore, useUiStore, useUserStore } from "@/store"
+import { employeeHook } from "."
 
 export function userHook() {
 	const userStore = useUserStore()
 	const mainStore = useMainStore()
 	const eventStore = useEventStore()
-	const employeeStore = useEmployeeStore()
 	const fileStore = useFileStore()
-	const { setUIErrorToast, setUISucessToast } = useUiStore()
+	const { setUIErrorToast, setUISucessToast, IncLoading, DecLoading } = useUiStore()
+	const { storeEmployeeRelationsEntities } = employeeHook()
 	const { setCookie } = useCookie()
 	const api = new APi(userStore.entities.current?.token!)
 
 	async function login({ email, password }: { email: string, password: string }) {
 		try {
-			mainStore.toggleIsLoading()
+			IncLoading()
 			const res = await axiosInstance.post('user/login', { email, password })
 			const user = res.data as UserType
 			storeUsersEntities(user)
@@ -34,12 +35,12 @@ export function userHook() {
 			console.error(error)
 			setUIErrorToast()
 		}
-		mainStore.toggleIsLoading()
+		DecLoading()
 	}
 
 	async function register({ companyName, email, password, firstName, lastName, roles }: { companyName: string, email: string, password: string, firstName: string, lastName: string, roles: RoleEnum }) {
 		try {
-			mainStore.toggleIsLoading()
+			IncLoading()
 			const res = await axiosInstance.post('user', { companyName, email, password, firstName, lastName, roles })
 			const user = res.data as UserType
 			storeUsersEntities(user)
@@ -55,10 +56,10 @@ export function userHook() {
 			console.error(error)
 			setUIErrorToast()
 		}
-		mainStore.toggleIsLoading()
+		DecLoading()
 	}
 
-	function storeUsersEntities(user: UserType) {
+	function storeUsersEntities(user: UserType, isUserToSetCurrent = true) {
 		if (user.events && user.events.length > 0) {
 			const userEvents = user.events as EventType[]
 			const eventsToStore = userEvents.filter(event => !eventStore.getAllIds.includes(event.id))
@@ -66,9 +67,7 @@ export function userHook() {
 			user.events = eventsToStore.map(event => event.id)
 		}
 		if (user.employee && user.employee.length > 0) {
-			const employees = user.employee as EmployeeType[]
-			const employeesToStore = employees.filter(employee => !employeeStore.getAllIds.includes(employee.id))
-			employeeStore.createMany(employeesToStore)
+			const employeesToStore = storeEmployeeRelationsEntities(user.employee as EmployeeType[])
 			user.employee = employeesToStore.map(employee => employee.id)
 		}
 		if (user.files && user.files.length > 0) {
@@ -77,11 +76,13 @@ export function userHook() {
 			fileStore.createMany(filesToStore)
 			user.files = filesToStore.map(file => file.id)
 		}
-		userStore.setCurrent(user)
+		if (isUserToSetCurrent) {
+			userStore.setCurrentUser(user)
+		}
 		userStore.createOne(user)
 	}
 
-	function storeUsersEntitiesForManyUsers(users: UserType[]) {
+	function storeUsersEntitiesForManyUsers(users: UserType[]): void {
 		if (users.length > 0) {
 			const events = users.reduce((acc, user) => [...acc, ...user.events as EventType[]], [] as EventType[])
 			const eventsToStore = events.filter(event => !eventStore.getAllIds.includes(event.id))
@@ -90,10 +91,7 @@ export function userHook() {
 			}
 
 			const employees = users.reduce((acc, user) => [...acc, ...user.employee as EmployeeType[]], [] as EmployeeType[])
-			const employeesToStore = employees.filter(employee => !employeeStore.getAllIds.includes(employee.id))
-			if (employeesToStore.length > 0) {
-				employeeStore.createMany(employeesToStore)
-			}
+			storeEmployeeRelationsEntities(employees)
 
 			const files = users.reduce((acc, user) => [...acc, ...user.files as FileType[]], [] as FileType[])
 			const filesToStore = files.filter(file => !fileStore.getAllIds.includes(file.id))
@@ -121,7 +119,7 @@ export function userHook() {
 
 	async function userToggleTheme(theme: ThemeEnum) {
 		try {
-			mainStore.toggleIsLoading()
+			IncLoading()
 			const id = userStore.entities.current?.id
 			if (id) {
 				const res = await api.patch(`user/theme/${id}`, { theme })
@@ -131,24 +129,25 @@ export function userHook() {
 			console.error(error)
 			setUIErrorToast()
 		}
-		mainStore.toggleIsLoading()
+		DecLoading()
 	}
 
 	async function fetchAll() {
 		try {
 			const res = await api.get('user/?limit=999999')
-			const { currentPage, data, limit, total }: PaginatedResponse<UserType> = res
+			const { data }: PaginatedResponse<UserType> = res
 			storeUsersEntitiesForManyUsers(data)
 			setUISucessToast('Utilisateurs récupérés avec succès')
 		} catch (error) {
 			setUIErrorToast()
 			console.error(error)
 		}
+		DecLoading()
 	}
 
 	async function deleteUser(id: number) {
 		try {
-			mainStore.toggleIsLoading()
+			IncLoading()
 			const res = await api.delete(`user/${id}`)
 			console.log(res, 'res')
 			userStore.deleteOne(id)
@@ -157,10 +156,11 @@ export function userHook() {
 			setUIErrorToast()
 			console.error(error)
 		}
-		mainStore.toggleIsLoading()
+		DecLoading()
 	}
 
 	async function patchOne(id: number, user: UserType) {
+		IncLoading()
 		try {
 			const res = await api.patch(`user/${id}`, { user })
 			userStore.updateOne(id, res as UserType)
@@ -169,6 +169,7 @@ export function userHook() {
 			setUIErrorToast()
 			console.error(error)
 		}
+		DecLoading()
 	}
 
 	return {

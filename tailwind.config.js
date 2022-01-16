@@ -4,7 +4,7 @@ const colors = require('tailwindcss/colors')
 /** @type {import("@types/tailwindcss/tailwind-config").TailwindConfig } */
 module.exports = {
   mode: 'jit',
-  purge: { content: ['./public/**/*.html', './src/**/*.vue'] },
+  content: ['./public/**/*.html', './src/**/*.vue'],
   presets: [],
   darkMode: 'class', // or 'media' or 'class'
   theme: {

@@ -2,7 +2,7 @@ import { DateFormatEnum } from "@/types/Date"
 
 export function dateHook() {
 
-	function getDate(date: Date, format?: DateFormatEnum) {
+	function getDate(date: string, format?: DateFormatEnum) {
 		const options: any = {}
 
 		switch (format) {
@@ -26,7 +26,7 @@ export function dateHook() {
 				options.month = "numeric"
 		}
 
-		return date.toLocaleDateString("fr-Fr", options)
+		return new Date(date).toLocaleDateString("fr-Fr", options)
 	}
 
 	return {

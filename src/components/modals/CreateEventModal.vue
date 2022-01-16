@@ -2,7 +2,7 @@
 	<BaseModal
 		class="mt-32 w-4/6 max-w-2xl z-50 mx-72"
 		title="Créer un événement"
-		:isLoading="getUiIsLoading"
+		:isLoading="uiStore.getUIIsLoading"
 		:isActive="isActive"
 		:mode="getUiModalState.modalMode"
 		@close="close"
@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const uiStore = useUiStore()
 
-const { getUiIsLoading, getUiModalState, resetUIState } = uiStore
+const { getUiModalState, resetUIState } = uiStore
 
 const emit = defineEmits<{
 	(e: 'close'): void

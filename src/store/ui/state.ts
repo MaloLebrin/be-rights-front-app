@@ -13,6 +13,6 @@ export const uiState: UiState = {
 		message: '',
 		variant: ToastVariantsEnum.PRIMARY,
 		duration: 1000,
-	}
-
+	},
+	isLoading: 0,
 }

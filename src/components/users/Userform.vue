@@ -1,5 +1,5 @@
 <template>
-	<div v-if="user" class="mt-4 px-6 w-full h-full">
+	<div v-if="user" class="w-full h-full px-6 mt-4">
 		<form class="grid grid-cols-2 gap-4">
 			<BField
 				label="Prénom"
@@ -48,6 +48,7 @@
 				<BInput class="text-white dark:text-blue-dark" type="text" id="siret" v-model="siret" />
 			</BField>
 			<BField
+				v-if="isCurrentUserAdmin"
 				label="Role"
 				labelFor="role"
 				:message="rolesError"
@@ -60,6 +61,7 @@
 				/>
 			</BField>
 			<BField
+				v-if="isCurrentUserAdmin"
 				label="Abonnement"
 				labelFor="subscription"
 				:message="subscriptionError"
@@ -74,7 +76,7 @@
 		</form>
 		<div class="mt-12 text-black-light text-blue dark:text-white-break">
 			<Loader v-if="isLoading" :isLoading="isLoading" :type="LoaderTypeEnum.BOUNCE" />
-			<div class="grid grid-cols-1 md:grid-cols-2 mb-12">
+			<div class="grid grid-cols-1 mb-12 md:grid-cols-2">
 				<div
 					:class="[activeClasse(1).value, 'text-center uppercase cursor-pointer text-blue dark:text-white-break font-bold text-xl']"
 					@click="toggleActiveTab(1)"
@@ -93,7 +95,7 @@
 						:key="event.id"
 						:event="event"
 					/>
-					<div v-else class="p-4 text-center">Aucun événement</div>
+					<div v-else class="px-4 text-center text-gray-800 dark:text-gray-600">Aucun événement</div>
 				</div>
 			</div>
 
@@ -104,7 +106,10 @@
 					:key="employee.id"
 					:employee="employee"
 				/>
-				<div v-else class="p-4 text-center">Aucun destinataires nregistrés</div>
+				<div
+					v-else
+					class="px-4 text-center text-gray-800 dark:text-gray-600"
+				>Aucun destinataire enregistré</div>
 			</div>
 		</div>
 		<div class="flex items-center justify-center w-full mt-12">
@@ -125,7 +130,7 @@ import { RoleEnum, userRolesArray, LoaderTypeEnum } from '@/types'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { subscriptionArray, SubscriptionEnum, UserType } from '@/store/typesExported'
-import { userHook } from '@/hooks'
+import { employeeHook, userHook } from '@/hooks'
 
 interface Props {
 	id: number
@@ -136,9 +141,11 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const userStore = useUserStore()
+const { isCurrentUserAdmin } = useUserStore()
 const eventStore = useEventStore()
 const employeeStore = useEmployeeStore()
 const { patchOne } = userHook()
+const { fetchAllByUserId: fetchAllEmployeeByUserId } = employeeHook()
 
 const user = computed(() => userStore.getOne(props.id))
 
@@ -182,7 +189,7 @@ onMounted(async () => {
 	const employeeIds = user.value?.employee as number[]
 	const missingEmployeeIds = employeeIds.filter(id => !employeeStore.getOne(id))
 	if (missingEmployeeIds.length > 0) {
-		await employeeStore.fetchAllByUserId(user.value.id)
+		await fetchAllEmployeeByUserId(user.value.id)
 	}
 	const eventIds = user.value?.events as number[]
 	const missingEventIds = eventIds.filter(id => !eventStore.getOne(id))
@@ -211,7 +218,7 @@ async function submit() {
 		lastName: lastName.value,
 		siret: siret.value,
 		roles: roles.value,
-		subscription: subscription.value,
+		subscription: subscription.value!,
 	}
 
 

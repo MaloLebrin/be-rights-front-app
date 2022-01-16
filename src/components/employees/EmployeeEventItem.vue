@@ -16,7 +16,7 @@
 			<div
 				v-if="employee.signedAt"
 				class="text-center dark:text-white-break"
-			>{{ getDate(new Date(employee.signedAt), DateFormatEnum.DDMM) }}</div>
+			>{{ getDate(employee.signedAt.toString(), DateFormatEnum.DDMM) }}</div>
 			<button
 				v-else
 				class="px-1 py-1 border-2 border-green rounded-lg text-green font-medium text-xs hover:text-white hover:bg-green"

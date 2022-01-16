@@ -14,7 +14,7 @@
 
 <route>
 {meta: {
-  layout: "AdminDashboardLayout",
+  layout: "DashboardLayout"
 }
 }
 </route>

@@ -4,23 +4,22 @@
   </router-view>
 </template>
 <script setup lang="ts">
-import { onBeforeMount } from 'vue'
 import { authHook } from './hooks'
-import { useMainStore } from './store'
+import { useMainStore, useUserStore } from './store'
 import { useCookie } from 'vue-cookie-next'
 import router from '@/router'
-import { RoleEnum } from './types'
 
 const store = useMainStore()
+const userStore = useUserStore()
 const { loginWithToken } = authHook()
 
 onBeforeMount(async () => {
   const { getCookie } = useCookie()
   const token = getCookie('userToken')
   if (token && token.length > 0) {
-    const user = await loginWithToken(token)
+    await loginWithToken(token)
     store.setIsLoggedIn()
-    if (user && user.roles === RoleEnum.ADMIN) {
+    if (userStore.isCurrentUserAdmin) {
       router.push('/adminDashboard')
     } else {
       router.push('/userDashboard')

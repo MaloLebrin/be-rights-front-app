@@ -1,5 +1,5 @@
 <template>
-	<div v-if="user" class="mt-4 px-6 w-full h-full">
+	<div v-if="user" class="w-full h-full px-6 mt-4">
 		<form class="grid grid-cols-2 gap-4">
 			<BField
 				label="Prénom"
@@ -39,38 +39,45 @@
 			>{{ getSuscriptionTranslation(user.subscription) }}</BField>
 		</form>
 		<div class="mt-12 text-black-light">
-			<div class="flex items-center justify-between text-blue dark:text-indigo-50">
-				<h5 class="text-blue dark:text-white-break font-bold text-xl">{{ eventOrEmployeeSectionTitle }}</h5>
-				<Switch
-					:label="isEventMode ? 'Voir les employés' : 'Voir les événements'"
-					v-model:checked="isEventMode"
-				/>
-			</div>
 			<Loader v-if="isLoading" :isLoading="isLoading" :type="LoaderTypeEnum.BOUNCE" />
-			<div v-else>
-				<EventUserItem
-					v-if="eventByUserId.length && isEventMode"
-					v-for="event in eventByUserId"
-					:key="event.id"
-					:event="event"
-				/>
+			<div class="grid grid-cols-1 mb-12 md:grid-cols-2">
 				<div
-					v-else-if="isEventMode && eventByUserId.length === 0"
-					class="p-4 text-center"
-				>Aucun événement</div>
+					:class="[activeClasse(1).value, 'text-center uppercase cursor-pointer text-blue dark:text-white-break font-bold text-xl']"
+					@click="toggleActiveTab(1)"
+				>Événements</div>
+				<div
+					:class="[activeClasse(2).value, 'text-center uppercase cursor-pointer text-blue dark:text-white-break font-bold text-xl']"
+					@click="toggleActiveTab(2)"
+				>Destinaires Enregistrés</div>
+			</div>
+
+			<div v-if="activeTabs === 1" class="space-y-12">
+				<div class="space-y-24">
+					<EventUserItem
+						v-if="eventByUserId.length"
+						v-for="event in eventByUserId"
+						:key="event.id"
+						:event="event"
+					/>
+					<div v-else class="p-4 text-center">Aucun événement</div>
+				</div>
+			</div>
+
+			<div v-if="activeTabs === 2" class="space-y-8">
 				<EmployeeUserItem
-					v-if="employeeByUserId.length && !isEventMode"
+					v-if="employeeByUserId.length"
 					v-for="employee in employeeByUserId"
 					:key="employee.id"
 					:employee="employee"
 				/>
+				<div v-else class="p-4 text-center">Aucun destinataires nregistrés</div>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { subscriptionHook } from '@/hooks'
+import { employeeHook, subscriptionHook } from '@/hooks'
 import { useEmployeeStore, useEventStore, useUserStore } from '@/store'
 import { LoaderTypeEnum } from '@/types'
 
@@ -81,34 +88,30 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
 	id: undefined
 })
+const isLoading = ref(false)
 
 const { getOne, isCurrentUserAdmin } = useUserStore()
 const eventStore = useEventStore()
 const employeeStore = useEmployeeStore()
 const { getSuscriptionTranslation } = subscriptionHook()
+const { fetchAllByUserId: fetchAllEmployeeByUserId } = employeeHook()
+
 const user = computed(() => getOne(props.id))
 
-const isEventMode = ref(true)
 
-const isLoading = ref(false)
-
-const eventOrEmployeeSectionTitle = computed(() => isEventMode.value ? 'Événements' : 'Employés')
-
-
-watch(() => isEventMode.value, async (newValue) => {
+onMounted(async () => {
 	isLoading.value = true
-	if (!newValue) {
-		const employeeIds = user.value?.employee as number[]
-		const missingIds = employeeIds.filter(id => !employeeStore.getOne(id))
-		if (missingIds.length > 0) {
-			await employeeStore.fetchAllByUserId(user.value.id)
-		}
-	} else {
-		const eventIds = user.value?.events as number[]
-		const missingIds = eventIds.filter(id => !eventStore.getOne(id))
-		if (missingIds.length > 0) {
-			await eventStore.fetchAllByUserId(user.value.id)
-		}
+	const employeeIds = user.value?.employee as number[]
+	const missingEmployeeIds = employeeIds.filter(id => !employeeStore.getOne(id))
+
+	if (missingEmployeeIds.length > 0) {
+		await fetchAllEmployeeByUserId(user.value.id)
+	}
+	const eventIds = user.value?.events as number[]
+	const missingEventIds = eventIds.filter(id => !eventStore.getOne(id))
+
+	if (missingEventIds.length > 0) {
+		await eventStore.fetchAllByUserId(user.value.id)
 	}
 	isLoading.value = false
 })
@@ -117,4 +120,11 @@ const eventByUserId = computed(() => eventStore.getMany(user.value.events as num
 
 const employeeByUserId = computed(() => employeeStore.getEmployeesByUserId(user.value.id))
 
+const activeTabs = ref(1)
+
+const activeClasse = (tab: number) => computed(() => activeTabs.value === tab ? 'border-b-4 border-green-300' : '')
+
+function toggleActiveTab(tab: number) {
+	activeTabs.value = tab
+}
 </script>

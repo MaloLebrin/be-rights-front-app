@@ -5,8 +5,8 @@
 	>
 		<div class="text-blue dark:text-white-break">{{ event.id }}</div>
 		<div class="text-blue dark:text-white-break">{{ event.name }}</div>
-		<div class="text-blue dark:text-white-break">Début: {{ getDate(new Date(event.start)) }}</div>
-		<div class="text-blue dark:text-white-break">Fin: {{ getDate(new Date(event.end)) }}</div>
+		<div class="text-blue dark:text-white-break">Début: {{ getDate(event.start.toString()) }}</div>
+		<div class="text-blue dark:text-white-break">Fin: {{ getDate(event.end.toString()) }}</div>
 
 		<div :class="getEventStatusColor(event.status)">{{ getEventStatusTranslation(event.status) }}</div>
 	</div>

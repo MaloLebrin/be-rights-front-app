@@ -2,7 +2,7 @@
   <BaseModal
     class="w-5/6 text-black-light dark:text-white font-medium"
     :title="getModaleTitle()"
-    :isLoading="state.isLoading"
+    :isLoading="uiStore.getUIIsLoading"
     :isActive="isActive"
     @close="close"
   >
@@ -14,7 +14,7 @@
         class="text-center text-gray-800 dark:text-white"
       >Êtes vous sur de supprimer cet utilisateur ?</p>
       <div class="flex items-center justify-center mt-12 space-x-6">
-        <BButton variant="danger" :isLoading="state.isLoading" @click="deleteOne">Supprimer</BButton>
+        <BButton variant="danger" :isLoading="uiStore.getUIIsLoading" @click="deleteOne">Supprimer</BButton>
         <BButton :variant="isDarkTheme ? 'white' : 'primary'" @click="close">Annuler</BButton>
       </div>
     </div>
@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import { ModalModeEnum, UserType } from '@/store/typesExported'
-import { useMainStore } from '@/store'
+import { useMainStore, useUiStore } from '@/store'
 import { userHook } from '@/hooks'
 
 interface Props {
@@ -38,12 +38,10 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const mainStore = useMainStore()
+const uiStore = useUiStore()
 const { isDarkTheme } = mainStore
 const { deleteUser } = userHook()
-
-const state = reactive({
-  isLoading: false,
-})
+const { IncLoading, DecLoading } = uiStore
 
 function getModaleTitle() {
   if (props.user) {
@@ -61,9 +59,9 @@ function getModaleTitle() {
 }
 
 async function deleteOne() {
-  state.isLoading = true
+  IncLoading()
   await deleteUser(props.user.id)
-  state.isLoading = false
+  DecLoading()
   close()
 }
 
@@ -76,4 +74,4 @@ function close() {
 }
 
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </script>
+</script>

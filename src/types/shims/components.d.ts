@@ -5,7 +5,6 @@
 declare module 'vue' {
   export interface GlobalComponents {
     404: typeof import('./../../pages/404.vue')['default']
-    AddEmployeeModal: typeof import('./../../components/modals/AddEmployeeModal.vue')['default']
     AdminDashboard: typeof import('./../../pages/adminDashboard/index.vue')['default']
     AdminMenuDrawer: typeof import('./../../components/drawer/AdminMenuDrawer.vue')['default']
     BAccordion: typeof import('be-right-vue3-lib')['BAccordion']
@@ -17,7 +16,6 @@ declare module 'vue' {
     BField: typeof import('be-right-vue3-lib')['BField']
     BInput: typeof import('be-right-vue3-lib')['BInput']
     BLink: typeof import('be-right-vue3-lib')['BLink']
-    BLoader: typeof import('be-right-vue3-lib')['BLoader']
     BToast: typeof import('be-right-vue3-lib')['BToast']
     CheckIconOutline: typeof import('@heroicons/vue/outline/esm/CheckIcon.js')['default']
     ChevronLeftIconOutline: typeof import('@heroicons/vue/outline/esm/ChevronLeftIcon.js')['default']
@@ -27,8 +25,11 @@ declare module 'vue' {
     DashboardItem: typeof import('./../../components/dashboard/DashboardItem.vue')['default']
     DatabaseIconOutline: typeof import('@heroicons/vue/outline/esm/DatabaseIcon.js')['default']
     DocumentDownloadIconOutline: typeof import('@heroicons/vue/outline/esm/DocumentDownloadIcon.js')['default']
+    EmployeeDeleteConfirm: typeof import('./../../components/employees/EmployeeDeleteConfirm.vue')['default']
     EmployeeEventItem: typeof import('./../../components/employees/EmployeeEventItem.vue')['default']
     EmployeeForm: typeof import('./../../components/employees/EmployeeForm.vue')['default']
+    EmployeeModal: typeof import('./../../components/modals/EmployeeModal.vue')['default']
+    Employees: typeof import('./../../pages/adminDashboard/employees.vue')['default']
     EmployeeUserItem: typeof import('./../../components/employees/EmployeeUserItem.vue')['default']
     EventForm: typeof import('./../../components/events/EventForm.vue')['default']
     EventItem: typeof import('./../../components/events/EventItem.vue')['default']
@@ -42,10 +43,11 @@ declare module 'vue' {
     InputSearchSelect: typeof import('./../../components/forms/InputSearchSelect.vue')['default']
     Loader: typeof import('./../../components/content/Loader.vue')['default']
     Login: typeof import('./../../pages/login.vue')['default']
-    LoginModal: typeof import('./../../components/modals/LoginModal.vue')['default']
     LogoutIconOutline: typeof import('@heroicons/vue/outline/esm/LogoutIcon.js')['default']
     MenuDrawer: typeof import('./../../components/drawer/MenuDrawer.vue')['default']
     MyAccount: typeof import('./../../pages/adminDashboard/myAccount.vue')['default']
+    MyEmployees: typeof import('./../../pages/userDashboard/MyEmployees.vue')['default']
+    MyUserAccount: typeof import('./../../pages/userDashboard/MyUserAccount.vue')['default']
     PhotographIconOutline: typeof import('@heroicons/vue/outline/esm/PhotographIcon.js')['default']
     PlusIconOutline: typeof import('@heroicons/vue/outline/esm/PlusIcon.js')['default']
     ProcessingIcon: typeof import('./../../components/content/ProcessingIcon.vue')['default']
@@ -57,6 +59,8 @@ declare module 'vue' {
     Switch: typeof import('./../../components/forms/Switch.vue')['default']
     Tag: typeof import('./../../components/content/Tag.vue')['default']
     Toast: typeof import('./../../components/content/Toast.vue')['default']
+    TrashIconOutline: typeof import('@heroicons/vue/outline/esm/TrashIcon.js')['default']
+    UserAccountContent: typeof import('./../../components/users/UserAccountContent.vue')['default']
     UserDashboard: typeof import('./../../pages/userDashboard/index.vue')['default']
     UserDetails: typeof import('./../../components/users/UserDetails.vue')['default']
     Userform: typeof import('./../../components/users/Userform.vue')['default']
@@ -64,6 +68,8 @@ declare module 'vue' {
     UserIconOutline: typeof import('@heroicons/vue/outline/esm/UserIcon.js')['default']
     Users: typeof import('./../../pages/adminDashboard/users.vue')['default']
     UsersAdminModal: typeof import('./../../components/modals/UsersAdminModal.vue')['default']
+    UsersIconOutline: typeof import('@heroicons/vue/outline/esm/UsersIcon.js')['default']
+    XCircleIconOutline: typeof import('@heroicons/vue/outline/esm/XCircleIcon.js')['default']
   }
 }
 

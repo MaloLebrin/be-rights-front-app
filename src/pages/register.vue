@@ -81,7 +81,7 @@
 						:variant="isDarkTheme ? 'white' : 'primary'"
 						:disabled="!meta.valid || !meta.dirty"
 						:class="['mb-8', { 'cursor-not-allowed opacity-70': !meta.valid || !meta.dirty }]"
-						:isLoading="isLoading"
+						:isLoading="uiStore.getUIIsLoading"
 						@click="submitregister"
 					>S'inscrire</BButton>
 					<BLink class="dark:text-white" tag="router-link" to="/login">J'ai déjà un compte</BLink>
@@ -98,13 +98,15 @@
 
 <script setup lang="ts">
 import { userHook } from '@/hooks'
-import { useMainStore } from '@/store'
+import { useMainStore, useUiStore } from '@/store'
 import { RoleEnum } from '@/types'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 const { register } = userHook()
 const mainStore = useMainStore()
 const { isDarkTheme } = mainStore
+const uiStore = useUiStore()
+const { IncLoading, DecLoading } = uiStore
 
 const schema = yup.object({
 	companyName: yup.string().required().label('Nom de l\'entreprise'),
@@ -114,8 +116,6 @@ const schema = yup.object({
 	lastName: yup.string().required().label('Nom'),
 	roles: yup.string().required()
 })
-
-const isLoading = ref(false)
 
 const { meta } = useForm({ validationSchema: schema })
 const { errorMessage: emailError, value: email, meta: emailMeta, setErrors } = useField<string>('email')
@@ -127,7 +127,7 @@ const { value: roles } = useField<RoleEnum>('roles', undefined, { initialValue: 
 
 
 async function submitregister() {
-	isLoading.value = true
+	IncLoading()
 	await register({
 		email: email.value,
 		password: password.value,
@@ -136,7 +136,7 @@ async function submitregister() {
 		lastName: lastName.value,
 		roles: roles.value,
 	})
-	isLoading.value = false
+	DecLoading()
 }
 
 

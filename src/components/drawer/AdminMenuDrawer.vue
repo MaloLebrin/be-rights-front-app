@@ -1,46 +1,53 @@
 <template>
   <BDrawer>
-    <div class="flex flex-col justify text-left font-semibold">
-      <h6 class="text-gray-500 font-bold mb-4">Menu</h6>
+    <div class="flex flex-col font-semibold text-left justify">
+      <h6 class="mb-4 font-bold text-gray-500">Menu</h6>
       <div class="flex items-center w-full mb-5 cursor-pointer">
-        <div class="bg-red-light hover:bg-red rounded-lg mr-3 p-1">
-          <HomeIconOutline class="text-white h-6" />
+        <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
+          <HomeIconOutline class="h-6 text-white" />
         </div>
         <router-link to="/adminDashboard" class="dark:text-white">Événements</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer">
-        <div class="bg-red-light hover:bg-red rounded-lg mr-3 p-1">
-          <UserGroupIconOutline class="text-white h-6" />
+        <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
+          <UserGroupIconOutline class="h-6 text-white" />
         </div>
         <router-link to="/adminDashboard/users" class="dark:text-white">Users</router-link>
       </div>
 
+      <div class="flex items-center w-full mb-5 cursor-pointer">
+        <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
+          <UsersIconOutline class="h-6 text-white" />
+        </div>
+        <router-link to="/adminDashboard/Employees" class="dark:text-white">Destinataires</router-link>
+      </div>
+
       <div class="flex items-center w-full mb-5 cursor-pointer" @click="toggleEventFormModal">
-        <div class="bg-purple-light hover:bg-purple rounded-lg mr-3 p-1">
-          <PlusIconOutline class="text-white h-6" />
+        <div class="p-1 mr-3 rounded-lg bg-purple-light hover:bg-purple">
+          <PlusIconOutline class="h-6 text-white" />
         </div>
         <span class="dark:text-white">Créer un nouvel événement</span>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer" @click="toggleEmployeeFormModal">
-        <div class="bg-purple-light hover:bg-purple rounded-lg mr-3 p-1">
-          <PlusIconOutline class="text-white h-6" />
+        <div class="p-1 mr-3 rounded-lg bg-purple-light hover:bg-purple">
+          <PlusIconOutline class="h-6 text-white" />
         </div>
         <span class="dark:text-white">Créer un nouveau destinataire</span>
       </div>
 
-      <h6 class="text-gray-500 font-bold mb-4">Options</h6>
+      <h6 class="mb-4 font-bold text-gray-500">Options</h6>
       <div v-if="store.getCurrent" class="flex items-center w-full mb-5 cursor-pointer">
-        <div class="bg-red-light hover:bg-red rounded-lg mr-3 p-1">
-          <UserIconOutline class="text-white h-6" />
+        <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
+          <UserIconOutline class="h-6 text-white" />
         </div>
         <router-link to="/adminDashboard/myAccount" class="dark:text-white">{{ userFullName }}</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer">
-        <div class="bg-purple-light hover:bg-purple rounded-lg mr-3 p-1 shadow-2xl">
-          <LogoutIconOutline class="text-white h-6" />
+        <div class="p-1 mr-3 rounded-lg shadow-2xl bg-purple-light hover:bg-purple">
+          <LogoutIconOutline class="h-6 text-white" />
         </div>
         <span class="dark:text-white" @click="onToggleLogout">Se déconnecter</span>
       </div>
@@ -52,7 +59,7 @@
 import { useUserStore, useUiStore } from '@/store/index'
 import { useCookie } from 'vue-cookie-next'
 import { authHook } from '@/hooks'
-import { ModalModeEnum, ModalNameEnum, ToastVariantsEnum } from '@/store/typesExported'
+import { ModalModeEnum, ModalNameEnum } from '@/store/typesExported'
 
 interface Props {
   isActive?: boolean
@@ -63,7 +70,7 @@ withDefaults(defineProps<Props>(), {
 })
 const store = useUserStore()
 const uiStore = useUiStore()
-const { setUiModal, setUIToast } = uiStore
+const { setUiModal } = uiStore
 const { logout } = authHook()
 
 const userFullName = computed(() => store.getUserFullName)
@@ -89,15 +96,6 @@ function toggleEmployeeFormModal() {
     modalName: ModalNameEnum.ADD_EMPLOYEE,
     modalMode: ModalModeEnum.CREATE,
     data: {},
-  })
-}
-
-function toggleToastTest() {
-  setUIToast({
-    isActive: true,
-    message: 'test',
-    variant: ToastVariantsEnum.DANGER,
-    duration: 1000,
   })
 }
 </script>

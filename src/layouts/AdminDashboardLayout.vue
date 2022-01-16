@@ -1,6 +1,6 @@
 <template>
   <AdminMenuDrawer />
-  <main v-bind="$attrs" class="w-full flex-shrink">
+  <main v-bind="$attrs" class="flex-shrink w-full">
     <router-view />
   </main>
   <Teleport to="#portal-target">
@@ -11,7 +11,7 @@
       @close="resetUiModalState"
       @onSubmit="resetUiModalState"
     />
-    <AddEmployeeModal
+    <EmployeeModal
       v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.ADD_EMPLOYEE"
       :isActive="getUiModalState.isActive"
       :mode="getUiModalState.modalMode"
@@ -32,13 +32,13 @@
 import { useEventStore, useUiStore } from "@/store"
 import { ModalNameEnum } from "@/store/typesExported"
 
-const eventStore = useEventStore()
+const { entities: eventsEntities } = useEventStore()
 const uiStore = useUiStore()
 const { getUiModalState, resetUiModalState, resetUiToastState, getUiToastState } = uiStore
 
 const eventID = computed(() => {
   if (getUiModalState.data && getUiModalState.data.eventId) {
-    return eventStore.entities.byId[getUiModalState.data.eventId].id
+    return eventsEntities.byId[getUiModalState.data.eventId].id
   }
 })
 </script>

@@ -294,7 +294,7 @@
     <div v-if="!isSuccess" class="flex flex-col">
       <BInput type="email" placeholder="Votre e-mail" v-model="email" />
       <BButton
-        :isLoading="isLoading"
+        :isLoading="uiStore.getUIIsLoading"
         :variant="isDarkTheme ? 'white' : 'primary'"
         class="mx-auto lg:mx-0 bg-white text-white dark:text-black font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:-translate-y-1 hover:scale-105 duration-300 ease-in-out DarkModeAnimation"
         @click="submit"
@@ -305,14 +305,14 @@
 </template>
 
 <script setup lang="ts">
-import { useMainStore } from '@/store/'
+import { useMainStore, useUiStore } from '@/store/'
 import { newsleterHook } from '@/hooks'
 
 const { newsletterSignup } = newsleterHook()
 
 const mainStore = useMainStore()
-const { isLoading, isDarkTheme } = storeToRefs(mainStore)
-// TODO setup vee validate
+const { isDarkTheme } = storeToRefs(mainStore)
+const uiStore = useUiStore()
 
 const email = ref('')
 const isSuccess = ref(false)

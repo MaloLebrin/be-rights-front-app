@@ -1,6 +1,6 @@
 import { BaseEntity } from "@/types/globals";
 import { RoleEnum } from "@/types/Roles";
-import { EmployeeType, EventType, FileType } from "../typesExported";
+import { EmployeeType, EventType, FileType, SubscriptionEnum } from "../typesExported";
 
 export type UserState = {
 	users: UserType[]
@@ -16,7 +16,7 @@ export interface UserType extends BaseEntity {
 	siret: string
 	apiKey: string
 	roles: RoleEnum
-	subscription: any //TODO type user's roles
+	subscription: SubscriptionEnum
 	events?: number[] | EventType[]
 	employee?: number[] | EmployeeType[]
 	files?: number[] | FileType[]

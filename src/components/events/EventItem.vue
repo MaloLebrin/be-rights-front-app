@@ -6,7 +6,7 @@
       >
         <div>{{ event.id }}</div>
         <span class="bg-gray mx-3">{{ event.name }}</span>
-        <span>{{ getDate(new Date(event.start)) }}</span>
+        <span>{{ getDate(event.start.toString()) }}</span>
         <button
           class="px-2 py-1 border-2 border-green rounded-lg text-green font-medium hover:text-white hover:bg-green mx-3"
         >Relancer</button>

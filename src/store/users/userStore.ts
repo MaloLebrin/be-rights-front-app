@@ -12,21 +12,29 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
 	}),
 	getters: {
 		...createGetters<UserType>(userState),
-		getUserFullName(state) {
+
+		getUserFullName: (state) => {
 			const user = state.entities.current
 			return `${user?.firstName} ${user?.lastName}`
 		},
-		isCurrentUserAdmin(state) {
+		isCurrentUserAdmin: (state) => {
 			return state.entities.current?.roles === RoleEnum.ADMIN
 		},
-		getCurrentUserToken(state) {
+		getCurrentUserToken: (state) => {
 			return state.entities.current?.token
 		},
 		getOne(state) {
 			return (id: number) => state.entities.byId[id]
 		},
+		getCurrent: (state) => state.entities.current,
+		getCurrentUserId: (state) => state.entities.current?.id,
 	},
+
 	actions: {
 		...createActions<UserType>(userState),
+
+		setCurrentUser(user: UserType) {
+			this.entities.current = user
+		}
 	},
 })

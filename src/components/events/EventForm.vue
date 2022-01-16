@@ -82,7 +82,11 @@
 			:message="employeeError"
 			:status="employeeMeta.valid ? 'success' : 'error'"
 		>
-			<InputSearchSelect baseUrl="employee" @selected="employees = $event" is-multiple />
+			<InputSearchSelect
+				:baseUrl="isCurrentUserAdmin ? 'employee' : `employee?filters[createdByUser]=${getCurrentUserId}`"
+				@selected="employees = $event"
+				is-multiple
+			/>
 		</BField>
 	</form>
 	<div class="flex items-center justify-center mt-6">
@@ -117,8 +121,8 @@ const eventStore = useEventStore()
 const userStore = useUserStore()
 const uiStore = useUiStore()
 const { isDarkTheme } = mainStore
-const { isCurrentUserAdmin, getCurrent } = userStore
-const { getUiModalState } = uiStore
+const { isCurrentUserAdmin, getCurrentUserId } = userStore
+const { getUiModalState, IncLoading, DecLoading } = uiStore
 const { postMany: postManyAnswers } = answerHook()
 const { postOne: PostOneEvent } = eventHook()
 
@@ -169,11 +173,12 @@ const userCreateEvent = computed(() => {
 	if (isCurrentUserAdmin) {
 		return userId.value
 	} else {
-		return getCurrent?.id
+		return getCurrentUserId
 	}
 })
 
 async function submit() {
+	IncLoading()
 
 	const payload = {
 		name: name.value,
@@ -208,5 +213,6 @@ async function submit() {
 			// )
 		}
 	}
+	DecLoading()
 }
 </script>

@@ -1,5 +1,6 @@
 import { BaseEntity } from "@/types/globals"
 import { State } from "@/store/utils/types"
+import { FileType, UserType } from "../typesExported"
 
 export interface EventType extends BaseEntity {
 	name: string
@@ -12,9 +13,8 @@ export interface EventType extends BaseEntity {
 	country: string | null
 	signatureCount: number
 	totalSignatureNeeded: number
-	createdByUser?: any //TODO create user relation types
-	employees?: any//TODO create user relation types
-	imageRightCondition?: any//TODO create user relation types
+	createdByUser?: number | UserType
+	files?: number[] | FileType[]
 }
 
 export enum EventSearchableFields {
