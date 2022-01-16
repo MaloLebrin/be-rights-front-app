@@ -52,7 +52,7 @@
 import { useUserStore, useUiStore } from '@/store/index'
 import { useCookie } from 'vue-cookie-next'
 import { authHook } from '@/hooks'
-import { ModalModeEnum, ModalNameEnum, ToastVariantsEnum } from '@/store/typesExported'
+import { ModalModeEnum, ModalNameEnum } from '@/store/typesExported'
 
 interface Props {
   isActive?: boolean
@@ -63,7 +63,7 @@ withDefaults(defineProps<Props>(), {
 })
 const store = useUserStore()
 const uiStore = useUiStore()
-const { setUiModal, setUIToast } = uiStore
+const { setUiModal } = uiStore
 const { logout } = authHook()
 
 const userFullName = computed(() => store.getUserFullName)
@@ -89,15 +89,6 @@ function toggleEmployeeFormModal() {
     modalName: ModalNameEnum.ADD_EMPLOYEE,
     modalMode: ModalModeEnum.CREATE,
     data: {},
-  })
-}
-
-function toggleToastTest() {
-  setUIToast({
-    isActive: true,
-    message: 'test',
-    variant: ToastVariantsEnum.DANGER,
-    duration: 1000,
   })
 }
 </script>
