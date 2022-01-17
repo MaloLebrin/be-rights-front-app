@@ -1,12 +1,12 @@
-import APi from "@/helpers/api"
+import APi, { PaginatedResponse } from "@/helpers/api"
 import { useFileStore, useUiStore, useUserStore } from "@/store"
-import { FileType } from "@/store/typesExported"
+import { FileType, FileTypeEnum } from "@/store/typesExported"
 
 export function fileHook() {
 	const { getCurrent } = useUserStore()
 	const { getAllIds: getAllFilesIds } = useFileStore()
 	const fileStore = useFileStore()
-	const { setUIErrorToast, IncLoading, DecLoading } = useUiStore()
+	const { setUIErrorToast, IncLoading, DecLoading, setUISucessToast } = useUiStore()
 	const api = new APi(getCurrent?.token!)
 
 	async function postOne(fileForm: FormData) {
@@ -14,6 +14,7 @@ export function fileHook() {
 		try {
 			const res = await api.post("file", fileForm)
 			fileStore.createOne(res as FileType)
+			setUISucessToast("File uploaded successfully")
 		} catch (error) {
 			console.error(error)
 			setUIErrorToast()
@@ -28,8 +29,42 @@ export function fileHook() {
 		return []
 	}
 
+	async function fetchAll() {
+		IncLoading()
+		try {
+			const res = await api.get("file")
+			const { currentPage, data, limit, total }: PaginatedResponse<FileType> = res
+			const files = filteringFilesNotInStore(data)
+			if (files.length > 0) {
+				fileStore.createMany(files)
+			}
+			setUISucessToast(`${files.length} files fetched successfully`)
+		} catch (error) {
+			console.error(error)
+			setUIErrorToast()
+		}
+		DecLoading()
+	}
+
+	function getTranslationFileType(fileType: FileTypeEnum) {
+		switch (fileType) {
+			case FileTypeEnum.LOGO:
+				return "Logo"
+			case FileTypeEnum.MODEL:
+				return "Modèle"
+
+			case FileTypeEnum.IMAGE_RIGHT:
+				return 'Droit à l\'image'
+
+			default:
+				return "Autre"
+		}
+	}
+
 	return {
-		postOne,
+		fetchAll,
 		filteringFilesNotInStore,
+		getTranslationFileType,
+		postOne,
 	}
 }
