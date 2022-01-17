@@ -24,11 +24,15 @@
 								<span class="text-sm text-gray-500 dark:text-gray-400">Créé le :</span>
 								<span class="text-sm text-gray-500 dark:text-gray-400">Type :</span>
 								<span class="dark:text-white">{{ file.name }}</span>
-								<span class="dark:text-white">{{ file.size }}</span>
+								<span class="dark:text-white">{{ file.size }} mo</span>
 								<span class="dark:text-white">{{ getDate(file.createdAt.toString()) }}</span>
 								<span class="dark:text-white">{{ getTranslationFileType(file.type) }}</span>
 							</div>
 						</template>
+
+						<div class="flex items-center justify-center py-4">
+							<img class="w-32 h-32 rounded" :src="file.secure_url" :alt="file.original_filename" />
+						</div>
 
 						<template #extraButton>
 							<BLink class="EventActionButton">Supprimer {{ file.name }}</BLink>
