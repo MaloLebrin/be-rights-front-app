@@ -12,7 +12,7 @@ export interface FileType extends BaseEntity {
 	signature: string
 	width: number
 	height: number
-	format: string
+	format: FileFormatEnum
 	url: string
 	secure_url: string
 	original_filename: string
@@ -25,6 +25,13 @@ export enum FileTypeEnum {
 	MODEL = 'MODEL',
 	IMAGE_RIGHT = 'IMAGE_RIGHT',
 	LOGO = 'LOGO',
+}
+
+export const fileTypeArray = Object.values(FileTypeEnum)
+
+export enum FileFormatEnum {
+	PDF = 'pdf',
+	PNG = 'png',
 }
 
 export interface FileState extends State<FileType> { }

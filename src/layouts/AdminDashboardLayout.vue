@@ -8,17 +8,23 @@
       v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.EVENT_FORM"
       class="top-32"
       :isActive="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.EVENT_FORM"
-      @close="resetUiModalState"
-      @onSubmit="resetUiModalState"
+      @close="CloseResetModalState"
+      @onSubmit="CloseResetModalState"
     />
     <EmployeeModal
       v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.ADD_EMPLOYEE"
       :isActive="getUiModalState.isActive"
       :mode="getUiModalState.modalMode"
       :eventId="eventID"
-      @close="resetUiModalState"
-      @onSubmit="resetUiModalState"
+      @close="CloseResetModalState"
+      @onSubmit="CloseResetModalState"
     />
+    <FileModal
+      v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.FILE_MODAL"
+      :isActive="getUiModalState.isActive"
+      :mode="getUiModalState.modalMode"
+    />
+
     <Toast
       :variant="getUiToastState.variant"
       :isToastOpen="getUiToastState.isActive"
@@ -41,4 +47,8 @@ const eventID = computed(() => {
     return eventsEntities.byId[getUiModalState.data.eventId].id
   }
 })
+
+function CloseResetModalState() {
+  resetUiModalState()
+}
 </script>

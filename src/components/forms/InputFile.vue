@@ -3,9 +3,9 @@
 		:class="[{ 'border-4 border-dashed': !imageUrl },
 		'flex flex-col items-center hover:border-gray-300 py-5 cursor-pointer']"
 	>
-		<div v-if="!imageUrl" class="flex flex-col items-center justify-center h-full w-full">
-			<PhotographIconOutline class="overflow-hidden h-12 w-12 text-gray-600" />
-			<p class="text-sm tracking-wider text-gray-400 group-hover:text-gray-600 mt-8">{{ message }}</p>
+		<div v-if="!imageUrl" class="flex flex-col items-center justify-center w-full h-full">
+			<PhotographIconOutline class="w-12 h-12 overflow-hidden text-gray-600" />
+			<p class="mt-8 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">{{ message }}</p>
 		</div>
 		<img v-else :src="imageUrl" alt="Logo" class="rounded-full h-72 w-72" />
 		<input type="file" id="file" ref="file" class="opacity-0" @change="emitFile" />
@@ -17,13 +17,11 @@ import { FileType } from '@/store/typesExported'
 
 interface Props {
 	message?: string
-	logo?: FileType
 	url?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
 	message: 'Sélectionnez des fichiers',
-	file: undefined,
 	url: undefined,
 })
 const emit = defineEmits<{
