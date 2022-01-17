@@ -19,6 +19,11 @@
       @close="CloseResetModalState"
       @onSubmit="CloseResetModalState"
     />
+    <FileModal
+      v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.FILE_MODAL"
+      :isActive="getUiModalState.isActive"
+      :mode="getUiModalState.modalMode"
+    />
 
     <Toast
       :variant="getUiToastState.variant"

@@ -35,9 +35,22 @@
 						</div>
 
 						<template #extraButton>
-							<BLink class="EventActionButton">Supprimer {{ file.name }}</BLink>
-							<BLink :href="file.secure_url" class="EventActionButton">Télécharger {{ file.name }}</BLink>
-							<BLink class="EventActionButton">Modifier {{ file.name }}</BLink>
+							<BLink
+								:variant="extraButtonStyle"
+								class="EventActionButton"
+								@click="deleteOneFile(file)"
+							>Supprimer {{ file.name }}</BLink>
+							<BLink
+								v-if="file.format === FileFormatEnum.PDF"
+								:variant="extraButtonStyle"
+								class="EventActionButton"
+								@click="downloadFile(file)"
+							>Télécharger {{ file.name }}</BLink>
+							<BLink
+								:variant="extraButtonStyle"
+								class="EventActionButton"
+								@click="updateFile(file)"
+							>Modifier {{ file.name }}</BLink>
 						</template>
 					</DashboardItem>
 				</div>
@@ -54,7 +67,7 @@
 <script setup lang="ts">
 import { dateHook, fileHook } from '@/hooks'
 import { useFileStore, useMainStore, useUiStore } from '@/store'
-import { EmployeeType, ModalModeEnum, ModalNameEnum } from '@/store/typesExported'
+import { FileType, ModalModeEnum, ModalNameEnum, FileFormatEnum } from '@/store/typesExported'
 import { LoaderTypeEnum } from '@/types/globals'
 
 const uiStore = useUiStore()
@@ -62,11 +75,9 @@ const { isDarkTheme } = useMainStore()
 const { setUiModal, IncLoading, DecLoading } = uiStore
 const { fetchAll, getTranslationFileType } = fileHook()
 const { getDate } = dateHook()
-const { getAllArray } = useFileStore()
+const { getAllFiles } = storeToRefs(useFileStore())
 
-
-const files = computed(() => getAllArray)
-
+const files = computed(() => getAllFiles.value)
 
 onMounted(async () => {
 	IncLoading()
@@ -74,6 +85,34 @@ onMounted(async () => {
 	DecLoading()
 })
 
+function deleteOneFile(file: FileType) {
+	setUiModal({
+		isActive: true,
+		modalName: ModalNameEnum.FILE_MODAL,
+		modalMode: ModalModeEnum.DELETE,
+		data: { file },
+	})
+}
+
+function updateFile(file: FileType) {
+	setUiModal({
+		isActive: true,
+		modalName: ModalNameEnum.FILE_MODAL,
+		modalMode: ModalModeEnum.EDIT,
+		data: { file },
+	})
+}
+
+function downloadFile(file: FileType) {
+	const blob = new Blob([file.secure_url], { type: "application/png" })
+	const link = document.createElement("a");
+	link.href = URL.createObjectURL(blob);
+	link.download = file.name
+	link.click();
+	URL.revokeObjectURL(link.href);
+}
+
+const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : "white")
 
 </script>
 
