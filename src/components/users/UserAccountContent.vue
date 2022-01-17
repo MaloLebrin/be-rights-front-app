@@ -3,7 +3,7 @@
 		class="container relative px-4 py-5 space-y-12 bg-white shadow-xl dark:bg-blue-dark_bold rounded-2xl"
 	>
 		<BField label="Logo" labelFor="firstName" class="text-blue-dark dark:text-white-break">
-			<InputFile message="Sélectionnez votre logo" :url="userLogoUrl" @upload="testFile" />
+			<InputFile message="Sélectionnez votre logo" :url="userLogoUrl" @upload="uploadFile" />
 		</BField>
 		<div class="flex items-center justify-center">
 			<BButton variant="white" class="text-blue-dark" @click="submitFile">Enregistrer le Logo</BButton>
@@ -58,7 +58,7 @@ function switchMode() {
 	}
 }
 
-function testFile(fileUploaded: File) {
+function uploadFile(fileUploaded: File) {
 	const formData = new FormData()
 	formData.append('file', fileUploaded)
 	formData.append('type', FileTypeEnum.LOGO)

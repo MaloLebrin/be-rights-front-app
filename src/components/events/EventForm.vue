@@ -1,5 +1,5 @@
 <template>
-	<form class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 px-6 w-full h-full">
+	<form class="grid w-full h-full grid-cols-1 gap-6 px-6 mt-4 md:grid-cols-2">
 		<BField
 			class="col-span-2"
 			label="Nom de l'événement"
@@ -129,15 +129,15 @@ const { postOne: PostOneEvent } = eventHook()
 const event = computed(() => eventStore.getOne(props.eventId))
 
 const schema = yup.object({
-	name: yup.string().required().label('Nom'),
+	name: yup.string().required('le nom de l\'événement est obligatoire').label('Nom'),
 	period: yup.object().shape({
 		start: yup.date().required().label('Début'),
 		end: yup.date().required().label('Fin'),
 	}).required().label('Dates'),
-	address: yup.string().required().label('Adresse'),
-	postalCode: yup.string().required().label('Code postal'),
-	city: yup.string().required().label('Ville'),
-	country: yup.string().required().label('Pays'),
+	address: yup.string().required('L\'adresse est obligatoire').label('Adresse'),
+	postalCode: yup.string().required('Le code postal est obligatoire').label('Code postal'),
+	city: yup.string().required('La ville est obligatoire').label('Ville'),
+	country: yup.string().required('Le pays est obligatoire').label('Pays'),
 	userId: yup.number().required().label('Utilisateur'),
 })
 
