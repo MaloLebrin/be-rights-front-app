@@ -2,12 +2,12 @@ export enum ModalNameEnum {
 	ADD_EMPLOYEE = 'ADD_EMPLOYEE',
 	USER_ADMIN = 'USER_ADMIN',
 	EVENT_FORM = 'EVENT_FORM',
+	FILE_MODAL = 'FILE_MODAL',
 }
 
 export enum ModalModeEnum {
 	CREATE = 'CREATE',
 	EDIT = 'EDIT',
-	UPDATE = 'UPDATE',
 	DELETE = 'DELETE',
 	READ = 'READ',
 }

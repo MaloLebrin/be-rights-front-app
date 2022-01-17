@@ -61,10 +61,38 @@ export function fileHook() {
 		}
 	}
 
+	async function deleteOne(id: number) {
+		IncLoading()
+		try {
+			await api.delete(`file/${id}`)
+			fileStore.deleteOne(id)
+			setUISucessToast("Fichier supprimé avec succès")
+		} catch (error) {
+			console.error(error)
+			setUIErrorToast()
+		}
+		DecLoading()
+	}
+
+	async function patchOne(file: FileType) {
+		IncLoading()
+		try {
+			const res = await api.patch(`file/${file.id}`, { file })
+			const fileUpdated = res as FileType
+			fileStore.updateOne(fileUpdated.id, fileUpdated)
+		} catch (error) {
+			console.error(error)
+			setUIErrorToast()
+		}
+		DecLoading()
+	}
+
 	return {
+		deleteOne,
 		fetchAll,
 		filteringFilesNotInStore,
 		getTranslationFileType,
+		patchOne,
 		postOne,
 	}
 }

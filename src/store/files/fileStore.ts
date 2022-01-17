@@ -13,6 +13,7 @@ export const useFileStore = defineStore(EntitiesEnum.FILES, {
 		...createActions<FileType>(fileState)
 	},
 	getters: {
-		...createGetters<FileType>(fileState)
+		...createGetters<FileType>(fileState),
+		getAllFiles: (state) => Object.values(state.entities.byId),
 	}
 })
