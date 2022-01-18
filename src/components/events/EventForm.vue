@@ -128,7 +128,7 @@ const userStore = useUserStore()
 const uiStore = useUiStore()
 const { isDarkTheme } = mainStore
 const { isCurrentUserAdmin, getCurrentUserId } = userStore
-const { getUiModalState, IncLoading, DecLoading } = uiStore
+const { getUiModalState, IncLoading, DecLoading, resetUiModalState } = uiStore
 const { postMany: postManyAnswers } = answerHook()
 const { postOne: PostOneEvent } = eventHook()
 
@@ -198,18 +198,20 @@ async function submit() {
   }
 
   if (getUiModalState.modalMode === ModalModeEnum.CREATE) {
-    const newEvent = await PostOneEvent(payload as EventType, userCreateEvent.value!)
-    if (employees.value && employees.value.length > 0 && newEvent) {
-      const employeesIds = employees.value.map(employee => employee.id)
-      const eventId = newEvent.id
-      await postManyAnswers(
-        eventId,
-        employeesIds
-      )
+    if (userCreateEvent.value) {
+      const newEvent = await PostOneEvent(payload as EventType, userCreateEvent.value!)
+      if (employees.value && employees.value.length > 0 && newEvent) {
+        const employeesIds = employees.value.map(employee => employee.id)
+        const eventId = newEvent.id
+        await postManyAnswers(
+          eventId,
+          employeesIds
+        )
+      }
     }
   }
   if (getUiModalState.modalMode === ModalModeEnum.EDIT) {
-    // await PostOneEvent(payload as EventType, userCreateEvent.value!, props.eventId!)
+    // await patchOneEvent(payload as EventType, userCreateEvent.value!, props.eventId!)
     if (employees.value && employees.value.length > 0) {
       // const employeesIds = employees.value.map(employee => employee.id)
       // const eventId = props.eventId!
@@ -220,5 +222,6 @@ async function submit() {
     }
   }
   DecLoading()
+  resetUiModalState()
 }
 </script>
