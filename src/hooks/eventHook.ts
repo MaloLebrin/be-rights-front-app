@@ -4,130 +4,137 @@ import { EmployeeType } from "@/store/employees/types"
 import { useEventStore, useMainStore, useUiStore, useUserStore } from "@/store"
 
 export function eventHook() {
-	const eventStore = useEventStore()
-	const mainStore = useMainStore()
-	const userStore = useUserStore()
-	const { setUISucessToast, setUIErrorToast, DecLoading, IncLoading } = useUiStore()
-	const api = new APi(userStore.entities.current?.token!)
-	const { getAllIds } = eventStore
+  const eventStore = useEventStore()
+  const mainStore = useMainStore()
+  const userStore = useUserStore()
+  const { setUISucessToast, setUIErrorToast, DecLoading, IncLoading } = useUiStore()
+  const api = new APi(userStore.entities.current?.token!)
+  const { getAllIds } = eventStore
 
-	function getEventStatusTranslation(status: EventStatusEnum) {
-		return getEventStatusTranslationEnum[status]
-	}
+  function getEventStatusTranslation(status: EventStatusEnum) {
+    return getEventStatusTranslationEnum[status]
+  }
 
-	function getEventStatusColor(status: EventStatusEnum) {
-		switch (status) {
-			case EventStatusEnum.PENDING:
-				return "text-orange"
-			case EventStatusEnum.CREATE:
-				return "dark:text-white-break text-black"
-			case EventStatusEnum.CLOSED:
-				return "text-gray-500"
-			case EventStatusEnum.COMPLETED:
-				return "text-green"
-			default:
-				return "text-gray-500"
-		}
-	}
+  function getEventStatusColor(status: EventStatusEnum) {
+    switch (status) {
+      case EventStatusEnum.PENDING:
+        return "text-orange"
+      case EventStatusEnum.CREATE:
+        return "dark:text-white-break text-black"
+      case EventStatusEnum.CLOSED:
+        return "text-gray-500"
+      case EventStatusEnum.COMPLETED:
+        return "text-green"
+      default:
+        return "text-gray-500"
+    }
+  }
 
-	function getSignatureCount(employees: EmployeeType[]) {
-		return employees.filter(employee => employee.hasSigned).length
-	}
+  function getSignatureCount(employees: EmployeeType[]) {
+    return employees.filter(employee => employee.hasSigned).length
+  }
 
-	function filteringEventsNotInStore(events: EventType[]) {
-		return events.filter(event => !getAllIds.includes(event.id)).map(event => ({
-			...event,
-			createdByUser: event.createdByUser.id,
-		}))
-	}
 
-	async function fetchAllEvents() {
-		IncLoading()
-		try {
-			const res: any = await api.get(`event`)
-			const { currentPage, data, limit, total }: PaginatedResponse<EventType> = res
-			const ids = data.map((event: EventType) => event.id).filter(id => !getAllIds.includes(id))
-			if (ids.length > 0) {
-				const events = data.filter(event => ids.includes(event.id))
-				const eventToStore = events.map(event => ({
-					...event,
-					createdByUser: event.createdByUser.id,
-				}))
-				eventStore.createMany(eventToStore)
-			}
-			setUISucessToast(`${ids.length} événements ont été récupérés avec succès`)
-		} catch (error) {
-			console.error(error)
-			setUIErrorToast()
-		}
-		DecLoading()
-	}
+  async function fetchAllEvents() {
+    IncLoading()
+    try {
+      const res: any = await api.get(`event`)
+      const { currentPage, data, limit, total }: PaginatedResponse<EventType> = res
+      const ids = data.map((event: EventType) => event.id).filter(id => !getAllIds.includes(id))
+      if (ids.length > 0) {
+        const events = data.filter(event => ids.includes(event.id))
+        eventStore.createMany(events)
+      }
+      setUISucessToast(`${ids.length} événements ont été récupérés avec succès`)
+    } catch (error) {
+      console.error(error)
+      setUIErrorToast()
+    }
+    DecLoading()
+  }
 
-	async function fetchEvent(id: number) {
-		IncLoading()
-		try {
-			const res: any = await api.get(`event/${id}`)
-			if (!getAllIds.includes(res.id)) {
-				eventStore.createOne(res)
-			}
-			setUISucessToast(`L'événement a été récupéré avec succès`)
-		} catch (error) {
-			console.error(error)
-			setUIErrorToast()
-		}
-		DecLoading()
-	}
+  async function fetchEvent(id: number) {
+    IncLoading()
+    try {
+      const res: any = await api.get(`event/${id}`)
+      if (!getAllIds.includes(res.id)) {
+        eventStore.createOne(res)
+      }
+      setUISucessToast(`L'événement a été récupéré avec succès`)
+    } catch (error) {
+      console.error(error)
+      setUIErrorToast()
+    }
+    DecLoading()
+  }
 
-	async function fetchEventsByUser(eventId: number) {
-		IncLoading()
-		try {
-			if (eventId) {
-				const res = await api.get(`event/user/${eventId}`)
-				const data = res as EventType[]
-				const ids = data.map((event: EventType) => event.id).filter(id => !getAllIds.includes(id))
-				if (ids.length > 0) {
-					const events = data.filter(event => ids.includes(event.id))
-					const eventToStore = events.map(event => ({
-						...event,
-						createdByUser: event.createdByUser.id,
-					}))
-					eventStore.createMany(eventToStore)
-				}
-				setUISucessToast(`Vos événements ont été récupéré avec succès`)
-			}
-		} catch (error) {
-			console.error(error)
-			setUIErrorToast()
-		}
-		DecLoading()
-	}
+  async function fetchEventsByUser(userId: number) {
+    IncLoading()
+    try {
+      if (userId) {
+        const res = await api.get(`event/user/${userId}`)
+        const data = res as EventType[]
+        const ids = data.map((event: EventType) => event.id).filter(id => !getAllIds.includes(id))
+        if (ids.length > 0) {
+          const events = data.filter(event => ids.includes(event.id))
+          const eventToStore = events.map(event => ({
+            ...event,
+            createdByUser: userId,
+          }))
+          eventStore.createMany(eventToStore)
+        }
+        setUISucessToast(`Vos événements ont été récupéré avec succès`)
+      }
+    } catch (error) {
+      console.error(error)
+      setUIErrorToast()
+    }
+    DecLoading()
+  }
 
-	async function postOne(event: EventType, userId?: number): Promise<EventType | undefined> {
-		IncLoading()
-		try {
-			const res = await api.post(`event/${userId}`, { event })
-			eventStore.createOne(res)
-			setUISucessToast(`L'événement a été créé avec succès`)
-			return res
-		} catch (error) {
-			console.error(error)
-			setUIErrorToast()
-		}
-		DecLoading()
-	}
+  async function fetchOne(id: number) {
+    IncLoading()
+    try {
+      const res = await api.get(`event/${id}`)
+      const event = res as EventType
+      if (!getAllIds.includes(event.id)) {
+        eventStore.createOne(event)
+      }
+      setUISucessToast('L\'événement a été récupéré avec succès')
+    } catch (error) {
+      console.error(error)
+      setUIErrorToast()
+    }
+    DecLoading()
+  }
 
-	function isEventType(event: any): event is EventType {
-		return event.start !== undefined
-	}
+  async function postOne(event: EventType, userId?: number): Promise<EventType | undefined> {
+    IncLoading()
+    try {
+      const res = await api.post(`event/${userId}`, { event })
+      eventStore.createOne(res)
+      setUISucessToast(`L'événement a été créé avec succès`)
+      return res
+    } catch (error) {
+      console.error(error)
+      setUIErrorToast()
+    }
+    DecLoading()
+  }
 
-	return {
-		fetchAllEvents,
-		fetchEventsByUser,
-		fetchEvent,
-		getEventStatusColor,
-		getEventStatusTranslation,
-		getSignatureCount,
-		isEventType,
-		postOne,
-	}
+  function isEventType(event: any): event is EventType {
+    return event.start !== undefined
+  }
+
+  return {
+    fetchAllEvents,
+    fetchEventsByUser,
+    fetchEvent,
+    fetchOne,
+    getEventStatusColor,
+    getEventStatusTranslation,
+    getSignatureCount,
+    isEventType,
+    postOne,
+  }
 }
