@@ -14,8 +14,8 @@
         :type="LoaderTypeEnum.BOUNCE"
       />
 
-      <div v-else-if="files.length > 0">
-        <div v-for="(file, index) in files" :key="file.id">
+      <div v-else-if="state.files.length > 0">
+        <div v-for="(file, index) in state.files" :key="file.id">
           <DashboardItem :index="index">
             <template #title>
               <div class="grid grid-cols-1 gap-4 px-4 py-4 md:grid-cols-4">
@@ -75,41 +75,48 @@ const { isDarkTheme } = useMainStore()
 const { setUiModal, IncLoading, DecLoading } = uiStore
 const { fetchAll, getTranslationFileType } = fileHook()
 const { getDate } = dateHook()
-const { entities } = storeToRefs(useFileStore())
+const fileStore = useFileStore()
 
-const files = computed(() => Object.values(entities.value.byId))
+const state = reactive({
+  files: Object.values(fileStore.entities.byId),
+})
+
+watch(() => fileStore.entities.byId, () => {
+  state.files = Object.values(fileStore.entities.byId)
+  console.log(state.files, 'state.files in watch')
+})
 
 onMounted(async () => {
-	IncLoading()
-	await fetchAll()
-	DecLoading()
+  IncLoading()
+  await fetchAll()
+  DecLoading()
 })
 
 function deleteOneFile(file: FileType) {
-	setUiModal({
-		isActive: true,
-		modalName: ModalNameEnum.FILE_MODAL,
-		modalMode: ModalModeEnum.DELETE,
-		data: { file },
-	})
+  setUiModal({
+    isActive: true,
+    modalName: ModalNameEnum.FILE_MODAL,
+    modalMode: ModalModeEnum.DELETE,
+    data: { file },
+  })
 }
 
 function updateFile(file: FileType) {
-	setUiModal({
-		isActive: true,
-		modalName: ModalNameEnum.FILE_MODAL,
-		modalMode: ModalModeEnum.EDIT,
-		data: { file },
-	})
+  setUiModal({
+    isActive: true,
+    modalName: ModalNameEnum.FILE_MODAL,
+    modalMode: ModalModeEnum.EDIT,
+    data: { file },
+  })
 }
 
 function downloadFile(file: FileType) {
-	const blob = new Blob([file.secure_url], { type: "application/png" })
-	const link = document.createElement("a");
-	link.href = URL.createObjectURL(blob);
-	link.download = file.name
-	link.click();
-	URL.revokeObjectURL(link.href);
+  const blob = new Blob([file.secure_url], { type: "application/png" })
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = file.name
+  link.click();
+  URL.revokeObjectURL(link.href);
 }
 
 const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : "white")
