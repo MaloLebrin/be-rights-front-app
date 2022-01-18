@@ -16,7 +16,7 @@
         <router-link to="/userDashboard/myEmployees" class="dark:text-white">Mes destinataires</router-link>
       </div>
 
-      <div class="flex items-center w-full mb-5 cursor-pointer">
+      <div class="flex items-center w-full mb-5 cursor-not-allowed opacity-40">
         <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
           <DatabaseIconOutline class="h-6 text-white" />
         </div>
@@ -52,7 +52,7 @@
         <div class="p-1 mr-3 rounded-lg bg-purple-light hover:bg-purple">
           <LogoutIconOutline class="h-6 text-white" />
         </div>
-        <span>Se déconnecter</span>
+        <router-link to="/">Se déconnecter</router-link>
       </div>
     </div>
     <!-- TODO add CTA if suscrption basic -->
