@@ -44,8 +44,7 @@ export default class APi implements ApiMethods {
 
 	getToken(): string | null {
 		const cookies = useCookie()
-		const token = cookies.getCookie('userToken')
-		return token
+		return cookies.getCookie('userToken')
 	}
 
 	public deleteCredentials() {
