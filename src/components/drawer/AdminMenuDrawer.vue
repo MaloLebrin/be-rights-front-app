@@ -44,6 +44,13 @@
         <span class="dark:text-white">Créer un nouveau destinataire</span>
       </div>
 
+      <div class="flex items-center w-full mb-5 cursor-pointer" @click="toggleFileFormModal">
+        <div class="p-1 mr-3 rounded-lg bg-purple-light hover:bg-purple">
+          <FolderAddIconOutline class="h-6 text-white" />
+        </div>
+        <span class="dark:text-white">Créer un nouveau fichier</span>
+      </div>
+
       <h6 class="mb-4 font-bold text-gray-500">Options</h6>
       <div v-if="store.getCurrent" class="flex items-center w-full mb-5 cursor-pointer">
         <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
@@ -101,6 +108,15 @@ function toggleEmployeeFormModal() {
   setUiModal({
     isActive: true,
     modalName: ModalNameEnum.ADD_EMPLOYEE,
+    modalMode: ModalModeEnum.CREATE,
+    data: {},
+  })
+}
+
+function toggleFileFormModal() {
+  setUiModal({
+    isActive: true,
+    modalName: ModalNameEnum.FILE_MODAL,
     modalMode: ModalModeEnum.CREATE,
     data: {},
   })
