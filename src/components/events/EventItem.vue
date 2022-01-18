@@ -5,15 +5,15 @@
         class="flex items-center justify-between px-5 py-2 font-semibold text-black dark:text-white"
       >
         <div>{{ event.id }}</div>
-        <span class="bg-gray mx-3">{{ event.name }}</span>
+        <span class="mx-3 bg-gray">{{ event.name }}</span>
         <span>{{ getDate(event.start.toString()) }}</span>
         <button
-          class="px-2 py-1 border-2 border-green rounded-lg text-green font-medium hover:text-white hover:bg-green mx-3"
+          class="px-2 py-1 mx-3 font-medium border-2 rounded-lg border-green text-green hover:text-white hover:bg-green"
         >Relancer</button>
         <div class="flex items-center mx-3">
           {{ getSignatureCount(employees) }}/{{ event.totalSignatureNeeded }}
           <!-- // TODO algo to calcul the percentage -->
-          <div class="ml-2 rounded-full border-red border-4 w-5 h-5" />
+          <div class="w-5 h-5 ml-2 border-4 rounded-full border-red" />
         </div>
         <span
           :class="getEventStatusColor(event.status)"
@@ -85,7 +85,9 @@ const { getAllByEventId } = employeeStore
 const employees = computed(() => getAllByEventId(props.event.id))
 
 onMounted(async () => {
-  await getEmployeesByEventId(props.event.id)
+  if (props.event.id) {
+    await getEmployeesByEventId(props.event.id)
+  }
 })
 
 const emit = defineEmits<{
