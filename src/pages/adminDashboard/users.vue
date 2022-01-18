@@ -1,10 +1,10 @@
 <template>
   <div
-    class="min-h-screen transform ease-in-out transition-all duration-500 py-6 text-left pl-14 pr-8"
+    class="min-h-screen py-6 pr-8 text-left transition-all duration-500 ease-in-out transform pl-14"
   >
     <HeaderList>
       <template #title>
-        <UserGroupIconOutline class="h-8 mr-4 dark:bg-red rounded-lg p-1" />Utilisateurs
+        <UserGroupIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Utilisateurs
       </template>
     </HeaderList>
 
@@ -13,16 +13,16 @@
       :isLoading="uiStore.getUIIsLoading"
       :type="LoaderTypeEnum.BOUNCE"
     />
-    <div v-else class="relative h-full w-full mt-40">
-      <div v-for="(user, index) in users" :key="user.id" class="flex items-center relative">
-        <DashboardItem :index="index">
+    <div v-else class="relative w-full h-full mt-40">
+      <div v-for="(user, index) in users" :key="user.id" class="relative flex items-center">
+        <DashboardItem :index="parseInt(index.toString())">
           <template #title>
             <div
               class="flex items-center justify-between px-5 py-2 font-semibold text-black dark:text-white"
             >
               <div>{{ user.id }}</div>
-              <span class="bg-gray mx-3">{{ `${user.firstName} ${user.lastName}` }}</span>
-              <span class="dark:bg-gray-500 px-2 py-1 rounded-lg">{{ user.companyName }}</span>
+              <span class="mx-3 bg-gray">{{ `${user.firstName} ${user.lastName}` }}</span>
+              <span class="px-2 py-1 rounded-lg dark:bg-gray-500">{{ user.companyName }}</span>
               <span class="mx-3">{{ getSubscriptionTranslation(user.subscription) }}</span>
               <span>{{ getDate(user.createdAt.toString()) }}</span>
             </div>
