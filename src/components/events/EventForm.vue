@@ -2,6 +2,7 @@
   <form class="grid w-full h-full grid-cols-1 gap-6 px-6 mt-4 md:grid-cols-2">
     <BField
       class="col-span-2"
+      :class="nameMeta.valid ? 'text-red-500' : 'text-gray-800 dark:text-gray-300'"
       label="Nom de l'événement"
       labelFor="name"
       :message="nameError"
@@ -10,7 +11,7 @@
       <BInput class="text-white dark:text-blue-dark" type="text" id="name" v-model="name" />
     </BField>
     <BField
-      class
+      :class="datesMeta.valid ? 'text-red-500' : 'text-gray-800 dark:text-gray-300'"
       label="Dates"
       labelFor="dates"
       :message="datesError"
@@ -28,6 +29,7 @@
 
     <div>
       <BField
+        :class="addressMeta.valid ? 'text-red-500 dark:text-red-500' : 'text-gray-800 dark:text-gray-300'"
         label="Adresse"
         labelFor="address"
         :message="addressError"
@@ -36,6 +38,7 @@
         <BInput class="text-white dark:text-blue-dark" type="text" id="address" v-model="address" />
       </BField>
       <BField
+        :class="postalCodeMeta.valid ? 'text-red-500 dark:text-red-500' : 'text-gray-800 dark:text-gray-300'"
         label="Code postal"
         labelFor="postalCode"
         :message="postalCodeError"
@@ -49,6 +52,7 @@
         />
       </BField>
       <BField
+        :class="cityMeta.valid ? 'text-red-500 dark:text-red-500' : 'text-gray-800 dark:text-gray-300'"
         label="Ville"
         labelFor="city"
         :message="cityError"
@@ -57,6 +61,7 @@
         <BInput class="text-white dark:text-blue-dark" type="text" id="city" v-model="city" />
       </BField>
       <BField
+        :class="countryMeta.valid ? 'text-red-500 dark:text-red-500' : 'text-gray-800 dark:text-gray-300'"
         label="Pays"
         labelFor="country"
         :message="countryError"
@@ -68,6 +73,7 @@
     <BField
       v-if="isCurrentUserAdmin"
       class="col-span-2"
+      :class="userIdMeta.valid ? 'text-red-500 dark:text-red-500' : 'text-gray-800 dark:text-gray-300'"
       label="Utilisateur"
       labelFor="userId"
       :message="userIdError"
