@@ -1,9 +1,9 @@
 <template>
-  <div class="px-24 py-12 rounded-lg border-2 flex" :class="colorClasses">
-    <InformationCircleIconOutline v-if="type === 'default'" class="text-blue-500 w-20 h-20 mr-8" />
-    <ExclamationIconOutline v-if="type === 'warning'" class="text-orange-500 w-20 h-20 mr-8" />
-    <XCircleIconOutline v-if="type === 'danger'" class="text-red-500 w-20 h-20 mr-8" />
-    <CheckCircleIconOutlin v-if="type === 'success'" class="text-green-500 w-20 h-20 mr-8" />
+  <div class="flex px-10 py-8 border-2 rounded-lg" :class="colorClasses">
+    <InformationCircleIconOutline v-if="type === 'default'" class="w-8 h-8 mr-8 text-blue-500" />
+    <ExclamationIconOutline v-if="type === 'warning'" class="w-8 h-8 mr-8 text-orange-500" />
+    <XCircleIconOutline v-if="type === 'danger'" class="w-8 h-8 mr-8 text-red-500" />
+    <CheckCircleIconOutlin v-if="type === 'success'" class="w-8 h-8 mr-8 text-green-500" />
 
     <slot />
   </div>
@@ -23,16 +23,16 @@ const props = withDefaults(defineProps<Props>(), {
 const colorClasses = computed(() => {
   switch (props.type) {
     case 'warning':
-      return 'border-orange-500 bg-orange-100'
+      return 'border-orange-500 bg-orange-100 text-orange-500'
 
     case 'danger':
-      return 'border-red-500 bg-red-100'
+      return 'border-red-500 bg-red-100 text-red-500'
 
     case 'success':
-      return 'border-green-500 bg-green-100'
+      return 'border-green-500 bg-green-100 text-green-500'
 
     default:
-      return 'border-blue-500 bg-blue-100'
+      return 'border-blue-500 bg-blue-100 text-blue-500'
   }
 })
 </script>
