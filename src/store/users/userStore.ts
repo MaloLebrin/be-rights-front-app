@@ -7,34 +7,56 @@ import createActions from '@/store/utils/createActions'
 import { RoleEnum } from '@/types/Roles'
 
 export const useUserStore = defineStore(EntitiesEnum.USERS, {
-	state: () => ({
-		...userState
-	}),
-	getters: {
-		...createGetters<UserType>(userState),
+  state: () => ({
+    ...userState
+  }),
+  getters: {
+    ...createGetters<UserType>(userState),
 
-		getUserFullName: (state) => {
-			const user = state.entities.current
-			return `${user?.firstName} ${user?.lastName}`
-		},
-		isCurrentUserAdmin: (state) => {
-			return state.entities.current?.roles === RoleEnum.ADMIN
-		},
-		getCurrentUserToken: (state) => {
-			return state.entities.current?.token
-		},
-		getOne(state) {
-			return (id: number) => state.entities.byId[id]
-		},
-		getCurrent: (state) => state.entities.current,
-		getCurrentUserId: (state) => state.entities.current?.id,
-	},
+    getUserFullName: (state) => {
+      const user = state.entities.current
+      return `${user?.firstName} ${user?.lastName}`
+    },
+    isCurrentUserAdmin: (state) => {
+      return state.entities.current?.roles === RoleEnum.ADMIN
+    },
+    getCurrentUserToken: (state) => {
+      return state.entities.current?.token
+    },
+    getCurrentUserId: (state) => state.entities.current?.id,
+  },
 
-	actions: {
-		...createActions<UserType>(userState),
-
-		setCurrentUser(user: UserType) {
-			this.entities.current = user
-		}
-	},
+  actions: {
+    // actions common to all entities
+    createOne(payload: UserType) {
+      this.entities.byId[payload.id] = payload
+      this.entities.allIds.push(payload.id)
+    },
+    createMany(payload: UserType[]) {
+      payload.forEach(entity => this.createOne(entity))
+    },
+    setCurrent(payload: UserType) {
+      this.entities.current = payload
+    },
+    removeCurrent() {
+      this.entities.current = null
+    },
+    updateOne(id: number, payload: UserType): void {
+      const entity = this.entities.byId[id]
+      this.entities.byId[id] = {
+        ...entity,
+        ...payload,
+      }
+    },
+    updateMany(payload: UserType[]): void {
+      payload.forEach(entity => this.updateOne(entity.id, entity))
+    },
+    deleteOne(id: number) {
+      delete this.entities.byId[id]
+      this.entities.allIds = this.entities.allIds.filter(entityId => entityId !== id)
+    },
+    deleteMany(ids: number[]) {
+      ids.forEach(id => this.deleteOne(id))
+    },
+  },
 })
