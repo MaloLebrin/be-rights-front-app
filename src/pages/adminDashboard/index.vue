@@ -23,6 +23,8 @@
         <EventItem
           :event="event"
           :index="parseInt(index.toString())"
+          @updateOneItem="updateOneEvent(event)"
+          @deleteOne="deleteOneEvent(event)"
           @addOne="addOneEmployeeToEvent(event.id)"
         />
       </div>
@@ -41,13 +43,13 @@
 </route>
 
 <script setup lang="ts">
-import { useEventStore, useUiStore } from '@/store/index'
+import { useEventStore, useUiStore, useUserStore } from '@/store/index'
 import { LoaderTypeEnum } from '@/types/globals'
 import { eventHook } from '@/hooks'
-import { ModalNameEnum, ModalModeEnum } from '@/store/typesExported'
+import { ModalNameEnum, ModalModeEnum, EventType } from '@/store/typesExported'
 
 const eventStore = useEventStore()
-
+const userStore = useUserStore()
 const uiStore = useUiStore()
 const { setUiModal, IncLoading, DecLoading } = uiStore
 const { fetchAllEvents } = eventHook()
@@ -56,9 +58,11 @@ const search = ref('')
 const events = computed(() => eventStore.getAllArray)
 
 onMounted(async () => {
-  IncLoading()
-  await fetchAllEvents()
-  DecLoading()
+  if (userStore.getCurrentUserId) {
+    IncLoading()
+    await fetchAllEvents()
+    DecLoading()
+  }
 })
 
 
@@ -69,6 +73,30 @@ function addOneEmployeeToEvent(eventId: number) {
     modalMode: ModalModeEnum.CREATE,
     data: {
       eventId: eventId,
+    }
+  })
+}
+
+// TODO make event form editable mode
+function updateOneEvent(event: EventType) {
+  setUiModal({
+    isActive: true,
+    modalName: ModalNameEnum.EVENT_FORM,
+    modalMode: ModalModeEnum.EDIT,
+    data: {
+      event: event,
+    }
+  })
+}
+
+// TODO make event form delete confirm mode
+function deleteOneEvent(event: EventType) {
+  setUiModal({
+    isActive: true,
+    modalName: ModalNameEnum.EVENT_FORM,
+    modalMode: ModalModeEnum.DELETE,
+    data: {
+      event: event,
     }
   })
 }

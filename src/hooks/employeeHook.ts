@@ -126,7 +126,6 @@ export function employeeHook() {
     try {
       await api.delete(`employee/${id}`)
       employeeStore.deleteOne(id)
-      //fix deletion in store
       setUISucessToast('Destinataire supprimé avec succès')
     } catch (error) {
       console.error(error)
@@ -148,6 +147,46 @@ export function employeeHook() {
     DecLoading()
   }
 
+  async function postOne(employee: EmployeeType, userId: number) {
+    IncLoading()
+    try {
+      const res = await api.post(`employee/${userId}`, { employee })
+      const data = res as EmployeeType
+      const user = userStore.getOne(userId)
+      const userEmployee = user.employee as number[]
+      userStore.updateOne(userId, {
+        ...user,
+        employee: [...userEmployee, data.id],
+      })
+      employeeStore.createOne(data)
+      setUISucessToast('Destinataire créé avec succès')
+    } catch (error) {
+      console.error(error)
+      setUIErrorToast()
+    }
+    DecLoading()
+  }
+
+  async function postManyForEvent(employees: EmployeeType[], eventId: number, userId: number) {
+    IncLoading()
+    try {
+      const res = await api.post<EmployeeType[]>(`employee/manyonevent/${eventId}/${userId}`, employees)
+      const data = res as EmployeeType[]
+      const employeeIds = data.map(employee => employee.id)
+      const user = userStore.getOne(userId)
+      const userEmployee = user.employee as number[]
+      userStore.updateOne(userId, {
+        ...user,
+        employee: [...userEmployee, ...employeeIds],
+      })
+      employeeStore.createMany(data)
+      setUISucessToast('Destinataires créés avec succès')
+    } catch (error) {
+      console.error(error)
+      setUIErrorToast()
+    }
+    DecLoading()
+  }
 
   return {
     deleteOne,
@@ -157,6 +196,8 @@ export function employeeHook() {
     getEmployeeStatusColor,
     getEmployeesByEventId,
     patchOne,
+    postOne,
+    postManyForEvent,
     storeEmployeeRelationsEntities,
   }
 }

@@ -79,9 +79,8 @@ const props = withDefaults(defineProps<Props>(), {
 
 const { isCurrentUserAdmin, getCurrentUserId } = useUserStore()
 const eventStore = useEventStore()
-const { postOne, postManyForEvent } = useEmployeeStore()
 const { IncLoading, DecLoading } = useUiStore()
-const { patchOne } = employeeHook()
+const { patchOne, postOne, postManyForEvent  } = employeeHook()
 
 const schema = yup.object({
 	email: yup.string().email().required().label('Adresse email'),

@@ -55,51 +55,5 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
     deleteMany(ids: number[]) {
       ids.forEach(id => this.deleteOne(id))
     },
-
-    // TODO refacto in hook
-    async postOne(employee: EmployeeType, userId: number) {
-      const { setUISucessToast, setUIErrorToast } = useUiStore()
-      try {
-        const userStore = useUserStore()
-        const api = new APi(userStore.entities.current?.token!)
-        const res = await api.post(`employee/${userId}`, { employee })
-        const data = res as EmployeeType
-        const user = userStore.getOne(userId)
-        const userEmployee = user.employee as number[]
-        userStore.updateOne(userId, {
-          ...user,
-          employee: [...userEmployee, data.id],
-        })
-        this.createOne(data)
-        setUISucessToast('Destinataire créé avec succès')
-      } catch (error) {
-        console.error(error)
-        setUIErrorToast()
-      }
-    },
-
-    // TODO refacto in hook
-    async postManyForEvent(employees: EmployeeType[], eventId: number, userId: number) {
-      const { setUISucessToast, setUIErrorToast } = useUiStore()
-      try {
-        const userStore = useUserStore()
-        const api = new APi(userStore.entities.current?.token!)
-        const res = await api.post<EmployeeType[]>(`employee/manyonevent/${eventId}/${userId}`, employees)
-        const data = res as EmployeeType[]
-        const employeeIds = data.map(employee => employee.id)
-        const user = userStore.getOne(userId)
-        const userEmployee = user.employee as number[]
-        userStore.updateOne(userId, {
-          ...user,
-          employee: [...userEmployee, ...employeeIds],
-        })
-        this.createMany(data)
-        setUISucessToast('Destinataires créés avec succès')
-      } catch (error) {
-        console.error(error)
-        setUIErrorToast()
-      }
-    },
-
   },
 })
