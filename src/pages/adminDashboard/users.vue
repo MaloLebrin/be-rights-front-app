@@ -53,8 +53,9 @@
           </template>
         </DashboardItem>
       </div>
+      <!-- TODO refacto vif -->
       <UsersAdminModal
-        v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.USER_ADMIN"
+        v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.USER_ADMIN && getUiModalState.data"
         :isActive="getUiModalState.isActive"
         :mode="getUiModalState.modalMode"
         :user="getUiModalState.data.user"
