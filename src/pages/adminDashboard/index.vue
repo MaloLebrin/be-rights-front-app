@@ -13,13 +13,18 @@
         :isLoading="uiStore.getUIIsLoading"
         :type="LoaderTypeEnum.BOUNCE"
       />
+
       <div
-        v-else-if="!uiStore.getUIIsLoading && events.length > 0"
+        v-else-if="!uiStore.getUIIsLoading && events"
         v-for="(event, index) in events"
         :key="event.id"
         class="relative flex items-center"
       >
-        <EventItem :event="event" :index="index" @addOne="addOneEmployeeToEvent(event.id)" />
+        <EventItem
+          :event="event"
+          :index="parseInt(index.toString())"
+          @addOne="addOneEmployeeToEvent(event.id)"
+        />
       </div>
       <h4
         v-else
@@ -42,12 +47,13 @@ import { eventHook } from '@/hooks'
 import { ModalNameEnum, ModalModeEnum } from '@/store/typesExported'
 
 const eventStore = useEventStore()
+
 const uiStore = useUiStore()
 const { setUiModal, IncLoading, DecLoading } = uiStore
 const { fetchAllEvents } = eventHook()
 const search = ref('')
 
-const events = computed(() => Object.values(eventStore.entities.byId))
+const events = computed(() => eventStore.getAllArray)
 
 onMounted(async () => {
   IncLoading()
