@@ -4,7 +4,7 @@
     <router-view />
   </main>
   <Teleport to="#portal-target">
-    <CreateEventModal
+    <EventModal
       v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.EVENT_FORM"
       class="top-32"
       :isActive="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.EVENT_FORM"

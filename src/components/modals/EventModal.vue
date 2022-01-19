@@ -1,0 +1,73 @@
+<template>
+  <BaseModal
+    class="z-50 w-4/6 max-w-2xl mt-32 mx-72"
+    title="Créer un événement"
+    :isLoading="uiStore.getUIIsLoading"
+    :isActive="isActive"
+    :mode="getUiModalState.modalMode"
+    @close="close"
+  >
+    <EventForm
+      v-if="getUiModalState.modalMode === ModalModeEnum.CREATE || getUiModalState.modalMode === ModalModeEnum.EDIT"
+      :mode="getUiModalState.modalMode"
+      :eventId="getUiModalState.data?.event.id"
+    />
+    <div
+      v-else-if="getUiModalState.modalMode === ModalModeEnum.DELETE && uiStore.getUiModalData?.event"
+      class="space-y-4"
+    >
+      <p
+        class="text-center text-gray-500"
+      >Êtes-vous sûr de vouloir supprimer le destinataire suivant ?</p>
+      <p class="text-center text-gray-700">{{ uiStore.getUiModalData?.event.name }}</p>
+      <div class="flex items-center justify-center space-x-4">
+        <BButton variant="danger" @click="deleteEmployee">
+          <div class="flex items-center">
+            <TrashIconOutline class="w-4 h-4 mr-2" />
+            <span>Supprimer</span>
+          </div>
+        </BButton>
+        <BButton variant="white" @click="close()">
+          <div class="flex items-center">
+            <XCircleIconOutline class="w-4 h-4 mr-2" />
+            <span>Annuler</span>
+          </div>
+        </BButton>
+      </div>
+    </div>
+  </BaseModal>
+</template>
+<script setup lang="ts">
+import { eventHook } from '@/hooks'
+import { useUiStore } from '@/store'
+import { ModalModeEnum } from '@/store/typesExported'
+
+interface Props {
+  isActive: boolean
+}
+const props = withDefaults(defineProps<Props>(), {
+  isActive: false,
+})
+
+const uiStore = useUiStore()
+const { getUiModalState, resetUIState, IncLoading, DecLoading } = uiStore
+const { deleteOne } = eventHook()
+
+async function deleteEmployee() {
+  if (uiStore.getUiModalData && uiStore.getUiModalData?.event) {
+    IncLoading()
+    await deleteOne(uiStore.getUiModalData.event.id)
+    DecLoading()
+  }
+  close()
+}
+
+const emit = defineEmits<{
+  (e: 'close'): void
+}>()
+
+function close() {
+  emit('close')
+  resetUIState()
+}
+</script>

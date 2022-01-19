@@ -19,7 +19,7 @@ declare module 'vue' {
     CheckIconOutline: typeof import('@heroicons/vue/outline/esm/CheckIcon.js')['default']
     ChevronLeftIconOutline: typeof import('@heroicons/vue/outline/esm/ChevronLeftIcon.js')['default']
     ChevronRightIconOutline: typeof import('@heroicons/vue/outline/esm/ChevronRightIcon.js')['default']
-    CreateEventModal: typeof import('./../../components/modals/CreateEventModal.vue')['default']
+    EventModal: typeof import('./../../components/modals/EventModal.vue')['default']
     DarkModeToggle: typeof import('./../../components/content/DarkModeToggle.vue')['default']
     DashboardItem: typeof import('./../../components/dashboard/DashboardItem.vue')['default']
     DocumentDownloadIconOutline: typeof import('@heroicons/vue/outline/esm/DocumentDownloadIcon.js')['default']

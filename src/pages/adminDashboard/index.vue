@@ -23,7 +23,7 @@
         <EventItem
           :event="event"
           :index="parseInt(index.toString())"
-          @updateOneItem="updateOneEvent(event)"
+          @udpateOneItem="updateOneEvent(event)"
           @deleteOne="deleteOneEvent(event)"
           @addOne="addOneEmployeeToEvent(event.id)"
         />
@@ -89,7 +89,6 @@ function updateOneEvent(event: EventType) {
   })
 }
 
-// TODO make event form delete confirm mode
 function deleteOneEvent(event: EventType) {
   setUiModal({
     isActive: true,

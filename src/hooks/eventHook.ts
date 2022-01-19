@@ -108,6 +108,7 @@ export function eventHook() {
     DecLoading()
   }
 
+  // TODO fix return will not call decLoading
   async function postOne(event: EventType, userId?: number): Promise<EventType | undefined> {
     IncLoading()
     try {
@@ -122,11 +123,25 @@ export function eventHook() {
     DecLoading()
   }
 
+  async function deleteOne(id: number) {
+    IncLoading()
+    try {
+      await api.delete(`event/${id}`)
+      eventStore.deleteOne(id)
+      setUISucessToast(`L'événement a été supprimé avec succès`)
+    } catch (error) {
+      console.error(error)
+      setUIErrorToast()
+    }
+    DecLoading()
+  }
+
   function isEventType(event: any): event is EventType {
     return event.start !== undefined
   }
 
   return {
+    deleteOne,
     fetchAllEvents,
     fetchEventsByUser,
     fetchEvent,
