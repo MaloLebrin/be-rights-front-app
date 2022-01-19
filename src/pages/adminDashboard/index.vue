@@ -77,7 +77,6 @@ function addOneEmployeeToEvent(eventId: number) {
   })
 }
 
-// TODO make event form editable mode
 function updateOneEvent(event: EventType) {
   setUiModal({
     isActive: true,

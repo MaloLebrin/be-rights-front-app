@@ -55,8 +55,7 @@
         <router-link to="/">Se déconnecter</router-link>
       </div>
     </div>
-    <!-- TODO add CTA if suscrption basic -->
-    <!-- TODO abstract to library create modal custom comp -->
+
     <BCard variant="danger">
       <div class="px-6 py-4">
         <div class="mb-2 text-xl font-bold">Découvrez notre abonnement</div>
