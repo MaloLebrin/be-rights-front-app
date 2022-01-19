@@ -133,6 +133,7 @@ export function userHook() {
   }
 
   async function fetchAll() {
+    IncLoading()
     try {
       const res = await api.get('user/?limit=999999')
       const { data }: PaginatedResponse<UserType> = res

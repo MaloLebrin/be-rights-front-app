@@ -64,12 +64,6 @@
     </div>
   </div>
 </template>
-<route>
-{meta: {
-  layout: "AdminDashboardLayout",
-}
-}
-</route>
 
 <script setup lang="ts">
 import { LoaderTypeEnum } from '@/types/globals'
@@ -124,10 +118,15 @@ function onToggleUsersModal(type: ModalModeEnum, user: UserType) {
       user,
     }
   })
-
 }
 
 function resetModal() {
   resetUIState()
 }
 </script>
+<route>
+{meta: {
+  layout: "AdminDashboardLayout",
+}
+}
+</route>
