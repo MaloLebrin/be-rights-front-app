@@ -15,7 +15,6 @@ declare module 'vue' {
     BField: typeof import('be-right-vue3-lib')['BField']
     BInput: typeof import('be-right-vue3-lib')['BInput']
     BLink: typeof import('be-right-vue3-lib')['BLink']
-    BToast: typeof import('be-right-vue3-lib')['BToast']
     CheckIconOutline: typeof import('@heroicons/vue/outline/esm/CheckIcon.js')['default']
     ChevronLeftIconOutline: typeof import('@heroicons/vue/outline/esm/ChevronLeftIcon.js')['default']
     ChevronRightIconOutline: typeof import('@heroicons/vue/outline/esm/ChevronRightIcon.js')['default']

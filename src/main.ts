@@ -8,12 +8,12 @@ import { VueCookieNext } from 'vue-cookie-next'
 import VCalendar from 'v-calendar'
 
 const app = createApp(App)
-
 const store = createPinia()
+
 app.use(library)
-app.use(router)
-app.use(store)
 app.use(VueCookieNext)
+app.use(store)
+app.use(router)
 app.use(VCalendar, {
 })
 
