@@ -1,30 +1,13 @@
 <template>
   <div
-    class="bg-white-light dark:bg-blue-dark min-h-screen transform ease-in-out transition-all duration-500 py-6 text-left pl-14 pr-8 relative"
+    class="relative min-h-screen py-6 pr-8 text-left transition-all duration-500 ease-in-out transform bg-white-light dark:bg-blue-dark pl-14"
   >
     <HeaderList>
       <template #title>
-        <HomeIconOutline class="h-8 mr-4 dark:bg-red rounded-lg p-1" />Événements
+        <HomeIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Événements
       </template>
     </HeaderList>
-    <div class="relative mt-32">
-      <Loader
-        v-if="uiStore.getUIIsLoading"
-        :isLoading="uiStore.getUIIsLoading"
-        :type="LoaderTypeEnum.BOUNCE"
-      />
-      <div
-        v-else-if="!uiStore.getUIIsLoading && events.length > 0"
-        v-for="(event, index) in events"
-        :key="event.id"
-        class="flex items-center relative"
-      >
-        <EventItem :event="event" :index="index" @addOne="addOneEmployeeToEvent(event.id)" />
-      </div>
-      <h4
-        class="text-blue-dark dark:text-white font-semibold text-2xl"
-      >Vous n'avez aucun événement ! user : {{ userStore.getCurrentUserId }}</h4>
-    </div>
+    <EventList :events="events" NoEventMessage="Aucun Event en Base de donnée" />
   </div>
 </template>
 
@@ -37,13 +20,10 @@
 
 <script setup lang="ts">
 import { useEventStore, useUiStore, useUserStore } from '@/store/index'
-import { LoaderTypeEnum } from '@/types/globals'
 import { eventHook } from '@/hooks'
-import { ModalNameEnum, ModalModeEnum } from '@/store/typesExported'
 
 const { getEventsByUserId } = useEventStore()
-const { setUiModal, IncLoading, DecLoading } = useUiStore()
-const uiStore = useUiStore()
+const { IncLoading, DecLoading } = useUiStore()
 const userStore = useUserStore()
 const { fetchEventsByUser } = eventHook()
 const search = ref('')
@@ -62,16 +42,4 @@ onMounted(async () => {
     DecLoading()
   }
 })
-
-function addOneEmployeeToEvent(eventId: number) {
-  setUiModal({
-    isActive: true,
-    modalName: ModalNameEnum.ADD_EMPLOYEE,
-    modalMode: ModalModeEnum.CREATE,
-    data: {
-      eventId: eventId,
-    }
-  })
-}
-
 </script>

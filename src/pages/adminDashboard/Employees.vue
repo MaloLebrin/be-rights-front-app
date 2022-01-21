@@ -1,56 +1,14 @@
 <template>
-	<div
-		class="relative min-h-screen py-6 pr-8 text-left transition-all duration-500 ease-in-out transform bg-white-light dark:bg-blue-dark pl-14"
-	>
-		<HeaderList>
-			<template #title>
-				<UsersIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Destinataires
-			</template>
-		</HeaderList>
-		<div class="relative mt-32">
-			<Loader
-				v-if="uiStore.getUIIsLoading"
-				:isLoading="uiStore.getUIIsLoading"
-				:type="LoaderTypeEnum.BOUNCE"
-			/>
-			<div
-				v-else-if="!uiStore.getUIIsLoading && employees.length > 0"
-				v-for="(employee, index) in employees"
-				:key="employee.id"
-			>
-				<DashboardItem :index="index">
-					<template #title>
-						<div class="grid grid-cols-1 gap-4 px-4 py-4 md:grid-cols-4">
-							<span class="text-sm text-gray-500 dark:text-gray-400">Prénom - Nom</span>
-							<span class="text-sm text-gray-500 dark:text-gray-400">Email</span>
-							<span class="text-sm text-gray-500 dark:text-gray-400">Téléphone</span>
-							<span class="text-sm text-gray-500 dark:text-gray-400">Créé le :</span>
-							<span class="dark:text-white">{{ employee.firstName }} {{ employee.lastName }}</span>
-							<span class="dark:text-white">{{ employee.email }}</span>
-							<span class="dark:text-white">{{ employee.phone }}</span>
-							<span class="dark:text-white">{{ getDate(employee.createdAt.toString()) }}</span>
-						</div>
-					</template>
-					<template #extraButton>
-						<BLink
-							:variant="extraButtonStyle"
-							class="EventActionButton"
-							@click="updateOneEmployee(employee)"
-						>modifier {{ employee.firstName }} {{ employee.lastName }}</BLink>
-						<BLink
-							:variant="extraButtonStyle"
-							class="EventActionButton"
-							@click="deleteOneEmployee(employee)"
-						>Supprimer {{ employee.firstName }} {{ employee.lastName }}</BLink>
-					</template>
-				</DashboardItem>
-			</div>
-			<h4
-				v-else
-				class="text-2xl font-semibold text-blue-dark dark:text-white"
-			>Aucun destinataire enregistré dans la base de donnée</h4>
-		</div>
-	</div>
+  <div
+    class="relative min-h-screen py-6 pr-8 text-left transition-all duration-500 ease-in-out transform bg-white-light dark:bg-blue-dark pl-14"
+  >
+    <HeaderList>
+      <template #title>
+        <UsersIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Destinataires
+      </template>
+    </HeaderList>
+    <EmployeeList :employees="employees" />
+  </div>
 </template>
 
 <route>
@@ -61,43 +19,19 @@
 </route>
 
 <script setup lang="ts">
-import { dateHook, employeeHook } from '@/hooks'
-import { useEmployeeStore, useMainStore, useUiStore } from '@/store'
-import { EmployeeType, ModalModeEnum, ModalNameEnum } from '@/store/typesExported'
-import { LoaderTypeEnum } from '@/types/globals'
+import { employeeHook } from '@/hooks'
+import { useEmployeeStore, useUiStore } from '@/store'
 
 const uiStore = useUiStore()
-const { isDarkTheme } = useMainStore()
-const { setUiModal, IncLoading, DecLoading } = uiStore
+const { IncLoading, DecLoading } = uiStore
 const { fetchAll } = employeeHook()
 const { getAllArray } = useEmployeeStore()
-const { getDate } = dateHook()
 
 const employees = computed(() => getAllArray)
 
 onMounted(async () => {
-	IncLoading()
-	await fetchAll(50)
-	DecLoading()
+  IncLoading()
+  await fetchAll(50)
+  DecLoading()
 })
-
-function updateOneEmployee(employee: EmployeeType) {
-	setUiModal({
-		isActive: true,
-		modalName: ModalNameEnum.ADD_EMPLOYEE,
-		modalMode: ModalModeEnum.EDIT,
-		data: { employee },
-	})
-}
-
-function deleteOneEmployee(employee: EmployeeType) {
-	setUiModal({
-		isActive: true,
-		modalName: ModalNameEnum.ADD_EMPLOYEE,
-		modalMode: ModalModeEnum.DELETE,
-		data: { employee },
-	})
-}
-
-const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : "white")
 </script>

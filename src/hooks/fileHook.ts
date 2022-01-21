@@ -87,9 +87,29 @@ export function fileHook() {
     DecLoading()
   }
 
+  async function fetchAllByUserId(userId: number) {
+    IncLoading()
+    try {
+      const res = await api.get(`file/user/${userId}`)
+      const files = res as FileType[]
+      if (files.length > 0) {
+        const filesNotInStore = filteringFilesNotInStore(files)
+        if (filesNotInStore.length > 0) {
+          fileStore.createMany(filesNotInStore)
+        }
+      }
+      setUISucessToast(`${files.length} files fetched successfully`)
+    } catch (error) {
+      console.error(error)
+      setUIErrorToast()
+    }
+    DecLoading()
+  }
+
   return {
     deleteOne,
     fetchAll,
+    fetchAllByUserId,
     filteringFilesNotInStore,
     getTranslationFileType,
     patchOne,

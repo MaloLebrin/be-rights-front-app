@@ -13,25 +13,30 @@
 
 <script setup lang="ts">
 import { fileHook } from '@/hooks'
-import { useFileStore, useUiStore } from '@/store'
+import { useFileStore, useUiStore, useUserStore } from '@/store'
 
 const uiStore = useUiStore()
 const { IncLoading, DecLoading } = uiStore
-const { fetchAll } = fileHook()
+const { fetchAllByUserId } = fileHook()
 const fileStore = useFileStore()
+const { getCurrentUserId } = useUserStore()
 
-const files = computed(() => fileStore.getAllArray)
+const files = computed(() => fileStore.getWhereArray(file => file.createdByUser === getCurrentUserId))
 
 onMounted(async () => {
-  IncLoading()
-  await fetchAll()
-  DecLoading()
+  if (getCurrentUserId) {
+    IncLoading()
+    await fetchAllByUserId(getCurrentUserId)
+    DecLoading()
+  }
 })
+
 </script>
 
 <route>
 {meta: {
-  layout: "AdminDashboardLayout"
+  layout: "DashboardLayout"
 }
 }
 </route>
+
