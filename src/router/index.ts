@@ -3,10 +3,7 @@ import generatedRoutes from 'virtual:generated-pages'
 import { setupLayouts } from 'virtual:generated-layouts'
 import { useMainStore } from '@/store'
 
-
 const routes = setupLayouts(generatedRoutes)
-
-
 
 const router = createRouter({
   history: createWebHistory(),
