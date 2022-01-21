@@ -37,6 +37,16 @@
         <span class="dark:text-white">Créer un nouveau destinataire</span>
       </div>
 
+      <div class="flex items-center w-full mb-5 cursor-pointer">
+        <div class="p-1 mr-3 rounded-lg bg-purple-light hover:bg-purple">
+          <FolderAddIconOutline class="h-6 text-white" />
+        </div>
+        <router-link
+          to="/userDashboard/CreateModel"
+          class="dark:text-white"
+        >Créer un nouveau fichier</router-link>
+      </div>
+
       <h6 class="mb-4 font-bold text-gray-500">Options</h6>
       <div
         v-if="getCurrentUserId && getUserFullName"

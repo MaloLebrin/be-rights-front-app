@@ -16,13 +16,12 @@ declare module 'vue' {
     BField: typeof import('be-right-vue3-lib')['BField']
     BInput: typeof import('be-right-vue3-lib')['BInput']
     BLink: typeof import('be-right-vue3-lib')['BLink']
-    BToast: typeof import('be-right-vue3-lib')['BToast']
     CheckIconOutline: typeof import('@heroicons/vue/outline/esm/CheckIcon.js')['default']
     ChevronLeftIconOutline: typeof import('@heroicons/vue/outline/esm/ChevronLeftIcon.js')['default']
     ChevronRightIconOutline: typeof import('@heroicons/vue/outline/esm/ChevronRightIcon.js')['default']
+    CreateModel: typeof import('./../../pages/userDashboard/CreateModel.vue')['default']
     DarkModeToggle: typeof import('./../../components/content/DarkModeToggle.vue')['default']
     DashboardItem: typeof import('./../../components/dashboard/DashboardItem.vue')['default']
-    DatabaseIconOutline: typeof import('@heroicons/vue/outline/esm/DatabaseIcon.js')['default']
     DocumentDownloadIconOutline: typeof import('@heroicons/vue/outline/esm/DocumentDownloadIcon.js')['default']
     EmployeeDeleteConfirm: typeof import('./../../components/employees/EmployeeDeleteConfirm.vue')['default']
     EmployeeEventItem: typeof import('./../../components/employees/EmployeeEventItem.vue')['default']
@@ -79,7 +78,6 @@ declare module 'vue' {
     UserIconOutline: typeof import('@heroicons/vue/outline/esm/UserIcon.js')['default']
     Users: typeof import('./../../pages/adminDashboard/users.vue')['default']
     UsersAdminModal: typeof import('./../../components/modals/UsersAdminModal.vue')['default']
-    UsersIconOutline: typeof import('@heroicons/vue/outline/esm/UsersIcon.js')['default']
     XCircleIconOutline: typeof import('@heroicons/vue/outline/esm/XCircleIcon.js')['default']
   }
 }
