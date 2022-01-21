@@ -27,6 +27,7 @@ declare module 'vue' {
     EmployeeDeleteConfirm: typeof import('./../../components/employees/EmployeeDeleteConfirm.vue')['default']
     EmployeeEventItem: typeof import('./../../components/employees/EmployeeEventItem.vue')['default']
     EmployeeForm: typeof import('./../../components/employees/EmployeeForm.vue')['default']
+    EmployeeList: typeof import('./../../components/employees/EmployeeList.vue')['default']
     EmployeeModal: typeof import('./../../components/modals/EmployeeModal.vue')['default']
     Employees: typeof import('./../../pages/adminDashboard/Employees.vue')['default']
     EmployeeUserItem: typeof import('./../../components/employees/EmployeeUserItem.vue')['default']
