@@ -16,11 +16,11 @@
         <router-link to="/userDashboard/myEmployees" class="dark:text-white">Mes destinataires</router-link>
       </div>
 
-      <div class="flex items-center w-full mb-5 cursor-not-allowed opacity-40">
+      <div class="flex items-center w-full mb-5 cursor-pointer">
         <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
-          <DatabaseIconOutline class="h-6 text-white" />
+          <FolderOpenIconOutline class="h-6 text-white" />
         </div>
-        <span class="dark:text-white">Archives</span>
+        <router-link to="/userDashboard/MyFiles" class="dark:text-white">Mes Fichiers</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer" @click="toggleEventFormModal">
