@@ -122,6 +122,4 @@ function toggleEmployeeFormModal() {
     data: {},
   })
 }
-
-
 </script>

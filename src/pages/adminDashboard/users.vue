@@ -53,7 +53,6 @@
           </template>
         </DashboardItem>
       </div>
-      <!-- TODO refacto vif -->
       <UsersAdminModal
         v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.USER_ADMIN && getUiModalState.data"
         :isActive="getUiModalState.isActive"

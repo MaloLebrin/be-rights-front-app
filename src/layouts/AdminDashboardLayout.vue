@@ -5,14 +5,14 @@
   </main>
   <Teleport to="#portal-target">
     <EventModal
-      v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.EVENT_FORM"
+      v-if="isModalActive(ModalNameEnum.EVENT_FORM)"
       class="top-32"
-      :isActive="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.EVENT_FORM"
+      :isActive="getUiModalState.isActive"
       @close="CloseResetModalState"
       @onSubmit="CloseResetModalState"
     />
     <EmployeeModal
-      v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.ADD_EMPLOYEE"
+      v-if="isModalActive(ModalNameEnum.ADD_EMPLOYEE)"
       :isActive="getUiModalState.isActive"
       :mode="getUiModalState.modalMode"
       :eventId="eventID"
@@ -20,7 +20,7 @@
       @onSubmit="CloseResetModalState"
     />
     <FileModal
-      v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.FILE_MODAL"
+      v-if="isModalActive(ModalNameEnum.FILE_MODAL)"
       :isActive="getUiModalState.isActive"
       :mode="getUiModalState.modalMode"
     />
@@ -47,6 +47,9 @@ const eventID = computed(() => {
     return eventsEntities.byId[getUiModalState.data.eventId].id
   }
 })
+
+
+const isModalActive = (modalName: ModalNameEnum) => computed(() => getUiModalState.isActive && getUiModalState.modalName === modalName)
 
 function CloseResetModalState() {
   resetUiModalState()

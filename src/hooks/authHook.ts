@@ -6,62 +6,61 @@ import { useMainStore, useUiStore, useUserStore } from "@/store"
 import { mainHook, userHook } from "."
 
 export function authHook() {
-	const userStore = useUserStore()
-	const mainStore = useMainStore()
-	const { getCookie } = useCookie()
-	const { setThemeClass } = mainHook()
-	const { storeUsersEntities } = userHook()
-	const { IncLoading, DecLoading } = useUiStore()
-	const api = new API(userStore.getCurrentUserToken!)
+  const userStore = useUserStore()
+  const mainStore = useMainStore()
+  const { getCookie } = useCookie()
+  const { setThemeClass } = mainHook()
+  const { storeUsersEntities } = userHook()
+  const { IncLoading, DecLoading } = useUiStore()
+  const api = new API(userStore.getCurrentUserToken!)
 
-	function setBearerToken(token: string) {
-		axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`
-	}
+  function setBearerToken(token: string) {
+    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`
+  }
 
-	function logout() {
-		api.deleteCredentials()
-		mainStore.setIsLoggedOut()
-		userStore.removeCurrent()
-		mainStore.resetAllState()
-		router.push('/')
-	}
+  function logout() {
+    api.deleteCredentials()
+    mainStore.setIsLoggedOut()
+    userStore.removeCurrent()
+    mainStore.resetAllState()
+    router.push('/')
+  }
 
-	// FIXME must be more stable
-	async function loginWithToken(token: string) {
-		IncLoading()
-		try {
-			const user = await api.post('user/token', { token: token })
-			setThemeClass(user.theme)
-			storeUsersEntities(user)
-		} catch (error) {
-			console.error(error)
-		}
-		DecLoading()
-	}
+  async function loginWithToken(token: string) {
+    IncLoading()
+    try {
+      const user = await api.post('user/token', { token: token })
+      setThemeClass(user.theme)
+      storeUsersEntities(user)
+    } catch (error) {
+      console.error(error)
+    }
+    DecLoading()
+  }
 
-	async function routesIntermsOfUserRoles() {
-		IncLoading()
-		const token = getCookie('userToken')
-		if (token && token.length > 0) {
-			await loginWithToken(token)
-			mainStore.setIsLoggedIn()
-			console.log(userStore.isCurrentUserAdmin, 'userStore.isCurrentUserAdmin')
-			if (userStore.isCurrentUserAdmin) {
-				router.push('/adminDashboard')
-			} else {
-				router.push('/userDashboard')
-			}
-		} else {
-			router.push('/')
-		}
-		DecLoading()
-	}
+  async function routesIntermsOfUserRoles() {
+    IncLoading()
+    const token = getCookie('userToken')
+    if (token && token.length > 0) {
+      await loginWithToken(token)
+      mainStore.setIsLoggedIn()
+
+      if (userStore.isCurrentUserAdmin) {
+        router.push('/adminDashboard')
+      } else {
+        router.push('/userDashboard')
+      }
+    } else {
+      router.push('/login')
+    }
+    DecLoading()
+  }
 
 
-	return {
-		setBearerToken,
-		logout,
-		loginWithToken,
-		routesIntermsOfUserRoles,
-	}
+  return {
+    setBearerToken,
+    logout,
+    loginWithToken,
+    routesIntermsOfUserRoles,
+  }
 }

@@ -10,7 +10,7 @@
     <EventForm
       v-if="getUiModalState.modalMode === ModalModeEnum.CREATE || getUiModalState.modalMode === ModalModeEnum.EDIT"
       :mode="getUiModalState.modalMode"
-      :eventId="getUiModalState.data?.event.id"
+      :eventId="getUiModalState.data?.event?.id"
     />
     <div
       v-else-if="getUiModalState.modalMode === ModalModeEnum.DELETE && uiStore.getUiModalData?.event"
