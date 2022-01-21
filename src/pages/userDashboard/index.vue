@@ -7,25 +7,7 @@
         <HomeIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Événements
       </template>
     </HeaderList>
-    <div class="relative mt-32">
-      <Loader
-        v-if="uiStore.getUIIsLoading"
-        :isLoading="uiStore.getUIIsLoading"
-        :type="LoaderTypeEnum.BOUNCE"
-      />
-      <div
-        v-else-if="!uiStore.getUIIsLoading && events.length > 0"
-        v-for="(event, index) in events"
-        :key="event.id"
-        class="relative flex items-center"
-      >
-        <EventItem :event="event" :index="index" @addOne="addOneEmployeeToEvent(event.id)" />
-      </div>
-      <h4
-        v-else
-        class="text-2xl font-semibold text-blue-dark dark:text-white"
-      >Vous n'avez aucun événement !</h4>
-    </div>
+    <EventList :events="events" NoEventMessage="Aucun Event en Base de donnée" />
   </div>
 </template>
 
@@ -38,13 +20,10 @@
 
 <script setup lang="ts">
 import { useEventStore, useUiStore, useUserStore } from '@/store/index'
-import { LoaderTypeEnum } from '@/types/globals'
 import { eventHook } from '@/hooks'
-import { ModalNameEnum, ModalModeEnum } from '@/store/typesExported'
 
 const { getEventsByUserId } = useEventStore()
-const { setUiModal, IncLoading, DecLoading } = useUiStore()
-const uiStore = useUiStore()
+const { IncLoading, DecLoading } = useUiStore()
 const userStore = useUserStore()
 const { fetchEventsByUser } = eventHook()
 const search = ref('')
@@ -63,16 +42,4 @@ onMounted(async () => {
     DecLoading()
   }
 })
-
-function addOneEmployeeToEvent(eventId: number) {
-  setUiModal({
-    isActive: true,
-    modalName: ModalNameEnum.ADD_EMPLOYEE,
-    modalMode: ModalModeEnum.CREATE,
-    data: {
-      eventId: eventId,
-    }
-  })
-}
-
 </script>

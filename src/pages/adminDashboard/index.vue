@@ -7,32 +7,7 @@
         <HomeIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Événements
       </template>
     </HeaderList>
-    <div class="relative mt-32">
-      <Loader
-        v-if="uiStore.getUIIsLoading"
-        :isLoading="uiStore.getUIIsLoading"
-        :type="LoaderTypeEnum.BOUNCE"
-      />
-
-      <div
-        v-else-if="!uiStore.getUIIsLoading && events"
-        v-for="(event, index) in events"
-        :key="event.id"
-        class="relative flex items-center"
-      >
-        <EventItem
-          :event="event"
-          :index="parseInt(index.toString())"
-          @udpateOneItem="updateOneEvent(event)"
-          @deleteOne="deleteOneEvent(event)"
-          @addOne="addOneEmployeeToEvent(event.id)"
-        />
-      </div>
-      <h4
-        v-else
-        class="text-2xl font-semibold text-blue-dark dark:text-white"
-      >Aucun événement enregistré dans la base de donnée</h4>
-    </div>
+    <EventList :events="events" NoEventMessage="Aucun Event en Base de donnée" />
   </div>
 </template>
 <route>
@@ -44,14 +19,12 @@
 
 <script setup lang="ts">
 import { useEventStore, useUiStore, useUserStore } from '@/store/index'
-import { LoaderTypeEnum } from '@/types/globals'
 import { eventHook } from '@/hooks'
-import { ModalNameEnum, ModalModeEnum, EventType } from '@/store/typesExported'
 
 const eventStore = useEventStore()
 const userStore = useUserStore()
 const uiStore = useUiStore()
-const { setUiModal, IncLoading, DecLoading } = uiStore
+const { IncLoading, DecLoading } = uiStore
 const { fetchAllEvents } = eventHook()
 const search = ref('')
 
@@ -64,38 +37,4 @@ onMounted(async () => {
     DecLoading()
   }
 })
-
-
-function addOneEmployeeToEvent(eventId: number) {
-  setUiModal({
-    isActive: true,
-    modalName: ModalNameEnum.ADD_EMPLOYEE,
-    modalMode: ModalModeEnum.CREATE,
-    data: {
-      eventId: eventId,
-    }
-  })
-}
-
-function updateOneEvent(event: EventType) {
-  setUiModal({
-    isActive: true,
-    modalName: ModalNameEnum.EVENT_FORM,
-    modalMode: ModalModeEnum.EDIT,
-    data: {
-      event: event,
-    }
-  })
-}
-
-function deleteOneEvent(event: EventType) {
-  setUiModal({
-    isActive: true,
-    modalName: ModalNameEnum.EVENT_FORM,
-    modalMode: ModalModeEnum.DELETE,
-    data: {
-      event: event,
-    }
-  })
-}
 </script>
