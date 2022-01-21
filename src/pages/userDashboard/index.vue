@@ -1,10 +1,10 @@
 <template>
   <div
-    class="bg-white-light dark:bg-blue-dark min-h-screen transform ease-in-out transition-all duration-500 py-6 text-left pl-14 pr-8 relative"
+    class="relative min-h-screen py-6 pr-8 text-left transition-all duration-500 ease-in-out transform bg-white-light dark:bg-blue-dark pl-14"
   >
     <HeaderList>
       <template #title>
-        <HomeIconOutline class="h-8 mr-4 dark:bg-red rounded-lg p-1" />Événements
+        <HomeIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Événements
       </template>
     </HeaderList>
     <div class="relative mt-32">
@@ -17,13 +17,14 @@
         v-else-if="!uiStore.getUIIsLoading && events.length > 0"
         v-for="(event, index) in events"
         :key="event.id"
-        class="flex items-center relative"
+        class="relative flex items-center"
       >
         <EventItem :event="event" :index="index" @addOne="addOneEmployeeToEvent(event.id)" />
       </div>
       <h4
-        class="text-blue-dark dark:text-white font-semibold text-2xl"
-      >Vous n'avez aucun événement ! user : {{ userStore.getCurrentUserId }}</h4>
+        v-else
+        class="text-2xl font-semibold text-blue-dark dark:text-white"
+      >Vous n'avez aucun événement !</h4>
     </div>
   </div>
 </template>
