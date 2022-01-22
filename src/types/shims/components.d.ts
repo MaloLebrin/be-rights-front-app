@@ -11,6 +11,7 @@ declare module 'vue' {
     BaseMessage: typeof import('./../../components/content/BaseMessage.vue')['default']
     BaseModal: typeof import('./../../components/modals/BaseModal.vue')['default']
     BButton: typeof import('be-right-vue3-lib')['BButton']
+    BCard: typeof import('be-right-vue3-lib')['BCard']
     BDrawer: typeof import('./../../components/drawer/BDrawer.vue')['default']
     BField: typeof import('be-right-vue3-lib')['BField']
     BInput: typeof import('be-right-vue3-lib')['BInput']
