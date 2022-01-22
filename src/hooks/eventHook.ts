@@ -1,11 +1,10 @@
 import { EventStatusEnum, EventType, getEventStatusTranslationEnum } from "@/store/events/types"
 import APi, { PaginatedResponse } from "@/helpers/api"
 import { EmployeeType } from "@/store/employees/types"
-import { useEventStore, useMainStore, useUiStore, useUserStore } from "@/store"
+import { useEventStore, useUiStore, useUserStore } from "@/store"
 
 export function eventHook() {
   const eventStore = useEventStore()
-  const mainStore = useMainStore()
   const userStore = useUserStore()
   const { setUISucessToast, setUIErrorToast, DecLoading, IncLoading } = useUiStore()
   const api = new APi(userStore.entities.current?.token!)
@@ -123,6 +122,21 @@ export function eventHook() {
     DecLoading()
   }
 
+  async function patchOne(event: EventType) {
+    if (event && event.id) {
+      IncLoading()
+      try {
+        const res = await api.patch(`event/${event.id}`, { event })
+        const updatedEvent = res as EventType
+        eventStore.updateOne(updatedEvent.id, updatedEvent)
+      } catch (error) {
+        console.error(error)
+        setUIErrorToast()
+      }
+      DecLoading()
+    }
+  }
+
   async function deleteOne(id: number) {
     IncLoading()
     try {
@@ -150,6 +164,7 @@ export function eventHook() {
     getEventStatusTranslation,
     getSignatureCount,
     isEventType,
+    patchOne,
     postOne,
   }
 }

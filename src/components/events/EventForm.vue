@@ -130,7 +130,7 @@ const { isDarkTheme } = mainStore
 const { isCurrentUserAdmin, getCurrentUserId } = userStore
 const { getUiModalState, IncLoading, DecLoading, resetUiModalState } = uiStore
 const { postMany: postManyAnswers } = answerHook()
-const { postOne: PostOneEvent } = eventHook()
+const { postOne: PostOneEvent, patchOne: patchOneEvent } = eventHook()
 
 const event = computed(() => eventStore.getOne(props.eventId))
 
@@ -210,15 +210,19 @@ async function submit() {
       }
     }
   }
-  if (getUiModalState.modalMode === ModalModeEnum.EDIT) {
-    // await patchOneEvent(payload as EventType, userCreateEvent.value!, props.eventId!)
+  if (getUiModalState.modalMode === ModalModeEnum.EDIT && props.eventId) {
+
+    await patchOneEvent({
+      ...payload as EventType,
+      id: props.eventId,
+    })
     if (employees.value && employees.value.length > 0) {
-      // const employeesIds = employees.value.map(employee => employee.id)
-      // const eventId = props.eventId!
-      // await postManyAnswers(
-      // 	eventId,
-      // 	employeesIds
-      // )
+      const employeesIds = employees.value.map(employee => employee.id)
+      const eventId = props.eventId
+      await postManyAnswers(
+        eventId,
+        employeesIds
+      )
     }
   }
   DecLoading()
