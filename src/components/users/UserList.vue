@@ -44,13 +44,6 @@
         </template>
       </DashboardItem>
     </div>
-    <UsersAdminModal
-      v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.USER_ADMIN && getUiModalState.data"
-      :isActive="getUiModalState.isActive"
-      :mode="getUiModalState.modalMode"
-      :user="getUiModalState.data.user"
-      @close="resetUIState"
-    />
   </div>
 </template>
 
@@ -74,7 +67,7 @@ const eventStore = useEventStore()
 const mainStore = useMainStore()
 const uiStore = useUiStore()
 const { getCurrent } = storeToRefs(userStore)
-const { getUiModalState, resetUIState, setUiModal } = uiStore
+const { setUiModal } = uiStore
 
 const eventByUserId = (ids: number[]) => computed(() => eventStore.getMany(ids))
 const extraButtonStyle = computed(() => mainStore.isDarkTheme ? 'primary' : "white")
