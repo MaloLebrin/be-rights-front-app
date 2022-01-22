@@ -99,8 +99,8 @@ const emit = defineEmits<{
 
 
 const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : "white")
-
 </script>
+
 <style scoped>
 .EventActionButton {
   @apply cursor-pointer bg-gray-500 rounded mb-1 py-2 px-4 font-semibold hover:translate-x-3 transform transition-all duration-500 
