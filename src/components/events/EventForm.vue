@@ -1,7 +1,7 @@
 <template>
-  <form class="grid w-full h-full grid-cols-1 gap-6 px-6 mt-4 md:grid-cols-2">
+  <form class="grid w-full h-full grid-cols-1 gap-6 px-6 mt-4 md:grid-cols-3">
     <BField
-      class="col-span-2"
+      class="col-span-3"
       :class="nameMeta.valid ? 'text-red-500' : 'text-gray-800 dark:text-gray-300'"
       label="Nom de l'événement"
       labelFor="name"
@@ -27,7 +27,7 @@
       />
     </BField>
 
-    <div>
+    <div class="col-span-2">
       <BField
         :class="addressMeta.valid ? 'text-red-500 dark:text-red-500' : 'text-gray-800 dark:text-gray-300'"
         label="Adresse"
