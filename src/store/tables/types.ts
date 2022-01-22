@@ -5,4 +5,5 @@ export interface TableState {
   orderBy: string
   orderDir: string
   filters: Record<string, string | string[]> | null,
+  search: string
 }

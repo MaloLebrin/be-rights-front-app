@@ -7,4 +7,5 @@ export const tableState: TableState = {
   orderBy: '',
   orderDir: '',
   filters: null,
+  search: '',
 }

@@ -11,27 +11,39 @@
   </div>
 </template>
 
+
+<script setup lang="ts">
+import { employeeHook } from '@/hooks'
+import { useEmployeeStore, useUiStore, useTablestore } from '@/store'
+
+const uiStore = useUiStore()
+const { IncLoading, DecLoading } = uiStore
+const tableStore = useTablestore()
+
+const { fetchAll } = employeeHook()
+const employeeStore = useEmployeeStore()
+
+const employees = computed(() => employeeStore.getAllArray)
+
+
+watch(() => tableStore.getFinalUrl, async (newValue) => {
+  IncLoading()
+  employeeStore.resetState()
+  await fetchAll(newValue)
+  DecLoading()
+})
+
+
+onMounted(async () => {
+  IncLoading()
+  await fetchAll(tableStore.getFinalUrl)
+  DecLoading()
+})
+</script>
+
 <route>
 {meta: {
   layout: "AdminDashboardLayout"
 }
 }
 </route>
-
-<script setup lang="ts">
-import { employeeHook } from '@/hooks'
-import { useEmployeeStore, useUiStore } from '@/store'
-
-const uiStore = useUiStore()
-const { IncLoading, DecLoading } = uiStore
-const { fetchAll } = employeeHook()
-const { getAllArray } = useEmployeeStore()
-
-const employees = computed(() => getAllArray)
-
-onMounted(async () => {
-  IncLoading()
-  await fetchAll(50)
-  DecLoading()
-})
-</script>

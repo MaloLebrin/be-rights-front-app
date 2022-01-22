@@ -1,10 +1,7 @@
 import { defineStore } from "pinia"
-import createActions from "@/store/utils/createActions"
 import { EntitiesEnum } from "@/types/globals"
 import { employeState } from "./state"
 import { EmployeeState, EmployeeType } from "./types"
-import { useUiStore, useUserStore } from ".."
-import APi from "@/helpers/api"
 import createGetters from "../utils/createGetters"
 
 export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
@@ -55,5 +52,11 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
     deleteMany(ids: number[]) {
       ids.forEach(id => this.deleteOne(id))
     },
+
+    resetState() {
+      this.entities.byId = {}
+      this.entities.allIds = []
+      this.entities.current = null
+    }
   },
 })
