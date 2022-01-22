@@ -46,6 +46,11 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
     deleteMany(ids: number[]) {
       ids.forEach(id => this.deleteOne(id))
     },
+    resetState() {
+      this.entities.byId = {}
+      this.entities.allIds = []
+      this.entities.current = null
+    }
 
     // bellow getters in this specific store
   },

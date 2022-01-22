@@ -8,7 +8,6 @@ export function eventHook() {
   const userStore = useUserStore()
   const { setUISucessToast, setUIErrorToast, DecLoading, IncLoading } = useUiStore()
   const api = new APi(userStore.entities.current?.token!)
-  const { getAllIds } = eventStore
 
   function getEventStatusTranslation(status: EventStatusEnum) {
     return getEventStatusTranslationEnum[status]
@@ -33,12 +32,16 @@ export function eventHook() {
     return employees.filter(employee => employee.hasSigned).length
   }
 
-  async function fetchAllEvents() {
+  async function fetchAllEvents(url?: string) {
     IncLoading()
     try {
-      const res: any = await api.get(`event`)
-      const { currentPage, data, limit, total }: PaginatedResponse<EventType> = res
-      const ids = data.map((event: EventType) => event.id).filter(id => !getAllIds.includes(id))
+      let finalUrl = 'event'
+      if (url) {
+        finalUrl += `${url}`
+      }
+      const res = await api.get(finalUrl)
+      const { data }: PaginatedResponse<EventType> = res
+      const ids = data.map((event: EventType) => event.id).filter(id => !eventStore.getAllIds.includes(id))
       if (ids.length > 0) {
         const events = data.filter(event => ids.includes(event.id))
         eventStore.createMany(events)
@@ -55,7 +58,7 @@ export function eventHook() {
     IncLoading()
     try {
       const res: any = await api.get(`event/${id}`)
-      if (!getAllIds.includes(res.id)) {
+      if (!eventStore.getAllIds.includes(res.id)) {
         eventStore.createOne(res)
       }
       setUISucessToast(`L'événement a été récupéré avec succès`)
@@ -72,7 +75,7 @@ export function eventHook() {
       if (userId) {
         const res = await api.get(`event/user/${userId}`)
         const data = res as EventType[]
-        const ids = data.map((event: EventType) => event.id).filter(id => !getAllIds.includes(id))
+        const ids = data.map((event: EventType) => event.id).filter(id => !eventStore.getAllIds.includes(id))
         if (ids.length > 0) {
           const events = data.filter(event => ids.includes(event.id))
           const eventToStore = events.map(event => ({
@@ -95,7 +98,7 @@ export function eventHook() {
     try {
       const res = await api.get(`event/${id}`)
       const event = res as EventType
-      if (!getAllIds.includes(event.id)) {
+      if (!eventStore.getAllIds.includes(event.id)) {
         eventStore.createOne(event)
       }
       setUISucessToast('L\'événement a été récupéré avec succès')
