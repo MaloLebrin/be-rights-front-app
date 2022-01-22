@@ -75,6 +75,7 @@ declare module 'vue' {
     Userform: typeof import('./../../components/users/Userform.vue')['default']
     UserGroupIconOutline: typeof import('@heroicons/vue/outline/esm/UserGroupIcon.js')['default']
     UserIconOutline: typeof import('@heroicons/vue/outline/esm/UserIcon.js')['default']
+    UserList: typeof import('./../../components/users/UserList.vue')['default']
     Users: typeof import('./../../pages/adminDashboard/users.vue')['default']
     UsersAdminModal: typeof import('./../../components/modals/UsersAdminModal.vue')['default']
     UsersIconOutline: typeof import('@heroicons/vue/outline/esm/UsersIcon.js')['default']
