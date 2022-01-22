@@ -69,6 +69,7 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
     resetState() {
       this.entities.byId = {}
       this.entities.allIds = []
-    }
+      this.entities.active = []
+    },
   },
 })

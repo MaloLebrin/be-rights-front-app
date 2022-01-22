@@ -15,7 +15,7 @@
       <EventItem
         :event="event"
         :index="parseInt(index.toString())"
-        @udpateOneItem="updateOneEvent(event)"
+        @udpateOneItem="updateOneEvent(event.id)"
         @deleteOne="deleteOneEvent(event)"
         @addOne="addOneEmployeeToEvent(event.id)"
       />
@@ -25,12 +25,15 @@
 </template>
 
 <script setup lang="ts">
-import { useUiStore } from '@/store'
+import router from '@/router'
+import { useUiStore, useEventStore } from '@/store'
 import { EventType, ModalModeEnum, ModalNameEnum } from '@/store/typesExported'
 import { LoaderTypeEnum } from '@/types/globals'
 
 const uiStore = useUiStore()
 const { setUiModal } = uiStore
+const eventStore = useEventStore()
+const { setActive } = eventStore
 
 interface Props {
   NoEventMessage: string,
@@ -42,6 +45,11 @@ withDefaults(defineProps<Props>(), {
   events: () => [],
 })
 
+function updateOneEvent(eventId: number) {
+  router.push('/admindashboard/eventid')
+  setActive(eventId)
+}
+
 function addOneEmployeeToEvent(eventId: number) {
   setUiModal({
     isActive: true,
@@ -49,17 +57,6 @@ function addOneEmployeeToEvent(eventId: number) {
     modalMode: ModalModeEnum.CREATE,
     data: {
       eventId: eventId,
-    }
-  })
-}
-
-function updateOneEvent(event: EventType) {
-  setUiModal({
-    isActive: true,
-    modalName: ModalNameEnum.EVENT_FORM,
-    modalMode: ModalModeEnum.EDIT,
-    data: {
-      event: event,
     }
   })
 }

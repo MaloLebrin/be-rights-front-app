@@ -40,6 +40,21 @@ export const useFileStore = defineStore(EntitiesEnum.FILES, {
     deleteMany(ids: number[]) {
       ids.forEach(id => this.deleteOne(id))
     },
+    resetState() {
+      this.entities.byId = {}
+      this.entities.allIds = []
+      this.entities.active = []
+      this.entities.current = null
+    },
+    setActive(id: number) {
+      if (!this.entities.active.includes(id)) {
+        this.entities.active.push(id)
+      }
+    },
+    resetActive() {
+      this.entities.active = []
+    },
+
   },
   getters: {
     ...createGetters<FileType>(fileState),
