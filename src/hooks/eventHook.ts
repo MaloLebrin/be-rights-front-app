@@ -107,9 +107,7 @@ export function eventHook() {
     DecLoading()
   }
 
-  // TODO fix return will not call decLoading
   async function postOne(event: EventType, userId?: number): Promise<EventType | undefined> {
-    IncLoading()
     try {
       const res = await api.post(`event/${userId}`, { event })
       eventStore.createOne(res)
@@ -119,7 +117,6 @@ export function eventHook() {
       console.error(error)
       setUIErrorToast()
     }
-    DecLoading()
   }
 
   async function patchOne(event: EventType) {
