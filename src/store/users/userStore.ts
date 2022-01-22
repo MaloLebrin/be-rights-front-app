@@ -57,6 +57,15 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
     deleteMany(ids: number[]) {
       ids.forEach(id => this.deleteOne(id))
     },
+    setActive(id: number) {
+      if (!this.entities.active.includes(id)) {
+        this.entities.active.push(id)
+      }
+    },
+    resetActive() {
+      this.entities.active = []
+    },
+
     resetState() {
       this.entities.byId = {}
       this.entities.allIds = []

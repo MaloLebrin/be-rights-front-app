@@ -31,12 +31,14 @@
 
         <template #extraButton>
           <BLink
+            tag="router-link"
+            to="UserId"
             :variant="extraButtonStyle"
             class="EventActionButton"
-            @click="onToggleUsersModal(ModalModeEnum.EDIT, user)"
+            @click="redirectToUserForm(user.id)"
           >Voir</BLink>
           <BLink
-            v-if="getCurrent?.id !== user.id"
+            v-if="userStore.getCurrent?.id !== user.id"
             :variant="extraButtonStyle"
             class="EventActionButton"
             @click="onToggleUsersModal(ModalModeEnum.DELETE, user)"
@@ -66,11 +68,15 @@ const userStore = useUserStore()
 const eventStore = useEventStore()
 const mainStore = useMainStore()
 const uiStore = useUiStore()
-const { getCurrent } = storeToRefs(userStore)
+const { setActive } = userStore
 const { setUiModal } = uiStore
 
 const eventByUserId = (ids: number[]) => computed(() => eventStore.getMany(ids))
 const extraButtonStyle = computed(() => mainStore.isDarkTheme ? 'primary' : "white")
+
+function redirectToUserForm(userId: number) {
+  setActive(userId)
+}
 
 function onToggleUsersModal(type: ModalModeEnum, user: UserType) {
   setUiModal({
