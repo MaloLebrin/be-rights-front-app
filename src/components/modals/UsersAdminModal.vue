@@ -1,12 +1,12 @@
 <template>
   <BaseModal
-    class="w-5/6 text-black-light dark:text-white font-medium"
+    class="w-5/6 font-medium text-black-light dark:text-white"
     :title="getModaleTitle()"
     :isLoading="uiStore.getUIIsLoading"
     :isActive="isActive"
     @close="close"
   >
-    <div v-if="mode === ModalModeEnum.UPDATE && user" class="h-full mt-12">
+    <div v-if="mode === ModalModeEnum.EDIT && user" class="h-full mt-12">
       <Userform :id="user.id" />
     </div>
     <div v-else-if="mode === ModalModeEnum.DELETE" class="py-6">
@@ -22,18 +22,16 @@
 </template>
 
 <script setup lang="ts">
-import { ModalModeEnum, UserType } from '@/store/typesExported'
+import { ModalModeEnum } from '@/store/typesExported'
 import { useMainStore, useUiStore } from '@/store'
 import { userHook } from '@/hooks'
 
 interface Props {
-  user?: UserType
   mode?: ModalModeEnum
   isActive: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   isActive: false,
-  user: undefined,
   mode: undefined,
 })
 
@@ -43,15 +41,21 @@ const { isDarkTheme } = mainStore
 const { deleteUser } = userHook()
 const { IncLoading, DecLoading } = uiStore
 
+const user = computed(() => {
+  if (uiStore.getUiModalData && uiStore.getUiModalData.user) {
+    return uiStore.getUiModalData.user
+  }
+})
+
 function getModaleTitle() {
-  if (props.user) {
+  if (user.value) {
     switch (props.mode) {
       case ModalModeEnum.CREATE:
         return 'Nouvel utilisateur'
-      case ModalModeEnum.UPDATE:
-        return `Modifier utilisateur ${props.user.id}`
+      case ModalModeEnum.EDIT:
+        return `Modifier utilisateur ${user.value?.id}`
       case ModalModeEnum.DELETE:
-        return `Supprimer utilisateur ${props.user.id}`
+        return `Supprimer utilisateur ${user.value?.id}`
       default:
         return 'Unknown mode'
     }
@@ -59,10 +63,12 @@ function getModaleTitle() {
 }
 
 async function deleteOne() {
-  IncLoading()
-  await deleteUser(props.user.id)
-  DecLoading()
-  close()
+  if (user?.value.id) {
+    IncLoading()
+    await deleteUser(user.value.id)
+    DecLoading()
+    close()
+  }
 }
 
 const emit = defineEmits<{
@@ -72,6 +78,4 @@ const emit = defineEmits<{
 function close() {
   emit('close')
 }
-
-
 </script>

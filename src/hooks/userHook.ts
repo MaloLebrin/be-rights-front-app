@@ -132,10 +132,14 @@ export function userHook() {
     DecLoading()
   }
 
-  async function fetchAll() {
+  async function fetchAll(url?: string) {
     IncLoading()
     try {
-      const res = await api.get('user/?limit=999999')
+      let finalUrl = 'user'
+      if (url) {
+        finalUrl += `${url}`
+      }
+      const res = await api.get(finalUrl)
       const { data }: PaginatedResponse<UserType> = res
       storeUsersEntitiesForManyUsers(data)
       setUISucessToast('Utilisateurs récupérés avec succès')

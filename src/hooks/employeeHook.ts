@@ -101,17 +101,16 @@ export function employeeHook() {
     DecLoading()
   }
 
-  async function fetchAll(perPage?: number) {
+  async function fetchAll(url?: string) {
     IncLoading()
     try {
-      let url = `employee`
-
-      if (perPage) {
-        url += `?limit=${perPage}`
+      let finalUrl = 'employee'
+      if (url) {
+        finalUrl += `${url}`
       }
 
-      const res = await api.get(url)
-      const { currentPage, data, limit, total }: PaginatedResponse<EmployeeType> = res
+      const res = await api.get(finalUrl)
+      const { data }: PaginatedResponse<EmployeeType> = res
       storeEmployeeRelationsEntities(data)
       setUISucessToast('Destinataires récupéré avec succès')
     } catch (error) {

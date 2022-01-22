@@ -1,24 +1,10 @@
 <template>
-  <div class="grid grid-cols-3 items-center mb-14 fixed">
-    <h3 class="text-2xl font-semibold text-gray-800 dark:text-white flex items-center max-w-xs mt">
+  <div class="fixed grid items-center grid-cols-3 mb-14">
+    <h3 class="flex items-center max-w-xs text-2xl font-semibold text-gray-800 dark:text-white mt">
       <slot name="title" />
     </h3>
-    <div v-if="withAdditionnalButtons" class="flex col-span-2 items-center justify-center">
-      <BButton class="mr-2 dark:text-black">Tout</BButton>
-      <BButton class="mr-2 dark:text-black">En cours</BButton>
-      <BButton class="mr-2 dark:text-black">À venir</BButton>
-      <BButton class="mr-2 dark:text-black">Terminés</BButton>
-      <BInput type="text" placeholder="Recherchez" />
+    <div v-if="$slots.additionnalButtons" class="flex items-center justify-center col-span-2">
+      <slot name="additionnalButtons" />
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-interface Props {
-  withAdditionnalButtons?: boolean
-}
-
-withDefaults(defineProps<Props>(), {
-  withAdditionnalButtons: true,
-})
-</script>
