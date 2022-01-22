@@ -33,7 +33,6 @@ export function eventHook() {
     return employees.filter(employee => employee.hasSigned).length
   }
 
-
   async function fetchAllEvents() {
     IncLoading()
     try {
