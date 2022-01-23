@@ -59,6 +59,40 @@ export default function createGetters<T extends WithId>(currentState: State<T>) 
   }
 
   /**
+  * Get first item that pass the given filter callback.
+  * @param filter - The filtering callback that will be used to filter the items.
+  */
+  function getFirstWhere(state = currentState) {
+    return (filter: (arg: T) => boolean | null) => {
+      if (typeof filter !== 'function') {
+        return state.entities.byId
+      }
+      const values = Object.values(state.entities.allIds.reduce((acc: Record<number, T>, id: number) => {
+        const item = state.entities.byId[id]
+        if (!filter(item)) {
+          return acc
+        }
+        acc[id] = item
+        return acc
+      }, {} as Record<number, T>))
+      return values.length ? values[0] : null
+    }
+    // return (filter: (arg: T) => boolean | null) => {
+    //   if (typeof filter !== 'function') {
+    //     return Object.values(state.entities.byId)
+    //   }
+    //   return Object.values(state.entities.allIds.reduce((acc: Record<number, T>, id: number) => {
+    //     const item = state.entities.byId[id]
+    //     if (!filter(item)) {
+    //       return acc
+    //     }
+    //     acc[id] = item
+    //     return acc
+    //   }, {} as Record<number, T>)[0])
+    // }
+  }
+
+  /**
    * Get all the items that pass the given filter callback as an array of values.
    * @param filter - The filtering callback that will be used to filter the items.
    */
@@ -121,6 +155,7 @@ export default function createGetters<T extends WithId>(currentState: State<T>) 
     getAllIds,
     getCurrent,
     getFirstActive,
+    getFirstWhere,
     getIsEmpty,
     getIsNotEmpty,
     getMany,
