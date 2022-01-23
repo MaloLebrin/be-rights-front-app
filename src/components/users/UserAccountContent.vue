@@ -2,12 +2,21 @@
   <div
     class="container relative px-4 py-5 space-y-12 bg-white shadow-xl dark:bg-blue-dark_bold rounded-2xl"
   >
-    <BField label="Logo" labelFor="firstName" class="text-blue-dark dark:text-white-break">
-      <InputFile message="Sélectionnez votre logo" :url="userLogoUrl" @uploadFile="uploadFile" />
-    </BField>
-    <div class="flex items-center justify-center">
-      <BButton variant="white" class="text-blue-dark" @click="submitFile">Enregistrer le Logo</BButton>
-    </div>
+    <BAccordion>
+      <template #title>
+        <div class="flex items-center">
+          <h5 class="px-6 py-4 text-xl font-medium">Votre logo</h5>
+          <ArrowCircleDownIconOutline class="w-6 h-6 text-gray-600" />
+        </div>
+      </template>
+
+      <div class="px-6 py-4">
+        <InputFile message="Sélectionnez votre logo" :url="userLogoUrl" @uploadFile="uploadFile" />
+        <div class="flex items-center justify-center">
+          <BButton variant="white" class="text-blue-dark" @click="submitFile">Enregistrer le Logo</BButton>
+        </div>
+      </div>
+    </BAccordion>
   </div>
   <div
     class="container relative py-4 space-y-12 bg-white shadow-xl dark:bg-blue-dark_bold rounded-2xl"
@@ -42,9 +51,9 @@ const state = reactive<State>({
 
 const { getCurrentUserId } = useUserStore()
 const { postOne } = fileHook()
-const { getAllArray } = useFileStore()
+const { getAllArray } = storeToRefs(useFileStore())
 
-const userLogoUrl = computed(() => getAllArray.filter(file => file.createdByUser === getCurrentUserId && file.type === FileTypeEnum.LOGO)[0]?.secure_url)
+const userLogoUrl = computed(() => getAllArray.value.filter(file => file.createdByUser === getCurrentUserId && file.type === FileTypeEnum.LOGO)[0]?.secure_url)
 
 function getButtonLabel() {
   return state.mode === ModalModeEnum.READ ? 'Modifier' : 'Enregistrer'

@@ -8,24 +8,82 @@
         {{ user.firstName }} {{ user.lastName }}
       </template>
     </HeaderList>
-    <div class="py-4 mt-24 rounded-lg shadow-lg">
-      <Userform :id="userStore.getFirstActive" />
+
+    <div class="space-y-10">
+      <div class="py-4 mt-24 space-y-32 rounded-lg shadow-lg">
+        <Userform :id="userStore.getFirstActive" />
+      </div>
+
+      <BAccordion class="rounded-full shadow-2xl dark:bg-blue-dark_bold animate-fade-in-down">
+        <template #title>
+          <h5 class="px-6 py-4 text-xl font-medium">Logo de l'utilisateur</h5>
+        </template>
+
+        <div class="px-6 py-4">
+          <InputFile
+            message="Sélectionnez votre logo"
+            :url="userLogo?.secure_url"
+            @uploadFile="uploadFile"
+          />
+          <div class="flex items-center justify-center">
+            <BButton variant="white" class="text-blue-dark" @click="submitFile">Enregistrer le Logo</BButton>
+          </div>
+        </div>
+      </BAccordion>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from '@/store'
+import { fileHook } from '@/hooks'
+import { useFileStore, useUserStore } from '@/store'
+import { FileTypeEnum } from '@/store/typesExported'
 import { onBeforeRouteLeave } from 'vue-router'
 
 const userStore = useUserStore()
 const { resetActive } = userStore
+const fileStore = useFileStore()
+const { fetchAll, postOne } = fileHook()
+
+interface State {
+  file: FormData | null
+}
+
+const state = reactive<State>({
+  file: null,
+})
 
 onBeforeRouteLeave(() => {
   resetActive()
 })
 
 const user = computed(() => userStore.getOne(userStore.getFirstActive))
+const userLogo = computed(() =>
+  fileStore.getFirstWhere(file => file.createdByUser === userStore.getFirstActive &&
+    file.type === FileTypeEnum.LOGO)
+)
+
+onMounted(async () => {
+  if (!userLogo.value) {
+    await fetchAll(`?filters[type]=${FileTypeEnum.LOGO}&filters[createdByUser]=${userStore.getFirstActive}`)
+  }
+})
+
+function uploadFile(fileUploaded: File) {
+  const formData = new FormData()
+  formData.append('file', fileUploaded)
+  formData.append('type', FileTypeEnum.LOGO)
+  formData.append('userId', userStore.getFirstActive.toString())
+  formData.append('name', 'logo')
+  formData.append('description', 'Logo de l\'utilisateur')
+  state.file = formData
+}
+
+async function submitFile() {
+  if (state.file && !userLogo.value) {
+    await postOne(state.file)
+  }
+}
 
 </script>
 

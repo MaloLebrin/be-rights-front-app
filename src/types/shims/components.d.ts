@@ -7,6 +7,7 @@ declare module 'vue' {
     404: typeof import('./../../pages/404.vue')['default']
     AdminDashboard: typeof import('./../../pages/adminDashboard/index.vue')['default']
     AdminMenuDrawer: typeof import('./../../components/drawer/AdminMenuDrawer.vue')['default']
+    ArrowCircleDownIconOutline: typeof import('@heroicons/vue/outline/esm/ArrowCircleDownIcon.js')['default']
     BAccordion: typeof import('be-right-vue3-lib')['BAccordion']
     BaseMessage: typeof import('./../../components/content/BaseMessage.vue')['default']
     BaseModal: typeof import('./../../components/modals/BaseModal.vue')['default']
