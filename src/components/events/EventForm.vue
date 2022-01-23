@@ -101,7 +101,12 @@
       variant="white"
       class="mr-2 dark:text-black"
       @click="submit"
-    >{{ mode === ModalModeEnum.CREATE ? 'Créer' : 'Enregistrer' }}</BButton>
+    >
+      <template #icon>
+        <SaveIconOutline />
+      </template>
+      {{ mode === ModalModeEnum.CREATE ? 'Créer' : 'Enregistrer' }}
+    </BButton>
   </div>
 </template>
 

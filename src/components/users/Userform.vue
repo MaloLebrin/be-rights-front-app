@@ -129,7 +129,12 @@
         :disabled="!meta.valid || !meta.dirty"
         :loading="isLoading"
         @click="submit"
-      >Enregistrer</BButton>
+      >
+        <template #icon>
+          <SaveIconOutline />
+        </template>
+        Enregistrer
+      </BButton>
     </div>
   </div>
 </template>

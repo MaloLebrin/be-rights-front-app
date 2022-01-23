@@ -66,7 +66,12 @@
       </BField>
     </div>
     <div class="flex items-center justify-center mt-10">
-      <BButton :disabled="!meta.dirty || !meta.valid" variant="white" @click="submit">Enregistrer</BButton>
+      <BButton :disabled="!meta.dirty || !meta.valid" variant="white" @click="submit">
+        <template #icon>
+          <SaveIconOutline />
+        </template>
+        Enregistrer
+      </BButton>
     </div>
   </div>
 </template>

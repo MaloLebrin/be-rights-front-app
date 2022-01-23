@@ -36,23 +36,27 @@
         :variant="extraButtonStyle"
         class="EventActionButton"
         @click="emit('udpateOneItem', index)"
-      >modifier event</BLink>
-      <BLink
-        :variant="extraButtonStyle"
-        class="EventActionButton"
-        @click="emit('addOne', index)"
-      >+ Ajouter</BLink>
+      >
+        <PencilAltIconOutline class="w-4 h-4 mr-2 text-gray-800" />modifier event
+      </BLink>
+      <BLink :variant="extraButtonStyle" class="EventActionButton" @click="emit('addOne', index)">
+        <PlusCircleIconOutline class="w-4 h-4 mr-2 text-gray-800" />Ajouter
+      </BLink>
       <BLink
         :variant="extraButtonStyle"
         class="EventActionButton"
         @click="emit('deleteOne', index)"
-      >Supprimer</BLink>
+      >
+        <TrashIconOutline class="w-4 h-4 mr-2 text-red-800" />Supprimer
+      </BLink>
       <BLink
         :variant="extraButtonStyle"
         :disabled="true"
         class="cursor-not-allowed EventActionButton"
         @click="emit('downloadAll')"
-      >Tout télécharger</BLink>
+      >
+        <DownloadIconOutline class="w-4 h-4 mr-2 text-gray-800" />Tout télécharger
+      </BLink>
     </template>
   </DashboardItem>
 </template>
@@ -104,7 +108,7 @@ const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : "white")
 
 <style scoped>
 .EventActionButton {
-  @apply cursor-pointer bg-gray-500 rounded mb-1 py-2 px-4 font-semibold hover:translate-x-3 transform transition-all duration-500 
+  @apply flex items-center cursor-pointer bg-gray-500 rounded mb-1 py-2 px-4 font-semibold hover:translate-x-3 transform transition-all duration-500 
     dark:bg-white-break dark:text-gray-900;
 }
 </style>

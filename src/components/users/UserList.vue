@@ -36,13 +36,23 @@
             :variant="extraButtonStyle"
             class="EventActionButton"
             @click="redirectToUserForm(user.id)"
-          >Voir</BLink>
+          >
+            <div class="flex items-center">
+              <EyeIconOutline class="w-4 h-4 mr-2 text-gray-800" />
+              <span>Voir</span>
+            </div>
+          </BLink>
           <BLink
             v-if="userStore.getCurrent?.id !== user.id"
             :variant="extraButtonStyle"
             class="EventActionButton"
             @click="onToggleUsersModal(user)"
-          >Supprimer</BLink>
+          >
+            <div class="flex items-center">
+              <TrashIconOutline class="w-4 h-4 mr-2 text-red-800" />
+              <span>Supprimer</span>
+            </div>
+          </BLink>
         </template>
       </DashboardItem>
     </div>

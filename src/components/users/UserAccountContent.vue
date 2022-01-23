@@ -13,7 +13,12 @@
       <div class="px-6 py-4">
         <InputFile message="Sélectionnez votre logo" :url="userLogoUrl" @uploadFile="uploadFile" />
         <div class="flex items-center justify-center">
-          <BButton variant="white" class="text-blue-dark" @click="submitFile">Enregistrer le Logo</BButton>
+          <BButton variant="white" class="text-blue-dark" @click="submitFile">
+            <template #icon>
+              <SaveIconOutline />
+            </template>
+            Enregistrer le Logo
+          </BButton>
         </div>
       </div>
     </BAccordion>
