@@ -41,7 +41,7 @@
             v-if="userStore.getCurrent?.id !== user.id"
             :variant="extraButtonStyle"
             class="EventActionButton"
-            @click="onToggleUsersModal(ModalModeEnum.DELETE, user)"
+            @click="onToggleUsersModal(user)"
           >Supprimer</BLink>
         </template>
       </DashboardItem>
@@ -78,11 +78,11 @@ function redirectToUserForm(userId: number) {
   setActive(userId)
 }
 
-function onToggleUsersModal(type: ModalModeEnum, user: UserType) {
+function onToggleUsersModal(user: UserType) {
   setUiModal({
     isActive: true,
     modalName: ModalNameEnum.USER_ADMIN,
-    modalMode: type,
+    modalMode: ModalModeEnum.DELETE,
     data: {
       user,
     }

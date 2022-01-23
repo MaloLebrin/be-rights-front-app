@@ -1,8 +1,13 @@
 <template>
   <MenuDrawer />
-  <main v-bind="$attrs" class="w-full text-center">
-    <router-view />
+  <main v-bind="$attrs" class="container w-full mx-auto text-center">
+    <router-view v-slot="{ Component }">
+      <transition name="fade">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </main>
+
   <Teleport to="#portal-target">
     <EventModal
       v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.EVENT_FORM"

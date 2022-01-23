@@ -1,11 +1,17 @@
 <template>
   <AdminMenuDrawer />
   <main v-bind="$attrs" class="container w-full mx-auto">
-    <Transition name="fade">
-      <router-view />
-    </Transition>
+    <router-view v-slot="{ Component }">
+      <transition name="fade">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </main>
   <Teleport to="#portal-target">
+    <EventModal
+      v-if="isModalActive(ModalNameEnum.EVENT_FORM).value"
+      :isActive="isModalActive(ModalNameEnum.EVENT_FORM).value"
+    />
     <EmployeeModal
       v-if="isModalActive(ModalNameEnum.ADD_EMPLOYEE).value"
       :isActive="isModalActive(ModalNameEnum.ADD_EMPLOYEE).value"
@@ -17,6 +23,11 @@
     <FileModal
       v-if="isModalActive(ModalNameEnum.FILE_MODAL).value"
       :isActive="isModalActive(ModalNameEnum.FILE_MODAL).value"
+      :mode="getUiModalState.modalMode"
+    />
+    <UsersAdminModal
+      v-if="isModalActive(ModalNameEnum.USER_ADMIN).value"
+      :isActive="isModalActive(ModalNameEnum.USER_ADMIN).value"
       :mode="getUiModalState.modalMode"
     />
 
