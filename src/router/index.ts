@@ -9,7 +9,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 })
-console.log(routes, 'routes')
+
 router.beforeEach((to, from, next) => {
   const mainStore = useMainStore()
   if (to.name !== 'login' && !mainStore.getIsLoggedIn) next({ name: 'login' })

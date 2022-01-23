@@ -1,7 +1,9 @@
 <template>
   <AdminMenuDrawer />
-  <main v-bind="$attrs" class="flex-shrink w-full">
-    <router-view />
+  <main v-bind="$attrs" class="container w-full mx-auto">
+    <Transition name="fade">
+      <router-view />
+    </Transition>
   </main>
   <Teleport to="#portal-target">
     <EmployeeModal
