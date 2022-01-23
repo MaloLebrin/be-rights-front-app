@@ -29,11 +29,16 @@ export function fileHook() {
     return []
   }
 
-  async function fetchAll() {
+  async function fetchAll(url?: string) {
     IncLoading()
     try {
-      const res = await api.get("file")
-      const { currentPage, data, limit, total }: PaginatedResponse<FileType> = res
+      let finalUrl = 'file'
+      if (url) {
+        finalUrl += `${url}`
+      }
+
+      const res = await api.get(finalUrl)
+      const { data }: PaginatedResponse<FileType> = res
       const files = filteringFilesNotInStore(data)
       if (files.length > 0) {
         fileStore.createMany(files)
