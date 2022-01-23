@@ -7,7 +7,7 @@
       <PhotographIconOutline class="w-12 h-12 overflow-hidden text-gray-600" />
       <p class="mt-8 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">{{ message }}</p>
     </div>
-    <img v-else :src="imageUrl" alt="Logo" class="rounded-full h-72 w-72" />
+    <img v-else :src="imageUrl" alt="Logo" class="w-48 h-48 roundeds-fulls" />
     <input type="file" id="file" ref="file" class="opacity-0" @change="emitFile" />
   </label>
 </template>

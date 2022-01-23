@@ -7,13 +7,8 @@
     :mode="getUiModalState.modalMode"
     @close="close"
   >
-    <EventForm
-      v-if="getUiModalState.modalMode === ModalModeEnum.CREATE || getUiModalState.modalMode === ModalModeEnum.EDIT"
-      :mode="getUiModalState.modalMode"
-      :eventId="getUiModalState.data?.event?.id"
-    />
     <div
-      v-else-if="getUiModalState.modalMode === ModalModeEnum.DELETE && uiStore.getUiModalData?.event"
+      v-if="getUiModalState.modalMode === ModalModeEnum.DELETE && uiStore.getUiModalData?.event"
       class="space-y-4"
     >
       <p
@@ -37,6 +32,7 @@
     </div>
   </BaseModal>
 </template>
+
 <script setup lang="ts">
 import { eventHook } from '@/hooks'
 import { useUiStore } from '@/store'
@@ -51,7 +47,7 @@ withDefaults(defineProps<Props>(), {
 })
 
 const uiStore = useUiStore()
-const { getUiModalState, resetUIState, IncLoading, DecLoading } = uiStore
+const { getUiModalState, resetUiModalState, IncLoading, DecLoading } = uiStore
 const { deleteOne } = eventHook()
 
 async function deleteEmployee() {
@@ -69,6 +65,6 @@ const emit = defineEmits<{
 
 function close() {
   emit('close')
-  resetUIState()
+  resetUiModalState()
 }
 </script>

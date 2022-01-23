@@ -6,10 +6,7 @@
     :isActive="isActive"
     @close="close"
   >
-    <div v-if="mode === ModalModeEnum.EDIT && user" class="h-full mt-12">
-      <Userform :id="user.id" />
-    </div>
-    <div v-else-if="mode === ModalModeEnum.DELETE" class="py-6">
+    <div v-if="mode === ModalModeEnum.DELETE" class="py-6">
       <p
         class="text-center text-gray-800 dark:text-white"
       >Êtes vous sur de supprimer cet utilisateur ?</p>

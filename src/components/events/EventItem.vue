@@ -49,7 +49,8 @@
       >Supprimer</BLink>
       <BLink
         :variant="extraButtonStyle"
-        class="EventActionButton"
+        :disabled="true"
+        class="cursor-not-allowed EventActionButton"
         @click="emit('downloadAll')"
       >Tout télécharger</BLink>
     </template>
