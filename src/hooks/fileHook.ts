@@ -10,16 +10,15 @@ export function fileHook() {
   const api = new APi(getCurrent?.token!)
 
   async function postOne(fileForm: FormData, id?: number) {
-    IncLoading()
     try {
       const res = await api.post(`file/${id}`, fileForm)
       fileStore.createOne(res as FileType)
       setUISucessToast("File uploaded successfully")
+      return res
     } catch (error) {
       console.error(error)
       setUIErrorToast()
     }
-    DecLoading()
   }
 
   function filteringFilesNotInStore(files: FileType[]) {

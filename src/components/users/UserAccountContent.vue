@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import { fileHook } from '@/hooks';
-import { useFileStore, useUserStore } from '@/store';
+import { useFileStore, useUiStore, useUserStore } from '@/store';
 import { FileTypeEnum, ModalModeEnum } from '@/store/typesExported'
 
 interface State {
@@ -55,6 +55,7 @@ const state = reactive<State>({
 })
 
 const { getCurrentUserId } = useUserStore()
+const { IncLoading, DecLoading } = useUiStore()
 const { postOne } = fileHook()
 const { getAllArray } = storeToRefs(useFileStore())
 
@@ -84,7 +85,9 @@ function uploadFile(fileUploaded: File) {
 
 async function submitFile() {
   if (state.file) {
+    IncLoading()
     await postOne(state.file)
+    DecLoading()
   }
 }
 

@@ -5,6 +5,13 @@ export enum BugReportTypeEnum {
   FEATURE_REQUEST = 'feature_request',
 }
 
+export enum BugReportTypeTranslation {
+  bug = 'problème/bug',
+  feature_request = 'demande de fonctionnalité',
+}
+
+export const BUGS_REPORTS_TYPE_ARRAY = Object.values(BugReportTypeEnum)
+
 export enum BugReportStatus {
   OPEN = 'open',
   IN_PROGRESS = 'in_progress',
@@ -30,3 +37,5 @@ export interface BugReportType extends BaseEntity {
   file: number
   createdByUser: number
 }
+
+export type BugReportCreationFormType = Omit<BugReportType, 'id' | 'createdAt' | 'updatedAt' | 'file' | 'createdByUser'>

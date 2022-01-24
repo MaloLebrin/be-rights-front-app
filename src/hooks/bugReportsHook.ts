@@ -1,6 +1,6 @@
 import API, { PaginatedResponse } from "@/helpers/api"
 import { useBugStore, useUiStore, useUserStore } from "@/store"
-import { BugReportType } from "@/store/typesExported"
+import { BugReportType, BugReportTypeEnum, BugReportTypeTranslation } from "@/store/typesExported"
 
 export function bugReportsHook() {
   const bugStore = useBugStore()
@@ -28,7 +28,25 @@ export function bugReportsHook() {
     DecLoading()
   }
 
+  function getBugReportTypeTranslation(type: BugReportTypeEnum) {
+    return BugReportTypeTranslation[type]
+  }
+
+  async function postOne(bugReport: Partial<BugReportType>) {
+    try {
+      const res = await api.post('bugreport', { bugReport })
+      const data = res as BugReportType
+      bugStore.createOne(data)
+      return data
+    } catch (error) {
+      console.error(error)
+      setUIErrorToast()
+    }
+  }
+
   return {
     fetchAll,
+    getBugReportTypeTranslation,
+    postOne,
   }
 }

@@ -74,6 +74,11 @@
   resolved "https://registry.yarnpkg.com/@emmetio/scanner/-/scanner-1.0.0.tgz#065b2af6233fe7474d44823e3deb89724af42b5f"
   integrity sha512-8HqW8EVqjnCmWXVpqAOZf+EGESdkR27odcMMMGefgKXtar00SoYNSryGv//TELI4T3QFsECo78p+0lmalk/CFA==
 
+"@headlessui/vue@^1.4.3":
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/@headlessui/vue/-/vue-1.4.3.tgz#685898891cde4d8a38a01945d4d84855d5fe7224"
+  integrity sha512-cDAd3aP7jH5bO2WO4eSkyQQg0k6Zw8gobl+zL8LGApqix28EtlxultyKH/mVKnbo8Kiq6IDRzwP1HfKOf1QZbQ==
+
 "@heroicons/vue@^1.0.4":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@heroicons/vue/-/vue-1.0.4.tgz#dcfd957a9abc827321054e643f6fb73629b3eef6"
@@ -505,10 +510,10 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
-be-right-vue3-lib@^0.1.40:
-  version "0.1.40"
-  resolved "https://registry.yarnpkg.com/be-right-vue3-lib/-/be-right-vue3-lib-0.1.40.tgz#34dbc31553e1b6fbf1034f79a33adc5f12f52261"
-  integrity sha512-Y42l8usI/wWCMSmuKls1Fc2E28O9fYBz1gXV6SlDCzDxm4TODXDFhfX6sc03pCqsH+x2QIlfkHG6oJLnQLF8ZA==
+be-right-vue3-lib@^0.1.41:
+  version "0.1.41"
+  resolved "https://registry.yarnpkg.com/be-right-vue3-lib/-/be-right-vue3-lib-0.1.41.tgz#65f2f76967d7261330f620d86328c3bdb809c794"
+  integrity sha512-w+sU61zaddTPT8b7VSV5wgwBoYludxCa1EeBnR2lX1Wr5uZYuitnX2D1/syvwo2tmgtw7BOXDLk4KYrdZRzl6g==
   dependencies:
     autoprefixer "^9.8.8"
     core-js "^3.6.5"
