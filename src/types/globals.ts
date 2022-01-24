@@ -1,4 +1,5 @@
 export enum EntitiesEnum {
+  BUGS_REPORTS = 'bugs_reports',
   USERS = 'users',
   EVENTS = 'events',
   EMPLOYEES = 'employees',

@@ -30,6 +30,16 @@
         <router-link to="/adminDashboard/files" class="dark:text-white">Fichiers</router-link>
       </div>
 
+      <div class="flex items-center w-full mb-5 cursor-pointer">
+        <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
+          <ExclamationCircleIconOutline class="h-6 text-white" />
+        </div>
+        <router-link
+          to="/adminDashboard/bugReports/BugsReports"
+          class="dark:text-white"
+        >Bugs et Problèmes</router-link>
+      </div>
+
       <div class="flex items-center w-full mb-5 cursor-pointer" @click="toggleEventFormModal">
         <div class="p-1 mr-3 rounded-lg bg-purple-light hover:bg-purple">
           <PlusIconOutline class="h-6 text-white" />
