@@ -155,6 +155,7 @@ async function submit() {
     await patchOne(payload)
   }
   DecLoading()
+  state.file = null
   resetUiModalState()
 }
 </script>

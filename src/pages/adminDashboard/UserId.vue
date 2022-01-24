@@ -41,13 +41,14 @@
 
 <script setup lang="ts">
 import { fileHook } from '@/hooks'
-import { useFileStore, useUserStore } from '@/store'
+import { useFileStore, useUiStore, useUserStore } from '@/store'
 import { FileTypeEnum } from '@/store/typesExported'
 import { onBeforeRouteLeave } from 'vue-router'
 
 const userStore = useUserStore()
 const { resetActive } = userStore
 const fileStore = useFileStore()
+const { DecLoading, IncLoading } = useUiStore()
 const { fetchAll, postOne } = fileHook()
 
 interface State {
@@ -86,7 +87,10 @@ function uploadFile(fileUploaded: File) {
 
 async function submitFile() {
   if (state.file && !userLogo.value) {
+    IncLoading()
     await postOne(state.file)
+    DecLoading()
+    state.file = null
   }
 }
 
