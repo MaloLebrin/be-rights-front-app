@@ -8,6 +8,7 @@ export const useBugStore = defineStore(EntitiesEnum.BUGS_REPORTS, {
   }),
   getters: {
     ...createGetters<BugReportType>(bugState),
+    getCreationForm: (state) => state.creationForm,
   },
   actions: {
     // actions common to all entities
