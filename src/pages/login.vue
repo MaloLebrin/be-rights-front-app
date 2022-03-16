@@ -1,9 +1,9 @@
 <template>
   <transition name="fade">
     <div
-      class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 mt-32 px-8 py-8 min-h-screen"
+      class="container grid min-h-screen grid-cols-1 gap-12 px-8 py-8 mx-auto mt-32 md:grid-cols-2"
     >
-      <div class="flex flex-col space-y-12 space-x-12 max-w-1/2">
+      <div class="flex flex-col space-x-12 space-y-12 max-w-1/2">
         <div class="mb-26">
           <h1 class="text-black dark:text-white">Connectez vous sur</h1>
           <SimpleLogo />
@@ -23,7 +23,7 @@
         >
           <BInput type="password" class="text-black" v-model="password" />
         </BField>
-        <div class="flex flex-col justify-center items-center space-y-6">
+        <div class="flex flex-col items-center justify-center space-y-6">
           <BButton
             :disabled="!meta.valid || !meta.dirty"
             :class="{ 'cursor-not-allowed opacity-70': !meta.valid || !meta.dirty }"
@@ -37,7 +37,7 @@
       </div>
 
       <img
-        class="shadow-2xl TranslateUpAnimation cursor-none hidden md:block max-w-5xl object-cover w-2/3"
+        class="hidden object-cover w-2/3 max-w-5xl shadow-2xl TranslateUpAnimation cursor-none md:block"
         src="@/assets/camera.jpg"
         alt="camera picture"
       />
@@ -51,6 +51,7 @@ import { useMainStore, useUiStore } from '@/store'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 
+//TODO Auto import hooks and store take invisu as exemple
 const { login } = userHook()
 const mainStore = useMainStore()
 const uiStore = useUiStore()

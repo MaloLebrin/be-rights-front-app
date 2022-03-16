@@ -13,8 +13,8 @@ export enum EntitiesEnum {
 
 export type BaseEntity = {
   id: number
-  createdAt: Date
-  updatedAt: Date
+  readonly createdAt: Date
+  readonly updatedAt: Date
 }
 
 export enum ThemeEnum {

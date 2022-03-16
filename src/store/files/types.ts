@@ -21,6 +21,8 @@ export interface FileType extends BaseEntity {
   createdByUser: number
 }
 
+export type FileFormType = Omit<FileType, "id" | "createdAt" | "updatedAt">
+
 export enum FileTypeEnum {
   MODEL = 'MODEL',
   IMAGE_RIGHT = 'IMAGE_RIGHT',
