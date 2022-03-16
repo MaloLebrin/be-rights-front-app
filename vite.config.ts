@@ -36,15 +36,16 @@ export default defineConfig({
               ['default', name],
             ],
           }), {}),
-          // ...Object.keys(storePaths).reduce((acc, name) => {
-          //   const hookName = `use${name[0].toUpperCase()}${name.substring(1)}`
-          // return {
-          //   ...acc,
-          //   [storePaths[name].replace('./src/', '@/')]: [
-          //     [hookName, hookName],
-          //   ],
-          // }
-          // }, {}),
+          ...Object.keys(storePaths).reduce((acc, name) => {
+            const hookName = name
+            console.log(hookName, 'hookName')
+            return {
+              ...acc,
+              [storePaths[name].replace('./src/', '@/')]: [
+                [hookName, hookName],
+              ],
+            }
+          }, {}),
         },
       ],
     }),

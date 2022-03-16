@@ -1,5 +1,5 @@
 import { BaseEntity } from "@/types/globals"
-import { UserType } from "@/store/users/types";
+import { UserType } from "@/store/user/types";
 import { State } from "@/store/utils/types"
 import { AnswerType, FileType } from "../../types/typesExported";
 

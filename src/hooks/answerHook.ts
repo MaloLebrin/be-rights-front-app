@@ -1,6 +1,6 @@
 import API from "@/helpers/api"
 import { useUiStore, useUserStore } from "@/store"
-import { useAnswerStore } from "@/store/answers/answerStore"
+import { useAnswerStore } from "@/store/answer/answerStore"
 import { AnswerType } from "@/types/typesExported"
 
 export default function answerHook() {
