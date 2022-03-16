@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { PropType } from 'vue'
-import { EventType } from '@/store/typesExported'
+import { EventType } from '@/types/typesExported'
 
 defineProps({
 	event: Object as PropType<EventType>

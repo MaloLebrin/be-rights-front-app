@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import { DateFormatEnum } from '@/types/Date'
 import { PropType } from 'vue'
-import { EmployeeType } from '@/store/typesExported'
+import { EmployeeType } from '@/types/typesExported'
 
 const props = defineProps({
   employee: Object as PropType<EmployeeType>

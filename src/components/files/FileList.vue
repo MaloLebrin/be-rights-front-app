@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { FileType, ModalModeEnum, ModalNameEnum, FileFormatEnum } from '@/store/typesExported'
+import { FileType, ModalModeEnum, ModalNameEnum, FileFormatEnum } from '@/types/typesExported'
 import { LoaderTypeEnum } from '@/types/globals'
 import { useMainStore, useUiStore, useUserStore } from '@/store'
 

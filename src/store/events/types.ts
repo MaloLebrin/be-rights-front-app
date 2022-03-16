@@ -1,6 +1,6 @@
 import { BaseEntity } from "@/types/globals"
 import { State } from "@/store/utils/types"
-import { FileType, UserType } from "../typesExported"
+import { FileType, UserType } from "../../types/typesExported"
 
 export interface EventType extends BaseEntity {
   name: string

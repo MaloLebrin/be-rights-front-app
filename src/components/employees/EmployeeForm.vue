@@ -72,7 +72,7 @@
 </template>
 
 <script setup lang="ts">
-import { EmployeeType, ModalModeEnum } from '@/store/typesExported'
+import { EmployeeType, ModalModeEnum } from '@/types/typesExported'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { useUserStore, useEventStore, useEmployeeStore, useUiStore } from '@/store'

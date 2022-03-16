@@ -13,7 +13,8 @@ const STORE_PATH = './src/store'
 const HOOKS_PATH = './src/hooks'
 
 const hookPaths = getDirectoryAuthImportPaths(HOOKS_PATH)
-
+const storePaths = getDirectoryAuthImportPaths(STORE_PATH)
+console.log(storePaths, 'storePaths')
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -35,6 +36,15 @@ export default defineConfig({
               ['default', name],
             ],
           }), {}),
+          // ...Object.keys(storePaths).reduce((acc, name) => {
+          //   const hookName = `use${name[0].toUpperCase()}${name.substring(1)}`
+          // return {
+          //   ...acc,
+          //   [storePaths[name].replace('./src/', '@/')]: [
+          //     [hookName, hookName],
+          //   ],
+          // }
+          // }, {}),
         },
       ],
     }),

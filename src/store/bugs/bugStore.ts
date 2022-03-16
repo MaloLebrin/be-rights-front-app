@@ -1,4 +1,4 @@
-import { BugReportType, EntitiesEnum, BugReportTypeEnum, BugReportCreationFormType } from "../typesExported"
+import { BugReportType, EntitiesEnum, BugReportTypeEnum, BugReportCreationFormType } from "../../types/typesExported"
 import createGetters from "../utils/createGetters"
 import { bugState, baseCreationForm } from "./state"
 

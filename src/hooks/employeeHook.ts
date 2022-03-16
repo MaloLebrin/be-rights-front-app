@@ -1,6 +1,6 @@
 import API, { PaginatedResponse } from "@/helpers/api"
 import { useEmployeeStore, useUiStore, useUserStore, useAnswerStore, useFileStore } from "@/store"
-import { FileType, EmployeeType, AnswerType } from "@/store/typesExported"
+import { FileType, EmployeeType, AnswerType } from "@/types/typesExported"
 
 export default function employeeHook() {
   const employeeStore = useEmployeeStore()

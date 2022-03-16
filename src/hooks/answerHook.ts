@@ -1,7 +1,7 @@
 import API from "@/helpers/api"
 import { useUiStore, useUserStore } from "@/store"
 import { useAnswerStore } from "@/store/answers/answerStore"
-import { AnswerType } from "@/store/typesExported"
+import { AnswerType } from "@/types/typesExported"
 
 export default function answerHook() {
   const { getCurrentUserToken } = useUserStore()

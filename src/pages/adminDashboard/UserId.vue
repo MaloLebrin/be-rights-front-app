@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import { useFileStore, useUiStore, useUserStore } from '@/store'
-import { FileTypeEnum } from '@/store/typesExported'
+import { FileTypeEnum } from '@/types/typesExported'
 import { onBeforeRouteLeave } from 'vue-router'
 
 const userStore = useUserStore()

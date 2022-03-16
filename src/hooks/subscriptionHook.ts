@@ -1,4 +1,4 @@
-import { SubscriptionEnum, SubscriptionTranslationEnum } from "@/store/typesExported"
+import { SubscriptionEnum, SubscriptionTranslationEnum } from "@/types/typesExported"
 
 export default function subscriptionHook() {
 

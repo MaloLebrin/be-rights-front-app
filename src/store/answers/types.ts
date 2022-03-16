@@ -1,6 +1,6 @@
 import { BaseEntity } from "@/types/globals"
 import { State } from "@/store/utils/types"
-import { EmployeeType, EventType } from "../typesExported"
+import { EmployeeType, EventType } from "../../types/typesExported"
 
 export interface AnswerType extends BaseEntity {
   hasSigned: boolean

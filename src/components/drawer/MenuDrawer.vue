@@ -81,7 +81,7 @@
 <script setup lang="ts">
 import { useUserStore, useUiStore } from '@/store/index'
 import { useCookie } from 'vue-cookie-next'
-import { ModalModeEnum, ModalNameEnum } from '@/store/typesExported'
+import { ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
 
 interface Props {
   isActive?: boolean

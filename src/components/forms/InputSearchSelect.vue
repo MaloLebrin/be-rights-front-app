@@ -1,46 +1,46 @@
 <template>
-	<div :id="`InputSearchSelect${baseUrl}`">
-		<div v-if="state.selectedItems.length > 0" class="grid grid-cols-5 gap-4 mb-4">
-			<Tag
-				v-for="item in state.selectedItems"
-				:key="item.id"
-				:variant="TagVariantsEnum.PROMOTION"
-				@close="removeItem(item.id)"
-			>{{ item.firstName }} {{ item.lastName }}</Tag>
-		</div>
-		<div class="relative">
-			<BInput
-				class="text-white dark:text-blue-dark"
-				type="text"
-				id="search"
-				v-model="state.search"
-				@keyup="searchEntity($event)"
-			/>
-			<ProcessingIcon v-if="state.isLoading" />
-			<SearchIconOutline v-else class="text-blue absolute top-4 right-3 h-5 w-5" />
-		</div>
-		<div
-			v-if="state.data.length > 0"
-			class="relative bg-white w-full border border-gray-400 dark:border-indigo-100 text-gray-700 shadow-inner cursor-pointer overflow-y-auto max-h-48"
-			:tabindex="0"
-		>
-			<div
-				v-for="item in state.data"
-				:key="item.id"
-				class="hover:bg-gray-600 hover:text-white py-3 px-4 flex items-center justify-between"
-				@click="onOptionClick(item)"
-			>
-				<span>{{ item.firstName }} {{ item.lastName }}</span>
-				<CheckIconOutline v-if="state.selectedItems.includes(item)" class="text-green w-6 h-6" />
-			</div>
-		</div>
-	</div>
+  <div :id="`InputSearchSelect${baseUrl}`">
+    <div v-if="state.selectedItems.length > 0" class="grid grid-cols-5 gap-4 mb-4">
+      <Tag
+        v-for="item in state.selectedItems"
+        :key="item.id"
+        :variant="TagVariantsEnum.PROMOTION"
+        @close="removeItem(item.id)"
+      >{{ item.firstName }} {{ item.lastName }}</Tag>
+    </div>
+    <div class="relative">
+      <BInput
+        class="text-white dark:text-blue-dark"
+        type="text"
+        id="search"
+        v-model="state.search"
+        @keyup="searchEntity($event)"
+      />
+      <ProcessingIcon v-if="state.isLoading" />
+      <SearchIconOutline v-else class="text-blue absolute top-4 right-3 h-5 w-5" />
+    </div>
+    <div
+      v-if="state.data.length > 0"
+      class="relative bg-white w-full border border-gray-400 dark:border-indigo-100 text-gray-700 shadow-inner cursor-pointer overflow-y-auto max-h-48"
+      :tabindex="0"
+    >
+      <div
+        v-for="item in state.data"
+        :key="item.id"
+        class="hover:bg-gray-600 hover:text-white py-3 px-4 flex items-center justify-between"
+        @click="onOptionClick(item)"
+      >
+        <span>{{ item.firstName }} {{ item.lastName }}</span>
+        <CheckIconOutline v-if="state.selectedItems.includes(item)" class="text-green w-6 h-6" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import APi, { PaginatedResponse } from "@/helpers/api"
 import { useUserStore } from '@/store'
-import { EmployeeType } from "@/store/typesExported"
+import { EmployeeType } from "@/types/typesExported"
 import { TagVariantsEnum } from '@/types'
 
 interface Props {

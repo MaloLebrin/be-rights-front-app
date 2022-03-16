@@ -3,7 +3,7 @@ import { useCookie } from 'vue-cookie-next'
 import router from '@/router'
 import APi, { PaginatedResponse } from '@/helpers/api'
 import { RoleEnum, ThemeEnum } from '@/types'
-import { EmployeeType, EventType, FileType, UserType } from '@/store/typesExported'
+import { EmployeeType, EventType, FileType, UserType } from '@/types/typesExported'
 import { useEventStore, useFileStore, useMainStore, useUiStore, useUserStore } from "@/store"
 
 export default function userHook() {

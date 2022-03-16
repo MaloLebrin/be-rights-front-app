@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { FileType } from '@/store/typesExported'
+import { FileType } from '@/types/typesExported'
 
 interface Props {
   message?: string

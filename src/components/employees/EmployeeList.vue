@@ -43,7 +43,7 @@
 
 <script setup lang="ts">
 import { useMainStore, useUiStore, useUserStore } from '@/store'
-import { EmployeeType, ModalModeEnum, ModalNameEnum } from '@/store/typesExported'
+import { EmployeeType, ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
 import { LoaderTypeEnum } from '@/types/globals'
 
 interface Props {

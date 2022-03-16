@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { ModalModeEnum } from '@/store/typesExported'
+import { ModalModeEnum } from '@/types/typesExported'
 import { useMainStore, useUiStore } from '@/store'
 
 interface Props {

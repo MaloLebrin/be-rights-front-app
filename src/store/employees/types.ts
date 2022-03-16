@@ -1,7 +1,7 @@
 import { BaseEntity } from "@/types/globals"
 import { UserType } from "@/store/users/types";
 import { State } from "@/store/utils/types"
-import { AnswerType, FileType } from "../typesExported";
+import { AnswerType, FileType } from "../../types/typesExported";
 
 export interface EmployeeType extends BaseEntity {
   email: string

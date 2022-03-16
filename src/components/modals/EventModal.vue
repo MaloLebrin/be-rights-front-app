@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import { useUiStore } from '@/store'
-import { ModalModeEnum } from '@/store/typesExported'
+import { ModalModeEnum } from '@/types/typesExported'
 
 interface Props {
   isActive: boolean

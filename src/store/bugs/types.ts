@@ -1,4 +1,4 @@
-import { BaseEntity } from "../typesExported"
+import { BaseEntity } from "../../types/typesExported"
 
 export enum BugReportTypeEnum {
   BUG = 'bug',

@@ -1,6 +1,6 @@
 import { BaseEntity } from "@/types/globals";
 import { RoleEnum } from "@/types/Roles";
-import { EmployeeType, EventType, FileType, SubscriptionEnum } from "../typesExported";
+import { EmployeeType, EventType, FileType, SubscriptionEnum } from "../../types/typesExported";
 
 export type UserState = {
   users: UserType[]

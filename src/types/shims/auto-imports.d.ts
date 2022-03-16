@@ -74,4 +74,4 @@ declare global {
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
 }
-export { }
+export {}

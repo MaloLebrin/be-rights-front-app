@@ -78,7 +78,7 @@
 
 <script setup lang="ts">
 import { useUiStore, useUserStore } from '@/store'
-import { FileType, FileTypeEnum, ModalModeEnum, fileTypeArray } from '@/store/typesExported'
+import { FileType, FileTypeEnum, ModalModeEnum, fileTypeArray } from '@/types/typesExported'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 
