@@ -14,7 +14,6 @@
 
 <script setup lang="ts">
 import { useMainStore } from '@/store/index'
-import { mainHook, userHook } from '@/hooks'
 import { ThemeEnum } from '@/types'
 
 const main = useMainStore()

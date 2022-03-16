@@ -16,7 +16,11 @@
         "./src/*"
       ],
     },
-    "types": ["vite-plugin-vue-layouts/client", "vite/client"]
+    "types": [
+      "vite-plugin-vue-layouts/client",
+      "vite/client",
+      "node"
+    ]
   },
   "include": [
     "src/**/*.ts",

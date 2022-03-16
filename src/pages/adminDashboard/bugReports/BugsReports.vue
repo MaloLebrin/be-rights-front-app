@@ -21,7 +21,6 @@
 </template>
 
 <script setup lang="ts">
-import { bugReportsHook } from '@/hooks';
 import { useBugStore, useTablestore, useUiStore } from '@/store'
 
 const tableStore = useTablestore()

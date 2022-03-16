@@ -76,7 +76,6 @@ import { EmployeeType, ModalModeEnum } from '@/store/typesExported'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { useUserStore, useEventStore, useEmployeeStore, useUiStore } from '@/store'
-import { employeeHook } from '@/hooks'
 
 interface Props {
   employee?: EmployeeType,

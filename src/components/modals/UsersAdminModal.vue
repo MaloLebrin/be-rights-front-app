@@ -21,7 +21,6 @@
 <script setup lang="ts">
 import { ModalModeEnum } from '@/store/typesExported'
 import { useMainStore, useUiStore } from '@/store'
-import { userHook } from '@/hooks'
 
 interface Props {
   mode?: ModalModeEnum

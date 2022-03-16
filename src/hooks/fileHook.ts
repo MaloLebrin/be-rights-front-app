@@ -2,7 +2,7 @@ import APi, { PaginatedResponse } from "@/helpers/api"
 import { useFileStore, useUiStore, useUserStore } from "@/store"
 import { FileType, FileTypeEnum } from "@/store/typesExported"
 
-export function fileHook() {
+export default function fileHook() {
   const { getCurrent } = useUserStore()
   const { getAllIds: getAllFilesIds } = useFileStore()
   const fileStore = useFileStore()

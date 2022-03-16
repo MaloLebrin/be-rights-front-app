@@ -62,7 +62,6 @@
 <script setup lang="ts">
 import { LoaderTypeEnum } from '@/types/globals'
 import { useEventStore, useMainStore, useUiStore, useUserStore } from '@/store'
-import { dateHook } from '@/hooks'
 import { ModalNameEnum, ModalModeEnum, SubscriptionEnum, UserType } from '@/store/typesExported'
 
 interface Props {

@@ -40,7 +40,6 @@
 </template>
 
 <script setup lang="ts">
-import { fileHook } from '@/hooks'
 import { useFileStore, useUiStore, useUserStore } from '@/store'
 import { FileTypeEnum } from '@/store/typesExported'
 import { onBeforeRouteLeave } from 'vue-router'

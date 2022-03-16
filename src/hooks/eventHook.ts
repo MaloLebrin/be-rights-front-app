@@ -167,3 +167,5 @@ export function eventHook() {
     postOne,
   }
 }
+
+export default eventHook

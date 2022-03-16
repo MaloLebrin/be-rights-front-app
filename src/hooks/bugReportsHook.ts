@@ -2,7 +2,7 @@ import API, { PaginatedResponse } from "@/helpers/api"
 import { useBugStore, useUiStore, useUserStore } from "@/store"
 import { BugReportType, BugReportTypeEnum, BugReportTypeTranslation } from "@/store/typesExported"
 
-export function bugReportsHook() {
+export default function bugReportsHook() {
   const bugStore = useBugStore()
   const userStore = useUserStore()
   const { setUIErrorToast, IncLoading, DecLoading } = useUiStore()

@@ -54,7 +54,6 @@
 <script setup lang="ts">
 import { FileType, ModalModeEnum, ModalNameEnum, FileFormatEnum } from '@/store/typesExported'
 import { LoaderTypeEnum } from '@/types/globals'
-import { dateHook, fileHook } from '@/hooks'
 import { useMainStore, useUiStore, useUserStore } from '@/store'
 
 interface Props {

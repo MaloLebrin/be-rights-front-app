@@ -21,7 +21,6 @@
 
 <script setup lang="ts">
 import { useTablestore, useUiStore, useUserStore } from '@/store'
-import { userHook } from '@/hooks'
 
 const { fetchAll } = userHook()
 

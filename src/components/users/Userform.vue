@@ -145,7 +145,6 @@ import { RoleEnum, userRolesArray, LoaderTypeEnum } from '@/types'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { subscriptionArray, SubscriptionEnum, UserType } from '@/store/typesExported'
-import { employeeHook, eventHook, userHook } from '@/hooks'
 
 interface Props {
   id: number

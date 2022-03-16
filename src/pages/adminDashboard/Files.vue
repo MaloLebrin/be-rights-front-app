@@ -12,7 +12,6 @@
 </template>
 
 <script setup lang="ts">
-import { fileHook } from '@/hooks'
 import { useFileStore, useUiStore } from '@/store'
 
 const uiStore = useUiStore()

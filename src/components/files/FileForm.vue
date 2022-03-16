@@ -77,7 +77,6 @@
 </template>
 
 <script setup lang="ts">
-import { fileHook } from '@/hooks'
 import { useUiStore, useUserStore } from '@/store'
 import { FileType, FileTypeEnum, ModalModeEnum, fileTypeArray } from '@/store/typesExported'
 import { useField, useForm } from 'vee-validate'

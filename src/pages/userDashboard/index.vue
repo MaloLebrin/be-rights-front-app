@@ -42,7 +42,6 @@
 <script setup lang="ts">
 import { useEventStore, useTablestore, useUiStore, useUserStore } from '@/store/index'
 import { EventStatusEnum } from '@/store/typesExported'
-import { eventHook } from '@/hooks'
 
 const { getEventsByUserId } = useEventStore()
 const { IncLoading, DecLoading } = useUiStore()
@@ -51,7 +50,10 @@ const { setSearch, setFilters } = useTablestore()
 
 const { fetchEventsByUser } = eventHook()
 
-const state = reactive({
+const state = reactive<{
+  search: string
+  timeout: number
+}>({
   search: '',
   timeout: 0,
 })

@@ -1,12 +1,12 @@
 import { SubscriptionEnum, SubscriptionTranslationEnum } from "@/store/typesExported"
 
-export function subscriptionHook() {
+export default function subscriptionHook() {
 
-	function getSuscriptionTranslation(type: SubscriptionEnum) {
-		return SubscriptionTranslationEnum[type]
-	}
+  function getSuscriptionTranslation(type: SubscriptionEnum) {
+    return SubscriptionTranslationEnum[type]
+  }
 
-	return {
-		getSuscriptionTranslation,
-	}
+  return {
+    getSuscriptionTranslation,
+  }
 }

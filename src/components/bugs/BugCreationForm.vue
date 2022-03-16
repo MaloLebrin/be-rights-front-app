@@ -120,7 +120,6 @@
 <script setup lang="ts">
 import router from '@/router'
 import { BUGS_REPORTS_TYPE_ARRAY, BugReportTypeEnum, BugReportStatus, FileTypeEnum } from '@/store/typesExported'
-import { bugReportsHook, fileHook } from '@/hooks'
 import { useBugStore, useUiStore, useUserStore } from '@/store'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'

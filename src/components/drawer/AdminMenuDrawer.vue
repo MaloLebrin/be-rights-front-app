@@ -82,7 +82,6 @@
 <script setup lang="ts">
 import { useUserStore, useUiStore } from '@/store/index'
 import { useCookie } from 'vue-cookie-next'
-import { authHook } from '@/hooks'
 import { ModalModeEnum, ModalNameEnum } from '@/store/typesExported'
 
 interface Props {

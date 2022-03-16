@@ -7,6 +7,12 @@ import { HeadlessUiResolver } from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 import path from 'path'
 import { BeRightUiResolver } from './src/utils/resolver/BeRightComponentLibrary'
+import { getDirectoryAuthImportPaths } from './src/utils/resolver/autoImportUtils'
+
+const STORE_PATH = './src/store'
+const HOOKS_PATH = './src/hooks'
+
+const hookPaths = getDirectoryAuthImportPaths(HOOKS_PATH)
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -22,14 +28,14 @@ export default defineConfig({
         'vue',
         'vue-router',
         'pinia',
-        // {
-        //   ...Object.keys(composablePaths).reduce((acc, name) => ({
-        //     ...acc,
-        //     [composablePaths[name]]: [
-        //       ['default', name],
-        //     ],
-        //   }), {}),
-        // },
+        {
+          ...Object.keys(hookPaths).reduce((acc, name) => ({
+            ...acc,
+            [hookPaths[name].replace('./src/', '@/')]: [
+              ['default', name],
+            ],
+          }), {}),
+        },
       ],
     }),
     vue(),
