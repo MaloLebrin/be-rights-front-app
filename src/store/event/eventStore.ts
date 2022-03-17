@@ -65,3 +65,4 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
   },
 })
 
+export default useEventStore

@@ -20,13 +20,12 @@
 </template>
 
 <script setup lang="ts">
-import { useTablestore, useUiStore, useUserStore } from '@/store'
 
 const { fetchAll } = userHook()
 
 const uiStore = useUiStore()
 const { IncLoading, DecLoading } = uiStore
-const tableStore = useTablestore()
+const tableStore = useTableStore()
 const { setSearch } = tableStore
 const userStore = useUserStore()
 const users = computed(() => userStore.getAllArray)

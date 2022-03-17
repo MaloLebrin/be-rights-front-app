@@ -111,11 +111,11 @@
 </template>
 
 <script setup lang="ts">
-import { useEventStore, useMainStore, useUiStore, useUserStore } from '@/store'
 import { EmployeeType, EventType, ModalModeEnum } from '@/types/typesExported'
 import { Period } from '@/types'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
+//TODO yup doest not import like this
 
 interface Props {
   eventId?: number

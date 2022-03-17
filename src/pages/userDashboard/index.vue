@@ -40,13 +40,12 @@
 </template>
 
 <script setup lang="ts">
-import { useEventStore, useTablestore, useUiStore, useUserStore } from '@/store/index'
 import { EventStatusEnum } from '@/types/typesExported'
 
 const { getEventsByUserId } = useEventStore()
 const { IncLoading, DecLoading } = useUiStore()
 const userStore = useUserStore()
-const { setSearch, setFilters } = useTablestore()
+const { setSearch, setFilters } = useTableStore()
 
 const { fetchEventsByUser } = eventHook()
 

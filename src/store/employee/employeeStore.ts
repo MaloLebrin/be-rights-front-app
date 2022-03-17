@@ -68,3 +68,5 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
     },
   },
 })
+
+export default useEmployeeStore

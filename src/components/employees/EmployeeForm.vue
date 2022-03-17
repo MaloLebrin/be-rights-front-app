@@ -74,8 +74,7 @@
 <script setup lang="ts">
 import { EmployeeType, ModalModeEnum } from '@/types/typesExported'
 import { useField, useForm } from 'vee-validate'
-import * as yup from 'yup'
-import { useUserStore, useEventStore, useEmployeeStore, useUiStore } from '@/store'
+import { object, string, number } from 'yup'
 
 interface Props {
   employee?: EmployeeType,
@@ -97,12 +96,12 @@ const eventStore = useEventStore()
 const { IncLoading, DecLoading } = useUiStore()
 const { patchOne, postOne, postManyForEvent } = employeeHook()
 
-const schema = yup.object({
-  email: yup.string().email().required().label('Adresse email'),
-  firstName: yup.string().required().label('Prénom'),
-  lastName: yup.string().required().label('Nom'),
-  phone: yup.string().required().label('Téléphone'),
-  userId: yup.number().required().label('Utilisateur'),
+const schema = object({
+  email: string().email().required().label('Adresse email'),
+  firstName: string().required().label('Prénom'),
+  lastName: string().required().label('Nom'),
+  phone: string().required().label('Téléphone'),
+  userId: number().required().label('Utilisateur'),
 })
 
 const userIdField = computed(() => {

@@ -2,7 +2,7 @@ import { ThemeEnum } from "@/types"
 import { defineStore } from "pinia"
 import { useAnswerStore } from "@/store/answer/answerStore"
 
-export const useMainStore = defineStore('main', {
+const useMainStore = defineStore('main', {
   state: () => ({
     isLoggedIn: false,
     theme: ThemeEnum.LIGHT,
@@ -35,3 +35,5 @@ export const useMainStore = defineStore('main', {
     },
   },
 })
+
+export default useMainStore

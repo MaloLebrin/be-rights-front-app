@@ -60,3 +60,5 @@ export const useFileStore = defineStore(EntitiesEnum.FILES, {
     ...createGetters<FileType>(fileState),
   }
 })
+
+export default useFileStore

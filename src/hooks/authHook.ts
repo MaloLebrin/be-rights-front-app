@@ -2,7 +2,6 @@ import axiosInstance from "@/axios.config"
 import API from "@/helpers/api"
 import { useCookie } from 'vue-cookie-next'
 import router from '@/router'
-import { useMainStore, useUiStore, useUserStore } from "@/store"
 
 export default function authHook() {
   const userStore = useUserStore()

@@ -1,7 +1,6 @@
 import axiosInstance from "@/axios.config"
-import { useUiStore } from "@/store"
 
-export default function newsleterHook() {
+export default function newsletterHook() {
   const { IncLoading, DecLoading, setUISucessToast, setUIErrorToast } = useUiStore()
 
   async function newsletterSignup({

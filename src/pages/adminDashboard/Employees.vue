@@ -21,11 +21,10 @@
 
 
 <script setup lang="ts">
-import { useEmployeeStore, useUiStore, useTablestore } from '@/store'
 
 const uiStore = useUiStore()
 const { IncLoading, DecLoading } = uiStore
-const tableStore = useTablestore()
+const tableStore = useTableStore()
 const { setSearch } = tableStore
 
 const { fetchAll } = employeeHook()

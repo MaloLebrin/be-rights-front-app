@@ -4,7 +4,6 @@
   </router-view>
 </template>
 <script setup lang="ts">
-import { useMainStore, useUserStore } from './store'
 import { useCookie } from 'vue-cookie-next'
 import router from '@/router'
 

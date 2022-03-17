@@ -12,8 +12,6 @@
 </template>
 
 <script setup lang="ts">
-import { useFileStore, useUiStore } from '@/store'
-
 const uiStore = useUiStore()
 const { IncLoading, DecLoading } = uiStore
 const { fetchAll } = fileHook()

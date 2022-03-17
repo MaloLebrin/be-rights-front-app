@@ -69,3 +69,5 @@ export const useBugStore = defineStore(EntitiesEnum.BUGS_REPORTS, {
     },
   },
 })
+
+export default useBugStore

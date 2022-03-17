@@ -1,5 +1,4 @@
 import APi, { PaginatedResponse } from "@/helpers/api"
-import { useFileStore, useUiStore, useUserStore } from "@/store"
 import { FileType, FileTypeEnum } from "@/types/typesExported"
 
 export default function fileHook() {

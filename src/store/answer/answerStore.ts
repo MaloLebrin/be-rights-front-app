@@ -105,3 +105,5 @@ export const useAnswerStore = defineStore(EntitiesEnum.ANSWERS, {
     // bellow getters in this specific store
   }
 })
+
+export default useAnswerStore

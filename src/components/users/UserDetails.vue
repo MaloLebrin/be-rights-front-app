@@ -80,7 +80,6 @@
 </template>
 
 <script setup lang="ts">
-import { useEmployeeStore, useEventStore, useUserStore } from '@/store'
 import { LoaderTypeEnum } from '@/types'
 
 interface Props {

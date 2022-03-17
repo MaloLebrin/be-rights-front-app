@@ -1,7 +1,6 @@
 import { EventStatusEnum, EventType, getEventStatusTranslationEnum } from "@/store/event/types"
 import APi, { PaginatedResponse } from "@/helpers/api"
 import { EmployeeType } from "@/store/employee/types"
-import { useEventStore, useUiStore, useUserStore } from "@/store"
 
 export function eventHook() {
   const eventStore = useEventStore()

@@ -21,9 +21,8 @@
 </template>
 
 <script setup lang="ts">
-import { useBugStore, useTablestore, useUiStore } from '@/store'
 
-const tableStore = useTablestore()
+const tableStore = useTableStore()
 const { setSearch } = tableStore
 const uiStore = useUiStore()
 const { IncLoading, DecLoading } = uiStore
