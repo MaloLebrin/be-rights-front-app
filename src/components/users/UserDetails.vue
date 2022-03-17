@@ -83,11 +83,11 @@
 import { LoaderTypeEnum } from '@/types'
 
 interface Props {
-  id: number
+  id: number | null
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  id: undefined
+  id: null
 })
 const isLoading = ref(false)
 
@@ -96,30 +96,30 @@ const eventStore = useEventStore()
 const employeeStore = useEmployeeStore()
 const { getSuscriptionTranslation } = subscriptionHook()
 const { fetchAllByUserId: fetchAllEmployeeByUserId } = employeeHook()
+const { fetchEventsByUser } = eventHook()
 
-const user = computed(() => getOne(props.id))
-
+const user = computed(() => props.id ? getOne(props.id) : null)
 
 onMounted(async () => {
   isLoading.value = true
   const employeeIds = user.value?.employee as number[]
   const missingEmployeeIds = employeeIds.filter(id => !employeeStore.getOne(id))
 
-  if (missingEmployeeIds.length > 0) {
+  if (missingEmployeeIds.length > 0 && user.value) {
     await fetchAllEmployeeByUserId(user.value.id)
   }
   const eventIds = user.value?.events as number[]
   const missingEventIds = eventIds.filter(id => !eventStore.getOne(id))
 
-  if (missingEventIds.length > 0) {
-    await eventStore.fetchAllByUserId(user.value.id)
+  if (missingEventIds.length > 0 && user.value) {
+    await fetchEventsByUser(user.value.id)
   }
   isLoading.value = false
 })
 
-const eventByUserId = computed(() => eventStore.getMany(user.value.events as number[]))
+const eventByUserId = computed(() => user.value ? eventStore.getMany(user.value.events as number[]) : [])
 
-const employeeByUserId = computed(() => employeeStore.getEmployeesByUserId(user.value.id))
+const employeeByUserId = computed(() => user.value ? employeeStore.getEmployeesByUserId(user.value.id) : [])
 
 const activeTabs = ref(1)
 

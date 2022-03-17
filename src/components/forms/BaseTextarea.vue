@@ -6,9 +6,8 @@
       :aria-disabled="disabled"
       :placeholder="placeholder"
       :aria-placeholder="placeholder"
-      :value="modelValue"
+      :value="innerValue"
       :class="classes"
-      @input="$emit('update:modelValue', $event.target.value)"
     />
   </div>
 </template>
@@ -28,10 +27,19 @@ interface Props {
   disabled?: boolean
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   modelValue: '',
   placeholder: '',
   disabled: false,
+})
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', modelValue: string): void
+}>()
+
+const innerValue = computed({
+  get: () => props.modelValue,
+  set: (newValue) => emit('update:modelValue', newValue)
 })
 
 const fieldStatus = inject('fieldStatus', computed(() => InputStatusesEnum.DEFAULT))
@@ -39,7 +47,6 @@ const fieldStatus = inject('fieldStatus', computed(() => InputStatusesEnum.DEFAU
 const commonClasses = 'w-full px-4 py-3 border rounded text-black disabled:border-grey disabled:bg-grey-light focus:outline-none text-gray-800 dark:text-white'
 
 const classes = computed(() => {
-  // InputStatusesClassesMap[fieldStatus.value]
   switch (fieldStatus.value) {
     case InputStatusesEnum.WARNING:
       return `${commonClasses} border-orange hover:border-orange-dark focus:ring-2 ring-orange`

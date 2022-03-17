@@ -79,7 +79,7 @@
       :message="userIdError"
       :status="userIdMeta.valid ? 'success' : 'error'"
     >
-      <InputSearchSelect baseUrl="user" @selected="userId = $event.id" />
+      <InputSearchSelect baseUrl="user" @selected="handleUserId" />
     </BField>
     <BField
       class="col-span-2"
@@ -90,7 +90,7 @@
     >
       <InputSearchSelect
         :baseUrl="isCurrentUserAdmin ? 'employee' : `employee?filters[createdByUser]=${getCurrentUserId}`"
-        @selected="employees = $event"
+        @selected="handleEmployee"
         is-multiple
       />
     </BField>
@@ -112,18 +112,17 @@
 
 <script setup lang="ts">
 import { EmployeeType, EventType, ModalModeEnum } from '@/types/typesExported'
-import { Period } from '@/types'
+import type { Period } from '@/types'
 import { useField, useForm } from 'vee-validate'
-import * as yup from 'yup'
-//TODO yup doest not import like this
+import { object, string, date, number } from 'yup'
 
 interface Props {
-  eventId?: number
-  mode?: ModalModeEnum
+  eventId?: number | null
+  mode?: ModalModeEnum | null
 }
 const props = withDefaults(defineProps<Props>(), {
-  eventId: undefined,
-  mode: undefined,
+  eventId: null,
+  mode: null,
 })
 
 const mainStore = useMainStore()
@@ -136,19 +135,19 @@ const { getUiModalState, IncLoading, DecLoading, resetUiModalState } = uiStore
 const { postMany: postManyAnswers } = answerHook()
 const { postOne: PostOneEvent, patchOne: patchOneEvent } = eventHook()
 
-const event = computed(() => eventStore.getOne(props.eventId))
+const event = computed(() => props.eventId ? eventStore.getOne(props.eventId) : null)
 
-const schema = yup.object({
-  name: yup.string().required('le nom de l\'événement est obligatoire').label('Nom'),
-  period: yup.object().shape({
-    start: yup.date().required().label('Début'),
-    end: yup.date().required().label('Fin'),
+const schema = object({
+  name: string().required('le nom de l\'événement est obligatoire').label('Nom'),
+  period: object().shape({
+    start: date().required().label('Début'),
+    end: date().required().label('Fin'),
   }).required().label('Dates'),
-  address: yup.string().required('L\'adresse est obligatoire').label('Adresse'),
-  postalCode: yup.string().required('Le code postal est obligatoire').label('Code postal'),
-  city: yup.string().required('La ville est obligatoire').label('Ville'),
-  country: yup.string().required('Le pays est obligatoire').label('Pays'),
-  userId: yup.number().required().label('Utilisateur'),
+  address: string().required('L\'adresse est obligatoire').label('Adresse'),
+  postalCode: string().required('Le code postal est obligatoire').label('Code postal'),
+  city: string().required('La ville est obligatoire').label('Ville'),
+  country: string().required('Le pays est obligatoire').label('Pays'),
+  userId: number().required().label('Utilisateur'),
 })
 
 const { meta } = useForm({ validationSchema: schema })
@@ -171,12 +170,12 @@ const { errorMessage: cityError, value: city, meta: cityMeta } = useField<string
 const { errorMessage: countryError, value: country, meta: countryMeta } = useField<string | null>('country', undefined, {
   initialValue: event.value ? event.value.country : '',
 })
-const { errorMessage: userIdError, value: userId, meta: userIdMeta } = useField<number | null>('userId', undefined, {
-  initialValue: event.value ? event.value.createdByUser : '',
+const { errorMessage: userIdError, value: userId, meta: userIdMeta, handleChange: handleUserId } = useField<number | null>('userId', undefined, {
+  initialValue: event.value ? event.value.createdByUser as number : null,
 })
 
-const { errorMessage: employeeError, value: employees, meta: employeeMeta } = useField<EmployeeType[] | null>('employees', undefined, {
-  initialValue: event.value ? event.value.employees : '',
+const { errorMessage: employeeError, value: employees, meta: employeeMeta, handleChange: handleEmployee } = useField<EmployeeType[] | null>('employees', undefined, {
+  initialValue: event.value ? event.value.employees as unknown as EmployeeType[] : [],
 })
 
 const userCreateEvent = computed(() => {

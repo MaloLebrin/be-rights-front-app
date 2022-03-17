@@ -1,4 +1,4 @@
-import { BugReportType, EntitiesEnum, BugReportTypeEnum, BugReportCreationFormType } from "../../types/typesExported"
+import { BugReportType, EntitiesEnum, BugReportCreationFormType } from "../../types/typesExported"
 import createGetters from "../utils/createGetters"
 import { bugState, baseCreationForm } from "./state"
 
@@ -60,11 +60,10 @@ export const useBugStore = defineStore(EntitiesEnum.BUGS_REPORTS, {
     setCreationForm(payload: BugReportCreationFormType) {
       this.creationForm = payload
     },
-    setCreationFormField(field: string, value: string | BugReportTypeEnum) {
+    setCreationFormField<K extends keyof BugReportCreationFormType>(field: K, value: BugReportCreationFormType[K]) {
       this.creationForm[field] = value
     },
     resetCreationForm() {
-      console.log(baseCreationForm, 'baseCreationForm')
       this.creationForm = baseCreationForm
     },
   },

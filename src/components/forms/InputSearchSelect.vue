@@ -43,97 +43,97 @@ import { EmployeeType } from "@/types/typesExported"
 import { TagVariantsEnum } from '@/types'
 
 interface Props {
-	disabled?: boolean
-	placeholder?: string
-	baseUrl: string
-	isMultiple?: boolean
+  disabled?: boolean
+  placeholder?: string
+  baseUrl: string
+  isMultiple?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	disabled: false,
-	placeholder: undefined,
-	isMultiple: false,
-	baseUrl: '',
+  disabled: false,
+  placeholder: undefined,
+  isMultiple: false,
+  baseUrl: '',
 })
 
 const emit = defineEmits<{
-	(e: 'selected', selectedData: Record<string, any>[] | Record<string, any> | null): void
-	(e: 'close'): void
+  (e: 'selected', selectedData: Record<string, any>[] | Record<string, any> | null): void
+  (e: 'close'): void
 }>()
 
 const { entities, isCurrentUserAdmin } = useUserStore()
 
 interface State {
-	search: string
-	data: Record<string, any>[]
-	allData: Record<string, any>[]
-	selectedItems: Record<string, any>[]
-	timeout: number
-	isLoading: boolean
+  search: string
+  data: Record<string, any>[]
+  allData: Record<string, any>[]
+  selectedItems: Record<string, any>[]
+  timeout: number
+  isLoading: boolean
 }
 
 const state = reactive<State>({
-	search: '',
-	data: [],
-	allData: [],
-	timeout: 0,
-	selectedItems: [],
-	isLoading: false,
+  search: '',
+  data: [],
+  allData: [],
+  timeout: 0,
+  selectedItems: [],
+  isLoading: false,
 })
 const api = new APi(entities.current?.token!)
 
 
 onMounted(async () => {
-	if (!isCurrentUserAdmin) {
-		state.isLoading = true
-		await api.get(`${props.baseUrl}&limit=99999`).then((response: PaginatedResponse<EmployeeType>) => {
-			state.data = response.data
-			state.allData = response.data
-		})
-		state.isLoading = false
-	}
+  if (!isCurrentUserAdmin) {
+    state.isLoading = true
+    await api.get(`${props.baseUrl}&limit=99999`).then((response: PaginatedResponse<EmployeeType>) => {
+      state.data = response.data
+      state.allData = response.data
+    })
+    state.isLoading = false
+  }
 })
 
 async function searchEntity(event: Event) {
 
-	if (isCurrentUserAdmin) {
-		clearTimeout(state.timeout)
-		state.timeout = setTimeout(async () => {
-			state.isLoading = true
-			await api.get(`${props.baseUrl}?search=${state.search}&limit=99999`).then((response: PaginatedResponse<EmployeeType>) => {
-				state.data = response.data
-			})
-			state.isLoading = false
-		}, 500)
-	} else {
-		const allDataReadonly = state.allData
-		state.data = allDataReadonly.filter((item: Record<string, any>) => {
-			if (parseInt(state.search)) {
-				return item.id === parseInt(state.search)
-			} else {
-				return item.firstName.toLowerCase().includes(state.search.toLowerCase()) || item.lastName.toLowerCase().includes(state.search.toLowerCase())
-			}
-		})
-	}
+  if (isCurrentUserAdmin) {
+    clearTimeout(state.timeout)
+    state.timeout = window.setTimeout(async () => {
+      state.isLoading = true
+      await api.get(`${props.baseUrl}?search=${state.search}&limit=99999`).then((response: PaginatedResponse<EmployeeType>) => {
+        state.data = response.data
+      })
+      state.isLoading = false
+    }, 500)
+  } else {
+    const allDataReadonly = state.allData
+    state.data = allDataReadonly.filter((item: Record<string, any>) => {
+      if (parseInt(state.search)) {
+        return item.id === parseInt(state.search)
+      } else {
+        return item.firstName.toLowerCase().includes(state.search.toLowerCase()) || item.lastName.toLowerCase().includes(state.search.toLowerCase())
+      }
+    })
+  }
 }
 
 function onOptionClick(item: Record<string, any>) {
-	if (props.isMultiple) {
-		if (state.selectedItems.includes(item)) {
-			removeItem(item.id)
-		} else {
-			state.selectedItems.push(item)
-		}
-		emit('selected', state.selectedItems)
-	} else {
-		state.selectedItems = [item]
-		emit('selected', state.selectedItems[0])
-	}
+  if (props.isMultiple) {
+    if (state.selectedItems.includes(item)) {
+      removeItem(item.id)
+    } else {
+      state.selectedItems.push(item)
+    }
+    emit('selected', state.selectedItems)
+  } else {
+    state.selectedItems = [item]
+    emit('selected', state.selectedItems[0])
+  }
 }
 
 function removeItem(id: number) {
-	state.selectedItems = state.selectedItems.filter(i => i.id !== id)
-	emit('selected', state.selectedItems)
+  state.selectedItems = state.selectedItems.filter(i => i.id !== id)
+  emit('selected', state.selectedItems)
 }
 
 </script>

@@ -21,7 +21,7 @@
 
         <div class="mt-2 border-t-2 border-gray-200 dark:border-white-break">
           <EventUserItem
-            v-if="eventByUserId(user.events).value.length"
+            v-if="user && user.events && eventByUserId(user.events).value.length"
             v-for="event in eventByUserId(user.events).value"
             :key="event.id"
             :event="event"
@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 import { LoaderTypeEnum } from '@/types/globals'
-import { ModalNameEnum, ModalModeEnum, SubscriptionEnum, UserType } from '@/types/typesExported'
+import { ModalNameEnum, ModalModeEnum, SubscriptionEnum, UserType, EventType } from '@/types/typesExported'
 
 interface Props {
   users: UserType[]
@@ -79,7 +79,12 @@ const uiStore = useUiStore()
 const { setActive } = userStore
 const { setUiModal } = uiStore
 
-const eventByUserId = (ids: number[]) => computed(() => eventStore.getMany(ids))
+const eventByUserId = (ids: number[] | EventType[]) => computed(() => {
+  if (typeof ids[0] === 'number') {
+    return eventStore.getMany(ids as number[])
+  }
+  return ids as EventType[]
+})
 const extraButtonStyle = computed(() => mainStore.isDarkTheme ? 'primary' : "white")
 
 function redirectToUserForm(userId: number) {

@@ -15,6 +15,7 @@ export interface EventType extends BaseEntity {
   totalSignatureNeeded: number
   createdByUser?: number | UserType
   files?: number[] | FileType[]
+  employees?: number[]
 }
 
 export type EventFormType = Omit<EventType, "id" | "createdAt" | "updatedAt">

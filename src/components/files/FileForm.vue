@@ -35,7 +35,7 @@
         <Select
           :options="fileTypeArray"
           :default="type ? type : 'Sélectionnez un Role'"
-          @selected="type = $event"
+          @selected="handleFileType"
         />
       </BField>
 
@@ -62,7 +62,7 @@
         :message="userIdError"
         :status="userIdMeta.valid ? 'success' : 'error'"
       >
-        <InputSearchSelect baseUrl="user" @selected="userId = $event.id" />
+        <InputSearchSelect baseUrl="user" @selected="handleUserId" />
       </BField>
     </div>
     <div class="flex items-center justify-center mt-10">
@@ -79,7 +79,7 @@
 <script setup lang="ts">
 import { FileType, FileTypeEnum, ModalModeEnum, fileTypeArray } from '@/types/typesExported'
 import { useField, useForm } from 'vee-validate'
-import * as yup from 'yup'
+import { object, string, number } from 'yup'
 
 interface Props {
   mode?: ModalModeEnum
@@ -101,11 +101,11 @@ const { isCurrentUserAdmin } = useUserStore()
 const { postOne, patchOne } = fileHook()
 const { resetUiModalState, IncLoading, DecLoading } = useUiStore()
 
-const schema = yup.object({
-  name: yup.string().required('Le nom du fichier est obligatoire').label('Nom du fichier'),
-  description: yup.string().label('Description du fichier'),
-  type: yup.string().required('Le type du fichier est obligatoire').label('Type du fichier'),
-  userId: yup.number().required('L\'id de l\'utilisateur est requis').label('Utilisateur'),
+const schema = object({
+  name: string().required('Le nom du fichier est obligatoire'),
+  description: string().label('Description du fichier'),
+  type: string().required('Le type du fichier est obligatoire'),
+  userId: number().required('L\'id de l\'utilisateur est requis'),
 })
 
 const { meta } = useForm({ validationSchema: schema })
@@ -116,11 +116,11 @@ const { value: name, errorMessage: errorName, meta: nameMeta } = useField<string
 const { value: description, errorMessage: errorDescription, meta: descriptionMeta } = useField<string>('description', undefined, {
   initialValue: props.file ? props.file.description || '' : '',
 })
-const { value: type, errorMessage: errorType, meta: typeMeta } = useField<FileTypeEnum>('type', undefined, {
+const { value: type, errorMessage: errorType, meta: typeMeta, handleChange: handleFileType } = useField<FileTypeEnum>('type', undefined, {
   initialValue: props.file ? props.file.type : FileTypeEnum.MODEL,
 })
 
-const { value: userId, errorMessage: userIdError, meta: userIdMeta } = useField<number>('userId', undefined, {
+const { value: userId, errorMessage: userIdError, meta: userIdMeta, handleChange: handleUserId } = useField<number>('userId', undefined, {
   initialValue: props.file ? props.file.createdByUser : 0,
 })
 

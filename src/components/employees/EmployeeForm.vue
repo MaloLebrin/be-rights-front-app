@@ -52,7 +52,7 @@
         :message="userIdError"
         :status="userIdMeta.valid ? 'success' : 'error'"
       >
-        <InputSearchSelect baseUrl="user" @selected="userId = $event.id" />
+        <InputSearchSelect baseUrl="user" @selected="handleNewUserId" />
       </BField>
     </form>
     <div class="flex items-center justify-center mt-6">
@@ -77,14 +77,14 @@ import { useField, useForm } from 'vee-validate'
 import { object, string, number } from 'yup'
 
 interface Props {
-  employee?: EmployeeType,
+  employee: EmployeeType | null,
   mode?: ModalModeEnum,
   eventId?: number,
   userId?: number,
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  employee: undefined,
+  employee: null,
   mode: ModalModeEnum.CREATE,
   eventId: 0,
   userId: 0,
@@ -97,11 +97,11 @@ const { IncLoading, DecLoading } = useUiStore()
 const { patchOne, postOne, postManyForEvent } = employeeHook()
 
 const schema = object({
-  email: string().email().required().label('Adresse email'),
-  firstName: string().required().label('Prénom'),
-  lastName: string().required().label('Nom'),
-  phone: string().required().label('Téléphone'),
-  userId: number().required().label('Utilisateur'),
+  email: string().email().required("L'adresse email est requise"),
+  firstName: string().required("Le prénom est requis"),
+  lastName: string().required("Le nom est requis"),
+  phone: string().required("Le numéro de téléphone est requis"),
+  userId: number().required("L'identifiant de l'utilisateur est requis"),
 })
 
 const userIdField = computed(() => {
@@ -129,7 +129,7 @@ const { errorMessage: lastNameError, value: lastName, meta: lastNameMeta } = use
   initialValue: props.employee ? props.employee.lastName : '',
 })
 
-const { errorMessage: userIdError, value: userId, meta: userIdMeta } = useField<number | null>('userId', undefined, {
+const { errorMessage: userIdError, value: userId, meta: userIdMeta, handleChange: handleNewUserId } = useField<number | null>('userId', undefined, {
   initialValue: userIdField.value,
 })
 

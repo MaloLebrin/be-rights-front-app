@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { FileTypeEnum } from '@/types/typesExported'
+import { FileType, FileTypeEnum } from '@/types/typesExported'
 import { onBeforeRouteLeave } from 'vue-router'
 
 const userStore = useUserStore()
@@ -64,7 +64,7 @@ onBeforeRouteLeave(() => {
 const user = computed(() => userStore.getOne(userStore.getFirstActive))
 const userLogo = computed(() =>
   fileStore.getFirstWhere(file => file.createdByUser === userStore.getFirstActive &&
-    file.type === FileTypeEnum.LOGO)
+    file.type === FileTypeEnum.LOGO) as FileType
 )
 
 onMounted(async () => {

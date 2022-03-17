@@ -31,8 +31,14 @@
       class="absolute top-0 z-30 h-12 text-gray-400 transition duration-500 transform bg-white cursor-pointer -left-6 shadowl dark:bg-blue-dark_bold dark:text-white rounded-l-xl hover:scale-125"
       @click="switchMode"
     />
-    <Userform v-if="state.mode === ModalModeEnum.EDIT" :id="getCurrentUserId" />
-    <UserDetails v-if="state.mode === ModalModeEnum.READ" :id="getCurrentUserId" />
+    <Userform
+      v-if="state.mode === ModalModeEnum.EDIT"
+      :id="getCurrentUserId ? getCurrentUserId : null"
+    />
+    <UserDetails
+      v-if="state.mode === ModalModeEnum.READ"
+      :id="getCurrentUserId ? getCurrentUserId : null"
+    />
     <div v-if="state.mode === ModalModeEnum.READ" class="flex items-center justify-center">
       <BButton variant="white" class="text-blue-dark" @click="switchMode">{{ getButtonLabel() }}</BButton>
     </div>

@@ -63,7 +63,7 @@ onMounted(async () => {
 
 function searchEntity(event: KeyboardEvent) {
   clearTimeout(state.timeout)
-  state.timeout = setTimeout(() => {
+  state.timeout = window.setTimeout(() => {
     setSearch(state.search)
   }, 500)
 }
