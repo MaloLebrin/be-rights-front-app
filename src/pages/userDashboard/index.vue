@@ -40,6 +40,7 @@
 </template>
 
 <script setup lang="ts">
+import { useEventStore, useTableStore, useUiStore, useUserStore } from '@/store'
 import { EventStatusEnum } from '@/types/typesExported'
 
 const { getEventsByUserId } = useEventStore()

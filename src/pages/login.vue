@@ -46,8 +46,10 @@
 </template>
 
 <script setup lang="ts">
+import { useUiStore } from '@/store'
+import useMainStore from '@/store/main/mainStore'
 import { useField, useForm } from 'vee-validate'
-import * as yup from 'yup'
+import { object, string } from 'yup'
 
 //TODO Auto import hooks and store take invisu as exemple
 const { login } = userHook()
@@ -56,9 +58,9 @@ const uiStore = useUiStore()
 const { IncLoading, DecLoading } = uiStore
 const { isDarkTheme } = mainStore
 
-const schema = yup.object({
-  email: yup.string().email().required().label('Adresse email'),
-  password: yup.string().required().label('Mot de passe'),
+const schema = object({
+  email: string().email().required().label('Adresse email'),
+  password: string().required().label('Mot de passe'),
 })
 
 

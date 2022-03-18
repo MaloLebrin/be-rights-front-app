@@ -68,19 +68,10 @@ declare global {
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const userHook: typeof import('@/hooks/userHook')['default']
-  const useMainStore: typeof import('@/store/main/mainStore')['default']
-  const useAnswerStore: typeof import('@/store/answer/answerStore')['default']
-  const useBugStore: typeof import('@/store/bug/bugStore')['default']
-  const useEmployeeStore: typeof import('@/store/employee/employeeStore')['default']
-  const useEventStore: typeof import('@/store/event/eventStore')['default']
-  const useTableStore: typeof import('@/store/table/tableStore')['default']
-  const useUiStore: typeof import('@/store/ui/uiStore')['default']
-  const useFileStore: typeof import('@/store/file/fileStore')['default']
-  const useUserStore: typeof import('@/store/user/userStore')['default']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
   const useSlots: typeof import('vue')['useSlots']
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
 }
-export { }
+export {}

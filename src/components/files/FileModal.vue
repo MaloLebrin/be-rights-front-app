@@ -40,6 +40,7 @@
 </template>
 
 <script setup lang="ts">
+import { useUiStore } from '@/store'
 import { ModalModeEnum } from '@/types/typesExported'
 
 interface Props {

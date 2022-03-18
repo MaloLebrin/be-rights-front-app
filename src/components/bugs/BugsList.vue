@@ -19,6 +19,7 @@
 </template>
 
 <script setup lang="ts">
+import { useUiStore } from '@/store'
 import { BugReportType, LoaderTypeEnum } from '@/types/typesExported'
 
 interface Props {

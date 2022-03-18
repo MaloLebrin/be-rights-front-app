@@ -53,7 +53,7 @@ export default defineConfig({
               return {
                 ...acc,
                 [`${storePaths[name]}`.replace(`./src/`, '@/')]: [
-                  ['default', hookName],
+                  [hookName, hookName],
                 ],
               }
             }

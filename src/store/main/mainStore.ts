@@ -1,6 +1,7 @@
 import { ThemeEnum } from "@/types"
 import { defineStore } from "pinia"
 import { useAnswerStore } from "@/store/answer/answerStore"
+import { useEmployeeStore, useEventStore, useFileStore, useUserStore } from ".."
 
 const useMainStore = defineStore('main', {
   state: () => ({

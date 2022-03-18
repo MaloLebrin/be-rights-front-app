@@ -12,6 +12,8 @@
 </template>
 
 <script setup lang="ts">
+import { useEmployeeStore, useUiStore, useUserStore } from '@/store'
+
 
 const { IncLoading, DecLoading } = useUiStore()
 const userStore = useUserStore()

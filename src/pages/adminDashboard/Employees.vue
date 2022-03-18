@@ -20,7 +20,8 @@
 </template>
 
 
-<script setup lang="ts">
+<script setup lang="ts">import { useEmployeeStore, useTableStore, useUiStore } from '@/store';
+
 
 const uiStore = useUiStore()
 const { IncLoading, DecLoading } = uiStore

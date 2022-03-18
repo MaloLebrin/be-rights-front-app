@@ -40,6 +40,7 @@
 </template>
 
 <script setup lang="ts">
+import { useEventStore, useUiStore } from "@/store"
 import { ModalNameEnum } from "@/types/typesExported"
 
 const { entities: eventsEntities } = useEventStore()

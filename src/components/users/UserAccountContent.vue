@@ -46,6 +46,7 @@
 </template>
 
 <script setup lang="ts">
+import { useFileStore, useUserStore, useUiStore } from '@/store'
 import { FileTypeEnum, ModalModeEnum } from '@/types/typesExported'
 
 interface State {

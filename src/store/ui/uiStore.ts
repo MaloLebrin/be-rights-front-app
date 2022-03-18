@@ -3,7 +3,7 @@ import { defineStore } from "pinia"
 import { uiState } from "./state"
 import { ModalModeEnum, ModalOptionsUi, ToastOptionsUi, ToastVariantsEnum } from "./types"
 
-const useUiStore = defineStore(EntitiesEnum.UI, {
+export const useUiStore = defineStore(EntitiesEnum.UI, {
   state: () => ({ ...uiState }),
   getters: {
     getUIState: (state) => state,

@@ -115,6 +115,8 @@ import { EmployeeType, EventType, ModalModeEnum } from '@/types/typesExported'
 import type { Period } from '@/types'
 import { useField, useForm } from 'vee-validate'
 import { object, string, date, number } from 'yup'
+import useMainStore from '@/store/main/mainStore';
+import { useEventStore, useUserStore, useUiStore } from '@/store'
 
 interface Props {
   eventId?: number | null

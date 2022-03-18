@@ -28,24 +28,25 @@
 </template>
 
 <script setup lang="ts">
+import { useUiStore } from '@/store'
 import { ToastVariantsEnum, ToastVariantsMap } from '@/types/typesExported'
 
 const { resetUiToastState } = useUiStore()
 
 interface Props {
-	variant?: ToastVariantsEnum
-	isCloseable?: boolean
-	isToastOpen: boolean
-	toastDuration?: number
+  variant?: ToastVariantsEnum
+  isCloseable?: boolean
+  isToastOpen: boolean
+  toastDuration?: number
 }
 const props = withDefaults(defineProps<Props>(), {
-	variant: ToastVariantsEnum.PRIMARY,
-	isCloseable: true,
-	isToastOpen: false,
-	toastDuration: 1000,
+  variant: ToastVariantsEnum.PRIMARY,
+  isCloseable: true,
+  isToastOpen: false,
+  toastDuration: 1000,
 })
 const emit = defineEmits<{
-	(e: 'close'): void
+  (e: 'close'): void
 }>()
 
 
@@ -54,16 +55,16 @@ const isActive = ref(props.isToastOpen)
 const classes = computed(() => ToastVariantsMap[props.variant])
 
 watch(() => props.isToastOpen, newValue => {
-	isActive.value = newValue
-	if (isActive.value) {
-		setTimeout(() => closeAlert(), props.toastDuration)
-	}
+  isActive.value = newValue
+  if (isActive.value) {
+    setTimeout(() => closeAlert(), props.toastDuration)
+  }
 })
 
 function closeAlert() {
-	isActive.value = false
-	emit('close')
-	resetUiToastState()
+  isActive.value = false
+  emit('close')
+  resetUiToastState()
 }
 
 </script>

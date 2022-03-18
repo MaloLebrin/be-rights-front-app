@@ -15,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+import { useEventStore } from '@/store'
 import { onBeforeRouteLeave } from 'vue-router'
 
 const eventStore = useEventStore()
