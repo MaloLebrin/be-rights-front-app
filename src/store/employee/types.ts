@@ -1,7 +1,7 @@
 import { BaseEntity } from "@/types/globals"
-import { UserType } from "@/store/users/types";
+import { UserType } from "@/store/user/types";
 import { State } from "@/store/utils/types"
-import { AnswerType, FileType } from "../typesExported";
+import { AnswerType, FileType } from "../../types/typesExported";
 
 export interface EmployeeType extends BaseEntity {
   email: string
@@ -15,5 +15,7 @@ export interface EmployeeType extends BaseEntity {
   files?: FileType[] | number[]
   answers?: AnswerType[] | number[]
 }
+
+export type EmployeeFormType = Omit<EmployeeType, 'id' | 'createdAt' | 'updatedAt' | 'files' | 'answers'>
 
 export interface EmployeeState extends State<EmployeeType> { }

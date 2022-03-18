@@ -42,10 +42,10 @@
 </template>
 
 <script setup lang="ts">
-import { dateHook } from '@/hooks'
-import { useMainStore, useUiStore, useUserStore } from '@/store'
-import { EmployeeType, ModalModeEnum, ModalNameEnum } from '@/store/typesExported'
+import { EmployeeType, ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
 import { LoaderTypeEnum } from '@/types/globals'
+import { useUiStore, useUserStore } from '@/store'
+import useMainStore from '@/store/main/mainStore'
 
 interface Props {
   employees: EmployeeType[]

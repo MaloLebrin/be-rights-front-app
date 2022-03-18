@@ -1,37 +1,53 @@
-import { BugReportType, EntitiesEnum } from "../typesExported"
-import createGetters from "../utils/createGetters"
-import { bugState } from "./state"
+import { EntitiesEnum } from '@/types/globals'
+import { defineStore } from "pinia"
+import { UserType } from './types'
+import { userState } from './state'
+import createGetters from '@/store/utils/createGetters'
+import { RoleEnum } from '@/types/Roles'
 
-export const useBugStore = defineStore(EntitiesEnum.BUGS_REPORTS, {
+export const useUserStore = defineStore(EntitiesEnum.USERS, {
   state: () => ({
-    ...bugState,
+    ...userState
   }),
   getters: {
-    ...createGetters<BugReportType>(bugState),
+    ...createGetters<UserType>(userState),
+
+    getUserFullName: (state) => {
+      const user = state.entities.current
+      return `${user?.firstName} ${user?.lastName}`
+    },
+    isCurrentUserAdmin: (state) => {
+      return state.entities.current?.roles === RoleEnum.ADMIN
+    },
+    getCurrentUserToken: (state) => {
+      return state.entities.current?.token
+    },
+    getCurrentUserId: (state) => state.entities.current?.id,
   },
+
   actions: {
     // actions common to all entities
-    createOne(payload: BugReportType) {
+    createOne(payload: UserType) {
       this.entities.byId[payload.id] = payload
       this.entities.allIds.push(payload.id)
     },
-    createMany(payload: BugReportType[]) {
+    createMany(payload: UserType[]) {
       payload.forEach(entity => this.createOne(entity))
     },
-    setCurrent(payload: BugReportType) {
+    setCurrent(payload: UserType) {
       this.entities.current = payload
     },
     removeCurrent() {
       this.entities.current = null
     },
-    updateOne(id: number, payload: BugReportType): void {
+    updateOne(id: number, payload: UserType): void {
       const entity = this.entities.byId[id]
       this.entities.byId[id] = {
         ...entity,
         ...payload,
       }
     },
-    updateMany(payload: BugReportType[]): void {
+    updateMany(payload: UserType[]): void {
       payload.forEach(entity => this.updateOne(entity.id, entity))
     },
     deleteOne(id: number) {
@@ -55,6 +71,7 @@ export const useBugStore = defineStore(EntitiesEnum.BUGS_REPORTS, {
       this.entities.allIds = []
       this.entities.active = []
     },
-
   },
 })
+
+export default useUserStore

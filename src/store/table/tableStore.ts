@@ -3,7 +3,7 @@ import { defineStore } from "pinia"
 import { tableState } from "./state"
 import { TableState } from "./types"
 
-export const useTablestore = defineStore(EntitiesEnum.TABLE, {
+export const useTableStore = defineStore(EntitiesEnum.TABLE, {
   state: () => ({ ...tableState }),
   getters: {
     getTableState: (state) => state,
@@ -59,3 +59,5 @@ export const useTablestore = defineStore(EntitiesEnum.TABLE, {
     },
   },
 })
+
+export default useTableStore

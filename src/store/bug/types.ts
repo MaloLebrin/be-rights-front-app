@@ -1,9 +1,16 @@
-import { BaseEntity } from "../typesExported"
+import { BaseEntity } from "../../types/typesExported"
 
 export enum BugReportTypeEnum {
   BUG = 'bug',
   FEATURE_REQUEST = 'feature_request',
 }
+
+export enum BugReportTypeTranslation {
+  bug = 'problème/bug',
+  feature_request = 'demande de fonctionnalité',
+}
+
+export const BUGS_REPORTS_TYPE_ARRAY = Object.values(BugReportTypeEnum)
 
 export enum BugReportStatus {
   OPEN = 'open',
@@ -30,3 +37,5 @@ export interface BugReportType extends BaseEntity {
   file: number
   createdByUser: number
 }
+
+export type BugReportCreationFormType = Omit<BugReportType, 'id' | 'createdAt' | 'updatedAt' | 'file' | 'createdByUser'>

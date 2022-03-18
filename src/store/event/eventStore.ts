@@ -1,36 +1,42 @@
 import { defineStore } from "pinia"
-import createGetters from "@/store/utils/createGetters"
 import { EntitiesEnum } from "@/types/globals"
-import { fileState } from "./state"
-import { FileState, FileType } from "./types"
+import { eventState } from "./state"
+import { EventState, EventType } from "./types"
+import createGetters from "../utils/createGetters"
 
-export const useFileStore = defineStore(EntitiesEnum.FILES, {
-  state: (): FileState => ({
-    ...fileState
+export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
+  state: (): EventState => ({
+    ...eventState
   }),
+  getters: {
+    ...createGetters<EventType>(eventState),
+
+    // bellow getters in this specific store
+    getEventsByUserId: (state) => (userId: number) => Object.values(state.entities.byId).filter(event => event.createdByUser === userId),
+  },
   actions: {
     // actions common to all entities
-    createOne(payload: FileType) {
+    createOne(payload: EventType) {
       this.entities.byId[payload.id] = payload
       this.entities.allIds.push(payload.id)
     },
-    createMany(payload: FileType[]) {
+    createMany(payload: EventType[]) {
       payload.forEach(entity => this.createOne(entity))
     },
-    setCurrent(payload: FileType) {
+    setCurrent(payload: EventType) {
       this.entities.current = payload
     },
     removeCurrent() {
       this.entities.current = null
     },
-    updateOne(id: number, payload: FileType): void {
+    updateOne(id: number, payload: EventType): void {
       const entity = this.entities.byId[id]
       this.entities.byId[id] = {
         ...entity,
         ...payload,
       }
     },
-    updateMany(payload: FileType[]): void {
+    updateMany(payload: EventType[]): void {
       payload.forEach(entity => this.updateOne(entity.id, entity))
     },
     deleteOne(id: number) {
@@ -55,8 +61,8 @@ export const useFileStore = defineStore(EntitiesEnum.FILES, {
       this.entities.active = []
     },
 
+    // bellow getters in this specific store
   },
-  getters: {
-    ...createGetters<FileType>(fileState),
-  }
 })
+
+export default useEventStore

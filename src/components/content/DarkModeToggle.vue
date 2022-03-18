@@ -1,20 +1,19 @@
 <template>
-  <span class="text-blue font-bold dark:text-white">Thème</span>
+  <span class="font-bold text-blue dark:text-white">Thème</span>
   <div
-    class="w-14 h-8 bg-gray-300 rounded-full flex-shrink-0 p-1 cursor-pointer"
+    class="flex-shrink-0 h-8 p-1 bg-gray-300 rounded-full cursor-pointer w-14"
     :class="{ 'bg-blue': isDarkTheme }"
     @click="toggleTrue"
   >
     <div
-      class="w-6 h-6 rounded-full shadow-md transform duration-300 ease-in-out"
+      class="w-6 h-6 duration-300 ease-in-out transform rounded-full shadow-md"
       :class="isDarkTheme ? 'translate-x-6 bg-white' : 'bg-blue'"
     ></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useMainStore } from '@/store/index'
-import { mainHook, userHook } from '@/hooks'
+import useMainStore from '@/store/main/mainStore'
 import { ThemeEnum } from '@/types'
 
 const main = useMainStore()

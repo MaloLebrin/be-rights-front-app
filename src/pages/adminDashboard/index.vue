@@ -29,16 +29,15 @@
 </template>
 
 <script setup lang="ts">
-import { useEventStore, useTablestore, useUiStore, useUserStore } from '@/store/index'
-import { EventStatusEnum } from '@/store/typesExported'
-import { eventHook } from '@/hooks'
+import { useEventStore, useTableStore, useUiStore, useUserStore } from '@/store'
+import { EventStatusEnum } from '@/types/typesExported'
 
 const eventStore = useEventStore()
 const userStore = useUserStore()
 const uiStore = useUiStore()
 const { IncLoading, DecLoading } = uiStore
-const { setSearch, setFilters } = useTablestore()
-const tableStore = useTablestore()
+const { setSearch, setFilters } = useTableStore()
+const tableStore = useTableStore()
 const { fetchAllEvents } = eventHook()
 
 const state = reactive({
@@ -65,7 +64,7 @@ onMounted(async () => {
 
 function searchEntity(event: KeyboardEvent) {
   clearTimeout(state.timeout)
-  state.timeout = setTimeout(() => {
+  state.timeout = window.setTimeout(() => {
     setSearch(state.search)
   }, 500)
 }

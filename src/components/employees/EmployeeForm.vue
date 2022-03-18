@@ -52,7 +52,7 @@
         :message="userIdError"
         :status="userIdMeta.valid ? 'success' : 'error'"
       >
-        <InputSearchSelect baseUrl="user" @selected="userId = $event.id" />
+        <InputSearchSelect baseUrl="user" @selected="handleNewUserId" />
       </BField>
     </form>
     <div class="flex items-center justify-center mt-6">
@@ -72,21 +72,20 @@
 </template>
 
 <script setup lang="ts">
-import { EmployeeType, ModalModeEnum } from '@/store/typesExported'
+import { useEventStore, useUiStore, useUserStore } from '@/store'
+import { EmployeeType, ModalModeEnum } from '@/types/typesExported'
 import { useField, useForm } from 'vee-validate'
-import * as yup from 'yup'
-import { useUserStore, useEventStore, useEmployeeStore, useUiStore } from '@/store'
-import { employeeHook } from '@/hooks'
+import { object, string, number } from 'yup'
 
 interface Props {
-  employee?: EmployeeType,
+  employee: EmployeeType | null,
   mode?: ModalModeEnum,
   eventId?: number,
   userId?: number,
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  employee: undefined,
+  employee: null,
   mode: ModalModeEnum.CREATE,
   eventId: 0,
   userId: 0,
@@ -98,12 +97,12 @@ const eventStore = useEventStore()
 const { IncLoading, DecLoading } = useUiStore()
 const { patchOne, postOne, postManyForEvent } = employeeHook()
 
-const schema = yup.object({
-  email: yup.string().email().required().label('Adresse email'),
-  firstName: yup.string().required().label('Prénom'),
-  lastName: yup.string().required().label('Nom'),
-  phone: yup.string().required().label('Téléphone'),
-  userId: yup.number().required().label('Utilisateur'),
+const schema = object({
+  email: string().email().required("L'adresse email est requise"),
+  firstName: string().required("Le prénom est requis"),
+  lastName: string().required("Le nom est requis"),
+  phone: string().required("Le numéro de téléphone est requis"),
+  userId: number().required("L'identifiant de l'utilisateur est requis"),
 })
 
 const userIdField = computed(() => {
@@ -131,7 +130,7 @@ const { errorMessage: lastNameError, value: lastName, meta: lastNameMeta } = use
   initialValue: props.employee ? props.employee.lastName : '',
 })
 
-const { errorMessage: userIdError, value: userId, meta: userIdMeta } = useField<number | null>('userId', undefined, {
+const { errorMessage: userIdError, value: userId, meta: userIdMeta, handleChange: handleNewUserId } = useField<number | null>('userId', undefined, {
   initialValue: userIdField.value,
 })
 

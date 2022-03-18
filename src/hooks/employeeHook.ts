@@ -1,9 +1,8 @@
 import API, { PaginatedResponse } from "@/helpers/api"
-import { useEmployeeStore, useUiStore, useUserStore, useAnswerStore, useFileStore } from "@/store"
-import { answerHook, fileHook } from "."
-import { FileType, EmployeeType, AnswerType } from "@/store/typesExported"
+import { useAnswerStore, useEmployeeStore, useFileStore, useUiStore, useUserStore } from "@/store"
+import { FileType, EmployeeType, AnswerType } from "@/types/typesExported"
 
-export function employeeHook() {
+export default function employeeHook() {
   const employeeStore = useEmployeeStore()
   const userStore = useUserStore()
   const { createMany: createManyAnswers } = useAnswerStore()

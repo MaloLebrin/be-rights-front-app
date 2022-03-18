@@ -1,42 +1,48 @@
 import { defineStore } from "pinia"
 import { EntitiesEnum } from "@/types/globals"
-import { eventState } from "./state"
-import { EventState, EventType } from "./types"
+import { employeState } from "./state"
+import { EmployeeState, EmployeeType } from "./types"
 import createGetters from "../utils/createGetters"
 
-export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
-  state: (): EventState => ({
-    ...eventState
+export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
+  state: (): EmployeeState => ({
+    ...employeState,
   }),
   getters: {
-    ...createGetters<EventType>(eventState),
+    ...createGetters<EmployeeType>(employeState),
 
-    // bellow getters in this specific store
-    getEventsByUserId: (state) => (userId: number) => Object.values(state.entities.byId).filter(event => event.createdByUser === userId),
+    // bellow getters in this specific store,
+    getAllByEventId: (state) => (eventId: number) => {
+      return Object.values(state.entities.byId).filter(employee => employee.event === eventId)
+    },
+    getEmployeesByUserId: (state) => {
+      return (userId: number) => Object.values(state.entities.byId).filter(employee => employee.createdByUser === userId)
+    },
+
   },
   actions: {
     // actions common to all entities
-    createOne(payload: EventType) {
+    createOne(payload: EmployeeType) {
       this.entities.byId[payload.id] = payload
       this.entities.allIds.push(payload.id)
     },
-    createMany(payload: EventType[]) {
+    createMany(payload: EmployeeType[]) {
       payload.forEach(entity => this.createOne(entity))
     },
-    setCurrent(payload: EventType) {
+    setCurrent(payload: EmployeeType) {
       this.entities.current = payload
     },
     removeCurrent() {
       this.entities.current = null
     },
-    updateOne(id: number, payload: EventType): void {
+    updateOne(id: number, payload: EmployeeType): void {
       const entity = this.entities.byId[id]
       this.entities.byId[id] = {
         ...entity,
         ...payload,
       }
     },
-    updateMany(payload: EventType[]): void {
+    updateMany(payload: EmployeeType[]): void {
       payload.forEach(entity => this.updateOne(entity.id, entity))
     },
     deleteOne(id: number) {
@@ -60,8 +66,7 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
     resetActive() {
       this.entities.active = []
     },
-
-    // bellow getters in this specific store
   },
 })
 
+export default useEmployeeStore

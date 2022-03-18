@@ -26,9 +26,9 @@
 
 <script setup lang="ts">
 import router from '@/router'
-import { useUiStore, useEventStore } from '@/store'
-import { EventType, ModalModeEnum, ModalNameEnum } from '@/store/typesExported'
+import { EventType, ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
 import { LoaderTypeEnum } from '@/types/globals'
+import { useEventStore, useUiStore } from '@/store'
 
 const uiStore = useUiStore()
 const { setUiModal } = uiStore

@@ -20,13 +20,12 @@
 </template>
 
 
-<script setup lang="ts">
-import { employeeHook } from '@/hooks'
-import { useEmployeeStore, useUiStore, useTablestore } from '@/store'
+<script setup lang="ts">import { useEmployeeStore, useTableStore, useUiStore } from '@/store';
+
 
 const uiStore = useUiStore()
 const { IncLoading, DecLoading } = uiStore
-const tableStore = useTablestore()
+const tableStore = useTableStore()
 const { setSearch } = tableStore
 
 const { fetchAll } = employeeHook()
@@ -54,7 +53,7 @@ onMounted(async () => {
 
 function searchEntity(event: KeyboardEvent) {
   clearTimeout(state.timeout)
-  state.timeout = setTimeout(() => {
+  state.timeout = window.setTimeout(() => {
     setSearch(state.search)
   }, 500)
 }

@@ -1,48 +1,36 @@
 import { defineStore } from "pinia"
+import createGetters from "@/store/utils/createGetters"
 import { EntitiesEnum } from "@/types/globals"
-import { employeState } from "./state"
-import { EmployeeState, EmployeeType } from "./types"
-import createGetters from "../utils/createGetters"
+import { fileState } from "./state"
+import { FileState, FileType } from "./types"
 
-export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
-  state: (): EmployeeState => ({
-    ...employeState,
+export const useFileStore = defineStore(EntitiesEnum.FILES, {
+  state: (): FileState => ({
+    ...fileState
   }),
-  getters: {
-    ...createGetters<EmployeeType>(employeState),
-
-    // bellow getters in this specific store,
-    getAllByEventId: (state) => (eventId: number) => {
-      return Object.values(state.entities.byId).filter(employee => employee.event === eventId)
-    },
-    getEmployeesByUserId: (state) => {
-      return (userId: number) => Object.values(state.entities.byId).filter(employee => employee.createdByUser === userId)
-    },
-
-  },
   actions: {
     // actions common to all entities
-    createOne(payload: EmployeeType) {
+    createOne(payload: FileType) {
       this.entities.byId[payload.id] = payload
       this.entities.allIds.push(payload.id)
     },
-    createMany(payload: EmployeeType[]) {
+    createMany(payload: FileType[]) {
       payload.forEach(entity => this.createOne(entity))
     },
-    setCurrent(payload: EmployeeType) {
+    setCurrent(payload: FileType) {
       this.entities.current = payload
     },
     removeCurrent() {
       this.entities.current = null
     },
-    updateOne(id: number, payload: EmployeeType): void {
+    updateOne(id: number, payload: FileType): void {
       const entity = this.entities.byId[id]
       this.entities.byId[id] = {
         ...entity,
         ...payload,
       }
     },
-    updateMany(payload: EmployeeType[]): void {
+    updateMany(payload: FileType[]): void {
       payload.forEach(entity => this.updateOne(entity.id, entity))
     },
     deleteOne(id: number) {
@@ -66,5 +54,11 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
     resetActive() {
       this.entities.active = []
     },
+
   },
+  getters: {
+    ...createGetters<FileType>(fileState),
+  }
 })
+
+export default useFileStore

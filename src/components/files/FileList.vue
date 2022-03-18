@@ -52,10 +52,10 @@
 </template>
 
 <script setup lang="ts">
-import { FileType, ModalModeEnum, ModalNameEnum, FileFormatEnum } from '@/store/typesExported'
+import { FileType, ModalModeEnum, ModalNameEnum, FileFormatEnum } from '@/types/typesExported'
 import { LoaderTypeEnum } from '@/types/globals'
-import { dateHook, fileHook } from '@/hooks'
-import { useMainStore, useUiStore, useUserStore } from '@/store'
+import { useUiStore, useUserStore } from '@/store'
+import useMainStore from '@/store/main/mainStore'
 
 interface Props {
   files: FileType[]

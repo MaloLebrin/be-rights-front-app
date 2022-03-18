@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-center">
     <div
-      class="relative inline-block w-12 mr-2 align-middle select-none transition transform duration-300 ease-in-out"
+      class="relative inline-block w-12 mr-2 align-middle transition duration-300 ease-in-out transform select-none"
     >
       <input
         :value="updatedValue"
@@ -9,12 +9,12 @@
         :checked="updatedValue"
         type="checkbox"
         id="toggle"
-        class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+        class="absolute block w-6 h-6 bg-white border-4 rounded-full appearance-none cursor-pointer toggle-checkbox"
         :class="{ 'right-0 border-green': updatedValue }"
         @input="toggleSwitch"
       />
       <div
-        class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+        class="block h-6 overflow-hidden bg-gray-300 rounded-full cursor-pointer toggle-label"
         :class="{ 'bg-green': updatedValue }"
       />
     </div>

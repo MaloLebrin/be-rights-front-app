@@ -40,9 +40,8 @@
 </template>
 
 <script setup lang="ts">
-import { employeeHook } from '@/hooks'
 import { useUiStore } from '@/store'
-import { EmployeeType, ModalModeEnum } from '@/store/typesExported'
+import { EmployeeType, ModalModeEnum } from '@/types/typesExported'
 
 interface Props {
   mode?: ModalModeEnum

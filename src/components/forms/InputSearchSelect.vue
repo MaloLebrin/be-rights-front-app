@@ -1,140 +1,140 @@
 <template>
-	<div :id="`InputSearchSelect${baseUrl}`">
-		<div v-if="state.selectedItems.length > 0" class="grid grid-cols-5 gap-4 mb-4">
-			<Tag
-				v-for="item in state.selectedItems"
-				:key="item.id"
-				:variant="TagVariantsEnum.PROMOTION"
-				@close="removeItem(item.id)"
-			>{{ item.firstName }} {{ item.lastName }}</Tag>
-		</div>
-		<div class="relative">
-			<BInput
-				class="text-white dark:text-blue-dark"
-				type="text"
-				id="search"
-				v-model="state.search"
-				@keyup="searchEntity($event)"
-			/>
-			<ProcessingIcon v-if="state.isLoading" />
-			<SearchIconOutline v-else class="text-blue absolute top-4 right-3 h-5 w-5" />
-		</div>
-		<div
-			v-if="state.data.length > 0"
-			class="relative bg-white w-full border border-gray-400 dark:border-indigo-100 text-gray-700 shadow-inner cursor-pointer overflow-y-auto max-h-48"
-			:tabindex="0"
-		>
-			<div
-				v-for="item in state.data"
-				:key="item.id"
-				class="hover:bg-gray-600 hover:text-white py-3 px-4 flex items-center justify-between"
-				@click="onOptionClick(item)"
-			>
-				<span>{{ item.firstName }} {{ item.lastName }}</span>
-				<CheckIconOutline v-if="state.selectedItems.includes(item)" class="text-green w-6 h-6" />
-			</div>
-		</div>
-	</div>
+  <div :id="`InputSearchSelect${baseUrl}`">
+    <div v-if="state.selectedItems.length > 0" class="grid grid-cols-5 gap-4 mb-4">
+      <Tag
+        v-for="item in state.selectedItems"
+        :key="item.id"
+        :variant="TagVariantsEnum.PROMOTION"
+        @close="removeItem(item.id)"
+      >{{ item.firstName }} {{ item.lastName }}</Tag>
+    </div>
+    <div class="relative">
+      <BInput
+        class="text-white dark:text-blue-dark"
+        type="text"
+        id="search"
+        v-model="state.search"
+        @keyup="searchEntity($event)"
+      />
+      <ProcessingIcon v-if="state.isLoading" />
+      <SearchIconOutline v-else class="text-blue absolute top-4 right-3 h-5 w-5" />
+    </div>
+    <div
+      v-if="state.data.length > 0"
+      class="relative bg-white w-full border border-gray-400 dark:border-indigo-100 text-gray-700 shadow-inner cursor-pointer overflow-y-auto max-h-48"
+      :tabindex="0"
+    >
+      <div
+        v-for="item in state.data"
+        :key="item.id"
+        class="hover:bg-gray-600 hover:text-white py-3 px-4 flex items-center justify-between"
+        @click="onOptionClick(item)"
+      >
+        <span>{{ item.firstName }} {{ item.lastName }}</span>
+        <CheckIconOutline v-if="state.selectedItems.includes(item)" class="text-green w-6 h-6" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import APi, { PaginatedResponse } from "@/helpers/api"
-import { useUserStore } from '@/store'
-import { EmployeeType } from "@/store/typesExported"
+import { EmployeeType } from "@/types/typesExported"
 import { TagVariantsEnum } from '@/types'
+import { useUserStore } from "@/store"
 
 interface Props {
-	disabled?: boolean
-	placeholder?: string
-	baseUrl: string
-	isMultiple?: boolean
+  disabled?: boolean
+  placeholder?: string
+  baseUrl: string
+  isMultiple?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	disabled: false,
-	placeholder: undefined,
-	isMultiple: false,
-	baseUrl: '',
+  disabled: false,
+  placeholder: undefined,
+  isMultiple: false,
+  baseUrl: '',
 })
 
 const emit = defineEmits<{
-	(e: 'selected', selectedData: Record<string, any>[] | Record<string, any> | null): void
-	(e: 'close'): void
+  (e: 'selected', selectedData: Record<string, any>[] | Record<string, any> | null): void
+  (e: 'close'): void
 }>()
 
 const { entities, isCurrentUserAdmin } = useUserStore()
 
 interface State {
-	search: string
-	data: Record<string, any>[]
-	allData: Record<string, any>[]
-	selectedItems: Record<string, any>[]
-	timeout: number
-	isLoading: boolean
+  search: string
+  data: Record<string, any>[]
+  allData: Record<string, any>[]
+  selectedItems: Record<string, any>[]
+  timeout: number
+  isLoading: boolean
 }
 
 const state = reactive<State>({
-	search: '',
-	data: [],
-	allData: [],
-	timeout: 0,
-	selectedItems: [],
-	isLoading: false,
+  search: '',
+  data: [],
+  allData: [],
+  timeout: 0,
+  selectedItems: [],
+  isLoading: false,
 })
 const api = new APi(entities.current?.token!)
 
 
 onMounted(async () => {
-	if (!isCurrentUserAdmin) {
-		state.isLoading = true
-		await api.get(`${props.baseUrl}&limit=99999`).then((response: PaginatedResponse<EmployeeType>) => {
-			state.data = response.data
-			state.allData = response.data
-		})
-		state.isLoading = false
-	}
+  if (!isCurrentUserAdmin) {
+    state.isLoading = true
+    await api.get(`${props.baseUrl}&limit=99999`).then((response: PaginatedResponse<EmployeeType>) => {
+      state.data = response.data
+      state.allData = response.data
+    })
+    state.isLoading = false
+  }
 })
 
 async function searchEntity(event: Event) {
 
-	if (isCurrentUserAdmin) {
-		clearTimeout(state.timeout)
-		state.timeout = setTimeout(async () => {
-			state.isLoading = true
-			await api.get(`${props.baseUrl}?search=${state.search}&limit=99999`).then((response: PaginatedResponse<EmployeeType>) => {
-				state.data = response.data
-			})
-			state.isLoading = false
-		}, 500)
-	} else {
-		const allDataReadonly = state.allData
-		state.data = allDataReadonly.filter((item: Record<string, any>) => {
-			if (parseInt(state.search)) {
-				return item.id === parseInt(state.search)
-			} else {
-				return item.firstName.toLowerCase().includes(state.search.toLowerCase()) || item.lastName.toLowerCase().includes(state.search.toLowerCase())
-			}
-		})
-	}
+  if (isCurrentUserAdmin) {
+    clearTimeout(state.timeout)
+    state.timeout = window.setTimeout(async () => {
+      state.isLoading = true
+      await api.get(`${props.baseUrl}?search=${state.search}&limit=99999`).then((response: PaginatedResponse<EmployeeType>) => {
+        state.data = response.data
+      })
+      state.isLoading = false
+    }, 500)
+  } else {
+    const allDataReadonly = state.allData
+    state.data = allDataReadonly.filter((item: Record<string, any>) => {
+      if (parseInt(state.search)) {
+        return item.id === parseInt(state.search)
+      } else {
+        return item.firstName.toLowerCase().includes(state.search.toLowerCase()) || item.lastName.toLowerCase().includes(state.search.toLowerCase())
+      }
+    })
+  }
 }
 
 function onOptionClick(item: Record<string, any>) {
-	if (props.isMultiple) {
-		if (state.selectedItems.includes(item)) {
-			removeItem(item.id)
-		} else {
-			state.selectedItems.push(item)
-		}
-		emit('selected', state.selectedItems)
-	} else {
-		state.selectedItems = [item]
-		emit('selected', state.selectedItems[0])
-	}
+  if (props.isMultiple) {
+    if (state.selectedItems.includes(item)) {
+      removeItem(item.id)
+    } else {
+      state.selectedItems.push(item)
+    }
+    emit('selected', state.selectedItems)
+  } else {
+    state.selectedItems = [item]
+    emit('selected', state.selectedItems[0])
+  }
 }
 
 function removeItem(id: number) {
-	state.selectedItems = state.selectedItems.filter(i => i.id !== id)
-	emit('selected', state.selectedItems)
+  state.selectedItems = state.selectedItems.filter(i => i.id !== id)
+  emit('selected', state.selectedItems)
 }
 
 </script>

@@ -19,17 +19,17 @@
 </template>
 
 <script setup lang="ts">
-import { ModalModeEnum } from '@/store/typesExported'
-import { useMainStore, useUiStore } from '@/store'
-import { userHook } from '@/hooks'
+import { useUiStore } from '@/store'
+import useMainStore from '@/store/main/mainStore'
+import { ModalModeEnum } from '@/types/typesExported'
 
 interface Props {
-  mode?: ModalModeEnum
+  mode?: ModalModeEnum | null
   isActive: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   isActive: false,
-  mode: undefined,
+  mode: null,
 })
 
 const mainStore = useMainStore()
@@ -57,6 +57,7 @@ function getModaleTitle() {
         return 'Unknown mode'
     }
   }
+  return ''
 }
 
 async function deleteOne() {

@@ -21,10 +21,9 @@
 </template>
 
 <script setup lang="ts">
-import { bugReportsHook } from '@/hooks';
-import { useBugStore, useTablestore, useUiStore } from '@/store'
+import { useBugStore, useTableStore, useUiStore } from '@/store'
 
-const tableStore = useTablestore()
+const tableStore = useTableStore()
 const { setSearch } = tableStore
 const uiStore = useUiStore()
 const { IncLoading, DecLoading } = uiStore
@@ -54,7 +53,7 @@ onMounted(async () => {
 
 function searchEntity(event: KeyboardEvent) {
   clearTimeout(state.timeout)
-  state.timeout = setTimeout(() => {
+  state.timeout = window.setTimeout(() => {
     setSearch(state.search)
   }, 500)
 }

@@ -12,9 +12,9 @@ export enum EntitiesEnum {
 }
 
 export type BaseEntity = {
-  id: number
-  createdAt: Date
-  updatedAt: Date
+  readonly id: number
+  readonly createdAt: Date
+  readonly updatedAt: Date
 }
 
 export enum ThemeEnum {
@@ -25,15 +25,4 @@ export enum ThemeEnum {
 export enum LoaderTypeEnum {
   SPINNER = 'spinner',
   BOUNCE = 'bounce',
-}
-
-export type OneToOne<T> = T | number
-export type OneToMany<T> = T[] | number[]
-
-export function isTOrNumber<T>(value: T) {
-  if (typeof value === 'number') {
-    return value as number
-  } else {
-    return value as T
-  }
 }

@@ -14,8 +14,7 @@
 
 <script setup lang="ts">
 import { PropType } from 'vue'
-import { EmployeeType } from '@/store/typesExported'
-import { employeeHook } from '@/hooks'
+import { EmployeeType } from '@/types/typesExported'
 
 defineProps({
   employee: Object as PropType<EmployeeType>

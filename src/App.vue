@@ -1,13 +1,13 @@
 <template>
   <router-view v-slot="{ Component, route }">
-    <component :is="Component" :key="route.path" class="bg-white dark:bg-blue-dark min-h-screen" />
+    <component :is="Component" :key="route.path" class="min-h-screen bg-white dark:bg-blue-dark" />
   </router-view>
 </template>
 <script setup lang="ts">
-import { authHook } from './hooks'
-import { useMainStore, useUserStore } from './store'
 import { useCookie } from 'vue-cookie-next'
 import router from '@/router'
+import useMainStore from './store/main/mainStore'
+import { useUserStore } from './store'
 
 const store = useMainStore()
 const userStore = useUserStore()

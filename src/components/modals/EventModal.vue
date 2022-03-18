@@ -34,9 +34,8 @@
 </template>
 
 <script setup lang="ts">
-import { eventHook } from '@/hooks'
 import { useUiStore } from '@/store'
-import { ModalModeEnum } from '@/store/typesExported'
+import { ModalModeEnum } from '@/types/typesExported'
 
 interface Props {
   isActive: boolean

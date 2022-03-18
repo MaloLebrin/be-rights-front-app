@@ -67,7 +67,7 @@
         <Select
           :options="userRolesArray"
           :default="roles ? roles : 'Sélectionnez un Role'"
-          @selected="roles = $event"
+          @selected="handleRoleUser"
         />
       </BField>
       <BField
@@ -80,7 +80,7 @@
         <Select
           :options="subscriptionArray"
           :default="subscription ? subscription : 'Sélectionnez un Abonnement'"
-          @selected="subscription = $event"
+          @selected="handleSubscription"
         />
       </BField>
     </form>
@@ -140,19 +140,18 @@
 </template>
 
 <script setup lang="ts">
-import { useEmployeeStore, useEventStore, useUserStore } from '@/store'
 import { RoleEnum, userRolesArray, LoaderTypeEnum } from '@/types'
 import { useField, useForm } from 'vee-validate'
-import * as yup from 'yup'
-import { subscriptionArray, SubscriptionEnum, UserType } from '@/store/typesExported'
-import { employeeHook, eventHook, userHook } from '@/hooks'
+import { object, string, } from 'yup'
+import { subscriptionArray, SubscriptionEnum, UserType } from '@/types/typesExported'
+import { useEmployeeStore, useEventStore, useUserStore } from '@/store'
 
 interface Props {
-  id: number
+  id: number | null
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  id: undefined
+  id: null
 })
 
 const userStore = useUserStore()
@@ -163,21 +162,26 @@ const { patchOne } = userHook()
 const { fetchAllByUserId: fetchAllEmployeeByUserId } = employeeHook()
 const { fetchEventsByUser } = eventHook()
 
-const user = computed(() => userStore.getOne(props.id))
+const user = computed(() => {
+  if (props.id) {
+    return userStore.getOne(props.id)
+  }
+  return null
+})
 
 const isLoading = ref(false)
 
-const schema = yup.object({
-  companyName: yup.string().nullable().label('Nom de l\'entreprise'),
-  email: yup.string().email().required().label('Adresse email'),
-  firstName: yup.string().required().label('Prénom'),
-  lastName: yup.string().required().label('Nom'),
-  siret: yup.string().nullable().label('N° Siret'),
-  roles: yup.string().required().label('Role'),
-  subscription: yup.string().required().label('Abonnement')
+const schema = object({
+  companyName: string().nullable().label('Nom de l\'entreprise'),
+  email: string().email().required("L'adresse email est requise"),
+  firstName: string().required("Le prenom est requis"),
+  lastName: string().required("Le nom est requis"),
+  siret: string().nullable().label('N° Siret'),
+  roles: string().required("le role est requis"),
+  subscription: string().required("L'abonnement est requis"),
 })
 
-const { meta, errors } = useForm({ validationSchema: schema })
+const { meta } = useForm({ validationSchema: schema })
 const { errorMessage: emailError, value: email, meta: emailMeta } = useField<string>('email', undefined, {
   initialValue: user.value ? user.value.email : '',
 })
@@ -193,10 +197,10 @@ const { errorMessage: firstNameError, value: firstName, meta: firstNameMeta } = 
 const { errorMessage: lastNameError, value: lastName, meta: lastNameMeta } = useField<string>('lastName', undefined, {
   initialValue: user.value ? user.value.lastName : '',
 })
-const { value: roles, errorMessage: rolesError, meta: rolesMeta } = useField<RoleEnum>('roles', undefined, {
+const { value: roles, errorMessage: rolesError, meta: rolesMeta, handleChange: handleRoleUser } = useField<RoleEnum>('roles', undefined, {
   initialValue: user.value ? user.value.roles : RoleEnum.USER,
 })
-const { value: subscription, errorMessage: subscriptionError, meta: subscriptionMeta } = useField<SubscriptionEnum | null>('subscription', undefined, {
+const { value: subscription, errorMessage: subscriptionError, meta: subscriptionMeta, handleChange: handleSubscription } = useField<SubscriptionEnum | null>('subscription', undefined, {
   initialValue: user.value ? user.value.subscription : null
 })
 
@@ -204,20 +208,25 @@ onMounted(async () => {
   isLoading.value = true
   const employeeIds = user.value?.employee as number[]
   const missingEmployeeIds = employeeIds.filter(id => !employeeStore.getOne(id))
-  if (missingEmployeeIds.length > 0) {
+  if (missingEmployeeIds.length > 0 && user.value) {
     await fetchAllEmployeeByUserId(user.value.id)
   }
   const eventIds = user.value?.events as number[]
   const missingEventIds = eventIds.filter(id => !eventStore.getOne(id))
-  if (missingEventIds.length > 0) {
+  if (missingEventIds.length > 0 && user.value) {
     await fetchEventsByUser(user.value.id)
   }
   isLoading.value = false
 })
 
-const eventByUserId = computed(() => eventStore.getMany(user.value.events as number[]))
+const eventByUserId = computed(() => eventStore.getMany(user.value?.events as number[]))
 
-const employeeByUserId = computed(() => employeeStore.getEmployeesByUserId(user.value.id))
+const employeeByUserId = computed(() => {
+  if (user.value) {
+    return employeeStore.getEmployeesByUserId(user.value?.id)
+  }
+  return []
+})
 
 const emits = defineEmits<{
   (e: 'submit', id: number): void
@@ -225,22 +234,23 @@ const emits = defineEmits<{
 
 async function submit() {
   isLoading.value = true
+  if (props.id) {
 
-  const payload: UserType = {
-    ...user.value,
-    companyName: companyName.value,
-    email: email.value,
-    firstName: firstName.value,
-    lastName: lastName.value,
-    siret: siret.value,
-    roles: roles.value,
-    subscription: subscription.value!,
+    const payload = {
+      ...user.value,
+      companyName: companyName.value,
+      email: email.value,
+      firstName: firstName.value,
+      lastName: lastName.value,
+      siret: siret.value,
+      roles: roles.value,
+      subscription: subscription.value!,
+    }
+
+    await patchOne(props.id, payload as UserType)
+    emits('submit', props.id)
   }
-
-
-  await patchOne(props.id, payload)
   isLoading.value = false
-  emits('submit', props.id)
 }
 
 const activeTabs = ref(1)

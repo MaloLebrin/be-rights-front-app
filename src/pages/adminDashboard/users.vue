@@ -20,14 +20,13 @@
 </template>
 
 <script setup lang="ts">
-import { useTablestore, useUiStore, useUserStore } from '@/store'
-import { userHook } from '@/hooks'
+import { useTableStore, useUiStore, useUserStore } from '@/store'
 
 const { fetchAll } = userHook()
 
 const uiStore = useUiStore()
 const { IncLoading, DecLoading } = uiStore
-const tableStore = useTablestore()
+const tableStore = useTableStore()
 const { setSearch } = tableStore
 const userStore = useUserStore()
 const users = computed(() => userStore.getAllArray)
@@ -52,7 +51,7 @@ onMounted(async () => {
 
 function searchEntity(event: KeyboardEvent) {
   clearTimeout(state.timeout)
-  state.timeout = setTimeout(() => {
+  state.timeout = window.setTimeout(() => {
     setSearch(state.search)
   }, 500)
 }

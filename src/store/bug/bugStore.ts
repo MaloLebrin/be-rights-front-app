@@ -1,53 +1,38 @@
-import { EntitiesEnum } from '@/types/globals'
-import { defineStore } from "pinia"
-import { UserType } from './types'
-import { userState } from './state'
-import createGetters from '@/store/utils/createGetters'
-import { RoleEnum } from '@/types/Roles'
+import { BugReportType, EntitiesEnum, BugReportCreationFormType } from "../../types/typesExported"
+import createGetters from "../utils/createGetters"
+import { bugState, baseCreationForm } from "./state"
 
-export const useUserStore = defineStore(EntitiesEnum.USERS, {
+export const useBugStore = defineStore(EntitiesEnum.BUGS_REPORTS, {
   state: () => ({
-    ...userState
+    ...bugState,
   }),
   getters: {
-    ...createGetters<UserType>(userState),
-
-    getUserFullName: (state) => {
-      const user = state.entities.current
-      return `${user?.firstName} ${user?.lastName}`
-    },
-    isCurrentUserAdmin: (state) => {
-      return state.entities.current?.roles === RoleEnum.ADMIN
-    },
-    getCurrentUserToken: (state) => {
-      return state.entities.current?.token
-    },
-    getCurrentUserId: (state) => state.entities.current?.id,
+    ...createGetters<BugReportType>(bugState),
+    getCreationForm: (state) => state.creationForm,
   },
-
   actions: {
     // actions common to all entities
-    createOne(payload: UserType) {
+    createOne(payload: BugReportType) {
       this.entities.byId[payload.id] = payload
       this.entities.allIds.push(payload.id)
     },
-    createMany(payload: UserType[]) {
+    createMany(payload: BugReportType[]) {
       payload.forEach(entity => this.createOne(entity))
     },
-    setCurrent(payload: UserType) {
+    setCurrent(payload: BugReportType) {
       this.entities.current = payload
     },
     removeCurrent() {
       this.entities.current = null
     },
-    updateOne(id: number, payload: UserType): void {
+    updateOne(id: number, payload: BugReportType): void {
       const entity = this.entities.byId[id]
       this.entities.byId[id] = {
         ...entity,
         ...payload,
       }
     },
-    updateMany(payload: UserType[]): void {
+    updateMany(payload: BugReportType[]): void {
       payload.forEach(entity => this.updateOne(entity.id, entity))
     },
     deleteOne(id: number) {
@@ -71,5 +56,17 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
       this.entities.allIds = []
       this.entities.active = []
     },
+
+    setCreationForm(payload: BugReportCreationFormType) {
+      this.creationForm = payload
+    },
+    setCreationFormField<K extends keyof BugReportCreationFormType>(field: K, value: BugReportCreationFormType[K]) {
+      this.creationForm[field] = value
+    },
+    resetCreationForm() {
+      this.creationForm = baseCreationForm
+    },
   },
 })
+
+export default useBugStore

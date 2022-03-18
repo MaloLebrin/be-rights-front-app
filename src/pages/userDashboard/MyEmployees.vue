@@ -12,8 +12,8 @@
 </template>
 
 <script setup lang="ts">
-import { employeeHook } from '@/hooks'
-import { useEmployeeStore, useUiStore, useUserStore } from '@/store/index'
+import { useEmployeeStore, useUiStore, useUserStore } from '@/store'
+
 
 const { IncLoading, DecLoading } = useUiStore()
 const userStore = useUserStore()

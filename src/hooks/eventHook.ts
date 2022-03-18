@@ -1,6 +1,6 @@
-import { EventStatusEnum, EventType, getEventStatusTranslationEnum } from "@/store/events/types"
+import { EventStatusEnum, EventType, getEventStatusTranslationEnum } from "@/store/event/types"
 import APi, { PaginatedResponse } from "@/helpers/api"
-import { EmployeeType } from "@/store/employees/types"
+import { EmployeeType } from "@/store/employee/types"
 import { useEventStore, useUiStore, useUserStore } from "@/store"
 
 export function eventHook() {
@@ -167,3 +167,5 @@ export function eventHook() {
     postOne,
   }
 }
+
+export default eventHook

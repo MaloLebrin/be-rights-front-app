@@ -1,8 +1,8 @@
 import APi, { PaginatedResponse } from "@/helpers/api"
 import { useFileStore, useUiStore, useUserStore } from "@/store"
-import { FileType, FileTypeEnum } from "@/store/typesExported"
+import { FileType, FileTypeEnum } from "@/types/typesExported"
 
-export function fileHook() {
+export default function fileHook() {
   const { getCurrent } = useUserStore()
   const { getAllIds: getAllFilesIds } = useFileStore()
   const fileStore = useFileStore()
@@ -10,16 +10,15 @@ export function fileHook() {
   const api = new APi(getCurrent?.token!)
 
   async function postOne(fileForm: FormData, id?: number) {
-    IncLoading()
     try {
       const res = await api.post(`file/${id}`, fileForm)
       fileStore.createOne(res as FileType)
       setUISucessToast("File uploaded successfully")
+      return res
     } catch (error) {
       console.error(error)
       setUIErrorToast()
     }
-    DecLoading()
   }
 
   function filteringFilesNotInStore(files: FileType[]) {

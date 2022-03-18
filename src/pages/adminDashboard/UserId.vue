@@ -40,14 +40,14 @@
 </template>
 
 <script setup lang="ts">
-import { fileHook } from '@/hooks'
-import { useFileStore, useUserStore } from '@/store'
-import { FileTypeEnum } from '@/store/typesExported'
+import { useFileStore, useUiStore, useUserStore } from '@/store'
+import { FileType, FileTypeEnum } from '@/types/typesExported'
 import { onBeforeRouteLeave } from 'vue-router'
 
 const userStore = useUserStore()
 const { resetActive } = userStore
 const fileStore = useFileStore()
+const { DecLoading, IncLoading } = useUiStore()
 const { fetchAll, postOne } = fileHook()
 
 interface State {
@@ -65,7 +65,7 @@ onBeforeRouteLeave(() => {
 const user = computed(() => userStore.getOne(userStore.getFirstActive))
 const userLogo = computed(() =>
   fileStore.getFirstWhere(file => file.createdByUser === userStore.getFirstActive &&
-    file.type === FileTypeEnum.LOGO)
+    file.type === FileTypeEnum.LOGO) as FileType
 )
 
 onMounted(async () => {
@@ -86,7 +86,10 @@ function uploadFile(fileUploaded: File) {
 
 async function submitFile() {
   if (state.file && !userLogo.value) {
+    IncLoading()
     await postOne(state.file)
+    DecLoading()
+    state.file = null
   }
 }
 
