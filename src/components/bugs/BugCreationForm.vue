@@ -122,7 +122,7 @@ import router from '@/router'
 import { useBugStore, useUiStore, useUserStore } from '@/store'
 import { BUGS_REPORTS_TYPE_ARRAY, BugReportTypeEnum, BugReportStatus, FileTypeEnum } from '@/types/typesExported'
 import { useField, useForm } from 'vee-validate'
-import * as yup from 'yup'
+import { object, string } from 'yup'
 
 const { resetCreationForm, setCreationFormField } = useBugStore()
 const { getCreationForm } = storeToRefs(useBugStore())
@@ -140,10 +140,10 @@ const state = reactive<State>({
   file: null,
 })
 
-const schema = yup.object({
-  name: yup.string().required('Le nom est obligatoire'),
-  url: yup.string().url('L\'url est invalide'),
-  description: yup.string().required('La description est obligatoire'),
+const schema = object({
+  name: string().required('Le nom est obligatoire'),
+  url: string().url('L\'url est invalide'),
+  description: string().required('La description est obligatoire'),
 })
 
 const { meta } = useForm({ validationSchema: schema })
