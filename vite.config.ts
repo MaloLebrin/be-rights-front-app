@@ -9,19 +9,15 @@ import path from 'path'
 import { BeRightUiResolver } from './src/utils/resolver/BeRightComponentLibrary'
 import {
   getDirectoryAuthImportPaths,
-  EXCLUDES_STORE_FOLDER_NAME,
   getStoreFileNames,
 } from './src/utils/resolver/autoImportUtils'
-import fs from 'fs'
 
 const STORE_PATH = './src/store'
 const HOOKS_PATH = './src/hooks'
 
 const hookPaths = getDirectoryAuthImportPaths(HOOKS_PATH)
 const storePaths = getDirectoryAuthImportPaths(STORE_PATH)
-const paths = getStoreFileNames()
-
-console.log(path, 'getStoreFilesNames')
+const storeFileNames = getStoreFileNames()
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -46,7 +42,7 @@ export default defineConfig({
               ],
             }
           }, {}),
-          ...Object.keys(paths).reduce((acc, name) => {
+          ...Object.keys(storeFileNames).reduce((acc, name) => {
             const hookName = `use${name[0].toUpperCase()}${name.substring(1)}Store`
             return {
               ...acc,
