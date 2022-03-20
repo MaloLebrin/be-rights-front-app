@@ -22,7 +22,7 @@
     "@heroicons/vue": "^1.0.4",
     "@popperjs/core": "^2.11.0",
     "axios": "^0.23.0",
-    "be-right-vue3-lib": "^0.1.41",
+    "be-right-vue3-lib": "^0.1.42",
     "normalizr": "^3.6.1",
     "pinia": "^2.0.9",
     "v-calendar": "^3.0.0-alpha.6",
