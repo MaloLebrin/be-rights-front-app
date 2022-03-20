@@ -44,7 +44,6 @@
 <script setup lang="ts">
 import { EmployeeType, ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
 import { LoaderTypeEnum } from '@/types/globals'
-import { useUiStore, useUserStore } from '@/store'
 
 interface Props {
   employees: EmployeeType[]

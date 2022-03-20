@@ -20,8 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import { useTableStore, useUiStore, useUserStore } from '@/store'
-
 const { fetchAll } = userHook()
 
 const uiStore = useUiStore()

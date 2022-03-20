@@ -305,8 +305,6 @@
 </template>
 
 <script setup lang="ts">
-import { useUiStore } from '@/store'
-
 const { newsletterSignup } = newsletterHook()
 
 const mainStore = useMainStore()

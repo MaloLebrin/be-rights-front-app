@@ -60,7 +60,6 @@
 </template>
 
 <script setup lang="ts">
-import { useEventStore, useUiStore, useUserStore } from '@/store'
 import { LoaderTypeEnum } from '@/types/globals'
 import { ModalNameEnum, ModalModeEnum, SubscriptionEnum, UserType, EventType } from '@/types/typesExported'
 

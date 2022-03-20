@@ -97,7 +97,6 @@
 </template>
 
 <script setup lang="ts">
-import { useUiStore } from '@/store'
 import { RoleEnum } from '@/types'
 import { useField, useForm } from 'vee-validate'
 import { string, object } from 'yup'

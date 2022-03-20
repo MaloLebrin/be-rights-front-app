@@ -28,7 +28,6 @@
 import router from '@/router'
 import { EventType, ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
 import { LoaderTypeEnum } from '@/types/globals'
-import { useEventStore, useUiStore } from '@/store'
 
 const uiStore = useUiStore()
 const { setUiModal } = uiStore
