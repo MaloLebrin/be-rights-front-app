@@ -3,7 +3,7 @@ import { defineStore } from "pinia"
 import { useAnswerStore } from "@/store/answer/answerStore"
 import { useEmployeeStore, useEventStore, useFileStore, useUserStore } from ".."
 
-const useMainStore = defineStore('main', {
+export const useMainStore = defineStore('main', {
   state: () => ({
     isLoggedIn: false,
     theme: ThemeEnum.LIGHT,
@@ -36,5 +36,3 @@ const useMainStore = defineStore('main', {
     },
   },
 })
-
-export default useMainStore

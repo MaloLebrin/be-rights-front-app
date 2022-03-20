@@ -19,7 +19,22 @@ export function getDirectoryAuthImportPaths(dir: string): Record<string, string>
   }), {})
 }
 
+export const getStoreFileNames = () => {
+  const STORE_PATH = './src/store'
+
+  return fs.readdirSync(STORE_PATH)
+    .filter(folder => !EXCLUDES_STORE_FOLDER_NAME.includes(folder))
+    .reduce((acc, folder) => {
+      return {
+        ...acc,
+        [folder]: getFileNames(`${STORE_PATH}/${folder}`).filter(name => name !== 'state' && name !== 'types'),
+      }
+    }, {})
+}
+
+
 export const EXCLUDES_STORE_FOLDER_NAME = [
   'utils',
   'subscription',
+  'index.ts'
 ]
