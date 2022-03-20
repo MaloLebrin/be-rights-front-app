@@ -1,6 +1,6 @@
 <template>
   <AdminMenuDrawer />
-  <main v-bind="$attrs" class="container w-full mx-auto">
+  <main v-bind="$attrs" class="container w-full mx-auto dark:bg-blue-dark_bold">
     <router-view v-slot="{ Component }">
       <transition name="fade">
         <component :is="Component" />
@@ -41,7 +41,6 @@
 </template>
 
 <script setup lang="ts">
-import { useEventStore, useUiStore } from "@/store";
 import { ModalNameEnum } from "@/types/typesExported"
 
 const { entities: eventsEntities } = useEventStore()
