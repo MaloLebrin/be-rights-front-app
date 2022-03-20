@@ -112,12 +112,6 @@
 </template>
 
 <script setup lang="ts">
-
-const isMenuOpen = ref<boolean>(false)
-function toggleMobileMenu() {
-  isMenuOpen.value = !isMenuOpen.value
-}
-
 const emit = defineEmits<{
   (e: 'startNow'): void
 }>()
