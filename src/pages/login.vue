@@ -46,8 +46,6 @@
 </template>
 
 <script setup lang="ts">
-import { useUiStore } from '@/store'
-import useMainStore from '@/store/main/mainStore'
 import { useField, useForm } from 'vee-validate'
 import { object, string } from 'yup'
 

@@ -7,16 +7,17 @@ import { HeadlessUiResolver } from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 import path from 'path'
 import { BeRightUiResolver } from './src/utils/resolver/BeRightComponentLibrary'
-import { getDirectoryAuthImportPaths, EXCLUDES_STORE_FOLDER_NAME } from './src/utils/resolver/autoImportUtils'
+import {
+  getDirectoryAuthImportPaths,
+  getStoreFileNames,
+} from './src/utils/resolver/autoImportUtils'
 
 const STORE_PATH = './src/store'
 const HOOKS_PATH = './src/hooks'
 
 const hookPaths = getDirectoryAuthImportPaths(HOOKS_PATH)
 const storePaths = getDirectoryAuthImportPaths(STORE_PATH)
-
-// console.log((storePaths), 'storePaths')
-
+const storeFileNames = getStoreFileNames()
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -34,12 +35,6 @@ export default defineConfig({
         'pinia',
         {
           ...Object.keys(hookPaths).reduce((acc, name) => {
-            // console.log({
-            //   ...acc,
-            //   [hookPaths[name].replace('./src/', '@/')]: [
-            //     ['default', name],
-            //   ],
-            // }, 'dddddddd')
             return {
               ...acc,
               [hookPaths[name].replace('./src/', '@/')]: [
@@ -47,15 +42,13 @@ export default defineConfig({
               ],
             }
           }, {}),
-          ...Object.keys(storePaths).reduce((acc, name) => {
-            const hookName = `use${name[0].toUpperCase()}${name.substring(1)}`
-            if (!EXCLUDES_STORE_FOLDER_NAME.includes(name)) {
-              return {
-                ...acc,
-                [`${storePaths[name]}`.replace(`./src/`, '@/')]: [
-                  [hookName, hookName],
-                ],
-              }
+          ...Object.keys(storeFileNames).reduce((acc, name) => {
+            const hookName = `use${name[0].toUpperCase()}${name.substring(1)}Store`
+            return {
+              ...acc,
+              [`${storePaths[name]}`.replace(`./src/`, '@/')]: [
+                [hookName, hookName],
+              ],
             }
           }, {}),
         },

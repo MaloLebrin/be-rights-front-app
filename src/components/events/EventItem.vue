@@ -65,8 +65,6 @@
 import { PropType } from 'vue'
 import EmployeeEventItem from '@/components/employees/employeeEventItem.vue'
 import { EventType } from '@/types/typesExported'
-import { useEmployeeStore } from '@/store'
-import useMainStore from '@/store/main/mainStore'
 
 const props = defineProps({
   event: {

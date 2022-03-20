@@ -13,7 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import useMainStore from '@/store/main/mainStore'
 import { ThemeEnum } from '@/types'
 
 const main = useMainStore()

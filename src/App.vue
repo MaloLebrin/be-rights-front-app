@@ -6,8 +6,6 @@
 <script setup lang="ts">
 import { useCookie } from 'vue-cookie-next'
 import router from '@/router'
-import useMainStore from './store/main/mainStore'
-import { useUserStore } from './store'
 
 const store = useMainStore()
 const userStore = useUserStore()

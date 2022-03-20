@@ -28,7 +28,6 @@
 </template>
 
 <script setup lang="ts">
-import { useUiStore } from '@/store'
 import { ToastVariantsEnum, ToastVariantsMap } from '@/types/typesExported'
 
 const { resetUiToastState } = useUiStore()
