@@ -1,6 +1,6 @@
 <template>
-  <div class="fixed grid items-center w-full grid-cols-3 mb-14">
-    <h3 class="flex items-center max-w-xs text-2xl font-semibold text-gray-800 dark:text-white mt">
+  <div class="grid items-center w-full grid-cols-3 mb-14">
+    <h3 class="flex items-center text-2xl font-semibold text-gray-800 dark:text-white mt">
       <slot name="title" />
     </h3>
     <div
