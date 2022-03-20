@@ -65,7 +65,7 @@ export default defineConfig({
         'src/pages',
       ],
       resolvers: [
-        HeadlessUiResolver(''),
+        HeadlessUiResolver({}),
         BeRightUiResolver().resolve,
         (name) => {
           if (name.includes('IconSolid')) {

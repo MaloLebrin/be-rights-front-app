@@ -1,5 +1,5 @@
 <template>
-  <section class="container pt-10 mx-auto">
+  <section class="pt-10 md:mx-auto md:container">
     <div
       class="grid items-center justify-center grid-cols-1 gap-4 md:grid-cols-2 md:flex-row DarkModeAnimation"
     >
@@ -32,7 +32,7 @@
       src="../assets/mokup-phone.png"
       alt="mokup"
     />
-    <div class="container flex flex-wrap pt-4 pb-12 mx-auto">
+    <div class="flex flex-wrap pt-4 pb-12 mx-auto md:container">
       <h1 class="w-full my-2 mb-6 text-5xl font-bold leading-tight text-gray-800 dark:text-white">
         <span class="text-red-light">Be right</span>, qu'est ce que c'est ?
       </h1>
