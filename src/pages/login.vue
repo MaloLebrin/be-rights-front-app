@@ -49,7 +49,6 @@
 import { useField, useForm } from 'vee-validate'
 import { object, string } from 'yup'
 
-//TODO Auto import hooks and store take invisu as exemple
 const { login } = userHook()
 const mainStore = useMainStore()
 const uiStore = useUiStore()
