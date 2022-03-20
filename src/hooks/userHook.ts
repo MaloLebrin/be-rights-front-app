@@ -5,7 +5,6 @@ import APi, { PaginatedResponse } from '@/helpers/api'
 import { RoleEnum, ThemeEnum } from '@/types'
 import { EmployeeType, EventType, FileType, UserType } from '@/types/typesExported'
 import { useEventStore, useFileStore, useUiStore, useUserStore } from "@/store"
-import useMainStore from "@/store/main/mainStore"
 
 export default function userHook() {
   const userStore = useUserStore()

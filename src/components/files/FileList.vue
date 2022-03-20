@@ -55,7 +55,6 @@
 import { FileType, ModalModeEnum, ModalNameEnum, FileFormatEnum } from '@/types/typesExported'
 import { LoaderTypeEnum } from '@/types/globals'
 import { useUiStore, useUserStore } from '@/store'
-import useMainStore from '@/store/main/mainStore'
 
 interface Props {
   files: FileType[]

@@ -32,7 +32,6 @@ export const getStoreFileNames = () => {
     }, {})
 }
 
-
 export const EXCLUDES_STORE_FOLDER_NAME = [
   'utils',
   'subscription',

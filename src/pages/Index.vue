@@ -306,7 +306,6 @@
 
 <script setup lang="ts">
 import { useUiStore } from '@/store'
-import useMainStore from '@/store/main/mainStore'
 
 const { newsletterSignup } = newsletterHook()
 
