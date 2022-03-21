@@ -30,9 +30,10 @@ import { DateFormatEnum } from '@/types/Date'
 import { PropType } from 'vue'
 import { EmployeeType } from '@/types/typesExported'
 
-const props = defineProps({
+defineProps({
   employee: Object as PropType<EmployeeType>
 })
+
 const { getEmployeeStatusColor, getEmployeeStatusSignature } = employeeHook()
 const { getDate } = dateHook()
 </script>
