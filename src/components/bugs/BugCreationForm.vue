@@ -2,7 +2,7 @@
   <form class="grid grid-cols-1 gap-4 md:grid-cols-2">
     <div class="space-y-2 md:col-span-2">
       <label
-        class="block mb-2 text-lg font-bold text-blue dark:text-white"
+        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
       >Nom du bug ou de la remarque&nbsp;:</label>
       <BaseInput
         type="text"
@@ -13,7 +13,7 @@
       />
     </div>
     <div class="space-y-2">
-      <label class="block mb-2 text-lg font-bold text-blue dark:text-white">Url de la page&nbsp;:</label>
+      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Url de la page&nbsp;:</label>
       <BaseInput
         v-model="url"
         @update:modelValue="setCreationFormField('url', url)"
@@ -23,7 +23,7 @@
 
     <div class="space-y-2">
       <label
-        class="block mb-2 text-lg font-bold text-blue dark:text-white"
+        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
       >Type de Bug/problème&nbsp;:</label>
       <Listbox v-model="type" @update:modelValue="setCreationFormField('type', type)">
         <div class="relative mt-1">
@@ -78,7 +78,7 @@
     </div>
 
     <div class="space-y-2">
-      <label class="block mb-2 text-lg font-bold text-blue dark:text-white">Description&nbsp;:</label>
+      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Description&nbsp;:</label>
       <BaseTextarea
         class="w-full h-60"
         v-model="description"
@@ -90,7 +90,7 @@
 
     <div class="space-y-4">
       <label
-        class="block mb-2 text-lg font-bold text-blue dark:text-white"
+        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
       >Ajouter une capture d'écran&nbsp;:</label>
       <InputFile @uploadFile="uploadFile" />
     </div>

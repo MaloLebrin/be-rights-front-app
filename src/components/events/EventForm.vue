@@ -1,22 +1,22 @@
 <template>
   <form class="grid w-full h-full grid-cols-1 gap-6 px-6 mt-4 md:grid-cols-3">
-    <BField
-      class="col-span-3"
-      :class="nameMeta.valid ? 'text-red-500' : 'text-gray-800 dark:text-gray-300'"
-      label="Nom de l'événement"
-      labelFor="name"
-      :message="nameError"
-      :status="nameMeta.valid ? 'success' : 'error'"
-    >
-      <BInput class="text-white dark:text-blue-dark" type="text" id="name" v-model="name" />
-    </BField>
-    <BField
-      :class="datesMeta.valid ? 'text-red-500' : 'text-gray-800 dark:text-gray-300'"
-      label="Dates"
-      labelFor="dates"
-      :message="datesError"
-      :status="datesMeta.valid ? 'success' : 'error'"
-    >
+    <div class="space-y-2 md:col-span-3">
+      <label
+        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+      >Nom de l'événement&nbsp;*&nbsp;:</label>
+      <BaseInput
+        class="text-white dark:text-blue-dark"
+        type="text"
+        id="name"
+        v-model="name"
+        :error="nameError"
+      />
+    </div>
+
+    <div class="space-y-2">
+      <label
+        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+      >Dates de l'événement&nbsp;*&nbsp;:</label>
       <v-date-picker
         v-model="period"
         mode="dateTime"
@@ -25,88 +25,85 @@
         is24hr
         is-expanded
       />
-    </BField>
+      <p v-if="datesError?.length">{{ datesError }}</p>
+    </div>
 
-    <div class="col-span-2">
-      <BField
-        :class="addressMeta.valid ? 'text-red-500 dark:text-red-500' : 'text-gray-800 dark:text-gray-300'"
-        label="Adresse"
-        labelFor="address"
-        :message="addressError"
-        :status="addressMeta.valid ? 'success' : 'error'"
-      >
-        <BInput class="text-white dark:text-blue-dark" type="text" id="address" v-model="address" />
-      </BField>
-      <BField
-        :class="postalCodeMeta.valid ? 'text-red-500 dark:text-red-500' : 'text-gray-800 dark:text-gray-300'"
-        label="Code postal"
-        labelFor="postalCode"
-        :message="postalCodeError"
-        :status="postalCodeMeta.valid ? 'success' : 'error'"
-      >
-        <BInput
+    <div class="space-y-2 md:col-span-2">
+      <div class="space-y-2">
+        <label
+          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+        >Adresse&nbsp;*&nbsp;:</label>
+        <BaseInput
+          class="text-white dark:text-blue-dark"
+          type="text"
+          id="address"
+          v-model="address"
+          :error="addressError"
+        />
+      </div>
+      <div class="space-y-2">
+        <label
+          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+        >Code postal&nbsp;*&nbsp;:</label>
+        <BaseInput
           class="text-white dark:text-blue-dark"
           type="text"
           id="postalCode"
           v-model="postalCode"
+          :error="postalCodeError"
         />
-      </BField>
-      <BField
-        :class="cityMeta.valid ? 'text-red-500 dark:text-red-500' : 'text-gray-800 dark:text-gray-300'"
-        label="Ville"
-        labelFor="city"
-        :message="cityError"
-        :status="cityMeta.valid ? 'success' : 'error'"
-      >
-        <BInput class="text-white dark:text-blue-dark" type="text" id="city" v-model="city" />
-      </BField>
-      <BField
-        :class="countryMeta.valid ? 'text-red-500 dark:text-red-500' : 'text-gray-800 dark:text-gray-300'"
-        label="Pays"
-        labelFor="country"
-        :message="countryError"
-        :status="countryMeta.valid ? 'success' : 'error'"
-      >
-        <BInput class="text-white dark:text-blue-dark" type="text" id="country" v-model="country" />
-      </BField>
+      </div>
+
+      <div class="space-y-2">
+        <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Ville&nbsp;*&nbsp;:</label>
+        <BaseInput
+          class="text-white dark:text-blue-dark"
+          type="text"
+          id="city"
+          v-model="city"
+          :error="cityError"
+        />
+      </div>
+      <div class="space-y-2">
+        <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Pays&nbsp;*&nbsp;:</label>
+        <BaseInput
+          class="text-white dark:text-blue-dark"
+          type="text"
+          id="country"
+          v-model="country"
+          :error="countryError"
+        />
+      </div>
     </div>
-    <BField
-      v-if="isCurrentUserAdmin"
-      class="col-span-2"
-      :class="userIdMeta.valid ? 'text-red-500 dark:text-red-500' : 'text-gray-800 dark:text-gray-300'"
-      label="Utilisateur"
-      labelFor="userId"
-      :message="userIdError"
-      :status="userIdMeta.valid ? 'success' : 'error'"
-    >
+
+    <div v-if="isCurrentUserAdmin" class="space-y-2 md:col-span-2">
+      <label
+        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+      >Id de l'utilisateur&nbsp;*&nbsp;:</label>
       <InputSearchSelect baseUrl="user" @selected="handleUserId" />
-    </BField>
-    <BField
-      class="col-span-2"
-      label="Destinataires"
-      labelFor="employee"
-      :message="employeeError"
-      :status="employeeMeta.valid ? 'success' : 'error'"
-    >
+      <p v-if="userIdError?.length">{{ userIdError }}</p>
+    </div>
+
+    <div class="space-y-2 md:col-span-2">
+      <label
+        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+      >Destinataires&nbsp;*&nbsp;:</label>
       <InputSearchSelect
         :baseUrl="isCurrentUserAdmin ? 'employee' : `employee?filters[createdByUser]=${getCurrentUserId}`"
         @selected="handleEmployee"
         is-multiple
       />
-    </BField>
+      <p v-if="employeeError?.length">{{ employeeError }}</p>
+    </div>
   </form>
+
   <div class="flex items-center justify-center mt-6">
-    <BButton
-      :disabled="!meta.valid || !meta.dirty"
-      variant="white"
-      class="mr-2 dark:text-black"
-      @click="submit"
-    >
+    <BaseButton :disabled="!meta.valid || !meta.dirty" @click="submit">
       <template #icon>
         <SaveIconOutline />
       </template>
       {{ mode === ModalModeEnum.CREATE ? 'Créer' : 'Enregistrer' }}
-    </BButton>
+    </BaseButton>
   </div>
 </template>
 
@@ -138,43 +135,42 @@ const { postOne: PostOneEvent, patchOne: patchOneEvent } = eventHook()
 const event = computed(() => props.eventId ? eventStore.getOne(props.eventId) : null)
 
 const schema = object({
-  name: string().required('le nom de l\'événement est obligatoire').label('Nom'),
+  name: string().required('le nom de l\'événement est obligatoire'),
   period: object().shape({
-    start: date().required().label('Début'),
-    end: date().required().label('Fin'),
-  }).required().label('Dates'),
-  address: string().required('L\'adresse est obligatoire').label('Adresse'),
-  postalCode: string().required('Le code postal est obligatoire').label('Code postal'),
-  city: string().required('La ville est obligatoire').label('Ville'),
-  country: string().required('Le pays est obligatoire').label('Pays'),
-  userId: number().required().label('Utilisateur'),
+    start: date().required('La date de début est obligatoire'),
+    end: date().required('La date de fin est obligatoire'),
+  }).required('L\'événement doit avoir une date de début et une date de fin'),
+  address: string().required('L\'adresse est obligatoire'),
+  postalCode: string().required('Le code postal est obligatoire'),
+  city: string().required('La ville est obligatoire'),
+  country: string().required('Le pays est obligatoire'),
+  userId: number().required('L\'utilisateur est obligatoire'),
 })
 
 const { meta } = useForm({ validationSchema: schema })
 
-const { errorMessage: nameError, value: name, meta: nameMeta } = useField<string>('name', undefined, {
+const { errorMessage: nameError, value: name } = useField<string>('name', undefined, {
   initialValue: event.value ? event.value.name : '',
 })
-const { errorMessage: datesError, meta: datesMeta, value: period } = useField<Period>('period', undefined, {
+const { errorMessage: datesError, value: period } = useField<Period>('period', undefined, {
   initialValue: event.value ? { start: event.value.start, end: event.value.end } : { start: new Date(), end: new Date() },
 })
-const { errorMessage: addressError, value: address, meta: addressMeta } = useField<string | null>('address', undefined, {
+const { errorMessage: addressError, value: address } = useField<string | null>('address', undefined, {
   initialValue: event.value ? event.value.address : '',
 })
-const { errorMessage: postalCodeError, value: postalCode, meta: postalCodeMeta } = useField<string | null>('postalCode', undefined, {
-  initialValue: event.value ? event.value.postalCode : '',
+const { errorMessage: postalCodeError, value: postalCode } = useField<string | null>('postalCode', undefined, {
+  initialValue: event.value ? event.value.postalCode?.toString() : '',
 })
-const { errorMessage: cityError, value: city, meta: cityMeta } = useField<string | null>('city', undefined, {
+const { errorMessage: cityError, value: city } = useField<string | null>('city', undefined, {
   initialValue: event.value ? event.value.city : '',
 })
-const { errorMessage: countryError, value: country, meta: countryMeta } = useField<string | null>('country', undefined, {
+const { errorMessage: countryError, value: country } = useField<string | null>('country', undefined, {
   initialValue: event.value ? event.value.country : '',
 })
-const { errorMessage: userIdError, value: userId, meta: userIdMeta, handleChange: handleUserId } = useField<number | null>('userId', undefined, {
+const { errorMessage: userIdError, value: userId, handleChange: handleUserId } = useField<number | null>('userId', undefined, {
   initialValue: event.value ? event.value.createdByUser as number : null,
 })
-
-const { errorMessage: employeeError, value: employees, meta: employeeMeta, handleChange: handleEmployee } = useField<EmployeeType[] | null>('employees', undefined, {
+const { errorMessage: employeeError, value: employees, handleChange: handleEmployee } = useField<EmployeeType[] | null>('employees', undefined, {
   initialValue: event.value ? event.value.employees as unknown as EmployeeType[] : [],
 })
 

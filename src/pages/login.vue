@@ -10,11 +10,15 @@
         </div>
 
         <div class="space-y-4">
-          <label class="block mb-2 text-lg font-bold text-blue dark:text-white">Adress email&nbsp;:</label>
+          <label
+            class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+          >Adress email&nbsp;:</label>
           <BaseInput type="email" v-model="email" :error="emailError" />
         </div>
         <div class="space-y-4">
-          <label class="block mb-2 text-lg font-bold text-blue dark:text-white">Mot de passe&nbsp;:</label>
+          <label
+            class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+          >Mot de passe&nbsp;:</label>
           <BaseInput type="password" v-model="password" :error="passwordError" />
         </div>
 

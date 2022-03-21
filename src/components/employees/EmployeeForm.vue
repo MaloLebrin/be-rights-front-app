@@ -2,7 +2,9 @@
   <div class="w-full h-full px-4 mt-4">
     <form class="grid grid-cols-2 gap-4">
       <div class="space-y-2">
-        <label class="block mb-2 text-lg font-bold text-blue dark:text-white">Prénom&nbsp;*&nbsp;:</label>
+        <label
+          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+        >Prénom&nbsp;*&nbsp;:</label>
         <BaseInput
           class="text-white dark:text-blue-dark"
           type="text"
@@ -13,7 +15,7 @@
       </div>
 
       <div class="space-y-2">
-        <label class="block mb-2 text-lg font-bold text-blue dark:text-white">Nom&nbsp;*&nbsp;:</label>
+        <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Nom&nbsp;*&nbsp;:</label>
         <BaseInput
           class="text-white dark:text-blue-dark"
           type="text"
@@ -24,7 +26,9 @@
       </div>
 
       <div class="space-y-2">
-        <label class="block mb-2 text-lg font-bold text-blue dark:text-white">E-mail&nbsp;*&nbsp;:</label>
+        <label
+          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+        >E-mail&nbsp;*&nbsp;:</label>
         <BaseInput
           class="text-white dark:text-blue-dark"
           type="email"
@@ -36,7 +40,7 @@
 
       <div class="space-y-2">
         <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-white"
+          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
         >Téléphone&nbsp;*&nbsp;:</label>
         <BaseInput
           class="text-white dark:text-blue-dark"
@@ -49,7 +53,7 @@
 
       <div v-if="isCurrentUserAdmin && ModalModeEnum.CREATE" class="space-y-2 md:col-span-2">
         <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-white"
+          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
         >Id de l'utilisateur&nbsp;*&nbsp;:</label>
         <InputSearchSelect baseUrl="user" @selected="handleNewUserId" />
         <p v-if="userIdError?.length">{{ userIdError }}</p>
