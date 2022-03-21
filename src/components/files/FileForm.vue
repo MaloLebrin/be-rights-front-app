@@ -12,72 +12,58 @@
     <InputFile v-else-if="mode === ModalModeEnum.CREATE" @uploadFile="uploadOneFile" />
 
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-      <BField
-        label="Nom du fichier"
-        labelFor="name"
-        :message="errorName"
-        :status="nameMeta.valid ? 'success' : 'error'"
-      >
-        <BInput
-          class="text-black dark:text-gray-800"
+      <div class="space-y-2">
+        <label
+          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+        >Nom du fichier&nbsp;*&nbsp;:</label>
+        <BaseInput
+          class="text-white dark:text-blue-dark"
           type="text"
+          id="name"
           v-model="name"
-          placeholder="Nom du fichier"
+          :error="errorName"
         />
-      </BField>
+      </div>
 
-      <BField
-        label="Type de fichier"
-        labelFor="type"
-        :message="errorType"
-        :status="typeMeta.valid ? 'success' : 'error'"
-      >
+      <div class="space-y-2">
+        <label
+          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+        >Type du fichier&nbsp;*&nbsp;:</label>
         <Select
           :options="fileTypeArray"
           :default="type ? type : 'Sélectionnez un Role'"
           @selected="handleFileType"
         />
-      </BField>
+        <p v-if="errorType?.length" class="text-sm text-red-500">{{ errorType }}</p>
+      </div>
 
-      <BField
-        class="col-span-2"
-        label="Description"
-        labelFor="description"
-        :message="errorDescription"
-        :status="descriptionMeta.valid ? 'success' : 'error'"
-      >
-        <textarea
-          class="w-full h-32 min-h-32"
-          type="text"
-          v-model="description"
-          placeholder="Description"
-        />
-      </BField>
+      <div class="space-y-2 md:col-span-2">
+        <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Description&nbsp;:</label>
+        <BaseTextarea class="w-full" v-model="description" :error="errorDescription" />
+      </div>
 
-      <BField
-        v-if="isCurrentUserAdmin && ModalModeEnum.CREATE"
-        class="col-span-2"
-        label="Utilisateur"
-        labelFor="userId"
-        :message="userIdError"
-        :status="userIdMeta.valid ? 'success' : 'error'"
-      >
-        <InputSearchSelect baseUrl="user" @selected="handleUserId" />
-      </BField>
+      <div v-if="isCurrentUserAdmin && ModalModeEnum.CREATE" class="space-y-2 md:col-span-2">
+        <label
+          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+        >Id de l'utilisateur&nbsp;*&nbsp;:</label>
+        <InputSearchSelect baseUrl="user" @selected="addUserId" />
+        <p v-if="userIdError?.length" class="text-sm text-red-500">{{ userIdError }}</p>
+      </div>
     </div>
+
     <div class="flex items-center justify-center mt-10">
-      <BButton :disabled="!meta.dirty || !meta.valid" variant="white" @click="submit">
+      <BaseButton :disabled="!meta.dirty || !meta.valid" @click="submit">
         <template #icon>
           <SaveIconOutline />
         </template>
         Enregistrer
-      </BButton>
+      </BaseButton>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { FileType, FileTypeEnum, ModalModeEnum, fileTypeArray } from '@/types/typesExported'
+import { FileType, FileTypeEnum, ModalModeEnum, fileTypeArray, UserType } from '@/types/typesExported'
 import { useField, useForm } from 'vee-validate'
 import { object, string, number } from 'yup'
 
@@ -110,19 +96,23 @@ const schema = object({
 
 const { meta } = useForm({ validationSchema: schema })
 
-const { value: name, errorMessage: errorName, meta: nameMeta } = useField<string>('name', undefined, {
+const { value: name, errorMessage: errorName } = useField<string>('name', undefined, {
   initialValue: props.file ? props.file.name : '',
 })
-const { value: description, errorMessage: errorDescription, meta: descriptionMeta } = useField<string>('description', undefined, {
+const { value: description, errorMessage: errorDescription } = useField<string>('description', undefined, {
   initialValue: props.file ? props.file.description || '' : '',
 })
-const { value: type, errorMessage: errorType, meta: typeMeta, handleChange: handleFileType } = useField<FileTypeEnum>('type', undefined, {
+const { value: type, errorMessage: errorType, handleChange: handleFileType } = useField<FileTypeEnum>('type', undefined, {
   initialValue: props.file ? props.file.type : FileTypeEnum.MODEL,
 })
 
-const { value: userId, errorMessage: userIdError, meta: userIdMeta, handleChange: handleUserId } = useField<number>('userId', undefined, {
+const { value: userId, errorMessage: userIdError, handleChange: handleUserId } = useField<number>('userId', undefined, {
   initialValue: props.file ? props.file.createdByUser : 0,
 })
+
+function addUserId(user: UserType) {
+  handleUserId(user.id)
+}
 
 function uploadOneFile(fileUploaded: File) {
   const formData = new FormData()
