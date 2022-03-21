@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="space-y-2">
     <input
       v-bind="$attrs"
       v-model="innerValue"
@@ -8,7 +8,7 @@
       :placeholder="placeholder"
       :aria-placeholder="placeholder"
       :type="type"
-      :class="['appearance-none block w-full px-4 py-3 border rounded disabled:border-grey disabled:bg-grey-light focus:outline-none text-black border-blue hover:border-blue-dark focus:ring-2 ring-blue',
+      :class="['appearance-none block w-full px-4 py-3 rounded disabled:border-grey disabled:bg-grey-light focus:outline-none text-black border-blue hover:border-blue-dark focus:ring-2 ring-blue',
         { 'border-red-300': error?.length },
         { 'cursor-not-allowed': disabled },
       ]"

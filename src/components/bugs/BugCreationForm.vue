@@ -1,39 +1,34 @@
 <template>
   <form class="grid grid-cols-1 gap-4 md:grid-cols-2">
-    <BField
-      class="col-span-2"
-      label="Nom du bug ou de la remarque"
-      labelFor="name"
-      :message="errorName"
-      :status="metaName.valid ? 'success' : 'error'"
-    >
-      <BInput
+    <div class="space-y-2 md:col-span-2">
+      <label
+        class="block mb-2 text-lg font-bold text-blue dark:text-white"
+      >Nom du bug ou de la remarque&nbsp;:</label>
+      <BaseInput
         type="text"
         v-model="name"
         id="name"
         @update:modelValue="setCreationFormField('name', name)"
+        :error="errorName"
       />
-    </BField>
+    </div>
+    <div class="space-y-2">
+      <label class="block mb-2 text-lg font-bold text-blue dark:text-white">Url de la page&nbsp;:</label>
+      <BaseInput
+        v-model="url"
+        @update:modelValue="setCreationFormField('url', url)"
+        :error="errorUrl"
+      />
+    </div>
 
-    <BField
-      label="Url de la page"
-      labelFor="url"
-      :message="errorUrl"
-      :status="metaUrl.valid ? 'success' : 'error'"
-    >
-      <BInput v-model="url" @update:modelValue="setCreationFormField('url', url)" />
-    </BField>
-
-    <BField
-      label="Type de bug"
-      labelFor="type"
-      :message="errorType"
-      :status="metaType.valid ? 'success' : 'error'"
-    >
+    <div class="space-y-2">
+      <label
+        class="block mb-2 text-lg font-bold text-blue dark:text-white"
+      >Type de Bug/problème&nbsp;:</label>
       <Listbox v-model="type" @update:modelValue="setCreationFormField('type', type)">
         <div class="relative mt-1">
           <ListboxButton
-            class="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm"
+            class="relative w-full py-4 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm"
           >
             <span class="block truncate">{{ getBugReportTypeTranslation(type) }}</span>
             <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
@@ -80,46 +75,46 @@
           </transition>
         </div>
       </Listbox>
-    </BField>
+    </div>
 
-    <BField
-      label="Description"
-      labelFor="description"
-      :message="errorDescription"
-      :status="metaDescription.valid ? 'success' : 'error'"
-    >
+    <div class="space-y-2">
+      <label class="block mb-2 text-lg font-bold text-blue dark:text-white">Description&nbsp;:</label>
       <BaseTextarea
         class="w-full h-60"
         v-model="description"
         placeholder="Description"
         @update:modelValue="setCreationFormField('description', description)"
+        :error="errorDescription"
       />
-    </BField>
+    </div>
 
-    <BField label="Ajouter un screenshot">
+    <div class="space-y-4">
+      <label
+        class="block mb-2 text-lg font-bold text-blue dark:text-white"
+      >Ajouter une capture d'écran&nbsp;:</label>
       <InputFile @uploadFile="uploadFile" />
-    </BField>
+    </div>
 
     <div class="flex items-center justify-center col-span-2 mt-6 space-x-6">
-      <BButton variant="white" @click="goBack">
+      <BaseButton @click="goBack">
         <template #icon>
           <BackspaceIconOutline class="w-6 h-6" />
         </template>
         <span>Retour</span>
-      </BButton>
-      <BButton :disabled="!meta.valid || !meta.dirty" @click="submitBugReport">
+      </BaseButton>
+      <BaseButton :disabled="!meta.valid || !meta.dirty" @click="submitBugReport">
         <template #icon>
           <PaperAirplaneIconOutline class="w-6 h-6" />
         </template>
         <span>Envoyer</span>
-      </BButton>
+      </BaseButton>
     </div>
   </form>
 </template>
 
 <script setup lang="ts">
 import router from '@/router'
-import { BUGS_REPORTS_TYPE_ARRAY, BugReportTypeEnum, BugReportStatus, FileTypeEnum } from '@/types/typesExported'
+import { BUGS_REPORTS_TYPE_ARRAY, BugReportTypeEnum, FileTypeEnum } from '@/types/typesExported'
 import { useField, useForm } from 'vee-validate'
 import { object, string } from 'yup'
 
@@ -147,19 +142,19 @@ const schema = object({
 
 const { meta } = useForm({ validationSchema: schema })
 
-const { errorMessage: errorName, value: name, meta: metaName } = useField<string>('name', undefined, {
+const { errorMessage: errorName, value: name } = useField<string>('name', undefined, {
   initialValue: getCreationForm.value.name,
 })
 
-const { errorMessage: errorUrl, value: url, meta: metaUrl } = useField<string>('url', undefined, {
+const { errorMessage: errorUrl, value: url } = useField<string>('url', undefined, {
   initialValue: getCreationForm.value.url,
 })
 
-const { errorMessage: errorDescription, value: description, meta: metaDescription } = useField<string>('description', undefined, {
+const { errorMessage: errorDescription, value: description } = useField<string>('description', undefined, {
   initialValue: getCreationForm.value.description,
 })
 
-const { errorMessage: errorType, value: type, meta: metaType } = useField<BugReportTypeEnum>('type', undefined, {
+const { errorMessage: errorType, value: type } = useField<BugReportTypeEnum>('type', undefined, {
   initialValue: getCreationForm.value.type,
 })
 
