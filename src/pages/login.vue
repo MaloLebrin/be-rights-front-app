@@ -9,28 +9,17 @@
           <SimpleLogo />
         </div>
 
-        <BField
-          label="Address e-mail"
-          :message="emailError"
-          :status="emailMeta.dirty && emailMeta.valid ? 'success' : 'error'"
-        >
-          <BInput type="email" class="text-black dark:text-gray-900" v-model="email" />
-        </BField>
-        <BField
-          label="Mot de passe"
-          :message="passwordError"
-          :status="passwordMeta.dirty && passwordMeta.valid ? 'success' : 'error'"
-        >
-          <BInput type="password" class="text-black" v-model="password" />
-        </BField>
+        <div class="space-y-4">
+          <label class="block mb-2 text-lg font-bold text-blue dark:text-white">Adress email&nbsp;:</label>
+          <BaseInput type="email" v-model="email" :error="emailError" />
+        </div>
+        <div class="space-y-4">
+          <label class="block mb-2 text-lg font-bold text-blue dark:text-white">Mot de passe&nbsp;:</label>
+          <BaseInput type="password" v-model="password" :error="passwordError" />
+        </div>
+
         <div class="flex flex-col items-center justify-center space-y-6">
-          <BButton
-            :disabled="!meta.valid || !meta.dirty"
-            :class="{ 'cursor-not-allowed opacity-70': !meta.valid || !meta.dirty }"
-            :variant="isDarkTheme ? 'white' : 'primary'"
-            :isLoading="uiStore.getUIIsLoading"
-            @click="submitLogin"
-          >Se Connecter</BButton>
+          <BaseButton :disabled="!meta.valid || !meta.dirty" @click="submitLogin">Se Connecter</BaseButton>
           <BLink class="dark:text-white" tag="router-link" to="/register">S'inscrire</BLink>
           <BLink class="dark:text-white">Mot de passe oublié</BLink>
         </div>
@@ -50,37 +39,20 @@ import { useField, useForm } from 'vee-validate'
 import { object, string } from 'yup'
 
 const { login } = userHook()
-const mainStore = useMainStore()
-const uiStore = useUiStore()
-const { IncLoading, DecLoading } = uiStore
-const { isDarkTheme } = mainStore
+const { IncLoading, DecLoading } = useUiStore()
 
 const schema = object({
-  email: string().email().required().label('Adresse email'),
-  password: string().required().label('Mot de passe'),
+  email: string().email().required("L'adresse email est requise"),
+  password: string().required("Le mot de passe est requis"),
 })
 
-
 const { meta } = useForm({ validationSchema: schema })
-const { errorMessage: emailError, value: email, meta: emailMeta } = useField<string>('email')
-const { errorMessage: passwordError, value: password, meta: passwordMeta } = useField<string>('password')
+const { errorMessage: emailError, value: email } = useField<string>('email')
+const { errorMessage: passwordError, value: password } = useField<string>('password')
 
 async function submitLogin() {
   IncLoading()
   await login({ email: email.value, password: password.value })
   DecLoading()
 }
-
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.8s ease-in-out;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
