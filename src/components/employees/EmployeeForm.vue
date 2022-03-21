@@ -56,7 +56,7 @@
           class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
         >Id de l'utilisateur&nbsp;*&nbsp;:</label>
         <InputSearchSelect baseUrl="user" @selected="handleNewUserId" />
-        <p v-if="userIdError?.length">{{ userIdError }}</p>
+        <p v-if="userIdError?.length" class="text-sm text-red-500">{{ userIdError }}</p>
       </div>
     </form>
 
