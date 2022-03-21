@@ -20,6 +20,7 @@ declare module 'vue' {
     BField: typeof import('be-right-vue3-lib')['BField']
     BInput: typeof import('be-right-vue3-lib')['BInput']
     BLink: typeof import('be-right-vue3-lib')['BLink']
+    BToast: typeof import('be-right-vue3-lib')['BToast']
     BugCreationForm: typeof import('./../../components/bugs/BugCreationForm.vue')['default']
     BugReport: typeof import('./../../pages/userDashboard/bugReports/BugReport.vue')['default']
     BugsList: typeof import('./../../components/bugs/BugsList.vue')['default']
@@ -45,6 +46,7 @@ declare module 'vue' {
     EventList: typeof import('./../../components/events/EventList.vue')['default']
     EventModal: typeof import('./../../components/modals/EventModal.vue')['default']
     EventUserItem: typeof import('./../../components/events/EventUserItem.vue')['default']
+    ExclamationCircleIconOutline: typeof import('@heroicons/vue/outline/esm/ExclamationCircleIcon.js')['default']
     ExclamationIconOutline: typeof import('@heroicons/vue/outline/esm/ExclamationIcon.js')['default']
     FileForm: typeof import('./../../components/files/FileForm.vue')['default']
     FileList: typeof import('./../../components/files/FileList.vue')['default']
@@ -104,6 +106,7 @@ declare module 'vue' {
     UserList: typeof import('./../../components/users/UserList.vue')['default']
     Users: typeof import('./../../pages/adminDashboard/users.vue')['default']
     UsersAdminModal: typeof import('./../../components/modals/UsersAdminModal.vue')['default']
+    UsersIconOutline: typeof import('@heroicons/vue/outline/esm/UsersIcon.js')['default']
     XCircleIconOutline: typeof import('@heroicons/vue/outline/esm/XCircleIcon.js')['default']
   }
 }
