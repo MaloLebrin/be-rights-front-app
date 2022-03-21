@@ -4,7 +4,6 @@
     <ExclamationIconOutline v-if="type === 'warning'" class="w-8 h-8 mr-8 text-orange-500" />
     <XCircleIconOutline v-if="type === 'danger'" class="w-8 h-8 mr-8 text-red-500" />
     <CheckCircleIconOutlin v-if="type === 'success'" class="w-8 h-8 mr-8 text-green-500" />
-
     <slot />
   </div>
 </template>

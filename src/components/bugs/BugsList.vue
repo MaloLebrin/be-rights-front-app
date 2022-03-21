@@ -30,5 +30,4 @@ withDefaults(defineProps<Props>(), {
 })
 
 const uiStore = useUiStore()
-
 </script>

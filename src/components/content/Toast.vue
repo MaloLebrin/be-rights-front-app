@@ -1,12 +1,12 @@
 <template>
   <div v-if="isActive" class="absolute inset-0 flex items-center justify-center shadow-2xl">
-    <div class="Toast px-6 py-4 border-0 rounded-2xl relative mb-4 shadow-2xl" :class="classes">
+    <div class="relative px-6 py-4 mb-4 border-0 shadow-2xl Toast rounded-2xl" :class="classes">
       <span class="inline-block align-middle">
         <slot />
       </span>
       <button
         v-if="isCloseable"
-        class="absolute -top-1 -right-1 bg-white border-2 border-black-light text-black rounded-full cursor-pointer"
+        class="absolute text-black bg-white border-2 rounded-full cursor-pointer -top-1 -right-1 border-black-light"
         @click="closeAlert()"
       >
         <svg
@@ -38,6 +38,7 @@ interface Props {
   isToastOpen: boolean
   toastDuration?: number
 }
+
 const props = withDefaults(defineProps<Props>(), {
   variant: ToastVariantsEnum.PRIMARY,
   isCloseable: true,
@@ -47,7 +48,6 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   (e: 'close'): void
 }>()
-
 
 const isActive = ref(props.isToastOpen)
 
@@ -65,5 +65,4 @@ function closeAlert() {
   emit('close')
   resetUiToastState()
 }
-
 </script>
