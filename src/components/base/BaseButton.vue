@@ -40,7 +40,7 @@
     ]"
     @click="onClick($event)"
   >
-    <div v-if="$slots.icon" class="w-24 h-24">
+    <div v-if="$slots.icon" class="w-6 h-6">
       <slot name="icon" />
     </div>
     <div>
