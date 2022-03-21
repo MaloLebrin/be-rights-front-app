@@ -35,7 +35,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', modelValue: string): void
+  (e: 'update:modelValue', modelValue: string | null): void
 }>()
 
 const innerValue = computed({

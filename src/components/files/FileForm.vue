@@ -46,7 +46,7 @@
         <label
           class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
         >Id de l'utilisateur&nbsp;*&nbsp;:</label>
-        <InputSearchSelect baseUrl="user" @selected="handleUserId($event?.id)" />
+        <InputSearchSelect baseUrl="user" @selected="addUserId" />
         <p v-if="userIdError?.length" class="text-sm text-red-500">{{ userIdError }}</p>
       </div>
     </div>
@@ -63,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import { FileType, FileTypeEnum, ModalModeEnum, fileTypeArray } from '@/types/typesExported'
+import { FileType, FileTypeEnum, ModalModeEnum, fileTypeArray, UserType } from '@/types/typesExported'
 import { useField, useForm } from 'vee-validate'
 import { object, string, number } from 'yup'
 
@@ -109,6 +109,10 @@ const { value: type, errorMessage: errorType, handleChange: handleFileType } = u
 const { value: userId, errorMessage: userIdError, handleChange: handleUserId } = useField<number>('userId', undefined, {
   initialValue: props.file ? props.file.createdByUser : 0,
 })
+
+function addUserId(user: UserType) {
+  handleUserId(user.id)
+}
 
 function uploadOneFile(fileUploaded: File) {
   const formData = new FormData()
