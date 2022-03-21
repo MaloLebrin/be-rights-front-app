@@ -91,8 +91,6 @@ const colorClasses = computed(() => {
   return `${backgroundClass} ${textColorClass} focus:ring-${props.color}-500`
 })
 
-
-
 function onClick(event: Event) {
   emit('onClick', event)
 }
