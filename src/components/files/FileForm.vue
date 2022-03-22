@@ -69,11 +69,11 @@ import { object, string, number } from 'yup'
 
 interface Props {
   mode?: ModalModeEnum
-  file?: FileType
+  file?: FileType | null
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  file: undefined,
+  file: null,
   mode: ModalModeEnum.CREATE,
 })
 
