@@ -1,43 +1,42 @@
 <template>
   <div v-if="user" class="w-full h-full px-6 mt-4">
     <form class="grid grid-cols-2 gap-4">
-      <BField
-        label="Prénom"
-        labelFor="firstName"
-        class="text-blue-dark dark:text-white-break"
-      >{{ user.firstName }}</BField>
-      <BField
-        label="Nom"
-        labelFor="lastName"
-        class="text-blue-dark dark:text-white-break"
-      >{{ user.lastName }}</BField>
-      <BField
-        label="E-mail"
-        labelFor="email"
-        class="text-blue-dark dark:text-white-break"
-      >{{ user.email }}</BField>
-      <BField
-        label="Nom de l'entreprise"
-        labelFor="companyName"
-        class="text-blue-dark dark:text-white-break"
-      >{{ user.companyName }}</BField>
-      <BField
-        class="text-blue-dark dark:text-white-break"
-        label="N° Siret"
-        labelFor="siret"
-      >{{ user.siret }}</BField>
-      <BField
-        v-if="isCurrentUserAdmin"
-        label="Role"
-        labelFor="role"
-        class="text-blue-dark dark:text-white-break"
-      >{{ user.roles }}</BField>
-      <BField
-        label="Abonnement"
-        labelFor="subscription"
-        class="text-blue-dark dark:text-white-break"
-      >{{ getSuscriptionTranslation(user.subscription) }}</BField>
+      <div class="space-y-2 text-blue dark:text-gray-100">
+        <label class="block mb-2 text-lg font-bold">Prénom&nbsp;:</label>
+        <p>{{ user.firstName }}</p>
+      </div>
+
+      <div class="space-y-2 text-blue dark:text-gray-100">
+        <label class="block mb-2 text-lg font-bold">Nom&nbsp;:</label>
+        <p>{{ user.lastName }}</p>
+      </div>
+
+      <div class="space-y-2 text-blue dark:text-gray-100">
+        <label class="block mb-2 text-lg font-bold">E-mail&nbsp;:</label>
+        <p>{{ user.email }}</p>
+      </div>
+
+      <div class="space-y-2 text-blue dark:text-gray-100">
+        <label class="block mb-2 text-lg font-bold">Nom de l'entreprise&nbsp;:</label>
+        <p>{{ user.companyName }}</p>
+      </div>
+
+      <div class="space-y-2 text-blue dark:text-gray-100">
+        <label class="block mb-2 text-lg font-bold">N° Siret&nbsp;:</label>
+        <p>{{ user.siret ? user.siret : ' -' }}</p>
+      </div>
+
+      <div v-if="isCurrentUserAdmin" class="space-y-2 text-blue dark:text-gray-100">
+        <label class="block mb-2 text-lg font-bold">Roles&nbsp;:</label>
+        <p>{{ user.roles }}</p>
+      </div>
+
+      <div class="space-y-2 text-blue dark:text-gray-100">
+        <label class="block mb-2 text-lg font-bold">Abonnement&nbsp;:</label>
+        <p>{{ getSuscriptionTranslation(user.subscription) }}</p>
+      </div>
     </form>
+
     <div class="mt-12 text-black-light">
       <Loader v-if="isLoading" :isLoading="isLoading" :type="LoaderTypeEnum.BOUNCE" />
       <div class="grid grid-cols-1 mb-12 md:grid-cols-2">
