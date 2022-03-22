@@ -23,7 +23,7 @@
                   class="px-3 py-2 text-sm font-medium text-black rounded-md hover:text-white dark:text-white dark:hover:text-red-light"
                 >Tarifs</BLink>
 
-                <BButton href="#Newsletter" variant="white" @click="onClickStartButton">Commencer</BButton>
+                <BaseButton href="#Newsletter" color="white" @click="onClickStartButton">Commencer</BaseButton>
 
                 <BLink
                   tag="router-link"

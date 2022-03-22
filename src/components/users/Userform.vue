@@ -123,18 +123,12 @@
       </div>
     </div>
     <div class="flex items-center justify-center w-full mt-12">
-      <BButton
-        variant="white"
-        class="mt-4 dark:text-black"
-        :disabled="!meta.valid || !meta.dirty"
-        :loading="isLoading"
-        @click="submit"
-      >
+      <BaseButton :disabled="!meta.valid || !meta.dirty" @click="submit">
         <template #icon>
           <SaveIconOutline />
         </template>
         Enregistrer
-      </BButton>
+      </BaseButton>
     </div>
   </div>
 </template>
@@ -259,5 +253,4 @@ const activeClasse = (tab: number) => computed(() => activeTabs.value === tab ? 
 function toggleActiveTab(tab: number) {
   activeTabs.value = tab
 }
-
 </script>
