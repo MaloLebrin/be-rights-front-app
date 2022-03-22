@@ -22,18 +22,18 @@
       >Description: {{ uiStore.getUiModalData?.file.description }}</p>
 
       <div class="flex items-center justify-center space-x-4">
-        <BButton variant="danger" :isLoading="uiStore.getUIIsLoading" @click="deleteFile">
+        <BaseButton color="red" @click="deleteFile">
           <div class="flex items-center">
             <TrashIconOutline class="w-4 h-4 mr-2" />
             <span>Supprimer</span>
           </div>
-        </BButton>
-        <BButton variant="white" @click="close()">
+        </BaseButton>
+        <BaseButton @click="close()">
           <div class="flex items-center">
             <XCircleIconOutline class="w-4 h-4 mr-2" />
             <span>Annuler</span>
           </div>
-        </BButton>
+        </BaseButton>
       </div>
     </div>
   </BaseModal>
@@ -43,13 +43,13 @@
 import { ModalModeEnum } from '@/types/typesExported'
 
 interface Props {
-  mode?: ModalModeEnum
+  mode?: ModalModeEnum | null
   isActive: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   isActive: false,
-  mode: undefined,
+  mode: null,
 })
 
 const uiStore = useUiStore()
@@ -96,5 +96,4 @@ const getModalTitle = computed(() => {
       return 'Créer un Fichier'
   }
 })
-
 </script>
