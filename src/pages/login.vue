@@ -24,8 +24,8 @@
 
         <div class="flex flex-col items-center justify-center space-y-6">
           <BaseButton :disabled="!meta.valid || !meta.dirty" @click="submitLogin">Se Connecter</BaseButton>
-          <BLink class="dark:text-white" tag="router-link" to="/register">S'inscrire</BLink>
-          <BLink class="dark:text-white">Mot de passe oublié</BLink>
+          <router-link class="LinkClass" :to="{ path: '/register' }">S'inscrire</router-link>
+          <router-link class="LinkClass" :to="{ path: '/forgot-password' }">S'inscrire</router-link>
         </div>
       </div>
 
