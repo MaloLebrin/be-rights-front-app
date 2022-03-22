@@ -1,89 +1,86 @@
 <template>
   <div v-if="user" class="w-full h-full px-6 mt-4">
     <form class="grid grid-cols-2 gap-4">
-      <BField
-        label="Prénom"
-        labelFor="firstName"
-        :message="firstNameError"
-        :status="firstNameMeta.valid ? 'success' : 'error'"
-      >
-        <BInput
+      <div class="space-y-2">
+        <label
+          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+        >Prénom&nbsp;*&nbsp;:</label>
+        <BaseInput
           class="text-white dark:text-blue-dark"
           type="text"
           id="firstName"
           v-model="firstName"
+          :error="firstNameError"
         />
-      </BField>
-      <BField
-        label="Nom"
-        labelFor="lastName"
-        :message="lastNameError"
-        :status="lastNameMeta.valid ? 'success' : 'error'"
-      >
-        <BInput
+      </div>
+      <div class="space-y-2">
+        <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Nom&nbsp;*&nbsp;:</label>
+        <BaseInput
           class="text-white dark:text-blue-dark"
           type="text"
           id="lastName"
           v-model="lastName"
+          :error="lastNameError"
         />
-      </BField>
-      <BField
-        label="E-mail"
-        labelFor="email"
-        :message="emailError"
-        :status="emailMeta.valid ? 'success' : 'error'"
-      >
-        <BInput class="text-white dark:text-blue-dark" type="email" id="email" v-model="email" />
-      </BField>
-      <BField
-        label="Nom de l'entreprise"
-        labelFor="companyName"
-        :message="companyNameError"
-        :status="companyNameMeta.valid ? 'success' : 'error'"
-      >
-        <BInput
+      </div>
+      <div class="space-y-2">
+        <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Email&nbsp;*&nbsp;:</label>
+        <BaseInput
+          class="text-white dark:text-blue-dark"
+          type="email"
+          id="email"
+          v-model="email"
+          :error="emailError"
+        />
+      </div>
+      <div class="space-y-2">
+        <label
+          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+        >Nom de l'entreprise&nbsp;*&nbsp;:</label>
+        <BaseInput
           class="text-white dark:text-blue-dark"
           type="text"
           id="companyName"
           v-model="companyName"
+          :error="companyNameError"
         />
-      </BField>
-      <BField
-        class="col-span-2"
-        label="N° Siret"
-        labelFor="siret"
-        :message="siretError"
-        :status="siretMeta.valid ? 'success' : 'error'"
-      >
-        <BInput class="text-white dark:text-blue-dark" type="text" id="siret" v-model="siret" />
-      </BField>
-      <BField
-        v-if="isCurrentUserAdmin"
-        label="Role"
-        labelFor="role"
-        :message="rolesError"
-        :status="rolesMeta.valid ? 'success' : 'error'"
-      >
+      </div>
+      <div class="space-y-2 md:col-span-2">
+        <label
+          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+        >N° Siret&nbsp;*&nbsp;:</label>
+        <BaseInput
+          class="text-white dark:text-blue-dark"
+          type="text"
+          id="siret"
+          v-model="siret"
+          :error="siretError"
+        />
+      </div>
+      <div v-if="isCurrentUserAdmin" class="space-y-2">
+        <label
+          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+        >Role utilisateur&nbsp;*&nbsp;:</label>
         <Select
           :options="userRolesArray"
           :default="roles ? roles : 'Sélectionnez un Role'"
           @selected="handleRoleUser"
         />
-      </BField>
-      <BField
-        v-if="isCurrentUserAdmin"
-        label="Abonnement"
-        labelFor="subscription"
-        :message="subscriptionError"
-        :status="subscriptionMeta.valid ? 'success' : 'error'"
-      >
+        <div v-if="rolesError?.length" class="text-sm text-red-500">{{ rolesError }}</div>
+      </div>
+      <div v-if="isCurrentUserAdmin" class="space-y-2">
+        <label
+          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+        >Abonnement&nbsp;*&nbsp;:</label>
         <Select
           :options="subscriptionArray"
           :default="subscription ? subscription : 'Sélectionnez un Abonnement'"
           @selected="handleSubscription"
         />
-      </BField>
+        <div v-if="subscriptionError?.length" class="text-sm text-red-500">{{ subscriptionError }}</div>
+      </div>
     </form>
+
     <div class="mt-12 text-black-light text-blue dark:text-white-break">
       <Loader v-if="isLoading" :isLoading="isLoading" :type="LoaderTypeEnum.BOUNCE" />
       <div class="grid grid-cols-1 mb-12 md:grid-cols-2">
