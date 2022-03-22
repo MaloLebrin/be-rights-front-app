@@ -9,13 +9,7 @@
       >{{ item.firstName }} {{ item.lastName }}</Tag>
     </div>
     <div class="relative">
-      <BInput
-        class="text-white dark:text-blue-dark"
-        type="text"
-        id="search"
-        v-model="state.search"
-        @keyup="searchEntity($event)"
-      />
+      <BaseInput type="text" id="search" v-model="state.search" @keyup="searchEntity($event)" />
       <ProcessingIcon v-if="state.isLoading" />
       <SearchIconOutline v-else class="absolute w-5 h-5 text-blue top-4 right-3" />
     </div>
@@ -39,7 +33,7 @@
 
 <script setup lang="ts">
 import APi, { PaginatedResponse } from "@/helpers/api"
-import { EmployeeType } from "@/types/typesExported"
+import type { EmployeeType } from "@/types/typesExported"
 import { TagVariantsEnum } from '@/types'
 import { useUserStore } from "@/store"
 
@@ -95,8 +89,7 @@ onMounted(async () => {
   }
 })
 
-async function searchEntity(event: Event) {
-
+async function searchEntity() {
   if (isCurrentUserAdmin) {
     clearTimeout(state.timeout)
     state.timeout = window.setTimeout(async () => {
@@ -136,5 +129,4 @@ function removeItem(id: number) {
   state.selectedItems = state.selectedItems.filter(i => i.id !== id)
   emit('selected', state.selectedItems)
 }
-
 </script>

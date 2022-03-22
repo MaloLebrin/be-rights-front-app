@@ -36,45 +36,38 @@
           >je suis une enteprise ou un particulier</label>
         </div>
 
-        <BField
-          class="col-span-2"
-          label="Nom de l'entreprise"
-          :message="companyNameError"
-          :status="companyNameMeta.dirty && companyNameMeta.valid ? 'success' : 'error'"
-        >
-          <BInput type="text" class="text-black" v-model="companyName" />
-        </BField>
+        <div class="space-y-4 md:col-span-2">
+          <label
+            class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+          >Nom de l'entreprise&nbsp;*&nbsp;:</label>
+          <BaseInput type="text" v-model="companyName" :error="companyNameError" />
+        </div>
 
-        <BField
-          label="Prénom"
-          :message="firstNameError"
-          :status="firstNameMeta.dirty && firstNameMeta.valid ? 'success' : 'error'"
-        >
-          <BInput type="text" class="text-black" v-model="firstName" />
-        </BField>
-        <BField
-          label="Nom"
-          :message="lastNameError"
-          :status="lastNameMeta.dirty && lastNameMeta.valid ? 'success' : 'error'"
-        >
-          <BInput type="text" class="text-black" v-model="lastName" />
-        </BField>
-        <BField
-          class="col-span-2"
-          label="Address e-mail"
-          :message="emailError"
-          :status="emailMeta.dirty && emailMeta.valid ? 'success' : 'error'"
-        >
-          <BInput type="email" class="text-black" v-model="email" />
-        </BField>
-        <BField
-          class="col-span-2"
-          label="Mot de passe"
-          :message="passwordError"
-          :status="passwordMeta.dirty && passwordMeta.valid ? 'success' : 'error'"
-        >
-          <BInput type="password" class="text-black" v-model="password" />
-        </BField>
+        <div class="space-y-4">
+          <label
+            class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+          >Prénom&nbsp;*&nbsp;:</label>
+          <BaseInput type="text" v-model="firstName" :error="firstNameError" />
+        </div>
+
+        <div class="space-y-4">
+          <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Nom&nbsp;*&nbsp;:</label>
+          <BaseInput type="text" v-model="lastName" :error="lastNameError" />
+        </div>
+
+        <div class="space-y-4 md:col-span-2">
+          <label
+            class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+          >Address e-mail&nbsp;*&nbsp;:</label>
+          <BaseInput type="email" v-model="email" :error="emailError" />
+        </div>
+
+        <div class="space-y-4 md:col-span-2">
+          <label
+            class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+          >Password&nbsp;*&nbsp;:</label>
+          <BaseInput type="password" v-model="password" :error="passwordError" />
+        </div>
 
         <div class="flex flex-col items-center justify-center col-span-2">
           <BaseButton :disabled="!meta.valid || !meta.dirty" @click="submitregister">S'inscrire</BaseButton>
@@ -107,13 +100,12 @@ const schema = object({
 })
 
 const { meta } = useForm({ validationSchema: schema })
-const { errorMessage: emailError, value: email, meta: emailMeta } = useField<string>('email')
-const { errorMessage: passwordError, value: password, meta: passwordMeta } = useField<string>('password')
-const { errorMessage: companyNameError, value: companyName, meta: companyNameMeta } = useField<string>('companyName')
-const { errorMessage: firstNameError, value: firstName, meta: firstNameMeta } = useField<string>('firstName')
-const { errorMessage: lastNameError, value: lastName, meta: lastNameMeta } = useField<string>('lastName')
+const { errorMessage: emailError, value: email } = useField<string>('email')
+const { errorMessage: passwordError, value: password } = useField<string>('password')
+const { errorMessage: companyNameError, value: companyName } = useField<string>('companyName')
+const { errorMessage: firstNameError, value: firstName } = useField<string>('firstName')
+const { errorMessage: lastNameError, value: lastName } = useField<string>('lastName')
 const { value: roles } = useField<RoleEnum>('roles', undefined, { initialValue: RoleEnum.COMPANY })
-
 
 async function submitregister() {
   IncLoading()

@@ -7,7 +7,7 @@
         <UserGroupIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Utilisateurs
       </template>
       <template #additionnalButtons>
-        <BInput
+        <BaseInput
           v-model="state.search"
           type="text"
           placeholder="Recherchez"
@@ -22,8 +22,7 @@
 <script setup lang="ts">
 const { fetchAll } = userHook()
 
-const uiStore = useUiStore()
-const { IncLoading, DecLoading } = uiStore
+const { IncLoading, DecLoading } = useUiStore()
 const tableStore = useTableStore()
 const { setSearch } = tableStore
 const userStore = useUserStore()
@@ -56,8 +55,10 @@ function searchEntity(event: KeyboardEvent) {
 </script>
 
 <route>
-{meta: {
-  layout: "AdminDashboardLayout",
-}
+{
+  meta: {
+    layout: "AdminDashboardLayout",
+    isAuth: true,
+  }
 }
 </route>

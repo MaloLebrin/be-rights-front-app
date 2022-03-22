@@ -7,7 +7,7 @@
         <UsersIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Bugs
       </template>
       <template #additionnalButtons>
-        <BInput
+        <BaseInput
           class="ml-12"
           v-model="state.search"
           type="text"
@@ -23,8 +23,7 @@
 <script setup lang="ts">
 const tableStore = useTableStore()
 const { setSearch } = tableStore
-const uiStore = useUiStore()
-const { IncLoading, DecLoading } = uiStore
+const { IncLoading, DecLoading } = useUiStore()
 const bugsStore = useBugStore()
 
 const { fetchAll } = bugReportsHook()
@@ -58,8 +57,10 @@ function searchEntity(event: KeyboardEvent) {
 </script>
 
 <route>
-{meta: {
-  layout: "AdminDashboardLayout"
-}
+{
+  meta: {
+    layout: "AdminDashboardLayout",
+    isAuth: true,
+  }
 }
 </route>
