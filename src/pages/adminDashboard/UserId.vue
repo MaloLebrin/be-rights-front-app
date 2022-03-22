@@ -26,12 +26,12 @@
             @uploadFile="uploadFile"
           />
           <div class="flex items-center justify-center">
-            <BButton variant="white" class="text-blue-dark" @click="submitFile">
+            <BaseButton :disabled="!state.file" @click="submitFile">
               <template #icon>
                 <SaveIconOutline />
               </template>
               Enregistrer le Logo
-            </BButton>
+            </BaseButton>
           </div>
         </div>
       </BAccordion>
@@ -91,12 +91,13 @@ async function submitFile() {
     state.file = null
   }
 }
-
 </script>
 
 <route>
-{meta: {
-  layout: "AdminDashboardLayout",
-}
+{
+  meta: {
+    layout: "AdminDashboardLayout",
+    isAuth: true,
+  }
 }
 </route>

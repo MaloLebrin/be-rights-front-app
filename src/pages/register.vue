@@ -77,13 +77,7 @@
         </BField>
 
         <div class="flex flex-col items-center justify-center col-span-2">
-          <BButton
-            :variant="isDarkTheme ? 'white' : 'primary'"
-            :disabled="!meta.valid || !meta.dirty"
-            :class="['mb-8', { 'cursor-not-allowed opacity-70': !meta.valid || !meta.dirty }]"
-            :isLoading="uiStore.getUIIsLoading"
-            @click="submitregister"
-          >S'inscrire</BButton>
+          <BaseButton :disabled="!meta.valid || !meta.dirty" @click="submitregister">S'inscrire</BaseButton>
           <BLink class="dark:text-white" tag="router-link" to="/login">J'ai déjà un compte</BLink>
         </div>
       </div>
@@ -101,10 +95,7 @@ import { RoleEnum } from '@/types'
 import { useField, useForm } from 'vee-validate'
 import { string, object } from 'yup'
 const { register } = userHook()
-const mainStore = useMainStore()
-const { isDarkTheme } = mainStore
-const uiStore = useUiStore()
-const { IncLoading, DecLoading } = uiStore
+const { IncLoading, DecLoading } = useUiStore()
 
 const schema = object({
   companyName: string().required().label('Nom de l\'entreprise'),
@@ -136,6 +127,4 @@ async function submitregister() {
   })
   DecLoading()
 }
-
-
 </script>

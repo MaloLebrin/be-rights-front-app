@@ -7,16 +7,16 @@
         <HomeIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Événements
       </template>
       <template #additionnalButtons>
-        <BButton class="mr-2 dark:text-black" @click="setHeaderFilters(null)">Tout</BButton>
-        <BButton
+        <BaseButton class="mr-2 dark:text-black" @click="setHeaderFilters(null)">Tout</BaseButton>
+        <BaseButton
           class="mr-2 dark:text-black"
           @click="setHeaderFilters(EventStatusEnum.PENDING)"
-        >En cours</BButton>
-        <BButton
+        >En cours</BaseButton>
+        <BaseButton
           class="mr-2 dark:text-black"
           @click="setHeaderFilters(EventStatusEnum.CLOSED)"
-        >Terminés</BButton>
-        <BInput
+        >Terminés</BaseButton>
+        <BaseInput
           v-model="state.search"
           type="text"
           placeholder="Recherchez"

@@ -72,7 +72,7 @@
         <p class="text-base text-gray-700">Dès 9.99€ par mois</p>
       </div>
       <div class="px-6 pt-4 pb-2">
-        <BButton class="text-black" size="small" variant="white">En savoir plus</BButton>
+        <BaseButton color="white">En savoir plus</BaseButton>
       </div>
     </BCard>
   </BDrawer>
