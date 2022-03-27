@@ -30,10 +30,8 @@
         </div>
 
         <template #extraButton>
-          <BLink
-            tag="router-link"
-            to="UserId"
-            :variant="extraButtonStyle"
+          <router-link
+            :to="{ name: 'adminDashboard-UserId' }"
             class="EventActionButton"
             @click="redirectToUserForm(user.id)"
           >
@@ -41,10 +39,9 @@
               <EyeIconOutline class="w-4 h-4 mr-2 text-gray-800" />
               <span>Voir</span>
             </div>
-          </BLink>
-          <BLink
+          </router-link>
+          <button
             v-if="userStore.getCurrent?.id !== user.id"
-            :variant="extraButtonStyle"
             class="EventActionButton"
             @click="onToggleUsersModal(user)"
           >
@@ -52,7 +49,7 @@
               <TrashIconOutline class="w-4 h-4 mr-2 text-red-800" />
               <span>Supprimer</span>
             </div>
-          </BLink>
+          </button>
         </template>
       </DashboardItem>
     </div>
@@ -74,7 +71,6 @@ withDefaults(defineProps<Props>(), {
 const { getDate } = dateHook()
 const userStore = useUserStore()
 const eventStore = useEventStore()
-const mainStore = useMainStore()
 const uiStore = useUiStore()
 const { setActive } = userStore
 const { setUiModal } = uiStore
@@ -85,7 +81,6 @@ const eventByUserId = (ids: number[] | EventType[]) => computed(() => {
   }
   return ids as EventType[]
 })
-const extraButtonStyle = computed(() => mainStore.isDarkTheme ? 'primary' : "white")
 
 function redirectToUserForm(userId: number) {
   setActive(userId)

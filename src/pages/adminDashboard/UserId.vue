@@ -14,7 +14,7 @@
         <Userform :id="userStore.getFirstActive" />
       </div>
 
-      <BAccordion class="rounded-full shadow-2xl dark:bg-blue-dark_bold animate-fade-in-down">
+      <BaseAccordion class="rounded-full shadow-2xl dark:bg-blue-dark_bold animate-fade-in-down">
         <template #title>
           <h5 class="px-6 py-4 text-xl font-medium">Logo de l'utilisateur</h5>
         </template>
@@ -34,7 +34,7 @@
             </BaseButton>
           </div>
         </div>
-      </BAccordion>
+      </BaseAccordion>
     </div>
   </div>
 </template>

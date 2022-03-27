@@ -1,4 +1,3 @@
-import library from 'be-right-vue3-lib'
 import { createApp } from 'vue'
 import router from '@/router/index'
 import App from './App.vue'
@@ -10,7 +9,6 @@ import VCalendar from 'v-calendar'
 const app = createApp(App)
 const store = createPinia()
 
-app.use(library)
 app.use(VueCookieNext)
 app.use(store)
 app.use(router)

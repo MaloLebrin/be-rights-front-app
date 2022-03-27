@@ -66,7 +66,9 @@
       </div>
     </div>
 
-    <BCard variant="danger">
+    <div
+      class="max-w-sm m-5 overflow-hidden text-black shadow-xl rounded-2xl bg-red hover:text-white hover:bg-red-light focus:ring-4 ring-red"
+    >
       <div class="px-6 py-4">
         <div class="mb-2 text-xl font-bold">Découvrez notre abonnement</div>
         <p class="text-base text-gray-700">Dès 9.99€ par mois</p>
@@ -74,7 +76,7 @@
       <div class="px-6 pt-4 pb-2">
         <BaseButton color="white">En savoir plus</BaseButton>
       </div>
-    </BCard>
+    </div>
   </BDrawer>
 </template>
 

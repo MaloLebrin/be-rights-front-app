@@ -56,9 +56,9 @@
 const mainStore = useMainStore()
 
 interface Props {
-  tag?: string,
-  href?: string,
-  type?: 'button' | 'submit',
+  tag?: string
+  href?: string | null
+  type?: 'button' | 'submit'
   disabled?: boolean,
   variant?: 'default' | 'social',
   color?: 'purple' | 'white' | 'red' | 'green' | 'blue'
@@ -70,7 +70,7 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
   color: 'blue',
   variant: 'default',
-  href: undefined,
+  href: null,
 })
 
 const emit = defineEmits<{

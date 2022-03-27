@@ -27,22 +27,13 @@
           </div>
 
           <template #extraButton>
-            <BLink
-              :variant="extraButtonStyle"
-              class="EventActionButton"
-              @click="deleteOneFile(file)"
-            >Supprimer {{ file.name }}</BLink>
-            <BLink
+            <a class="EventActionButton" @click="deleteOneFile(file)">Supprimer {{ file.name }}</a>
+            <a
               v-if="file.format === FileFormatEnum.PDF"
-              :variant="extraButtonStyle"
               class="EventActionButton"
               @click="downloadFile(file)"
-            >Télécharger {{ file.name }}</BLink>
-            <BLink
-              :variant="extraButtonStyle"
-              class="EventActionButton"
-              @click="updateFile(file)"
-            >Modifier {{ file.name }}</BLink>
+            >Télécharger {{ file.name }}</a>
+            <a class="EventActionButton" @click="updateFile(file)">Modifier {{ file.name }}</a>
           </template>
         </DashboardItem>
       </div>
