@@ -53,7 +53,6 @@ const eventID = computed(() => {
   }
 })
 
-
 const isModalActive = (modalName: ModalNameEnum) => computed(() => getUiModalState.isActive && getUiModalState.modalName === modalName)
 
 function CloseResetModalState() {

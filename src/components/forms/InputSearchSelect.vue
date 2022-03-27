@@ -9,29 +9,23 @@
       >{{ item.firstName }} {{ item.lastName }}</Tag>
     </div>
     <div class="relative">
-      <BInput
-        class="text-white dark:text-blue-dark"
-        type="text"
-        id="search"
-        v-model="state.search"
-        @keyup="searchEntity($event)"
-      />
+      <BaseInput type="text" id="search" v-model="state.search" @keyup="searchEntity($event)" />
       <ProcessingIcon v-if="state.isLoading" />
-      <SearchIconOutline v-else class="text-blue absolute top-4 right-3 h-5 w-5" />
+      <SearchIconOutline v-else class="absolute w-5 h-5 text-blue top-4 right-3" />
     </div>
     <div
       v-if="state.data.length > 0"
-      class="relative bg-white w-full border border-gray-400 dark:border-indigo-100 text-gray-700 shadow-inner cursor-pointer overflow-y-auto max-h-48"
+      class="relative w-full overflow-y-auto text-gray-700 bg-white border border-gray-400 shadow-inner cursor-pointer dark:border-indigo-100 max-h-48"
       :tabindex="0"
     >
       <div
         v-for="item in state.data"
         :key="item.id"
-        class="hover:bg-gray-600 hover:text-white py-3 px-4 flex items-center justify-between"
+        class="flex items-center justify-between px-4 py-3 hover:bg-gray-600 hover:text-white"
         @click="onOptionClick(item)"
       >
         <span>{{ item.firstName }} {{ item.lastName }}</span>
-        <CheckIconOutline v-if="state.selectedItems.includes(item)" class="text-green w-6 h-6" />
+        <CheckIconOutline v-if="state.selectedItems.includes(item)" class="w-6 h-6 text-green" />
       </div>
     </div>
   </div>
@@ -39,7 +33,7 @@
 
 <script setup lang="ts">
 import APi, { PaginatedResponse } from "@/helpers/api"
-import { EmployeeType } from "@/types/typesExported"
+import type { EmployeeType } from "@/types/typesExported"
 import { TagVariantsEnum } from '@/types'
 import { useUserStore } from "@/store"
 
@@ -58,7 +52,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-  (e: 'selected', selectedData: Record<string, any>[] | Record<string, any> | null): void
+  (e: 'selected', selectedData: any[] | any | null): void
   (e: 'close'): void
 }>()
 
@@ -95,8 +89,7 @@ onMounted(async () => {
   }
 })
 
-async function searchEntity(event: Event) {
-
+async function searchEntity() {
   if (isCurrentUserAdmin) {
     clearTimeout(state.timeout)
     state.timeout = window.setTimeout(async () => {
@@ -136,5 +129,4 @@ function removeItem(id: number) {
   state.selectedItems = state.selectedItems.filter(i => i.id !== id)
   emit('selected', state.selectedItems)
 }
-
 </script>

@@ -14,7 +14,7 @@
         <Userform :id="userStore.getFirstActive" />
       </div>
 
-      <BAccordion class="rounded-full shadow-2xl dark:bg-blue-dark_bold animate-fade-in-down">
+      <BaseAccordion class="rounded-full shadow-2xl dark:bg-blue-dark_bold animate-fade-in-down">
         <template #title>
           <h5 class="px-6 py-4 text-xl font-medium">Logo de l'utilisateur</h5>
         </template>
@@ -26,15 +26,15 @@
             @uploadFile="uploadFile"
           />
           <div class="flex items-center justify-center">
-            <BButton variant="white" class="text-blue-dark" @click="submitFile">
+            <BaseButton :disabled="!state.file" @click="submitFile">
               <template #icon>
                 <SaveIconOutline />
               </template>
               Enregistrer le Logo
-            </BButton>
+            </BaseButton>
           </div>
         </div>
-      </BAccordion>
+      </BaseAccordion>
     </div>
   </div>
 </template>
@@ -91,12 +91,13 @@ async function submitFile() {
     state.file = null
   }
 }
-
 </script>
 
 <route>
-{meta: {
-  layout: "AdminDashboardLayout",
-}
+{
+  meta: {
+    layout: "AdminDashboardLayout",
+    isAuth: true,
+  }
 }
 </route>

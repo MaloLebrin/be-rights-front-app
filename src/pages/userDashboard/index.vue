@@ -7,32 +7,22 @@
         <HomeIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Événements
       </template>
       <template #additionnalButtons>
-        <BButton size="small" class="dark:text-black" @click="setHeaderFilters(null)">Tout</BButton>
-        <BButton
-          size="small"
-          class="dark:text-black"
-          @click="setHeaderFilters(EventStatusEnum.PENDING)"
-        >En cours</BButton>
-        <BButton
-          size="small"
-          class="dark:text-black"
-          @click="setHeaderFilters(EventStatusEnum.CLOSED)"
-        >Terminés</BButton>
-        <BInput
+        <BaseButton @click="setHeaderFilters(null)">Tout</BaseButton>
+        <BaseButton @click="setHeaderFilters(EventStatusEnum.PENDING)">En cours</BaseButton>
+        <BaseButton @click="setHeaderFilters(EventStatusEnum.CLOSED)">Terminés</BaseButton>
+        <BaseInput
           v-model="state.search"
           type="text"
           placeholder="Recherchez"
           @keyup="searchEntity($event)"
         />
-        <BLink
-          tag="router-link"
-          to="/userDashboard/bugReports/BugReport"
-          variant="danger"
-          class="flex items-center space-x-2 dark:text-black"
+        <router-link
+          class="flex items-center space-x-2 LinkClass"
+          :to="{ path: '/userDashboard/bugReports/BugReport' }"
         >
-          <ExclamationIconOutline class="w-6 h-8 dark:bg-red" />
+          <ExclamationIconOutline class="w-6 h-8 text-bg-red" />
           <span>Signaler un bug</span>
-        </BLink>
+        </router-link>
       </template>
     </HeaderList>
     <EventList :events="events" NoEventMessage="Aucun Event en Base de donnée" />
@@ -92,9 +82,10 @@ function searchEntity(event: KeyboardEvent) {
 </script>
 
 <route>
-{meta: {
-  layout: "DashboardLayout"
-}
+{
+  meta: {
+    layout: "DashboardLayout",
+    isAuth: true,
+  }
 }
 </route>
-

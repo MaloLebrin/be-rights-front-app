@@ -291,25 +291,16 @@
     class="flex flex-col items-center py-6 mx-auto text-center dark:bg-blue-dark dark:text-white DarkModeAnimation"
   >
     <h3 class="my-4 text-3xl leading-tight">Restez informé des dernières nouveautés!</h3>
-    <div v-if="!isSuccess" class="flex flex-col">
-      <BInput type="email" placeholder="Votre e-mail" v-model="email" />
-      <BButton
-        :isLoading="uiStore.getUIIsLoading"
-        :variant="isDarkTheme ? 'white' : 'primary'"
-        class="px-8 py-4 mx-auto my-6 font-bold text-white transition duration-300 ease-in-out transform bg-white rounded-full shadow-lg lg:mx-0 dark:text-black focus:outline-none focus:shadow-outline hover:-translate-y-1 hover:scale-105 DarkModeAnimation"
-        @click="submit"
-      >Commencez</BButton>
+    <div v-if="!isSuccess" class="flex flex-col space-y-4">
+      <BaseInput type="email" placeholder="Votre e-mail" v-model="email" />
+      <BaseButton @click="submit">Commencez</BaseButton>
     </div>
-    <BToast v-else variant="success">Email enregistré</BToast>
+    <Toast v-else>Email enregistré</Toast>
   </section>
 </template>
 
 <script setup lang="ts">
 const { newsletterSignup } = newsletterHook()
-
-const mainStore = useMainStore()
-const { isDarkTheme } = storeToRefs(mainStore)
-const uiStore = useUiStore()
 
 const email = ref('')
 const isSuccess = ref(false)

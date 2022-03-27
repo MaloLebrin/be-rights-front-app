@@ -16,18 +16,18 @@
       >Êtes-vous sûr de vouloir supprimer le destinataire suivant ?</p>
       <p class="text-center text-gray-700">{{ uiStore.getUiModalData?.event.name }}</p>
       <div class="flex items-center justify-center space-x-4">
-        <BButton variant="danger" @click="deleteEmployee">
+        <BaseButton color="red" @click="deleteEmployee">
           <div class="flex items-center">
             <TrashIconOutline class="w-4 h-4 mr-2" />
             <span>Supprimer</span>
           </div>
-        </BButton>
-        <BButton variant="white" @click="close()">
+        </BaseButton>
+        <BaseButton @click="close()">
           <div class="flex items-center">
             <XCircleIconOutline class="w-4 h-4 mr-2" />
             <span>Annuler</span>
           </div>
-        </BButton>
+        </BaseButton>
       </div>
     </div>
   </BaseModal>

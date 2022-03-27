@@ -2,7 +2,7 @@
   <div
     class="container relative px-4 py-5 space-y-12 bg-white shadow-xl dark:bg-blue-dark_bold rounded-2xl"
   >
-    <BAccordion>
+    <BaseAccordion>
       <template #title>
         <div class="flex items-center">
           <h5 class="px-6 py-4 text-xl font-medium">Votre logo</h5>
@@ -10,18 +10,18 @@
         </div>
       </template>
 
-      <div class="px-6 py-4">
+      <div class="px-6 py-4 space-y-4">
         <InputFile message="Sélectionnez votre logo" :url="userLogoUrl" @uploadFile="uploadFile" />
         <div class="flex items-center justify-center">
-          <BButton variant="white" class="text-blue-dark" @click="submitFile">
+          <BaseButton @click="submitFile">
             <template #icon>
               <SaveIconOutline />
             </template>
             Enregistrer le Logo
-          </BButton>
+          </BaseButton>
         </div>
       </div>
-    </BAccordion>
+    </BaseAccordion>
   </div>
   <div
     class="container relative py-4 space-y-12 bg-white shadow-xl dark:bg-blue-dark_bold rounded-2xl"
@@ -40,7 +40,7 @@
       :id="getCurrentUserId ? getCurrentUserId : null"
     />
     <div v-if="state.mode === ModalModeEnum.READ" class="flex items-center justify-center">
-      <BButton variant="white" class="text-blue-dark" @click="switchMode">{{ getButtonLabel() }}</BButton>
+      <BaseButton @click="switchMode">{{ getButtonLabel() }}</BaseButton>
     </div>
   </div>
 </template>
@@ -94,5 +94,4 @@ async function submitFile() {
     DecLoading()
   }
 }
-
 </script>

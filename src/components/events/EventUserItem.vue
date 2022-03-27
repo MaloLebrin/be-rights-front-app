@@ -13,13 +13,12 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue'
-import { EventType } from '@/types/typesExported'
+import type { PropType } from 'vue'
+import type { EventType } from '@/types/typesExported'
 
 defineProps({
-	event: Object as PropType<EventType>
+  event: Object as PropType<EventType>
 })
 const { getDate } = dateHook()
 const { getEventStatusTranslation, getEventStatusColor } = eventHook()
-
 </script>

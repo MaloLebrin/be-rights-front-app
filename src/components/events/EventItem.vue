@@ -32,39 +32,35 @@
     </div>
 
     <template #extraButton>
-      <BLink
+      <a
         :variant="extraButtonStyle"
         class="EventActionButton"
         @click="emit('udpateOneItem', index)"
       >
         <PencilAltIconOutline class="w-4 h-4 mr-2 text-gray-800" />modifier event
-      </BLink>
-      <BLink :variant="extraButtonStyle" class="EventActionButton" @click="emit('addOne', index)">
+      </a>
+      <a :variant="extraButtonStyle" class="EventActionButton" @click="emit('addOne', index)">
         <PlusCircleIconOutline class="w-4 h-4 mr-2 text-gray-800" />Ajouter
-      </BLink>
-      <BLink
-        :variant="extraButtonStyle"
-        class="EventActionButton"
-        @click="emit('deleteOne', index)"
-      >
+      </a>
+      <a :variant="extraButtonStyle" class="EventActionButton" @click="emit('deleteOne', index)">
         <TrashIconOutline class="w-4 h-4 mr-2 text-red-800" />Supprimer
-      </BLink>
-      <BLink
+      </a>
+      <a
         :variant="extraButtonStyle"
         :disabled="true"
         class="cursor-not-allowed EventActionButton"
         @click="emit('downloadAll')"
       >
         <DownloadIconOutline class="w-4 h-4 mr-2 text-gray-800" />Tout télécharger
-      </BLink>
+      </a>
     </template>
   </DashboardItem>
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue'
+import type { PropType } from 'vue'
 import EmployeeEventItem from '@/components/employees/employeeEventItem.vue'
-import { EventType } from '@/types/typesExported'
+import type { EventType } from '@/types/typesExported'
 
 const props = defineProps({
   event: {

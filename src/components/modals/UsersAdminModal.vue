@@ -11,8 +11,8 @@
         class="text-center text-gray-800 dark:text-white"
       >Êtes vous sur de supprimer cet utilisateur ?</p>
       <div class="flex items-center justify-center mt-12 space-x-6">
-        <BButton variant="danger" :isLoading="uiStore.getUIIsLoading" @click="deleteOne">Supprimer</BButton>
-        <BButton :variant="isDarkTheme ? 'white' : 'primary'" @click="close">Annuler</BButton>
+        <BaseButton color="red" @click="deleteOne">Supprimer</BaseButton>
+        <BaseButton @click="close">Annuler</BaseButton>
       </div>
     </div>
   </BaseModal>
@@ -30,9 +30,7 @@ const props = withDefaults(defineProps<Props>(), {
   mode: null,
 })
 
-const mainStore = useMainStore()
 const uiStore = useUiStore()
-const { isDarkTheme } = mainStore
 const { deleteUser } = userHook()
 const { IncLoading, DecLoading } = uiStore
 

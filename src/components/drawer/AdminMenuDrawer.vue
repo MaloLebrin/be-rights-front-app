@@ -90,6 +90,7 @@ interface Props {
 withDefaults(defineProps<Props>(), {
   isActive: false,
 })
+
 const store = useUserStore()
 const uiStore = useUiStore()
 const { setUiModal } = uiStore
