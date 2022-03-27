@@ -29,7 +29,10 @@
         :key="bug.id"
       >
         <DashboardItem :index="index">
-          <template #title>{{ bug.name }}</template>
+          <template #title>
+            <div class="px-4 py-4 border-b border-gray-400 dark:border-white-light">{{ bug.name }}</div>
+          </template>
+          <div class="py-12">{{ bug.description }}</div>
         </DashboardItem>
       </div>
     </div>
