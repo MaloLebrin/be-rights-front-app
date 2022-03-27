@@ -6,7 +6,6 @@ import Components from 'unplugin-vue-components/vite'
 import { HeadlessUiResolver } from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 import path from 'path'
-import { BeRightUiResolver } from './src/utils/resolver/BeRightComponentLibrary'
 import {
   getDirectoryAuthImportPaths,
   getStoreFileNames,
@@ -66,7 +65,6 @@ export default defineConfig({
       ],
       resolvers: [
         HeadlessUiResolver({}),
-        BeRightUiResolver().resolve,
         (name) => {
           if (name.includes('IconSolid')) {
             const realName = name.split('Solid')[0]
