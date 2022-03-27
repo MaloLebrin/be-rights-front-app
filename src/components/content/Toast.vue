@@ -35,7 +35,7 @@ const { resetUiToastState } = useUiStore()
 interface Props {
   variant?: ToastVariantsEnum
   isCloseable?: boolean
-  isToastOpen: boolean
+  isToastOpen?: boolean
   toastDuration?: number
 }
 

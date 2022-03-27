@@ -89,7 +89,7 @@ onMounted(async () => {
   }
 })
 
-async function searchEntity() {
+async function searchEntity(event: Event) {
   if (isCurrentUserAdmin) {
     clearTimeout(state.timeout)
     state.timeout = window.setTimeout(async () => {
