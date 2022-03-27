@@ -16,15 +16,13 @@
           placeholder="Recherchez"
           @keyup="searchEntity($event)"
         />
-        <BLink
-          tag="router-link"
-          to="/userDashboard/bugReports/BugReport"
-          variant="danger"
-          class="flex items-center space-x-2 dark:text-black"
+        <router-link
+          class="flex items-center space-x-2 LinkClass"
+          :to="{ path: '/userDashboard/bugReports/BugReport' }"
         >
-          <ExclamationIconOutline class="w-6 h-8 dark:bg-red" />
+          <ExclamationIconOutline class="w-6 h-8 text-bg-red" />
           <span>Signaler un bug</span>
-        </BLink>
+        </router-link>
       </template>
     </HeaderList>
     <EventList :events="events" NoEventMessage="Aucun Event en Base de donnée" />

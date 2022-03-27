@@ -6,7 +6,7 @@
         <SimpleLogo />
       </div>
 
-      <div class="grid grid-cols-1 gap-4 text-left md:grid-cols-2">
+      <div class="grid grid-cols-1 gap-6 text-left md:grid-cols-2">
         <div class="flex items-center">
           <input
             :id="RoleEnum.PHOTOGRAPHER"
@@ -69,17 +69,20 @@
           <BaseInput type="password" v-model="password" :error="passwordError" />
         </div>
 
-        <div class="flex flex-col items-center justify-center col-span-2">
+        <div class="flex flex-col items-center justify-center space-y-4 md:col-span-2">
           <BaseButton :disabled="!meta.valid || !meta.dirty" @click="submitregister">S'inscrire</BaseButton>
-          <BLink class="dark:text-white" tag="router-link" to="/login">J'ai déjà un compte</BLink>
+          <router-link class="LinkClass" :to="{ path: '/login' }">J'ai déjà un compte</router-link>
         </div>
       </div>
     </div>
-    <img
-      class="hidden object-cover w-2/3 max-w-5xl shadow-2xl TranslateUpAnimation cursor-none md:block"
-      src="@/assets/camera.jpg"
-      alt="camera picture"
-    />
+
+    <div class="items-center justify-center hidden md:flex">
+      <img
+        class="hidden object-cover w-2/3 max-w-5xl shadow-2xl TranslateUpAnimation cursor-none md:block"
+        src="@/assets/camera.jpg"
+        alt="camera picture"
+      />
+    </div>
   </div>
 </template>
 

@@ -24,16 +24,20 @@
           </div>
         </template>
         <template #extraButton>
-          <BLink
-            :variant="extraButtonStyle"
-            class="EventActionButton"
+          <a
+            class="flex items-center space-x-2 cursor-pointer EventActionButton text-white-light dark:text-blue-dark"
             @click="updateOneEmployee(employee)"
-          >modifier {{ employee.firstName }} {{ employee.lastName }}</BLink>
-          <BLink
-            :variant="extraButtonStyle"
-            class="EventActionButton"
+          >
+            <PencilAltIconOutline class="w-4 h-4" />
+            <span>Modifier {{ employee.firstName }} {{ employee.lastName }}</span>
+          </a>
+          <a
+            class="flex items-center space-x-2 cursor-pointer EventActionButton text-white-light dark:text-blue-dark"
             @click="deleteOneEmployee(employee)"
-          >Supprimer {{ employee.firstName }} {{ employee.lastName }}</BLink>
+          >
+            <TrashIconOutline class="w-4 h-4 text-red-500" />
+            <span>Supprimer {{ employee.firstName }} {{ employee.lastName }}</span>
+          </a>
         </template>
       </DashboardItem>
     </div>
@@ -55,7 +59,6 @@ withDefaults(defineProps<Props>(), {
 
 const uiStore = useUiStore()
 const { isCurrentUserAdmin } = useUserStore()
-const { isDarkTheme } = useMainStore()
 const { setUiModal } = uiStore
 const { getDate } = dateHook()
 
@@ -79,5 +82,4 @@ function deleteOneEmployee(employee: EmployeeType) {
 const noEventMesssage = computed(() =>
   isCurrentUserAdmin ? 'Aucun destinataire enregistré dans la base de donnée' : 'Vous n\'avez pas de destinataire enregistré dans la base de donnée'
 )
-const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : "white")
 </script>
