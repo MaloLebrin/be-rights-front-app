@@ -56,6 +56,9 @@ watch(() => tableStore.getFinalUrl, async (newValue) => {
 onMounted(async () => {
   if (userStore.getCurrentUserId) {
     IncLoading()
+    IncLoading()
+    IncLoading()
+    IncLoading()
     await fetchAllEvents()
     DecLoading()
   }

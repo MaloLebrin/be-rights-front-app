@@ -1,10 +1,6 @@
 <template>
   <div class="relative mt-32">
-    <Loader
-      v-if="uiStore.getUIIsLoading"
-      :isLoading="uiStore.getUIIsLoading"
-      :type="LoaderTypeEnum.BOUNCE"
-    />
+    <Loader v-if="uiStore.getUIIsLoading" :type="LoaderTypeEnum.BOUNCE" />
 
     <div
       v-else-if="!uiStore.getUIIsLoading && events"

@@ -1,7 +1,8 @@
 <template>
   <AdminMenuDrawer />
-  <main v-bind="$attrs" class="container w-full mx-auto dark:bg-blue-dark_bold">
-    <router-view v-slot="{ Component }">
+  <main v-bind="$attrs" class="container relative w-full mx-auto dark:bg-blue-dark_bold">
+    <Loader v-if="uiStore.getUIIsLoading" :isLoading="uiStore.getUIIsLoading" />
+    <router-view v-show="!uiStore.getUIIsLoading" v-slot="{ Component }">
       <transition name="fade">
         <component :is="Component" />
       </transition>
@@ -53,7 +54,7 @@ const eventID = computed(() => {
   }
 })
 
-const isModalActive = (modalName: ModalNameEnum) => computed(() => getUiModalState.isActive && getUiModalState.modalName === modalName)
+const isModalActive = (modalName: ModalNameEnum) => computed(() => getUiModalState.isActive && getUiModalState.modalName === modalName && !getUiModalState.isLoading)
 
 function CloseResetModalState() {
   resetUiModalState()
