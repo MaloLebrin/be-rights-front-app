@@ -1,9 +1,7 @@
 <template>
   <div class="relative mt-32">
-    <Loader v-if="uiStore.getUIIsLoading" :type="LoaderTypeEnum.BOUNCE" />
-
     <div
-      v-else-if="!uiStore.getUIIsLoading && events"
+      v-if="events.length > 0"
       v-for="(event, index) in events"
       :key="event.id"
       class="relative flex items-center"
@@ -23,7 +21,6 @@
 <script setup lang="ts">
 import router from '@/router'
 import { EventType, ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
-import { LoaderTypeEnum } from '@/types/globals'
 
 const uiStore = useUiStore()
 const { setUiModal } = uiStore

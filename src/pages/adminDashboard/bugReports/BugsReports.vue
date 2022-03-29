@@ -17,17 +17,7 @@
       </template>
     </HeaderList>
     <div class="relative mt-32">
-      <Loader
-        v-if="uiStore.getUIIsLoading"
-        :isLoading="uiStore.getUIIsLoading"
-        :type="LoaderTypeEnum.BOUNCE"
-      />
-
-      <div
-        v-else-if="!uiStore.getUIIsLoading && bugs.length > 0"
-        v-for="(bug, index) in bugs"
-        :key="bug.id"
-      >
+      <div v-if="bugs.length > 0" v-for="(bug, index) in bugs" :key="bug.id">
         <DashboardItem :index="index">
           <template #title>
             <div class="px-4 py-4 border-b border-gray-400 dark:border-white-light">{{ bug.name }}</div>
@@ -40,13 +30,10 @@
 </template>
 
 <script setup lang="ts">
-import { BugReportType, LoaderTypeEnum } from '@/types/typesExported'
-
 const tableStore = useTableStore()
 const { setSearch } = tableStore
 const { IncLoading, DecLoading } = useUiStore()
 const bugsStore = useBugStore()
-const uiStore = useUiStore()
 
 const { fetchAll } = bugReportsHook()
 
