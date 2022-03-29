@@ -41,7 +41,6 @@ export default function fileHook() {
       if (files.length > 0) {
         fileStore.createMany(files)
       }
-      setUISucessToast(`${files.length} files fetched successfully`)
     } catch (error) {
       console.error(error)
       setUIErrorToast()
@@ -83,6 +82,7 @@ export default function fileHook() {
       const res = await api.patch(`file/${file.id}`, { file })
       const fileUpdated = res as FileType
       fileStore.updateOne(fileUpdated.id, fileUpdated)
+      setUISucessToast('file successfully updated')
     } catch (error) {
       console.error(error)
       setUIErrorToast()
@@ -101,7 +101,6 @@ export default function fileHook() {
           fileStore.createMany(filesNotInStore)
         }
       }
-      setUISucessToast(`${files.length} files fetched successfully`)
     } catch (error) {
       console.error(error)
       setUIErrorToast()

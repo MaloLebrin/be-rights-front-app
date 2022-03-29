@@ -78,7 +78,6 @@ export default function employeeHook() {
         event: eventId,
       }))
       employeeStore.createMany(employees)
-      setUISucessToast('Les employés ont été récupérés avec succès')
     } catch (error) {
       console.error(error)
       setUIErrorToast()
@@ -91,7 +90,6 @@ export default function employeeHook() {
       const res = await api.get(`employee/user/${userId}`)
       const data = res as EmployeeType[]
       storeEmployeeRelationsEntities(data)
-      setUISucessToast('Destinataires récupéré avec succès')
     } catch (error) {
       console.error(error)
       setUIErrorToast()
@@ -110,7 +108,6 @@ export default function employeeHook() {
       const res = await api.get(finalUrl)
       const { data }: PaginatedResponse<EmployeeType> = res
       storeEmployeeRelationsEntities(data)
-      setUISucessToast('Destinataires récupéré avec succès')
     } catch (error) {
       console.error(error)
       setUIErrorToast()
