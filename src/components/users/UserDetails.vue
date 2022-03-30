@@ -38,7 +38,6 @@
     </form>
 
     <div class="mt-12 text-black-light">
-      <Loader v-if="isLoading" :isLoading="isLoading" :type="LoaderTypeEnum.BOUNCE" />
       <div class="grid grid-cols-1 mb-12 md:grid-cols-2">
         <div
           :class="[activeClasse(1).value, 'text-center uppercase cursor-pointer text-blue dark:text-white-break font-bold text-xl']"
@@ -79,8 +78,6 @@
 </template>
 
 <script setup lang="ts">
-import { LoaderTypeEnum } from '@/types'
-
 interface Props {
   id: number | null
 }

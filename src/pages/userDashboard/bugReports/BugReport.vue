@@ -23,8 +23,10 @@
 </template>
 
 <route>
-{meta: {
-  layout: "DashboardLayout"
-}
+{
+  meta: {
+    layout: "DashboardLayout",
+    isAuth: true,
+  }
 }
 </route>

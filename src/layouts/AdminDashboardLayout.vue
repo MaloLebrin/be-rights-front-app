@@ -1,6 +1,6 @@
 <template>
   <AdminMenuDrawer />
-  <main v-bind="$attrs" class="relative w-full h-full dark:bg-blue-dark_bold">
+  <main v-bind="$attrs" class="relative w-full h-full dark:bg-blue-dark">
     <div class="w-full md:container">
       <Loader v-if="uiStore.getUIIsLoading" :isLoading="uiStore.getUIIsLoading" />
       <router-view v-show="!uiStore.getUIIsLoading" v-slot="{ Component }">

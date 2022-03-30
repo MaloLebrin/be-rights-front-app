@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative min-h-screen py-6 text-left transition-all duration-500 ease-in-out transform dark:bg-blue-dark"
+    class="relative min-h-screen py-6 text-left transition-all duration-500 ease-in-out transform"
   >
     <HeaderList>
       <template #title>

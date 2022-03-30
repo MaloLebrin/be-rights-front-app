@@ -1,11 +1,14 @@
 <template>
   <MenuDrawer />
-  <main v-bind="$attrs" class="container w-full mx-auto text-center">
-    <router-view v-slot="{ Component }">
-      <transition name="fade">
-        <component :is="Component" />
-      </transition>
-    </router-view>
+  <main v-bind="$attrs" class="w-full mx-auto text-center dark:bg-blue-dark">
+    <div class="w-full md:container">
+      <Loader v-if="uiStore.getUIIsLoading" :isLoading="uiStore.getUIIsLoading" />
+      <router-view v-show="!uiStore.getUIIsLoading" v-slot="{ Component }">
+        <transition name="fade">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </div>
   </main>
 
   <Teleport to="#portal-target">
@@ -44,6 +47,7 @@ import { ModalNameEnum } from "@/types/typesExported"
 
 const { entities: eventsEntities } = useEventStore()
 const { getUiModalState, resetUiModalState, resetUiToastState, getUiToastState } = useUiStore()
+const uiStore = useUiStore()
 
 const eventID = computed(() => {
   if (getUiModalState.data && getUiModalState.data.eventId) {
