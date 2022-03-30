@@ -1,12 +1,6 @@
 <template>
   <div class="relative mt-32">
-    <Loader
-      v-if="uiStore.getUIIsLoading"
-      :isLoading="uiStore.getUIIsLoading"
-      :type="LoaderTypeEnum.BOUNCE"
-    />
-
-    <div v-else-if="files.length > 0">
+    <div v-if="files.length > 0">
       <div v-for="(file, index) in files" :key="file.id">
         <DashboardItem :index="index">
           <template #title>
@@ -44,7 +38,6 @@
 
 <script setup lang="ts">
 import { FileType, ModalModeEnum, ModalNameEnum, FileFormatEnum } from '@/types/typesExported'
-import { LoaderTypeEnum } from '@/types/globals'
 
 interface Props {
   files: FileType[]
@@ -56,7 +49,6 @@ withDefaults(defineProps<Props>(), {
 
 const { isCurrentUserAdmin } = useUserStore()
 const uiStore = useUiStore()
-const { isDarkTheme } = useMainStore()
 const { setUiModal } = uiStore
 const { getTranslationFileType } = fileHook()
 const { getDate } = dateHook()
@@ -91,6 +83,4 @@ function downloadFile(file: FileType) {
 const noFileMesssage = computed(() =>
   isCurrentUserAdmin ? 'Aucun fichié enregistré dans la base de donnée' : 'Vous n\'avez pas de fichié enregistré dans la base de donnée'
 )
-
-const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : "white")
 </script>

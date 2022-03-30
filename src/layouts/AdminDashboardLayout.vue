@@ -1,11 +1,14 @@
 <template>
   <AdminMenuDrawer />
-  <main v-bind="$attrs" class="container w-full mx-auto dark:bg-blue-dark_bold">
-    <router-view v-slot="{ Component }">
-      <transition name="fade">
-        <component :is="Component" />
-      </transition>
-    </router-view>
+  <main v-bind="$attrs" class="relative w-full h-full dark:bg-blue-dark">
+    <div class="w-full md:container">
+      <Loader v-if="uiStore.getUIIsLoading" :isLoading="uiStore.getUIIsLoading" />
+      <router-view v-show="!uiStore.getUIIsLoading" v-slot="{ Component }">
+        <transition name="fade">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </div>
   </main>
   <Teleport to="#portal-target">
     <EventModal
@@ -53,7 +56,7 @@ const eventID = computed(() => {
   }
 })
 
-const isModalActive = (modalName: ModalNameEnum) => computed(() => getUiModalState.isActive && getUiModalState.modalName === modalName)
+const isModalActive = (modalName: ModalNameEnum) => computed(() => getUiModalState.isActive && getUiModalState.modalName === modalName && !getUiModalState.isLoading)
 
 function CloseResetModalState() {
   resetUiModalState()

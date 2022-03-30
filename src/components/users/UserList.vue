@@ -1,10 +1,5 @@
 <template>
-  <Loader
-    v-if="uiStore.getUIIsLoading"
-    :isLoading="uiStore.getUIIsLoading"
-    :type="LoaderTypeEnum.BOUNCE"
-  />
-  <div v-else class="relative w-full h-full mt-40">
+  <div class="relative w-full h-full mt-40">
     <div v-for="(user, index) in users" :key="user.id" class="relative flex items-center">
       <DashboardItem :index="parseInt(index.toString())">
         <template #title>
@@ -57,7 +52,6 @@
 </template>
 
 <script setup lang="ts">
-import { LoaderTypeEnum } from '@/types/globals'
 import { ModalNameEnum, ModalModeEnum, SubscriptionEnum, UserType, EventType } from '@/types/typesExported'
 
 interface Props {

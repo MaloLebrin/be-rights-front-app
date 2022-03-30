@@ -45,7 +45,6 @@ export function eventHook() {
         const events = data.filter(event => ids.includes(event.id))
         eventStore.createMany(events)
       }
-      setUISucessToast(`${ids.length} événements ont été récupérés avec succès`)
     } catch (error) {
       console.error(error)
       setUIErrorToast()
@@ -60,7 +59,6 @@ export function eventHook() {
       if (!eventStore.getAllIds.includes(res.id)) {
         eventStore.createOne(res)
       }
-      setUISucessToast(`L'événement a été récupéré avec succès`)
     } catch (error) {
       console.error(error)
       setUIErrorToast()
@@ -83,7 +81,6 @@ export function eventHook() {
           }))
           eventStore.createMany(eventToStore)
         }
-        setUISucessToast(`Vos événements ont été récupéré avec succès`)
       }
     } catch (error) {
       console.error(error)
@@ -100,7 +97,6 @@ export function eventHook() {
       if (!eventStore.getAllIds.includes(event.id)) {
         eventStore.createOne(event)
       }
-      setUISucessToast('L\'événement a été récupéré avec succès')
     } catch (error) {
       console.error(error)
       setUIErrorToast()
@@ -127,6 +123,7 @@ export function eventHook() {
         const res = await api.patch(`event/${event.id}`, { event })
         const updatedEvent = res as EventType
         eventStore.updateOne(updatedEvent.id, updatedEvent)
+        setUISucessToast(`L'événement a été mis à jour avec succès`)
       } catch (error) {
         console.error(error)
         setUIErrorToast()

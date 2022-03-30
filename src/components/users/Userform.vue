@@ -82,7 +82,6 @@
     </form>
 
     <div class="mt-12 text-black-light text-blue dark:text-white-break">
-      <Loader v-if="isLoading" :isLoading="isLoading" :type="LoaderTypeEnum.BOUNCE" />
       <div class="grid grid-cols-1 mb-12 md:grid-cols-2">
         <div
           :class="[activeClasse(1).value, 'text-center uppercase cursor-pointer text-blue dark:text-white-break font-bold text-xl']"
@@ -131,7 +130,7 @@
 </template>
 
 <script setup lang="ts">
-import { RoleEnum, userRolesArray, LoaderTypeEnum } from '@/types'
+import { RoleEnum, userRolesArray } from '@/types'
 import { useField, useForm } from 'vee-validate'
 import { object, string, } from 'yup'
 import { subscriptionArray, SubscriptionEnum, UserType } from '@/types/typesExported'
@@ -172,25 +171,25 @@ const schema = object({
 })
 
 const { meta } = useForm({ validationSchema: schema })
-const { errorMessage: emailError, value: email, meta: emailMeta } = useField<string>('email', undefined, {
+const { errorMessage: emailError, value: email } = useField<string>('email', undefined, {
   initialValue: user.value ? user.value.email : '',
 })
-const { errorMessage: siretError, value: siret, meta: siretMeta } = useField<string>('siret', undefined, {
+const { errorMessage: siretError, value: siret } = useField<string>('siret', undefined, {
   initialValue: user.value ? user.value.siret : '',
 })
-const { errorMessage: companyNameError, value: companyName, meta: companyNameMeta } = useField<string>('companyName', undefined, {
+const { errorMessage: companyNameError, value: companyName } = useField<string>('companyName', undefined, {
   initialValue: user.value ? user.value.companyName : '',
 })
-const { errorMessage: firstNameError, value: firstName, meta: firstNameMeta } = useField<string>('firstName', undefined, {
+const { errorMessage: firstNameError, value: firstName } = useField<string>('firstName', undefined, {
   initialValue: user.value ? user.value.firstName : '',
 })
-const { errorMessage: lastNameError, value: lastName, meta: lastNameMeta } = useField<string>('lastName', undefined, {
+const { errorMessage: lastNameError, value: lastName } = useField<string>('lastName', undefined, {
   initialValue: user.value ? user.value.lastName : '',
 })
-const { value: roles, errorMessage: rolesError, meta: rolesMeta, handleChange: handleRoleUser } = useField<RoleEnum>('roles', undefined, {
+const { value: roles, errorMessage: rolesError, handleChange: handleRoleUser } = useField<RoleEnum>('roles', undefined, {
   initialValue: user.value ? user.value.roles : RoleEnum.USER,
 })
-const { value: subscription, errorMessage: subscriptionError, meta: subscriptionMeta, handleChange: handleSubscription } = useField<SubscriptionEnum | null>('subscription', undefined, {
+const { value: subscription, errorMessage: subscriptionError, handleChange: handleSubscription } = useField<SubscriptionEnum | null>('subscription', undefined, {
   initialValue: user.value ? user.value.subscription : null
 })
 

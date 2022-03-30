@@ -1,6 +1,6 @@
 <template>
   <div
-    class="container relative min-h-screen py-6 pr-8 mx-auto text-left transition-all duration-500 ease-in-out transform dark:bg-blue-dark pl-14"
+    class="container relative min-h-screen py-6 pr-8 mx-auto text-left transition-all duration-500 ease-in-out transform pl-14"
   >
     <HeaderList>
       <template #title>
@@ -27,8 +27,10 @@ onMounted(async () => {
 </script>
 
 <route>
-{meta: {
-  layout: "AdminDashboardLayout"
-}
+{
+  meta: {
+    layout: "AdminDashboardLayout",
+    isAuth:  true,
+  }
 }
 </route>

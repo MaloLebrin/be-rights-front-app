@@ -1,15 +1,6 @@
 <template>
   <div class="relative mt-32">
-    <Loader
-      v-if="uiStore.getUIIsLoading"
-      :isLoading="uiStore.getUIIsLoading"
-      :type="LoaderTypeEnum.BOUNCE"
-    />
-    <div
-      v-else-if="!uiStore.getUIIsLoading && employees.length > 0"
-      v-for="(employee, index) in employees"
-      :key="employee.id"
-    >
+    <div v-if="employees.length > 0" v-for="(employee, index) in employees" :key="employee.id">
       <DashboardItem :index="index">
         <template #title>
           <div class="grid grid-cols-1 gap-4 px-4 py-4 md:grid-cols-4">
@@ -47,7 +38,6 @@
 
 <script setup lang="ts">
 import { EmployeeType, ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
-import { LoaderTypeEnum } from '@/types/globals'
 
 interface Props {
   employees: EmployeeType[]

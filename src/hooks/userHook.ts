@@ -140,7 +140,6 @@ export default function userHook() {
       const res = await api.get(finalUrl)
       const { data }: PaginatedResponse<UserType> = res
       storeUsersEntitiesForManyUsers(data)
-      setUISucessToast('Utilisateurs récupérés avec succès')
     } catch (error) {
       setUIErrorToast()
       console.error(error)
