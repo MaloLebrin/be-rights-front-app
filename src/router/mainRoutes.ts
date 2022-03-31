@@ -7,6 +7,7 @@ export const mainRoutes = [
     component: Index,
     meta: {
       layout: 'DefaultLayout',
+      isAuth: false,
     },
   },
   {
@@ -15,6 +16,7 @@ export const mainRoutes = [
     component: () => import('@/pages/login.vue'),
     meta: {
       layout: 'DefaultLayout',
+      isAuth: false,
     },
   },
   {
@@ -23,6 +25,7 @@ export const mainRoutes = [
     component: () => import('@/pages/register.vue'),
     meta: {
       layout: 'DefaultLayout',
+      isAuth: false,
     },
   },
   {
@@ -31,6 +34,7 @@ export const mainRoutes = [
     component: () => import('@/pages/404.vue'),
     meta: {
       layout: 'DefaultLayout',
+      isAuth: false,
     },
   },
 ]

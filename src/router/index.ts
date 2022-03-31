@@ -25,5 +25,14 @@ const router = createRouter({
 //   else next()
 // })
 
+declare module 'vue-router' {
+  interface RouteMeta {
+    // must be declared by every route
+    layout: string
+    isAuth: boolean
+    // is optional
+    isAdmin?: boolean
+  }
+}
 
 export default router
