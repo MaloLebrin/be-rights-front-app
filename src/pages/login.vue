@@ -28,7 +28,7 @@
             @click="submitLogin"
             :isLoading="uiStore.getUIIsLoading"
           >Se Connecter</BaseButton>
-          <router-link class="LinkClass" :to="{ path: '/register' }">S'inscrire</router-link>
+          <router-link class="LinkClass" :to="{ name: 'register' }">S'inscrire</router-link>
           <!-- <router-link class="LinkClass" :to="{ path: '/forgot-password' }">Mot de passe oublié</router-link> -->
         </div>
       </div>
@@ -43,14 +43,12 @@
 </template>
 
 <script setup lang="ts">
-import router from '@/router'
 import { useField, useForm } from 'vee-validate'
 import { object, string } from 'yup'
 
 const { login } = userHook()
 const { IncLoading, DecLoading } = useUiStore()
 const uiStore = useUiStore()
-const userStore = useUserStore()
 
 const schema = object({
   email: string().email().required("L'adresse email est requise"),

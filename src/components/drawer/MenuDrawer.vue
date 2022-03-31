@@ -6,21 +6,21 @@
         <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
           <HomeIconOutline class="h-6 text-white" />
         </div>
-        <router-link to="/userDashboard" class="dark:text-white">Événements</router-link>
+        <router-link :to="{ name: 'user.events' }" class="dark:text-white">Événements</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer">
         <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
           <UserGroupIconOutline class="h-6 text-white" />
         </div>
-        <router-link to="/userDashboard/myEmployees" class="dark:text-white">Mes destinataires</router-link>
+        <router-link :to="{ name: 'user.employees' }" class="dark:text-white">Mes destinataires</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer">
         <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
           <FolderOpenIconOutline class="h-6 text-white" />
         </div>
-        <router-link to="/userDashboard/MyFiles" class="dark:text-white">Mes Fichiers</router-link>
+        <router-link :to="{ name: 'user.files' }" class="dark:text-white">Mes Fichiers</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer" @click="toggleEventFormModal">
@@ -42,7 +42,7 @@
           <FolderAddIconOutline class="h-6 text-white" />
         </div>
         <router-link
-          to="/userDashboard/CreateModel"
+          :to="{ name: 'user.files.create-model'}"
           class="dark:text-white"
         >Créer un nouveau fichier</router-link>
       </div>
@@ -55,14 +55,14 @@
         <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
           <UserIconOutline class="h-6 text-white" />
         </div>
-        <router-link to="/userDashboard/MyUserAccount" class="dark:text-white">{{ getUserFullName }}</router-link>
+        <router-link :to="{ name: 'user.account' }" class="dark:text-white">{{ getUserFullName }}</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer" @click="onToggleLogout">
         <div class="p-1 mr-3 rounded-lg bg-purple-light hover:bg-purple">
           <LogoutIconOutline class="h-6 text-white" />
         </div>
-        <router-link to="/">Se déconnecter</router-link>
+        <router-link :to="{ name: 'home' }">Se déconnecter</router-link>
       </div>
     </div>
 

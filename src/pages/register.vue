@@ -71,7 +71,7 @@
 
         <div class="flex flex-col items-center justify-center space-y-4 md:col-span-2">
           <BaseButton :disabled="!meta.valid || !meta.dirty" @click="submitregister">S'inscrire</BaseButton>
-          <router-link class="LinkClass" :to="{ path: '/login' }">J'ai déjà un compte</router-link>
+          <router-link class="LinkClass" :to="{ name: 'login' }">J'ai déjà un compte</router-link>
         </div>
       </div>
     </div>

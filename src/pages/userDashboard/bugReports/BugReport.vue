@@ -22,11 +22,11 @@
   </div>
 </template>
 
-<route>
+<!-- <route>
 {
   meta: {
     layout: "DashboardLayout",
     isAuth: true,
   }
 }
-</route>
+</route> -->

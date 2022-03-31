@@ -93,11 +93,11 @@ async function submitFile() {
 }
 </script>
 
-<route>
+<!-- <route>
 {
   meta: {
     layout: "AdminDashboardLayout",
     isAuth: true,
   }
 }
-</route>
+</route> -->

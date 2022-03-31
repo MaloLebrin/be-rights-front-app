@@ -79,10 +79,10 @@ function setHeaderFilters(filter: string | null) {
 }
 </script>
 
-<route>
+<!-- <route>
 {meta: {
   layout: "AdminDashboardLayout"
 }
 }
-</route>
+</route> -->
 

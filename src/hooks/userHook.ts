@@ -23,9 +23,9 @@ export default function userHook() {
       storeUsersEntities(user)
       setCookie('userToken', user.token)
       if (user && userStore.isCurrentUserAdmin) {
-        router.push('/adminDashboard')
+        router.push({ name: 'admin.events' })
       } else {
-        router.push('/userDashboard')
+        router.push({ name: 'user.events' })
       }
       setUISucessToast('Vous êtes connecté')
       mainStore.setIsLoggedIn()
@@ -44,9 +44,9 @@ export default function userHook() {
       storeUsersEntities(user)
       setCookie('userToken', user.token)
       if (user && userStore.isCurrentUserAdmin) {
-        router.push('/adminDashboard')
+        router.push({ name: 'admin.events' })
       } else {
-        router.push('/userDashboard')
+        router.push({ name: 'user.events' })
       }
       setUISucessToast('Vous êtes inscrit avec succès')
       mainStore.setIsLoggedIn()
@@ -150,8 +150,7 @@ export default function userHook() {
   async function deleteUser(id: number) {
     try {
       IncLoading()
-      const res = await api.delete(`user/${id}`)
-      console.log(res, 'res')
+      await api.delete(`user/${id}`)
       userStore.deleteOne(id)
       setUISucessToast('Utilisateurs à été supprimé avec succès')
     } catch (error) {

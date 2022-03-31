@@ -26,7 +26,7 @@
 
         <template #extraButton>
           <router-link
-            :to="{ name: 'adminDashboard-UserId' }"
+            :to="{ name: 'admin.users' }"
             class="EventActionButton"
             @click="redirectToUserForm(user.id)"
           >

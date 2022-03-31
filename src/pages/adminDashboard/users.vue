@@ -54,11 +54,11 @@ function searchEntity(event: KeyboardEvent) {
 }
 </script>
 
-<route>
+<!-- <route>
 {
   meta: {
     layout: "AdminDashboardLayout",
     isAuth: true,
   }
 }
-</route>
+</route> -->

@@ -18,12 +18,12 @@ onBeforeMount(async () => {
     await loginWithToken(token)
     store.setIsLoggedIn()
     if (userStore.isCurrentUserAdmin) {
-      router.push('/adminDashboard')
+      router.push({ name: 'admin.events' })
     } else {
-      router.push('/userDashboard')
+      router.push({ name: 'user.events' })
     }
   } else {
-    router.push('/')
+    router.push({ name: 'login' })
   }
 })
 

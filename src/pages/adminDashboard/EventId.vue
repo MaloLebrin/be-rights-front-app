@@ -28,11 +28,11 @@ const event = computed(() => eventStore.getOne(eventStore.getFirstActive))
 
 </script>
 
-<route>
+<!-- <route>
 {
   meta: {
     layout: "AdminDashboardLayout",
     isAuth:  true,
   }
 }
-</route>
+</route> -->

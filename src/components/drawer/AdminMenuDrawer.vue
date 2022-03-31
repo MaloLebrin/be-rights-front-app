@@ -6,38 +6,35 @@
         <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
           <HomeIconOutline class="h-6 text-white" />
         </div>
-        <router-link to="/adminDashboard" class="dark:text-white">Événements</router-link>
+        <router-link :to="{ name: 'admin.events' }" class="dark:text-white">Événements</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer">
         <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
           <UserGroupIconOutline class="h-6 text-white" />
         </div>
-        <router-link to="/adminDashboard/users" class="dark:text-white">Users</router-link>
+        <router-link :to="{ name: 'admin.users' }" class="dark:text-white">Users</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer">
         <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
           <UsersIconOutline class="h-6 text-white" />
         </div>
-        <router-link to="/adminDashboard/Employees" class="dark:text-white">Destinataires</router-link>
+        <router-link :to="{ name: 'admin.employees' }" class="dark:text-white">Destinataires</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer">
         <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
           <FolderOpenIconOutline class="h-6 text-white" />
         </div>
-        <router-link to="/adminDashboard/files" class="dark:text-white">Fichiers</router-link>
+        <router-link :to="{ name: 'admin.files' }" class="dark:text-white">Fichiers</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer">
         <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
           <ExclamationCircleIconOutline class="h-6 text-white" />
         </div>
-        <router-link
-          to="/adminDashboard/bugReports/BugsReports"
-          class="dark:text-white"
-        >Bugs et Problèmes</router-link>
+        <router-link :to="{ name: 'admin.bugs' }" class="dark:text-white">Bugs et Problèmes</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer" @click="toggleEventFormModal">
@@ -66,7 +63,7 @@
         <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
           <UserIconOutline class="h-6 text-white" />
         </div>
-        <router-link to="/adminDashboard/myAccount" class="dark:text-white">{{ userFullName }}</router-link>
+        <router-link :to="{ name: 'admin.account' }" class="dark:text-white">{{ userFullName }}</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer">

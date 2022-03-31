@@ -21,7 +21,7 @@ export default function authHook() {
     mainStore.setIsLoggedOut()
     userStore.removeCurrent()
     mainStore.resetAllState()
-    router.push('/')
+    router.replace({ name: 'home' })
   }
 
   async function loginWithToken(token: string) {
@@ -43,13 +43,14 @@ export default function authHook() {
       await loginWithToken(token)
       mainStore.setIsLoggedIn()
 
+      // TODO abstract this to a function DRY
       if (userStore.isCurrentUserAdmin) {
-        router.push('/adminDashboard')
+        router.push({ name: 'admin.events' })
       } else {
-        router.push('/userDashboard')
+        router.push({ name: 'user.events' })
       }
     } else {
-      router.push('/login')
+      router.push({ name: 'login' })
     }
     DecLoading()
   }

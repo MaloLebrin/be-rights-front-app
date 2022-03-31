@@ -26,11 +26,11 @@ onMounted(async () => {
 })
 </script>
 
-<route>
+<!-- <route>
 {
   meta: {
     layout: "AdminDashboardLayout",
     isAuth:  true,
   }
 }
-</route>
+</route> -->

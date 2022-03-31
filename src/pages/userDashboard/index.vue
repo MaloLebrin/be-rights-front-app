@@ -81,11 +81,3 @@ function searchEntity(event: KeyboardEvent) {
 }
 </script>
 
-<route>
-{
-  meta: {
-    layout: "DashboardLayout",
-    isAuth: true,
-  }
-}
-</route>
