@@ -27,12 +27,3 @@ onBeforeRouteLeave(() => {
 const event = computed(() => eventStore.getOne(eventStore.getFirstActive))
 
 </script>
-
-<!-- <route>
-{
-  meta: {
-    layout: "AdminDashboardLayout",
-    isAuth:  true,
-  }
-}
-</route> -->

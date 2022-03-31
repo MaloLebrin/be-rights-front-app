@@ -80,4 +80,3 @@ function searchEntity(event: KeyboardEvent) {
   }, 500)
 }
 </script>
-

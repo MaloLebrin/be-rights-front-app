@@ -18,4 +18,3 @@
     <EmployeeForm />
   </transition>
 </template>
-

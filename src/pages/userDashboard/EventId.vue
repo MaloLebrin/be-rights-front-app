@@ -26,4 +26,3 @@ onBeforeRouteLeave(() => {
 
 const event = computed(() => eventStore.getOne(eventStore.getFirstActive))
 </script>
-

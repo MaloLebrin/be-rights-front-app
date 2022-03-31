@@ -64,12 +64,3 @@ function searchEntity(event: KeyboardEvent) {
   }, 500)
 }
 </script>
-
-<!-- <route>
-{
-  meta: {
-    layout: "AdminDashboardLayout",
-    isAuth: true,
-  }
-}
-</route> -->
