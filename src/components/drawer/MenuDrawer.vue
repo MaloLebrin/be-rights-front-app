@@ -23,18 +23,24 @@
         <router-link :to="{ name: 'user.files' }" class="dark:text-white">Mes Fichiers</router-link>
       </div>
 
-      <div class="flex items-center w-full mb-5 cursor-pointer" @click="toggleEventFormModal">
+      <div class="flex items-center w-full mb-5 cursor-pointer">
         <div class="p-1 mr-3 rounded-lg bg-purple-light hover:bg-purple">
           <PlusIconOutline class="h-6 text-white" />
         </div>
-        <span class="dark:text-white">Créer un nouvel événement</span>
+        <router-link
+          :to="{ name: 'user.events.create' }"
+          class="dark:text-white"
+        >Créer un nouvel événement</router-link>
       </div>
 
-      <div class="flex items-center w-full mb-5 cursor-pointer" @click="toggleEmployeeFormModal">
+      <div class="flex items-center w-full mb-5 cursor-pointer">
         <div class="p-1 mr-3 rounded-lg bg-purple-light hover:bg-purple">
           <PlusIconOutline class="h-6 text-white" />
         </div>
-        <span class="dark:text-white">Créer un nouveau destinataire</span>
+        <router-link
+          :to="{ name: 'user.employees.create' }"
+          class="dark:text-white"
+        >Créer un nouveau destinataire</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer">
@@ -42,7 +48,7 @@
           <FolderAddIconOutline class="h-6 text-white" />
         </div>
         <router-link
-          :to="{ name: 'user.files.create-model'}"
+          :to="{ name: 'user.files.create-model' }"
           class="dark:text-white"
         >Créer un nouveau fichier</router-link>
       </div>
@@ -82,7 +88,6 @@
 
 <script setup lang="ts">
 import { useCookie } from 'vue-cookie-next'
-import { ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
 
 interface Props {
   isActive?: boolean
@@ -94,7 +99,6 @@ withDefaults(defineProps<Props>(), {
 
 const userStore = useUserStore()
 const { getUserFullName, getCurrentUserId } = storeToRefs(userStore)
-const { setUiModal } = useUiStore()
 
 const { logout } = authHook()
 
@@ -103,23 +107,5 @@ const cookie = useCookie()
 function onToggleLogout() {
   cookie.removeCookie('userToken')
   logout()
-}
-
-function toggleEventFormModal() {
-  setUiModal({
-    isActive: true,
-    modalName: ModalNameEnum.EVENT_FORM,
-    modalMode: ModalModeEnum.CREATE,
-    data: {},
-  })
-}
-
-function toggleEmployeeFormModal() {
-  setUiModal({
-    isActive: true,
-    modalName: ModalNameEnum.ADD_EMPLOYEE,
-    modalMode: ModalModeEnum.CREATE,
-    data: {},
-  })
 }
 </script>

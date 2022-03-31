@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative min-h-screen py-6 pr-8 text-left transition-all duration-500 ease-in-out transform bg-white-light dark:bg-blue-dark pl-14"
+    class="relative min-h-screen py-6 pr-8 text-left transition-all duration-500 ease-in-out transform pl-14"
   >
     <HeaderList>
       <template #title>
@@ -29,12 +29,3 @@ onMounted(async () => {
 })
 
 </script>
-
-<!-- <route>
-{
-  meta: {
-    layout: "DashboardLayout",
-    isAuth: true,
-  }
-}
-</route> -->

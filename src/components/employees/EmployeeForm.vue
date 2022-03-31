@@ -61,7 +61,7 @@
     </form>
 
     <div class="flex items-center justify-center mt-6">
-      <BaseButton :disabled="!meta.valid || !meta.dirty" @click="submit">
+      <BaseButton :disabled="!meta.valid || !meta.dirty" @click.prevent="submit">
         <template #icon>
           <SaveIconOutline />
         </template>
@@ -77,7 +77,7 @@ import { useField, useForm } from 'vee-validate'
 import { object, string, number } from 'yup'
 
 interface Props {
-  employee: EmployeeType | null,
+  employee?: EmployeeType | null,
   mode?: ModalModeEnum,
   eventId?: number,
   userId?: number,

@@ -26,6 +26,7 @@ const uiStore = useUiStore()
 const { setUiModal } = uiStore
 const eventStore = useEventStore()
 const { setActive } = eventStore
+const userStore = useUserStore()
 
 interface Props {
   NoEventMessage: string,
@@ -38,7 +39,11 @@ withDefaults(defineProps<Props>(), {
 })
 
 function updateOneEvent(eventId: number) {
-  router.push('/admindashboard/eventid')
+  if (userStore.isCurrentUserAdmin) {
+    router.push({ name: 'admin.events.show', params: { eventId } })
+  } else {
+    router.push({ name: 'user.events.show', params: { eventId } })
+  }
   setActive(eventId)
 }
 

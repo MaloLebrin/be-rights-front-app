@@ -22,6 +22,16 @@ export const userRoutes = [
     },
   },
   {
+    path: '/user/events/create',
+    name: 'user.events.create',
+    component: () => import('@/pages/userDashboard/CreateEvent.vue'),
+    meta: {
+      layout: 'DashboardLayout',
+      isAuth: true,
+      isAdmin: false,
+    },
+  },
+  {
     path: '/user/bug-report/create',
     name: 'user.bug.create',
     component: () => import('@/pages/userDashboard/bugReports/BugReport.vue'),
@@ -42,6 +52,16 @@ export const userRoutes = [
     },
   },
   {
+    path: '/user/employees/create',
+    name: 'user.employees.create',
+    component: () => import('@/pages/userDashboard/CreateEmployee.vue'),
+    meta: {
+      layout: 'DashboardLayout',
+      isAuth: true,
+      isAdmin: false,
+    },
+  },
+  {
     path: '/user/files',
     name: 'user.files',
     component: () => import('@/pages/userDashboard/MyFiles.vue'),
@@ -54,7 +74,7 @@ export const userRoutes = [
   {
     path: '/user/files/create-model',
     name: 'user.files.create-model',
-    component: () => import('@/pages/userDashboard/MyFiles.vue'),
+    component: () => import('@/pages/userDashboard/CreateModel.vue'),
     meta: {
       layout: 'DashboardLayout',
       isAuth: true,

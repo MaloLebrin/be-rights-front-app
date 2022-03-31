@@ -78,6 +78,7 @@ function switchMode() {
 }
 
 function uploadFile(fileUploaded: File) {
+  // TODO how to post/patch a file base64
   const formData = new FormData()
   formData.append('file', fileUploaded)
   formData.append('type', FileTypeEnum.LOGO)
