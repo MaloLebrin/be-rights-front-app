@@ -10,8 +10,6 @@ const routes = setupLayouts([
   ...adminRoutes,
 ])
 
-console.log(routes, 'routes')
-
 const router = createRouter({
   history: createWebHistory(),
   routes,
