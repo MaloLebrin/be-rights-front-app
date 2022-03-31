@@ -17,12 +17,26 @@ const router = createRouter({
   routes,
 })
 
-//TODO fix this
-// router.beforeEach((to, from, next) => {
-//   const mainStore = useMainStore()
-//   if (to.name !== 'login' && !mainStore.getIsLoggedIn) next({ name: 'login' })
-//   else next()
-// })
+router.beforeEach((to, from, next) => {
+  const mainStore = useMainStore()
+  const userStore = useUserStore()
+  if (to.meta.isAuth && (!mainStore.getIsLoggedIn || !userStore.getCurrentUserId)) {
+    return {
+      name: 'login',
+    }
+  }
+  if (to.meta.isAdmin && !userStore.isCurrentUserAdmin) {
+    if (from.name) {
+      return {
+        name: from.name,
+      }
+    }
+    return {
+      name: 'home',
+    }
+  }
+  return next()
+})
 
 declare module 'vue-router' {
   interface RouteMeta {
