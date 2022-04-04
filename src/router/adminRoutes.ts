@@ -1,4 +1,4 @@
-import Index from '@/pages/adminDashboard/index.vue'
+import Index from '@/pages/adminDashboard/event/index.vue'
 
 export const adminRoutes = [
   {
@@ -14,7 +14,17 @@ export const adminRoutes = [
   {
     path: '/admin/events/:eventId/show',
     name: 'admin.events.show',
-    component: () => import('@/pages/adminDashboard/EventId.vue'),
+    component: () => import('@/pages/adminDashboard/event/EventId.vue'),
+    meta: {
+      layout: 'AdminDashboardLayout',
+      isAuth: true,
+      isAdmin: true,
+    },
+  },
+  {
+    path: '/admin/events/create',
+    name: 'admin.events.create',
+    component: () => import('@/pages/adminDashboard/event/CreateEvent.vue'),
     meta: {
       layout: 'AdminDashboardLayout',
       isAuth: true,
@@ -24,7 +34,17 @@ export const adminRoutes = [
   {
     path: '/admin/users',
     name: 'admin.users',
-    component: () => import('@/pages/adminDashboard/users.vue'),
+    component: () => import('@/pages/adminDashboard/user/users.vue'),
+    meta: {
+      layout: 'AdminDashboardLayout',
+      isAuth: true,
+      isAdmin: true,
+    },
+  },
+  {
+    path: '/admin/users/:userId',
+    name: 'admin.users.show',
+    component: () => import('@/pages/adminDashboard/user/users.vue'),
     meta: {
       layout: 'AdminDashboardLayout',
       isAuth: true,
@@ -44,7 +64,17 @@ export const adminRoutes = [
   {
     path: '/admin/files',
     name: 'admin.files',
-    component: () => import('@/pages/adminDashboard/Files.vue'),
+    component: () => import('@/pages/adminDashboard/file/Files.vue'),
+    meta: {
+      layout: 'AdminDashboardLayout',
+      isAuth: true,
+      isAdmin: true,
+    },
+  },
+  {
+    path: '/admin/files/create',
+    name: 'admin.files.create',
+    component: () => import('@/pages/adminDashboard/file/CreateOne.vue'),
     meta: {
       layout: 'AdminDashboardLayout',
       isAuth: true,

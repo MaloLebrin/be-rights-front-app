@@ -79,7 +79,7 @@
 <script setup lang="ts">
 import { useCookie } from 'vue-cookie-next'
 import { ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
-
+//TODO refacto menu
 interface Props {
   isActive?: boolean
 }
