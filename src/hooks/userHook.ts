@@ -57,6 +57,20 @@ export default function userHook() {
     DecLoading()
   }
 
+  async function fetchOne(userId: number) {
+    try {
+      IncLoading()
+      const res = await api.get(`user/${userId}`)
+      const user = res.data as UserType
+      if (user) {
+        storeUsersEntities(user)
+      }
+    } catch (error) {
+      console.error(error)
+      setUIErrorToast()
+    }
+  }
+
   function storeUsersEntities(user: UserType, isUserToSetCurrent = true) {
     if (user.events && user.events.length > 0) {
       const userEvents = user.events as EventType[]
@@ -65,7 +79,10 @@ export default function userHook() {
       user.events = eventsToStore.map(event => event.id)
     }
     if (user.employee && user.employee.length > 0) {
-      const employeesToStore = storeEmployeeRelationsEntities(user.employee as EmployeeType[])
+      const employeesToStore = storeEmployeeRelationsEntities(user.employee.map(e => ({
+        ...e as EmployeeType,
+        createdByUser: user.id,
+      })))
       user.employee = employeesToStore.map(employee => employee.id)
     }
     if (user.files && user.files.length > 0) {
@@ -173,9 +190,32 @@ export default function userHook() {
     DecLoading()
   }
 
+  function getRoleTranslation(role: RoleEnum) {
+    switch (role) {
+      case RoleEnum.ADMIN:
+        return 'Administrateur'
+      case RoleEnum.USER:
+        return 'Utilisateur'
+      case RoleEnum.EMPLOYEE:
+        return 'Destinataire'
+      case RoleEnum.SUPER_USER:
+        return 'Super utilisateur'
+      case RoleEnum.COMPANY:
+        return 'Entreprise'
+      case RoleEnum.PHOTOGRAPHER:
+        return 'Photographe'
+      case RoleEnum.CUSTOMER:
+        return 'Client'
+      default:
+        return 'Utilisateur'
+    }
+  }
+
   return {
     deleteUser,
     fetchAll,
+    fetchOne,
+    getRoleTranslation,
     login,
     patchOne,
     register,

@@ -26,9 +26,8 @@
 
         <template #extraButton>
           <router-link
-            :to="{ name: 'admin.users' }"
+            :to="{ name: 'admin.users.show', params: { userId: user.id } }"
             class="EventActionButton"
-            @click="redirectToUserForm(user.id)"
           >
             <div class="flex items-center">
               <EyeIconOutline class="w-4 h-4 mr-2 text-gray-800" />
@@ -53,6 +52,7 @@
 
 <script setup lang="ts">
 import { ModalNameEnum, ModalModeEnum, SubscriptionEnum, UserType, EventType } from '@/types/typesExported'
+const router = useRouter()
 
 interface Props {
   users: UserType[]
@@ -66,7 +66,6 @@ const { getDate } = dateHook()
 const userStore = useUserStore()
 const eventStore = useEventStore()
 const uiStore = useUiStore()
-const { setActive } = userStore
 const { setUiModal } = uiStore
 
 const eventByUserId = (ids: number[] | EventType[]) => computed(() => {
@@ -75,10 +74,6 @@ const eventByUserId = (ids: number[] | EventType[]) => computed(() => {
   }
   return ids as EventType[]
 })
-
-function redirectToUserForm(userId: number) {
-  setActive(userId)
-}
 
 function onToggleUsersModal(user: UserType) {
   setUiModal({

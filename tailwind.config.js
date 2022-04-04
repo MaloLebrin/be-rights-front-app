@@ -7,6 +7,15 @@ module.exports = {
   content: ['./public/**/*.html', './src/**/*.vue'],
   presets: [],
   darkMode: 'class', // or 'media' or 'class'
+  safelist: [
+    ...(Object.keys(colors).reduce((acc, name) => {
+      acc.push(`bg-${name}-50`)
+      acc.push(`bg-${name}-100`)
+      acc.push(`text-${name}-500`)
+      acc.push(`text-${name}-700`)
+      return acc
+    }, [])),
+  ],
   theme: {
     screens: {
       sm: '640px',
@@ -18,7 +27,7 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
-
+      ...colors,
       black: {
         light: 'rgba(30,30,28,0.05)',
         DEFAULT: '#1e1e1c'

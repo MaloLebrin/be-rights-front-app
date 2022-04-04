@@ -11,7 +11,7 @@
 
     <div class="space-y-10">
       <div class="py-4 mt-24 space-y-32 rounded-lg shadow-lg">
-        <Userform :id="userStore.getFirstActive" />
+        <Userform :id="userId" />
       </div>
 
       <BaseAccordion class="rounded-full shadow-2xl dark:bg-blue-dark_bold animate-fade-in-down">
@@ -41,10 +41,8 @@
 
 <script setup lang="ts">
 import { FileType, FileTypeEnum } from '@/types/typesExported'
-import { onBeforeRouteLeave } from 'vue-router'
 
 const userStore = useUserStore()
-const { resetActive } = userStore
 const fileStore = useFileStore()
 const { DecLoading, IncLoading } = useUiStore()
 const { fetchAll, postOne } = fileHook()
@@ -57,19 +55,18 @@ const state = reactive<State>({
   file: null,
 })
 
-onBeforeRouteLeave(() => {
-  resetActive()
-})
+const { params } = useRoute()
 
-const user = computed(() => userStore.getOne(userStore.getFirstActive))
+const userId = computed(() => parseInt(params.userId as string))
+const user = computed(() => userStore.getOne(userId.value))
 const userLogo = computed(() =>
-  fileStore.getFirstWhere(file => file.createdByUser === userStore.getFirstActive &&
+  fileStore.getFirstWhere(file => file.createdByUser === userId.value &&
     file.type === FileTypeEnum.LOGO) as FileType
 )
 
 onMounted(async () => {
   if (!userLogo.value) {
-    await fetchAll(`?filters[type]=${FileTypeEnum.LOGO}&filters[createdByUser]=${userStore.getFirstActive}`)
+    await fetchAll(`?filters[type]=${FileTypeEnum.LOGO}&filters[createdByUser]=${userId.value}`)
   }
 })
 
@@ -77,7 +74,7 @@ function uploadFile(fileUploaded: File) {
   const formData = new FormData()
   formData.append('file', fileUploaded)
   formData.append('type', FileTypeEnum.LOGO)
-  formData.append('userId', userStore.getFirstActive.toString())
+  formData.append('userId', userId.value.toString())
   formData.append('name', 'logo')
   formData.append('description', 'Logo de l\'utilisateur')
   state.file = formData

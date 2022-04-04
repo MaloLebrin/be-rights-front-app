@@ -1,4 +1,5 @@
 import { DateFormatEnum } from "@/types/Date"
+import dayjs from "dayjs"
 
 export default function dateHook() {
 
@@ -29,7 +30,12 @@ export default function dateHook() {
     return new Date(date).toLocaleDateString("fr-Fr", options)
   }
 
+  function toFormat(date: Date | string, format: string) {
+    return dayjs(date).format(format)
+  }
+
   return {
-    getDate
+    getDate,
+    toFormat,
   }
 }

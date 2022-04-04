@@ -31,6 +31,14 @@ export function eventHook() {
     return employees.filter(employee => employee.hasSigned).length
   }
 
+  function sortEventByDate(events: EventType[]) {
+    return events.sort((a, b) => {
+      if (a.start < b.start) return 1
+      if (a.start > b.start) return -1
+      return 0
+    })
+  }
+
   async function fetchAllEvents(url?: string) {
     IncLoading()
     try {
@@ -152,8 +160,8 @@ export function eventHook() {
   return {
     deleteOne,
     fetchAllEvents,
-    fetchEventsByUser,
     fetchEvent,
+    fetchEventsByUser,
     fetchOne,
     getEventStatusColor,
     getEventStatusTranslation,
@@ -161,6 +169,7 @@ export function eventHook() {
     isEventType,
     patchOne,
     postOne,
+    sortEventByDate,
   }
 }
 

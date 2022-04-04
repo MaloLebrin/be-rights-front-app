@@ -42,9 +42,19 @@ export const adminRoutes = [
     },
   },
   {
-    path: '/admin/users/:userId',
+    path: '/admin/users/:userId/details',
     name: 'admin.users.show',
-    component: () => import('@/pages/adminDashboard/user/users.vue'),
+    component: () => import('@/pages/adminDashboard/user/UserDetail.vue'),
+    meta: {
+      layout: 'AdminDashboardLayout',
+      isAuth: true,
+      isAdmin: true,
+    },
+  },
+  {
+    path: '/admin/users/:userId/edit',
+    name: 'admin.users.edit',
+    component: () => import('@/pages/adminDashboard/user/UserId.vue'),
     meta: {
       layout: 'AdminDashboardLayout',
       isAuth: true,
@@ -55,6 +65,16 @@ export const adminRoutes = [
     path: '/admin/employees',
     name: 'admin.employees',
     component: () => import('@/pages/adminDashboard/Employees.vue'),
+    meta: {
+      layout: 'AdminDashboardLayout',
+      isAuth: true,
+      isAdmin: true,
+    },
+  },
+  {
+    path: '/admin/employees/:employeeId/details',
+    name: 'admin.employees.details',
+    component: () => import('@/pages/adminDashboard/employee/EmployeeDetails.vue'),
     meta: {
       layout: 'AdminDashboardLayout',
       isAuth: true,
