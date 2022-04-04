@@ -80,7 +80,7 @@
       <label
         class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
       >Id de l'utilisateur&nbsp;*&nbsp;:</label>
-      <InputSearchSelect baseUrl="user" @selected="handleUserId" />
+      <InputSearchSelect baseUrl="user" @selected="onSelectedUser" />
       <p v-if="userIdError?.length">{{ userIdError }}</p>
     </div>
 
@@ -108,7 +108,7 @@
 </template>
 
 <script setup lang="ts">
-import { EmployeeType, EventType, ModalModeEnum } from '@/types/typesExported'
+import { EmployeeType, EventType, ModalModeEnum, UserType } from '@/types/typesExported'
 import type { Period } from '@/types'
 import { useField, useForm } from 'vee-validate'
 import { object, string, date, number } from 'yup'
@@ -184,6 +184,10 @@ const { errorMessage: userIdError, value: userId, handleChange: handleUserId } =
 const { errorMessage: employeeError, value: employees, handleChange: handleEmployee } = useField<EmployeeType[] | null>('employees', undefined, {
   initialValue: event.value ? event.value.employees as unknown as EmployeeType[] : [],
 })
+
+function onSelectedUser(user: UserType) {
+  handleUserId(user.id)
+}
 
 async function submit() {
   IncLoading()
