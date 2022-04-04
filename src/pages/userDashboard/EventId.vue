@@ -9,13 +9,21 @@
       </template>
     </HeaderList>
     <div class="py-4 mt-24 rounded-lg shadow-lg">
-      <EventForm :event-id="eventStore.getFirstActive" />
+      <EventForm :mode="ModalModeEnum.CREATE" :event-id="eventId" @submitted="redirectToEvent" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const eventStore = useEventStore()
+import { ModalModeEnum } from '@/types/typesExported'
 
-const event = computed(() => eventStore.getOne(eventStore.getFirstActive))
+const eventStore = useEventStore()
+const { params } = useRoute()
+const router = useRouter()
+const eventId = computed(() => parseInt(params.eventId as string))
+const event = computed(() => eventStore.getOne(eventId.value))
+
+function redirectToEvent(id: number) {
+  router.push({ name: 'user.events' })
+}
 </script>

@@ -20,7 +20,7 @@
       <v-date-picker
         v-model="period"
         mode="dateTime"
-        :is-dark="isDarkTheme"
+        :is-dark="mainStore.isDarkTheme"
         is-range
         is24hr
         is-expanded
@@ -76,7 +76,7 @@
       </div>
     </div>
 
-    <div v-if="isCurrentUserAdmin" class="space-y-2 md:col-span-2">
+    <div v-if="userStore.isCurrentUserAdmin" class="space-y-2 md:col-span-2">
       <label
         class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
       >Id de l'utilisateur&nbsp;*&nbsp;:</label>
@@ -89,7 +89,7 @@
         class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
       >Destinataires&nbsp;*&nbsp;:</label>
       <InputSearchSelect
-        :baseUrl="isCurrentUserAdmin ? 'employee' : `employee?filters[createdByUser]=${getCurrentUserId}`"
+        :baseUrl="userStore.isCurrentUserAdmin ? 'employee' : `employee?filters[createdByUser]=${userStore.getCurrentUserId}`"
         @selected="handleEmployee"
         is-multiple
       />
@@ -115,7 +115,7 @@ import { object, string, date, number } from 'yup'
 
 interface Props {
   eventId?: number | null
-  mode?: ModalModeEnum | null
+  mode: ModalModeEnum | null
 }
 const props = withDefaults(defineProps<Props>(), {
   eventId: null,
@@ -130,9 +130,8 @@ const mainStore = useMainStore()
 const eventStore = useEventStore()
 const userStore = useUserStore()
 const uiStore = useUiStore()
-const { isDarkTheme } = mainStore
-const { isCurrentUserAdmin, getCurrentUserId } = userStore
-const { getUiModalState, IncLoading, DecLoading, resetUiModalState } = uiStore
+
+const { IncLoading, DecLoading, resetUiModalState } = uiStore
 const { postMany: postManyAnswers } = answerHook()
 const { postOne: PostOneEvent, patchOne: patchOneEvent } = eventHook()
 
@@ -149,6 +148,14 @@ const schema = object({
   city: string().required('La ville est obligatoire'),
   country: string().required('Le pays est obligatoire'),
   userId: number().required('L\'utilisateur est obligatoire'),
+})
+
+const userCreateEvent = computed(() => {
+  if (userStore.isCurrentUserAdmin) {
+    return event.value ? event.value.createdByUser as number : null
+  } else {
+    return userStore.getCurrentUserId
+  }
 })
 
 const { meta } = useForm({ validationSchema: schema })
@@ -172,18 +179,10 @@ const { errorMessage: countryError, value: country } = useField<string | null>('
   initialValue: event.value ? event.value.country : '',
 })
 const { errorMessage: userIdError, value: userId, handleChange: handleUserId } = useField<number | null>('userId', undefined, {
-  initialValue: event.value ? event.value.createdByUser as number : null,
+  initialValue: userCreateEvent.value,
 })
 const { errorMessage: employeeError, value: employees, handleChange: handleEmployee } = useField<EmployeeType[] | null>('employees', undefined, {
   initialValue: event.value ? event.value.employees as unknown as EmployeeType[] : [],
-})
-
-const userCreateEvent = computed(() => {
-  if (isCurrentUserAdmin) {
-    return userId.value
-  } else {
-    return getCurrentUserId
-  }
 })
 
 async function submit() {
@@ -197,25 +196,27 @@ async function submit() {
     postalCode: postalCode.value,
     city: city.value,
     country: country.value,
-    createdByUser: userCreateEvent.value,
+    createdByUser: userId.value,
   }
 
-  if (getUiModalState.modalMode === ModalModeEnum.CREATE) {
-    if (userCreateEvent.value) {
-      const newEvent = await PostOneEvent(payload as EventType, userCreateEvent.value!)
-      if (employees.value && employees.value.length > 0 && newEvent) {
-        const employeesIds = employees.value.map(employee => employee.id)
-        const eventId = newEvent.id
-        await postManyAnswers(
-          eventId,
-          employeesIds
-        )
+  if (props.mode === ModalModeEnum.CREATE) {
+    if (userId.value) {
+      const newEvent = await PostOneEvent(payload as EventType, userId.value)
+      if (newEvent) {
+        if (employees.value && employees.value.length > 0) {
+          const employeesIds = employees.value.map(employee => employee.id)
+          const eventId = newEvent.id
+          await postManyAnswers(
+            eventId,
+            employeesIds
+          )
+        }
+        emit('submitted', newEvent.id)
       }
-      emit('submitted', newEvent?.id!)
     }
   }
-  if (getUiModalState.modalMode === ModalModeEnum.EDIT && props.eventId) {
 
+  if (props.mode === ModalModeEnum.EDIT && props.eventId) {
     await patchOneEvent({
       ...payload as EventType,
       id: props.eventId,

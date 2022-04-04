@@ -13,7 +13,7 @@ export const userRoutes = [
   },
   {
     path: '/user/events/:eventId/show',
-    name: 'user.events/show',
+    name: 'user.events.show',
     component: () => import('@/pages/userDashboard/EventId.vue'),
     meta: {
       layout: 'DashboardLayout',

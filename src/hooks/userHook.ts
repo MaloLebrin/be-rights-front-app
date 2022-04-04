@@ -1,6 +1,5 @@
 import axiosInstance from "@/axios.config"
 import { useCookie } from 'vue-cookie-next'
-const router = useRouter()
 import APi, { PaginatedResponse } from '@/helpers/api'
 import { RoleEnum, ThemeEnum } from '@/types'
 import { EmployeeType, EventType, FileType, UserType } from '@/types/typesExported'
@@ -14,6 +13,7 @@ export default function userHook() {
   const { storeEmployeeRelationsEntities } = employeeHook()
   const { setCookie } = useCookie()
   const api = new APi(userStore.entities.current?.token!)
+  const router = useRouter()
 
   async function login({ email, password }: { email: string, password: string }) {
     try {
