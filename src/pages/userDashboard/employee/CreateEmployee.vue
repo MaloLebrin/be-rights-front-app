@@ -1,5 +1,5 @@
 <template>
-  <div class="relative min-h-screen py-6 pr-8 space-y-12 text-left pl-14">
+  <div class="relative min-h-screen py-6 pr-8 space-y-12 text-left md:container md:mx-auto pl-14">
     <div class="flex items-center">
       <UserIconOutlineIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />
       <h1
