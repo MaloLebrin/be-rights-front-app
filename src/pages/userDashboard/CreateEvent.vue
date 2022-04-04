@@ -9,10 +9,16 @@
       >Créer un Èvénement</h1>
     </div>
 
-    <EventForm :mode="ModalModeEnum.CREATE" />
+    <EventForm :mode="ModalModeEnum.CREATE" @submitted="redirectToEvent" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ModalModeEnum } from '@/types/typesExported'
+
+const router = useRouter()
+
+function redirectToEvent() {
+  router.push({ name: 'user.events' })
+}
 </script>

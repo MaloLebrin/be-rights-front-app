@@ -23,7 +23,7 @@ const router = useRouter()
 const eventId = computed(() => parseInt(params.eventId as string))
 const event = computed(() => eventStore.getOne(eventId.value))
 
-function redirectToEvent(id: number) {
+function redirectToEvent() {
   router.push({ name: 'user.events' })
 }
 </script>
