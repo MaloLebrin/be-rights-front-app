@@ -14,7 +14,7 @@ export const userRoutes = [
   {
     path: '/user/events/:eventId/show',
     name: 'user.events.show',
-    component: () => import('@/pages/userDashboard/EventId.vue'),
+    component: () => import('@/pages/userDashboard/event/EventId.vue'),
     meta: {
       layout: 'DashboardLayout',
       isAuth: true,
@@ -24,12 +24,12 @@ export const userRoutes = [
   {
     path: '/user/events/create',
     name: 'user.events.create',
-    component: () => import('@/pages/userDashboard/CreateEvent.vue'),
+    component: () => import('@/pages/userDashboard/event/CreateEvent.vue'),
     meta: {
       layout: 'DashboardLayout',
       isAuth: true,
       isAdmin: false,
-    },//TODO find a way to have a params to have mode in eventForm
+    },
   },
   {
     path: '/user/bug-report/create',
@@ -44,7 +44,7 @@ export const userRoutes = [
   {
     path: '/user/employees',
     name: 'user.employees',
-    component: () => import('@/pages/userDashboard/MyEmployees.vue'),
+    component: () => import('@/pages/userDashboard/employee/MyEmployees.vue'),
     meta: {
       layout: 'DashboardLayout',
       isAuth: true,
@@ -54,7 +54,7 @@ export const userRoutes = [
   {
     path: '/user/employees/create',
     name: 'user.employees.create',
-    component: () => import('@/pages/userDashboard/CreateEmployee.vue'),
+    component: () => import('@/pages/userDashboard/employee/CreateEmployee.vue'),
     meta: {
       layout: 'DashboardLayout',
       isAuth: true,
@@ -64,7 +64,7 @@ export const userRoutes = [
   {
     path: '/user/files',
     name: 'user.files',
-    component: () => import('@/pages/userDashboard/MyFiles.vue'),
+    component: () => import('@/pages/userDashboard/files/MyFiles.vue'),
     meta: {
       layout: 'DashboardLayout',
       isAuth: true,
@@ -74,7 +74,7 @@ export const userRoutes = [
   {
     path: '/user/files/create-model',
     name: 'user.files.create-model',
-    component: () => import('@/pages/userDashboard/CreateModel.vue'),
+    component: () => import('@/pages/userDashboard/files/CreateModel.vue'),
     meta: {
       layout: 'DashboardLayout',
       isAuth: true,
