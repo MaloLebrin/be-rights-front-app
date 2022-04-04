@@ -29,7 +29,7 @@ export const userRoutes = [
       layout: 'DashboardLayout',
       isAuth: true,
       isAdmin: false,
-    },
+    },//TODO find a way to have a params to have mode in eventForm
   },
   {
     path: '/user/bug-report/create',

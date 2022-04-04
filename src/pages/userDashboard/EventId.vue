@@ -9,7 +9,7 @@
       </template>
     </HeaderList>
     <div class="py-4 mt-24 rounded-lg shadow-lg">
-      <EventForm :mode="ModalModeEnum.CREATE" :event-id="eventId" @submitted="redirectToEvent" />
+      <EventForm :mode="ModalModeEnum.EDIT" :event-id="eventId" @submitted="redirectToEvent" />
     </div>
   </div>
 </template>
