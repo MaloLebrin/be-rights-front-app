@@ -122,6 +122,10 @@ const props = withDefaults(defineProps<Props>(), {
   mode: null,
 })
 
+const emit = defineEmits<{
+  (e: 'submitted', eventId: number): void
+}>()
+
 const mainStore = useMainStore()
 const eventStore = useEventStore()
 const userStore = useUserStore()
@@ -207,6 +211,7 @@ async function submit() {
           employeesIds
         )
       }
+      emit('submitted', newEvent?.id!)
     }
   }
   if (getUiModalState.modalMode === ModalModeEnum.EDIT && props.eventId) {
@@ -223,6 +228,7 @@ async function submit() {
         employeesIds
       )
     }
+    emit('submitted', props.eventId)
   }
   DecLoading()
   resetUiModalState()

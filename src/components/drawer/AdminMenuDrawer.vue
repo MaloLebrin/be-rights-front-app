@@ -37,11 +37,14 @@
         <router-link :to="{ name: 'admin.bugs' }" class="dark:text-white">Bugs et Problèmes</router-link>
       </div>
 
-      <div class="flex items-center w-full mb-5 cursor-pointer" @click="toggleEventFormModal">
+      <div class="flex items-center w-full mb-5 cursor-pointer">
         <div class="p-1 mr-3 rounded-lg bg-purple-light hover:bg-purple">
           <PlusIconOutline class="h-6 text-white" />
         </div>
-        <span class="dark:text-white">Créer un nouvel événement</span>
+        <router-link
+          :to="{ name: 'admin.events.create' }"
+          class="dark:text-white"
+        >Créer un nouvel événement</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer" @click="toggleEmployeeFormModal">
@@ -99,15 +102,6 @@ const cookie = useCookie()
 function onToggleLogout() {
   cookie.removeCookie('userToken')
   logout()
-}
-
-function toggleEventFormModal() {
-  setUiModal({
-    isActive: true,
-    modalName: ModalNameEnum.EVENT_FORM,
-    modalMode: ModalModeEnum.CREATE,
-    data: {},
-  })
 }
 
 function toggleEmployeeFormModal() {

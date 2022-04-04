@@ -15,14 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeRouteLeave } from 'vue-router'
-
 const eventStore = useEventStore()
-const { resetActive } = eventStore
-
-onBeforeRouteLeave(() => {
-  resetActive()
-})
 
 const event = computed(() => eventStore.getOne(eventStore.getFirstActive))
 </script>

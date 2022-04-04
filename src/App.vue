@@ -5,7 +5,7 @@
 </template>
 <script setup lang="ts">
 import { useCookie } from 'vue-cookie-next'
-import router from '@/router'
+const router = useRouter()
 
 const store = useMainStore()
 const userStore = useUserStore()

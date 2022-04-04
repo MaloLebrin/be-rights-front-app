@@ -1,6 +1,6 @@
 import axiosInstance from "@/axios.config"
 import { useCookie } from 'vue-cookie-next'
-import router from '@/router'
+const router = useRouter()
 import APi, { PaginatedResponse } from '@/helpers/api'
 import { RoleEnum, ThemeEnum } from '@/types'
 import { EmployeeType, EventType, FileType, UserType } from '@/types/typesExported'

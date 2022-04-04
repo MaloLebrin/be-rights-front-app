@@ -8,5 +8,15 @@
         class="flex items-center max-w-xs text-2xl font-semibold text-gray-800 dark:text-white mt"
       >Créer un Èvénement</h1>
     </div>
+
+    <EventForm @submitted="redirecToEvent" />
   </div>
 </template>
+
+<script setup lang="ts">
+const router = useRouter()
+
+function redirecToEvent(id: number) {
+  router.push({ name: 'admin.events.show', params: { eventId: id } })
+}
+</script>
