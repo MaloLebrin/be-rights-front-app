@@ -11,12 +11,3 @@
     <UserAccountContent />
   </div>
 </template>
-
-<route>
-{
-  meta: {
-    layout: "AdminDashboardLayout",
-    isAuth:  true,
-  }
-}
-</route>

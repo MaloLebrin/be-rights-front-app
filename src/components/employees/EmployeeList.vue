@@ -3,7 +3,7 @@
     <div v-if="employees.length > 0" v-for="(employee, index) in employees" :key="employee.id">
       <DashboardItem :index="index">
         <template #title>
-          <div class="grid grid-cols-1 gap-4 px-4 py-4 md:grid-cols-4">
+          <div class="grid grid-cols-1 gap-4 px-4 py-4 lg:grid-cols-4">
             <span class="text-sm text-gray-500 dark:text-gray-400">Prénom - Nom</span>
             <span class="text-sm text-gray-500 dark:text-gray-400">Email</span>
             <span class="text-sm text-gray-500 dark:text-gray-400">Téléphone</span>

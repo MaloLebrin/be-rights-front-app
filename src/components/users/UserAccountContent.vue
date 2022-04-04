@@ -2,18 +2,18 @@
   <div
     class="container relative px-4 py-5 space-y-12 bg-white shadow-xl dark:bg-blue-dark_bold rounded-2xl"
   >
-    <BaseAccordion>
-      <template #title>
-        <div class="flex items-center">
-          <h5 class="px-6 py-4 text-xl font-medium">Votre logo</h5>
-          <ArrowCircleDownIconOutline class="w-6 h-6 text-gray-600" />
-        </div>
-      </template>
+    <div>
+      <div class="flex items-center">
+        <h5 class="px-6 py-4 text-xl font-medium">Votre logo</h5>
+        <ArrowCircleDownIconOutline class="w-6 h-6 text-gray-600" />
+      </div>
 
-      <div class="px-6 py-4 space-y-4">
-        <InputFile message="Sélectionnez votre logo" :url="userLogoUrl" @uploadFile="uploadFile" />
+      <div class="px-6 py-4 space-y-12">
+        <div>
+          <InputFile message="Sélectionnez votre logo" :url="userLogoUrl" @uploadFile="uploadFile" />
+        </div>
         <div class="flex items-center justify-center">
-          <BaseButton @click="submitFile">
+          <BaseButton :disabled="!state.file" @click="submitFile">
             <template #icon>
               <SaveIconOutline />
             </template>
@@ -21,7 +21,7 @@
           </BaseButton>
         </div>
       </div>
-    </BaseAccordion>
+    </div>
   </div>
   <div
     class="container relative py-4 space-y-12 bg-white shadow-xl dark:bg-blue-dark_bold rounded-2xl"
@@ -33,11 +33,11 @@
     />
     <Userform
       v-if="state.mode === ModalModeEnum.EDIT"
-      :id="getCurrentUserId ? getCurrentUserId : null"
+      :id="userStore.getCurrentUserId ? userStore.getCurrentUserId : null"
     />
     <UserDetails
       v-if="state.mode === ModalModeEnum.READ"
-      :id="getCurrentUserId ? getCurrentUserId : null"
+      :id="userStore.getCurrentUserId ? userStore.getCurrentUserId : null"
     />
     <div v-if="state.mode === ModalModeEnum.READ" class="flex items-center justify-center">
       <BaseButton @click="switchMode">{{ getButtonLabel() }}</BaseButton>
@@ -58,12 +58,12 @@ const state = reactive<State>({
   file: null,
 })
 
-const { getCurrentUserId } = useUserStore()
+const userStore = useUserStore()
 const { IncLoading, DecLoading } = useUiStore()
 const { postOne } = fileHook()
 const { getAllArray } = storeToRefs(useFileStore())
 
-const userLogoUrl = computed(() => getAllArray.value.filter(file => file.createdByUser === getCurrentUserId && file.type === FileTypeEnum.LOGO)[0]?.secure_url)
+const userLogoUrl = computed(() => getAllArray.value.filter(file => file.createdByUser === userStore.getCurrentUserId && file.type === FileTypeEnum.LOGO)[0]?.secure_url)
 
 function getButtonLabel() {
   return state.mode === ModalModeEnum.READ ? 'Modifier' : 'Enregistrer'
@@ -78,10 +78,11 @@ function switchMode() {
 }
 
 function uploadFile(fileUploaded: File) {
+  // TODO how to post/patch a file base64
   const formData = new FormData()
   formData.append('file', fileUploaded)
   formData.append('type', FileTypeEnum.LOGO)
-  formData.append('userId', getCurrentUserId!.toString())
+  formData.append('userId', userStore.getCurrentUserId!.toString())
   formData.append('name', 'logo')
   formData.append('description', 'Logo de l\'utilisateur')
   state.file = formData
@@ -90,7 +91,9 @@ function uploadFile(fileUploaded: File) {
 async function submitFile() {
   if (state.file) {
     IncLoading()
-    await postOne(state.file)
+    if (userStore.isCurrentUserAdmin) {
+      await postOne(state.file, userStore.getCurrentUserId)
+    }
     DecLoading()
   }
 }

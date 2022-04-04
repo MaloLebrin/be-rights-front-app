@@ -1,6 +1,6 @@
 <template>
   <div
-    class="container relative min-h-screen py-6 pr-8 mx-auto text-left transition-all duration-500 ease-in-out transform pl-14"
+    class="relative min-h-screen py-6 pr-8 text-left transition-all duration-500 ease-in-out transform pl-14"
   >
     <HeaderList>
       <template #title>
@@ -14,23 +14,17 @@
 <script setup lang="ts">
 const uiStore = useUiStore()
 const { IncLoading, DecLoading } = uiStore
-const { fetchAll } = fileHook()
+const { fetchAllByUserId } = fileHook()
 const fileStore = useFileStore()
+const { getCurrentUserId } = useUserStore()
 
-const files = computed(() => fileStore.getAllArray)
+const files = computed(() => fileStore.getWhereArray(file => file.createdByUser === getCurrentUserId))
 
 onMounted(async () => {
-  IncLoading()
-  await fetchAll()
-  DecLoading()
+  if (getCurrentUserId) {
+    IncLoading()
+    await fetchAllByUserId(getCurrentUserId)
+    DecLoading()
+  }
 })
 </script>
-
-<route>
-{
-  meta: {
-    layout: "AdminDashboardLayout",
-    isAuth:  true,
-  }
-}
-</route>

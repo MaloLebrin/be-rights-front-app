@@ -9,29 +9,21 @@
       </template>
     </HeaderList>
     <div class="py-4 mt-24 rounded-lg shadow-lg">
-      <EventForm :event-id="eventStore.getFirstActive" />
+      <EventForm :mode="ModalModeEnum.EDIT" :event-id="eventId" @submitted="redirectToEvent" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onBeforeRouteLeave } from 'vue-router'
+import { ModalModeEnum } from '@/types/typesExported'
 
 const eventStore = useEventStore()
-const { resetActive } = eventStore
+const { params } = useRoute()
+const router = useRouter()
+const eventId = computed(() => parseInt(params.eventId as string))
+const event = computed(() => eventStore.getOne(eventId.value))
 
-onBeforeRouteLeave(() => {
-  resetActive()
-})
-
-const event = computed(() => eventStore.getOne(eventStore.getFirstActive))
-</script>
-
-<route>
-{
-  meta: {
-    layout: "DashboardLayout",
-    isAuth: true,
-  }
+function redirectToEvent() {
+  router.push({ name: 'user.events' })
 }
-</route>
+</script>

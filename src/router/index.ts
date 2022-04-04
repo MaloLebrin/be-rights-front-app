@@ -1,20 +1,49 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import generatedRoutes from 'virtual:generated-pages'
 import { setupLayouts } from 'virtual:generated-layouts'
+import { mainRoutes } from './mainRoutes'
+import { userRoutes } from './userRoutes'
+import { adminRoutes } from './adminRoutes'
 
-const routes = setupLayouts(generatedRoutes)
-console.log(routes, 'routes')
+const routes = setupLayouts([
+  ...mainRoutes,
+  ...userRoutes,
+  ...adminRoutes,
+])
+
 const router = createRouter({
   history: createWebHistory(),
   routes,
 })
 
-//TODO fix this
-// router.beforeEach((to, from, next) => {
-//   const mainStore = useMainStore()
-//   if (to.name !== 'login' && !mainStore.getIsLoggedIn) next({ name: 'login' })
-//   else next()
-// })
+router.beforeEach((to, from, next) => {
+  const mainStore = useMainStore()
+  const userStore = useUserStore()
+  if (to.meta.isAuth && (!mainStore.getIsLoggedIn || !userStore.getCurrentUserId)) {
+    return {
+      name: 'login',
+    }
+  }
+  if (to.meta.isAdmin && !userStore.isCurrentUserAdmin) {
+    if (from.name) {
+      return {
+        name: from.name,
+      }
+    }
+    return {
+      name: 'home',
+    }
+  }
+  return next()
+})
 
+declare module 'vue-router' {
+  interface RouteMeta {
+    // must be declared by every route
+    layout: string
+    isAuth: boolean
+    // is optional
+    isAdmin?: boolean
+  }
+}
 
 export default router

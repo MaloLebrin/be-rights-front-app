@@ -1,7 +1,6 @@
 import axiosInstance from "@/axios.config"
 import API from "@/helpers/api"
 import { useCookie } from 'vue-cookie-next'
-import router from '@/router'
 
 export default function authHook() {
   const userStore = useUserStore()
@@ -11,6 +10,7 @@ export default function authHook() {
   const { storeUsersEntities } = userHook()
   const { IncLoading, DecLoading } = useUiStore()
   const api = new API(userStore.getCurrentUserToken!)
+  const router = useRouter()
 
   function setBearerToken(token: string) {
     axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`
@@ -21,7 +21,7 @@ export default function authHook() {
     mainStore.setIsLoggedOut()
     userStore.removeCurrent()
     mainStore.resetAllState()
-    router.push('/')
+    router.replace({ name: 'home' })
   }
 
   async function loginWithToken(token: string) {
@@ -43,13 +43,14 @@ export default function authHook() {
       await loginWithToken(token)
       mainStore.setIsLoggedIn()
 
+      // TODO abstract this to a function DRY
       if (userStore.isCurrentUserAdmin) {
-        router.push('/adminDashboard')
+        router.push({ name: 'admin.events' })
       } else {
-        router.push('/userDashboard')
+        router.push({ name: 'user.events' })
       }
     } else {
-      router.push('/login')
+      router.push({ name: 'login' })
     }
     DecLoading()
   }

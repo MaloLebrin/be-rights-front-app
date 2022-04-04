@@ -5,7 +5,7 @@
 </template>
 <script setup lang="ts">
 import { useCookie } from 'vue-cookie-next'
-import router from '@/router'
+const router = useRouter()
 
 const store = useMainStore()
 const userStore = useUserStore()
@@ -18,12 +18,12 @@ onBeforeMount(async () => {
     await loginWithToken(token)
     store.setIsLoggedIn()
     if (userStore.isCurrentUserAdmin) {
-      router.push('/adminDashboard')
+      router.push({ name: 'admin.events' })
     } else {
-      router.push('/userDashboard')
+      router.push({ name: 'user.events' })
     }
   } else {
-    router.push('/')
+    router.push({ name: 'login' })
   }
 })
 

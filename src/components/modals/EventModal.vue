@@ -16,7 +16,7 @@
       >Êtes-vous sûr de vouloir supprimer le destinataire suivant ?</p>
       <p class="text-center text-gray-700">{{ uiStore.getUiModalData?.event.name }}</p>
       <div class="flex items-center justify-center space-x-4">
-        <BaseButton color="red" @click="deleteEmployee">
+        <BaseButton color="red" @click="deleteEvent">
           <div class="flex items-center">
             <TrashIconOutline class="w-4 h-4 mr-2" />
             <span>Supprimer</span>
@@ -48,7 +48,7 @@ const uiStore = useUiStore()
 const { getUiModalState, resetUiModalState, IncLoading, DecLoading } = uiStore
 const { deleteOne } = eventHook()
 
-async function deleteEmployee() {
+async function deleteEvent() {
   if (uiStore.getUiModalData && uiStore.getUiModalData?.event) {
     IncLoading()
     await deleteOne(uiStore.getUiModalData.event.id)

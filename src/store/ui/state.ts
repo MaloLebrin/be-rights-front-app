@@ -12,7 +12,7 @@ export const uiState: UiState = {
     isActive: false,
     message: '',
     variant: ToastVariantsEnum.PRIMARY,
-    duration: 1000,
+    duration: 500,
   },
   isLoading: 0,
 

@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="employee"
-    class="grid items-center w-full grid-cols-5 gap-8 px-4 py-3 text-sm hover:bg-gray-300 dark:hover:bg-gray-700"
+    class="grid items-center w-full grid-cols-2 gap-8 px-4 py-3 text-sm md:grid-cols-5 hover:bg-gray-300 dark:hover:bg-gray-700"
   >
     <div class="flex items-center col-span-2 dark:text-white-break">
       {{ employee.firstName }}

@@ -9,30 +9,15 @@
       </template>
     </HeaderList>
     <div class="py-4 mt-24 rounded-lg shadow-lg">
-      <EventForm :event-id="eventStore.getFirstActive" />
+      <EventForm :event-id="eventId" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onBeforeRouteLeave } from 'vue-router'
-
 const eventStore = useEventStore()
-const { resetActive } = eventStore
+const { params } = useRoute()
 
-onBeforeRouteLeave(() => {
-  resetActive()
-})
-
-const event = computed(() => eventStore.getOne(eventStore.getFirstActive))
-
+const eventId = computed(() => parseInt(params.eventId as string))
+const event = computed(() => eventStore.getOne(eventId.value))
 </script>
-
-<route>
-{
-  meta: {
-    layout: "AdminDashboardLayout",
-    isAuth:  true,
-  }
-}
-</route>

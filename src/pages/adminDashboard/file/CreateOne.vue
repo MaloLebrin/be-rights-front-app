@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative min-h-screen py-6 pr-8 text-left transition-all duration-500 ease-in-out transform bg-white-light dark:bg-blue-dark pl-14"
+    class="relative min-h-screen py-6 pr-8 text-left transition-all duration-500 ease-in-out transform pl-14"
   >
     <div class="flex items-center">
       <FolderAddIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />
@@ -10,12 +10,3 @@
     </div>
   </div>
 </template>
-
-<route>
-{
-  meta: {
-    layout: "DashboardLayout",
-    isAuth: true,
-  }
-}
-</route>

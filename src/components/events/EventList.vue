@@ -19,13 +19,12 @@
 </template>
 
 <script setup lang="ts">
-import router from '@/router'
 import { EventType, ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
 
 const uiStore = useUiStore()
 const { setUiModal } = uiStore
-const eventStore = useEventStore()
-const { setActive } = eventStore
+const userStore = useUserStore()
+const router = useRouter()
 
 interface Props {
   NoEventMessage: string,
@@ -38,8 +37,11 @@ withDefaults(defineProps<Props>(), {
 })
 
 function updateOneEvent(eventId: number) {
-  router.push('/admindashboard/eventid')
-  setActive(eventId)
+  if (userStore.isCurrentUserAdmin) {
+    router.push({ name: 'admin.events.show', params: { eventId } })
+  } else {
+    router.push({ name: 'user.events.show', params: { eventId } })
+  }
 }
 
 function addOneEmployeeToEvent(eventId: number) {

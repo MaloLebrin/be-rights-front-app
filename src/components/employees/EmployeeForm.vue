@@ -55,13 +55,13 @@
         <label
           class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
         >Id de l'utilisateur&nbsp;*&nbsp;:</label>
-        <InputSearchSelect baseUrl="user" @selected="handleNewUserId" />
+        <InputSearchSelect baseUrl="user" @selected="onSelectUser" />
         <p v-if="userIdError?.length" class="text-sm text-red-500">{{ userIdError }}</p>
       </div>
     </form>
 
     <div class="flex items-center justify-center mt-6">
-      <BaseButton :disabled="!meta.valid || !meta.dirty" @click="submit">
+      <BaseButton :disabled="!meta.valid || !meta.dirty" @click.prevent="submit">
         <template #icon>
           <SaveIconOutline />
         </template>
@@ -72,12 +72,12 @@
 </template>
 
 <script setup lang="ts">
-import { EmployeeType, ModalModeEnum } from '@/types/typesExported'
+import { EmployeeType, ModalModeEnum, UserType } from '@/types/typesExported'
 import { useField, useForm } from 'vee-validate'
 import { object, string, number } from 'yup'
 
 interface Props {
-  employee: EmployeeType | null,
+  employee?: EmployeeType | null,
   mode?: ModalModeEnum,
   eventId?: number,
   userId?: number,
@@ -131,6 +131,10 @@ const { errorMessage: lastNameError, value: lastName } = useField<string>('lastN
 const { errorMessage: userIdError, value: userId, handleChange: handleNewUserId } = useField<number | null>('userId', undefined, {
   initialValue: userIdField.value,
 })
+
+function onSelectUser(user: UserType) {
+  handleNewUserId(user.id)
+}
 
 const emit = defineEmits<{
   (e: 'submit'): void

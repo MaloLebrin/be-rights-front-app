@@ -1,6 +1,5 @@
 import axiosInstance from "@/axios.config"
 import { useCookie } from 'vue-cookie-next'
-import router from '@/router'
 import APi, { PaginatedResponse } from '@/helpers/api'
 import { RoleEnum, ThemeEnum } from '@/types'
 import { EmployeeType, EventType, FileType, UserType } from '@/types/typesExported'
@@ -14,6 +13,7 @@ export default function userHook() {
   const { storeEmployeeRelationsEntities } = employeeHook()
   const { setCookie } = useCookie()
   const api = new APi(userStore.entities.current?.token!)
+  const router = useRouter()
 
   async function login({ email, password }: { email: string, password: string }) {
     try {
@@ -23,9 +23,9 @@ export default function userHook() {
       storeUsersEntities(user)
       setCookie('userToken', user.token)
       if (user && userStore.isCurrentUserAdmin) {
-        router.push('/adminDashboard')
+        router.push({ name: 'admin.events' })
       } else {
-        router.push('/userDashboard')
+        router.push({ name: 'user.events' })
       }
       setUISucessToast('Vous êtes connecté')
       mainStore.setIsLoggedIn()
@@ -44,9 +44,9 @@ export default function userHook() {
       storeUsersEntities(user)
       setCookie('userToken', user.token)
       if (user && userStore.isCurrentUserAdmin) {
-        router.push('/adminDashboard')
+        router.push({ name: 'admin.events' })
       } else {
-        router.push('/userDashboard')
+        router.push({ name: 'user.events' })
       }
       setUISucessToast('Vous êtes inscrit avec succès')
       mainStore.setIsLoggedIn()
@@ -57,6 +57,20 @@ export default function userHook() {
     DecLoading()
   }
 
+  async function fetchOne(userId: number) {
+    try {
+      IncLoading()
+      const res = await api.get(`user/${userId}`)
+      const user = res.data as UserType
+      if (user) {
+        storeUsersEntities(user)
+      }
+    } catch (error) {
+      console.error(error)
+      setUIErrorToast()
+    }
+  }
+
   function storeUsersEntities(user: UserType, isUserToSetCurrent = true) {
     if (user.events && user.events.length > 0) {
       const userEvents = user.events as EventType[]
@@ -65,7 +79,10 @@ export default function userHook() {
       user.events = eventsToStore.map(event => event.id)
     }
     if (user.employee && user.employee.length > 0) {
-      const employeesToStore = storeEmployeeRelationsEntities(user.employee as EmployeeType[])
+      const employeesToStore = storeEmployeeRelationsEntities(user.employee.map(e => ({
+        ...e as EmployeeType,
+        createdByUser: user.id,
+      })))
       user.employee = employeesToStore.map(employee => employee.id)
     }
     if (user.files && user.files.length > 0) {
@@ -150,8 +167,7 @@ export default function userHook() {
   async function deleteUser(id: number) {
     try {
       IncLoading()
-      const res = await api.delete(`user/${id}`)
-      console.log(res, 'res')
+      await api.delete(`user/${id}`)
       userStore.deleteOne(id)
       setUISucessToast('Utilisateurs à été supprimé avec succès')
     } catch (error) {
@@ -174,9 +190,32 @@ export default function userHook() {
     DecLoading()
   }
 
+  function getRoleTranslation(role: RoleEnum) {
+    switch (role) {
+      case RoleEnum.ADMIN:
+        return 'Administrateur'
+      case RoleEnum.USER:
+        return 'Utilisateur'
+      case RoleEnum.EMPLOYEE:
+        return 'Destinataire'
+      case RoleEnum.SUPER_USER:
+        return 'Super utilisateur'
+      case RoleEnum.COMPANY:
+        return 'Entreprise'
+      case RoleEnum.PHOTOGRAPHER:
+        return 'Photographe'
+      case RoleEnum.CUSTOMER:
+        return 'Client'
+      default:
+        return 'Utilisateur'
+    }
+  }
+
   return {
     deleteUser,
     fetchAll,
+    fetchOne,
+    getRoleTranslation,
     login,
     patchOne,
     register,

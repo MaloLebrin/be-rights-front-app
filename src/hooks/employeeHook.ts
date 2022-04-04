@@ -89,7 +89,10 @@ export default function employeeHook() {
     try {
       const res = await api.get(`employee/user/${userId}`)
       const data = res as EmployeeType[]
-      storeEmployeeRelationsEntities(data)
+      storeEmployeeRelationsEntities(data.map(employee => ({
+        ...employee,
+        createdByUser: userId,
+      })))
     } catch (error) {
       console.error(error)
       setUIErrorToast()

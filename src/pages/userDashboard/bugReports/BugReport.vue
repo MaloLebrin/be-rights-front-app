@@ -21,12 +21,3 @@
     </div>
   </div>
 </template>
-
-<route>
-{
-  meta: {
-    layout: "DashboardLayout",
-    isAuth: true,
-  }
-}
-</route>

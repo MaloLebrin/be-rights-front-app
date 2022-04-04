@@ -113,7 +113,7 @@
 </template>
 
 <script setup lang="ts">
-import router from '@/router'
+const router = useRouter()
 import { BUGS_REPORTS_TYPE_ARRAY, BugReportTypeEnum, FileTypeEnum } from '@/types/typesExported'
 import { useField, useForm } from 'vee-validate'
 import { object, string } from 'yup'
