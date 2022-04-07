@@ -1,7 +1,6 @@
 <template>
   <div class="space-y-2">
     <input
-      v-if="type !== 'textarea'"
       v-bind="$attrs"
       v-model="innerValue"
       :disabled="disabled"
@@ -21,7 +20,7 @@
 <script setup lang="ts">
 interface Props {
   modelValue: string | null | number,
-  type?: 'email' | 'password' | 'search' | 'text' | 'tel' | 'url' | 'date' | 'textarea',
+  type?: 'email' | 'password' | 'search' | 'text' | 'tel' | 'url' | 'date',
   disabled?: boolean
   placeholder?: string
   error?: string | null
