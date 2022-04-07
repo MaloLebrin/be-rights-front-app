@@ -35,7 +35,7 @@
       :error="descriptionError"
       is-required
     />
-    {{ description }}
+
     <div class="space-y-2 md:col-span-2">
       <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Adresse&nbsp;*&nbsp;:</label>
       <BaseInput
@@ -214,38 +214,38 @@ async function submit() {
     createdByUser: userId.value,
   }
   console.log(payload, 'payload')
-  // if (props.mode === ModalModeEnum.CREATE) {
-  //   if (userId.value) {
-  //     const newEvent = await PostOneEvent(payload as EventType, userId.value)
-  //     if (newEvent) {
-  //       if (employees.value && employees.value.length > 0) {
-  //         const employeesIds = employees.value.map(employee => employee.id)
-  //         const eventId = newEvent.id
-  //         await postManyAnswers(
-  //           eventId,
-  //           employeesIds
-  //         )
-  //       }
-  //       emit('submitted', newEvent.id)
-  //     }
-  //   }
-  // }
+  if (props.mode === ModalModeEnum.CREATE) {
+    if (userId.value) {
+      const newEvent = await PostOneEvent(payload as EventType, userId.value)
+      if (newEvent) {
+        if (employees.value && employees.value.length > 0) {
+          const employeesIds = employees.value.map(employee => employee.id)
+          const eventId = newEvent.id
+          await postManyAnswers(
+            eventId,
+            employeesIds
+          )
+        }
+        emit('submitted', newEvent.id)
+      }
+    }
+  }
 
-  // if (props.mode === ModalModeEnum.EDIT && props.eventId) {
-  //   await patchOneEvent({
-  //     ...payload as EventType,
-  //     id: props.eventId,
-  //   })
-  //   if (employees.value && employees.value.length > 0) {
-  //     const employeesIds = employees.value.map(employee => employee.id)
-  //     const eventId = props.eventId
-  //     await postManyAnswers(
-  //       eventId,
-  //       employeesIds
-  //     )
-  //   }
-  //   emit('submitted', props.eventId)
-  // }
+  if (props.mode === ModalModeEnum.EDIT && props.eventId) {
+    await patchOneEvent({
+      ...payload as EventType,
+      id: props.eventId,
+    })
+    if (employees.value && employees.value.length > 0) {
+      const employeesIds = employees.value.map(employee => employee.id)
+      const eventId = props.eventId
+      await postManyAnswers(
+        eventId,
+        employeesIds
+      )
+    }
+    emit('submitted', props.eventId)
+  }
   DecLoading()
   resetUiModalState()
 }
