@@ -4,6 +4,7 @@ import { FileType, UserType } from "../../types/typesExported"
 
 export interface EventType extends BaseEntity {
   name: string
+  description: string
   start: Date
   end: Date
   status: EventStatusEnum

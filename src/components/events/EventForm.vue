@@ -1,5 +1,5 @@
 <template>
-  <form class="grid w-full h-full grid-cols-1 gap-6 px-6 mt-4 md:grid-cols-3">
+  <form class="grid w-full h-full grid-cols-1 gap-6 px-6 mt-4 md:gap-12 md:grid-cols-3">
     <div class="space-y-2 md:col-span-3">
       <label
         class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
@@ -28,32 +28,38 @@
       <p v-if="datesError?.length">{{ datesError }}</p>
     </div>
 
+    <BaseTextarea
+      v-model="description"
+      class="md:col-span-2"
+      label="Description de l'événement"
+      :error="descriptionError"
+      is-required
+    />
+    {{ description }}
     <div class="space-y-2 md:col-span-2">
-      <div class="space-y-2">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Adresse&nbsp;*&nbsp;:</label>
-        <BaseInput
-          class="text-white dark:text-blue-dark"
-          type="text"
-          id="address"
-          v-model="address"
-          :error="addressError"
-        />
-      </div>
-      <div class="space-y-2">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Code postal&nbsp;*&nbsp;:</label>
-        <BaseInput
-          class="text-white dark:text-blue-dark"
-          type="text"
-          id="postalCode"
-          v-model="postalCode"
-          :error="postalCodeError"
-        />
-      </div>
+      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Adresse&nbsp;*&nbsp;:</label>
+      <BaseInput
+        class="text-white dark:text-blue-dark"
+        type="text"
+        id="address"
+        v-model="address"
+        :error="addressError"
+      />
+    </div>
+    <div class="space-y-2">
+      <label
+        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+      >Code postal&nbsp;*&nbsp;:</label>
+      <BaseInput
+        class="text-white dark:text-blue-dark"
+        type="text"
+        id="postalCode"
+        v-model="postalCode"
+        :error="postalCodeError"
+      />
+    </div>
 
+    <div class="grid grid-cols-1 gap-6 md:col-span-3 md:grid-cols-2">
       <div class="space-y-2">
         <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Ville&nbsp;*&nbsp;:</label>
         <BaseInput
@@ -76,7 +82,7 @@
       </div>
     </div>
 
-    <div v-if="userStore.isCurrentUserAdmin" class="space-y-2 md:col-span-2">
+    <div v-if="userStore.isCurrentUserAdmin" class="space-y-2 md:col-span-3">
       <label
         class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
       >Id de l'utilisateur&nbsp;*&nbsp;:</label>
@@ -84,7 +90,7 @@
       <p v-if="userIdError?.length">{{ userIdError }}</p>
     </div>
 
-    <div class="space-y-2 md:col-span-2">
+    <div class="space-y-2 md:col-span-3">
       <label
         class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
       >Destinataires&nbsp;*&nbsp;:</label>
@@ -139,6 +145,7 @@ const event = computed(() => props.eventId ? eventStore.getOne(props.eventId) : 
 
 const schema = object({
   name: string().required('le nom de l\'événement est obligatoire'),
+  description: string(),
   period: object().shape({
     start: date().required('La date de début est obligatoire'),
     end: date().required('La date de fin est obligatoire'),
@@ -161,7 +168,10 @@ const userCreateEvent = computed(() => {
 const { meta } = useForm({ validationSchema: schema })
 
 const { errorMessage: nameError, value: name } = useField<string>('name', undefined, {
-  initialValue: event.value ? event.value.name : '',
+  initialValue: event.value?.name || '',
+})
+const { errorMessage: descriptionError, value: description } = useField<string>('description', undefined, {
+  initialValue: event.value?.description || '',
 })
 const { errorMessage: datesError, value: period } = useField<Period>('period', undefined, {
   initialValue: event.value ? { start: event.value.start, end: event.value.end } : { start: new Date(), end: new Date() },
@@ -194,6 +204,7 @@ async function submit() {
 
   const payload = {
     name: name.value,
+    description: description.value,
     start: period.value.start,
     end: period.value.end,
     address: address.value,
@@ -202,39 +213,39 @@ async function submit() {
     country: country.value,
     createdByUser: userId.value,
   }
+  console.log(payload, 'payload')
+  // if (props.mode === ModalModeEnum.CREATE) {
+  //   if (userId.value) {
+  //     const newEvent = await PostOneEvent(payload as EventType, userId.value)
+  //     if (newEvent) {
+  //       if (employees.value && employees.value.length > 0) {
+  //         const employeesIds = employees.value.map(employee => employee.id)
+  //         const eventId = newEvent.id
+  //         await postManyAnswers(
+  //           eventId,
+  //           employeesIds
+  //         )
+  //       }
+  //       emit('submitted', newEvent.id)
+  //     }
+  //   }
+  // }
 
-  if (props.mode === ModalModeEnum.CREATE) {
-    if (userId.value) {
-      const newEvent = await PostOneEvent(payload as EventType, userId.value)
-      if (newEvent) {
-        if (employees.value && employees.value.length > 0) {
-          const employeesIds = employees.value.map(employee => employee.id)
-          const eventId = newEvent.id
-          await postManyAnswers(
-            eventId,
-            employeesIds
-          )
-        }
-        emit('submitted', newEvent.id)
-      }
-    }
-  }
-
-  if (props.mode === ModalModeEnum.EDIT && props.eventId) {
-    await patchOneEvent({
-      ...payload as EventType,
-      id: props.eventId,
-    })
-    if (employees.value && employees.value.length > 0) {
-      const employeesIds = employees.value.map(employee => employee.id)
-      const eventId = props.eventId
-      await postManyAnswers(
-        eventId,
-        employeesIds
-      )
-    }
-    emit('submitted', props.eventId)
-  }
+  // if (props.mode === ModalModeEnum.EDIT && props.eventId) {
+  //   await patchOneEvent({
+  //     ...payload as EventType,
+  //     id: props.eventId,
+  //   })
+  //   if (employees.value && employees.value.length > 0) {
+  //     const employeesIds = employees.value.map(employee => employee.id)
+  //     const eventId = props.eventId
+  //     await postManyAnswers(
+  //       eventId,
+  //       employeesIds
+  //     )
+  //   }
+  //   emit('submitted', props.eventId)
+  // }
   DecLoading()
   resetUiModalState()
 }
