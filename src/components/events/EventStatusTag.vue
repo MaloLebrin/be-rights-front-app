@@ -1,7 +1,7 @@
 <template>
-  <div class="relative flex mt-px sm:col-start-3">
+  <div class="relative flex justify-center item-center sm:col-start-3">
     <div
-      :class="`flex flex-col p-2 overflow-y-auto text-xs leading-5 rounded-lg group inset-1 bg-${getStatusColor()}-50 hover:bg-${getStatusColor()}-100`"
+      :class="`flex item-center justify-center p-2 overflow-y-auto text-xs leading-5 rounded-lg group inset-1 bg-${getStatusColor()}-50 hover:bg-${getStatusColor()}-100 border border-${getStatusColor()}-500 hover:border-${getStatusColor()}-700`"
     >
       <p
         :class="`text-${getStatusColor()}-500 group-hover:text-${getStatusColor()}-700 font-semibold uppercase`"

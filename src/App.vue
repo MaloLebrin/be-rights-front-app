@@ -26,7 +26,6 @@ onBeforeMount(async () => {
     router.push({ name: 'login' })
   }
 })
-
 </script>
 
 <style>

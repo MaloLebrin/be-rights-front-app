@@ -14,6 +14,16 @@ export const adminRoutes = [
   {
     path: '/admin/events/:eventId/show',
     name: 'admin.events.show',
+    component: () => import('@/pages/adminDashboard/event/EventDetail.vue'),
+    meta: {
+      layout: 'AdminDashboardLayout',
+      isAuth: true,
+      isAdmin: true,
+    },
+  },
+  {
+    path: '/admin/events/:eventId/edit',
+    name: 'admin.events.edit',
     component: () => import('@/pages/adminDashboard/event/EventId.vue'),
     meta: {
       layout: 'AdminDashboardLayout',

@@ -37,7 +37,7 @@
         class="EventActionButton"
         @click="emit('udpateOneItem', index)"
       >
-        <PencilAltIconOutline class="w-4 h-4 mr-2 text-gray-800" />modifier event
+        <PencilAltIconOutline class="w-4 h-4 mr-2 text-gray-800" />Voir
       </a>
       <a :variant="extraButtonStyle" class="EventActionButton" @click="emit('addOne', index)">
         <PlusCircleIconOutline class="w-4 h-4 mr-2 text-gray-800" />Ajouter

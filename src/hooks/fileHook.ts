@@ -108,10 +108,29 @@ export default function fileHook() {
     DecLoading()
   }
 
+  async function fetchAllForEvent(eventId: number) {
+    IncLoading()
+    try {
+      const res = await api.get(`file/event/${eventId}`)
+      const files = res as FileType[]
+      if (files.length > 0) {
+        const filesNotInStore = filteringFilesNotInStore(files)
+        if (filesNotInStore.length > 0) {
+          fileStore.createMany(filesNotInStore)
+        }
+      }
+    } catch (error) {
+      console.error(error)
+      setUIErrorToast()
+    }
+    DecLoading()
+  }
+
   return {
     deleteOne,
     fetchAll,
     fetchAllByUserId,
+    fetchAllForEvent,
     filteringFilesNotInStore,
     getTranslationFileType,
     patchOne,

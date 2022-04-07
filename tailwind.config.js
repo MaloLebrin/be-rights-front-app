@@ -13,6 +13,8 @@ module.exports = {
       acc.push(`bg-${name}-100`)
       acc.push(`text-${name}-500`)
       acc.push(`text-${name}-700`)
+      acc.push(`border-${name}-500`)
+      acc.push(`border-${name}-700`)
       return acc
     }, [])),
   ],
