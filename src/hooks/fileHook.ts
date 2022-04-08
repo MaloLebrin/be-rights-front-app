@@ -58,6 +58,9 @@ export default function fileHook() {
       case FileTypeEnum.IMAGE_RIGHT:
         return 'Droit à l\'image'
 
+      case FileTypeEnum.PROFILE_PICTURE:
+        return 'Photo de profil'
+
       default:
         return "Autre"
     }
