@@ -1,139 +1,139 @@
 <template>
-  <div v-if="user" class="w-full h-full px-6 mt-4">
-    <form class="grid grid-cols-2 gap-4">
-      <div class="space-y-2">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Prénom&nbsp;*&nbsp;:</label>
-        <BaseInput
-          class="text-white dark:text-blue-dark"
-          type="text"
-          id="firstName"
-          v-model="firstName"
-          :error="firstNameError"
-        />
-      </div>
-      <div class="space-y-2">
-        <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Nom&nbsp;*&nbsp;:</label>
-        <BaseInput
-          class="text-white dark:text-blue-dark"
-          type="text"
-          id="lastName"
-          v-model="lastName"
-          :error="lastNameError"
-        />
-      </div>
-      <div class="space-y-2">
-        <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Email&nbsp;*&nbsp;:</label>
-        <BaseInput
-          class="text-white dark:text-blue-dark"
-          type="email"
-          id="email"
-          v-model="email"
-          :error="emailError"
-        />
-      </div>
-      <div class="space-y-2">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Nom de l'entreprise&nbsp;*&nbsp;:</label>
-        <BaseInput
-          class="text-white dark:text-blue-dark"
-          type="text"
-          id="companyName"
-          v-model="companyName"
-          :error="companyNameError"
-        />
-      </div>
-      <div class="space-y-2 md:col-span-2">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >N° Siret&nbsp;*&nbsp;:</label>
-        <BaseInput
-          class="text-white dark:text-blue-dark"
-          type="text"
-          id="siret"
-          v-model="siret"
-          :error="siretError"
-        />
-      </div>
-      <div v-if="isCurrentUserAdmin" class="space-y-2">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Role utilisateur&nbsp;*&nbsp;:</label>
-        <Select
-          :options="userRolesArray"
-          :default="roles ? roles : 'Sélectionnez un Role'"
-          @selected="handleRoleUser"
-        />
-        <div v-if="rolesError?.length" class="text-sm text-red-500">{{ rolesError }}</div>
-      </div>
-      <div v-if="isCurrentUserAdmin" class="space-y-2">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Abonnement&nbsp;*&nbsp;:</label>
-        <Select
-          :options="subscriptionArray"
-          :default="subscription ? subscription : 'Sélectionnez un Abonnement'"
-          @selected="handleSubscription"
-        />
-        <div v-if="subscriptionError?.length" class="text-sm text-red-500">{{ subscriptionError }}</div>
-      </div>
-    </form>
+  <form v-if="user">
+    <!-- Profile section -->
+    <div class="px-4 py-6 sm:p-6 lg:pb-8">
+      <h2 class="text-xl font-semibold leading-6 text-gray-900">Votre Profile</h2>
 
-    <div class="mt-12 text-black-light text-blue dark:text-white-break">
-      <div class="grid grid-cols-1 mb-12 md:grid-cols-2">
-        <div
-          :class="[activeClasse(1).value, 'text-center uppercase cursor-pointer text-blue dark:text-white-break font-bold text-xl']"
-          @click="toggleActiveTab(1)"
-        >Événements</div>
-        <div
-          :class="[activeClasse(2).value, 'text-center uppercase cursor-pointer text-blue dark:text-white-break font-bold text-xl']"
-          @click="toggleActiveTab(2)"
-        >Destinaires Enregistrés</div>
-      </div>
+      <div class="flex flex-col mt-6 lg:flex-row">
+        <div class="grid flex-grow grid-cols-1 gap-4 md:grid-cols-2">
+          <div class="space-y-2">
+            <label
+              for="firstName"
+              class="block text-sm font-medium text-gray-700 dark:text-white-break"
+            >Prénom</label>
+            <BaseInput v-model="firstName" :error="firstNameError" />
+          </div>
+          <div class="space-y-2">
+            <label
+              for="lastName"
+              class="block text-sm font-medium text-gray-700 dark:text-white-break"
+            >Nom</label>
+            <BaseInput v-model="lastName" :error="lastNameError" />
+          </div>
+        </div>
 
-      <div v-if="activeTabs === 1" class="space-y-12">
-        <div class="space-y-24">
-          <EventUserItem
-            v-if="eventByUserId.length"
-            v-for="event in eventByUserId"
-            :key="event.id"
-            :event="event"
-          />
-          <div v-else class="px-4 text-center text-gray-800 dark:text-gray-600">Aucun événement</div>
+        <div class="flex-grow mt-6 lg:mt-0 lg:ml-6 lg:flex-grow-0 lg:flex-shrink-0">
+          <p class="text-sm font-medium text-gray-700" aria-hidden="true">Photo</p>
+          <div class="mt-1 lg:hidden">
+            <div class="flex items-center">
+              <div
+                class="flex-shrink-0 inline-block w-12 h-12 overflow-hidden rounded-full"
+                aria-hidden="true"
+              >
+                <UserAvatarForm :user="user" />
+              </div>
+            </div>
+          </div>
+
+          <div class="relative hidden overflow-hidden rounded-full lg:block">
+            <UserAvatarForm :user="user" />
+          </div>
         </div>
       </div>
 
-      <div v-if="activeTabs === 2" class="space-y-2">
-        <EmployeeUserItem
-          v-if="employeeByUserId.length"
-          v-for="employee in employeeByUserId"
-          :key="employee.id"
-          :employee="employee"
-        />
-        <div
-          v-else
-          class="px-4 text-center text-gray-800 dark:text-gray-600"
-        >Aucun destinataire enregistré</div>
+      <div class="grid grid-cols-12 gap-6 mt-6">
+        <div class="col-span-12 space-y-2 sm:col-span-6">
+          <label
+            for="email"
+            class="block text-sm font-medium text-gray-700 dark:text-white-break"
+          >Votre addresse email</label>
+          <BaseInput v-model="email" type="email" :error="emailError" />
+        </div>
+        <div class="col-span-12 space-y-2 sm:col-span-6">
+          <label
+            for="first-name"
+            class="block text-sm font-medium text-gray-700 dark:text-white-break"
+          >Nom de l'entreprise</label>
+          <BaseInput v-model="companyName" :error="companyNameError" />
+        </div>
+
+        <div class="col-span-12 space-y-2 sm:col-span-6">
+          <label
+            class="block text-sm font-medium text-gray-700 dark:text-white-break"
+          >N° Siret&nbsp;*&nbsp;:</label>
+          <BaseInput v-model="siret" :error="siretError" />
+        </div>
+
+        <div class="hidden md:block" />
+
+        <div v-if="userStore.isCurrentUserAdmin" class="col-span-12 space-y-2 sm:col-span-6">
+          <label
+            class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+          >Role utilisateur&nbsp;*&nbsp;:</label>
+          <Select
+            :options="userRolesArray"
+            :default="roles ? roles : 'Sélectionnez un Role'"
+            @selected="handleRoleUser"
+          />
+          <div v-if="rolesError?.length" class="text-sm text-red-500">{{ rolesError }}</div>
+        </div>
+        <div v-if="userStore.isCurrentUserAdmin" class="col-span-12 space-y-2 sm:col-span-6">
+          <label
+            class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+          >Abonnement&nbsp;*&nbsp;:</label>
+          <Select
+            :options="subscriptionArray"
+            :default="subscription ? subscription : 'Sélectionnez un Abonnement'"
+            @selected="handleSubscription"
+          />
+          <div v-if="subscriptionError?.length" class="text-sm text-red-500">{{ subscriptionError }}</div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center w-full mt-12">
+        <BaseButton :disabled="!meta.valid || !meta.dirty" @click.prevent="submit">
+          <template #icon>
+            <SaveIconOutline />
+          </template>
+          Enregistrer
+        </BaseButton>
       </div>
     </div>
-    <div class="flex items-center justify-center w-full mt-12">
-      <BaseButton :disabled="!meta.valid || !meta.dirty" @click="submit">
-        <template #icon>
-          <SaveIconOutline />
-        </template>
-        Enregistrer
-      </BaseButton>
+
+    <div class="relative px-4 py-5 space-y-12 rounded-2xl">
+      <div>
+        <div class="flex items-center">
+          <h5 class="px-6 py-4 text-xl font-medium">Votre logo</h5>
+          <ArrowCircleDownIconOutline class="w-6 h-6 text-gray-600" />
+        </div>
+
+        <div class="px-6 py-4 space-y-12">
+          <div>
+            <InputFile
+              message="Sélectionnez votre logo"
+              :url="userLogoUrl"
+              @uploadFile="uploadFile"
+            />
+          </div>
+          <div class="flex items-center justify-center">
+            <BaseButton :disabled="!file" @click="submitFile">
+              <template #icon>
+                <SaveIconOutline />
+              </template>
+              Enregistrer le Logo
+            </BaseButton>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </form>
 </template>
 
 <script setup lang="ts">
 import { RoleEnum, userRolesArray } from '@/types'
 import { useField, useForm } from 'vee-validate'
 import { object, string, } from 'yup'
-import { subscriptionArray, SubscriptionEnum, UserType } from '@/types/typesExported'
+import { FileTypeEnum, subscriptionArray, SubscriptionEnum, UserType } from '@/types/typesExported'
 
 interface Props {
   id: number | null
@@ -144,12 +144,10 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const userStore = useUserStore()
-const { isCurrentUserAdmin } = useUserStore()
-const eventStore = useEventStore()
-const employeeStore = useEmployeeStore()
+const { IncLoading, DecLoading } = useUiStore()
+const fileStore = useFileStore()
 const { patchOne } = userHook()
-const { fetchAllByUserId: fetchAllEmployeeByUserId } = employeeHook()
-const { fetchEventsByUser } = eventHook()
+const { postOne } = fileHook()
 
 const user = computed(() => {
   if (props.id) {
@@ -158,7 +156,9 @@ const user = computed(() => {
   return null
 })
 
-const isLoading = ref(false)
+const userLogoUrl = computed(() => fileStore.getWhereArray(file => file.createdByUser === props.id && file.type === FileTypeEnum.LOGO)[0]?.secure_url)
+
+const file = ref<null | FormData>(null)
 
 const schema = object({
   companyName: string().nullable().label('Nom de l\'entreprise'),
@@ -193,36 +193,20 @@ const { value: subscription, errorMessage: subscriptionError, handleChange: hand
   initialValue: user.value ? user.value.subscription : null
 })
 
-onMounted(async () => {
-  isLoading.value = true
-  const employeeIds = user.value?.employee as number[]
-  const missingEmployeeIds = employeeIds.filter(id => !employeeStore.getOne(id))
-  if (missingEmployeeIds.length > 0 && user.value) {
-    await fetchAllEmployeeByUserId(user.value.id)
-  }
-  const eventIds = user.value?.events as number[]
-  const missingEventIds = eventIds.filter(id => !eventStore.getOne(id))
-  if (missingEventIds.length > 0 && user.value) {
-    await fetchEventsByUser(user.value.id)
-  }
-  isLoading.value = false
-})
+function uploadFile(fileUploaded: File) {
+  // TODO how to post/patch a file base64
+  const formData = new FormData()
+  formData.append('file', fileUploaded)
+  formData.append('type', FileTypeEnum.LOGO)
+  formData.append('userId', userStore.getCurrentUserId!.toString())
+  formData.append('name', 'Logo')
+  formData.append('description', 'Logo de l\'utilisateur')
+  file.value = formData
+}
 
-const eventByUserId = computed(() => eventStore.getMany(user.value?.events as number[]))
-
-const employeeByUserId = computed(() => {
-  if (user.value) {
-    return employeeStore.getEmployeesByUserId(user.value?.id)
-  }
-  return []
-})
-
-const emits = defineEmits<{
-  (e: 'submit', id: number): void
-}>()
 
 async function submit() {
-  isLoading.value = true
+  IncLoading()
   if (props.id) {
 
     const payload = {
@@ -237,16 +221,15 @@ async function submit() {
     }
 
     await patchOne(props.id, payload as UserType)
-    emits('submit', props.id)
   }
-  isLoading.value = false
+  DecLoading()
 }
 
-const activeTabs = ref(1)
-
-const activeClasse = (tab: number) => computed(() => activeTabs.value === tab ? 'border-b-4 border-green-300' : '')
-
-function toggleActiveTab(tab: number) {
-  activeTabs.value = tab
+async function submitFile() {
+  if (file.value) {
+    IncLoading()
+    await postOne(file.value, userStore.getCurrentUserId)
+    DecLoading()
+  }
 }
 </script>

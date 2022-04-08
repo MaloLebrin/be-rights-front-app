@@ -1,29 +1,5 @@
 <template>
   <div
-    class="container relative px-4 py-5 space-y-12 bg-white shadow-xl dark:bg-blue-dark_bold rounded-2xl"
-  >
-    <div>
-      <div class="flex items-center">
-        <h5 class="px-6 py-4 text-xl font-medium">Votre logo</h5>
-        <ArrowCircleDownIconOutline class="w-6 h-6 text-gray-600" />
-      </div>
-
-      <div class="px-6 py-4 space-y-12">
-        <div>
-          <InputFile message="Sélectionnez votre logo" :url="userLogoUrl" @uploadFile="uploadFile" />
-        </div>
-        <div class="flex items-center justify-center">
-          <BaseButton :disabled="!state.file" @click="submitFile">
-            <template #icon>
-              <SaveIconOutline />
-            </template>
-            Enregistrer le Logo
-          </BaseButton>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
     class="container relative py-4 space-y-12 bg-white shadow-xl dark:bg-blue-dark_bold rounded-2xl"
   >
     <ChevronLeftIconOutline

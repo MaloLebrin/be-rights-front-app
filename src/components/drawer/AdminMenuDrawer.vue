@@ -62,10 +62,8 @@
       </div>
 
       <h6 class="mb-4 font-bold text-gray-500">Options</h6>
-      <div v-if="store.getCurrent" class="flex items-center w-full mb-5 cursor-pointer">
-        <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
-          <UserIconOutline class="h-6 text-white" />
-        </div>
+      <div v-if="store.getCurrent" class="flex items-center w-full mb-5 space-x-2 cursor-pointer">
+        <UserAvatar :user="store.getCurrent" size="sm" />
         <router-link :to="{ name: 'admin.account' }" class="dark:text-white">{{ userFullName }}</router-link>
       </div>
 

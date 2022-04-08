@@ -20,6 +20,7 @@ export interface UserType extends BaseEntity {
   events?: number[] | EventType[]
   employee?: number[] | EmployeeType[]
   files?: number[] | FileType[]
+  profilePicture?: string | null
 }
 
 export type UserFormType = Omit<UserType, "id" | "createdAt" | "updatedAt" | "events" | "employee" | "files">

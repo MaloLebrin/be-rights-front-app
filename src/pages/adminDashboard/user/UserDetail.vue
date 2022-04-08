@@ -16,22 +16,7 @@
       >
         <div class="flex items-center space-x-5">
           <div class="flex-shrink-0">
-            <div class="relative">
-              <img
-                v-if="userLogo"
-                class="w-16 h-16 rounded-full"
-                :src="userLogo.secure_url"
-                alt="profile picture"
-              />
-              <div
-                v-else
-                class="flex items-center justify-center w-16 h-16 font-medium bg-gray-200 rounded-full"
-              >
-                {{ user.firstName[0] }}
-                {{ user.lastName[0] }}
-              </div>
-              <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
-            </div>
+            <UserAvatar :user="user" size="xl" />
           </div>
           <div>
             <h1
@@ -180,6 +165,7 @@
 
 <script setup lang="ts">
 import { FileType, FileTypeEnum } from '@/types/typesExported'
+import UserAvatar from '@/components/users/UserAvatar.vue'
 
 const { params } = useRoute()
 const router = useRouter()
