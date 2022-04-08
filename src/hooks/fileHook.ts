@@ -10,7 +10,6 @@ export default function fileHook() {
   const api = new APi(userStore.getCurrentUserToken!)
 
   async function postOne(fileForm: FormData, id?: number) {
-    IncLoading()
     try {
       const res = await api.post(`file/${id}`, fileForm)
       fileStore.createOne(res as FileType)
@@ -20,7 +19,6 @@ export default function fileHook() {
       console.error(error)
       setUIErrorToast()
     }
-    DecLoading()
   }
 
   async function postProfilePicture(fileForm: FormData) {
