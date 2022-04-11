@@ -91,4 +91,14 @@ export const userRoutes = [
       isAdmin: false,
     },
   },
+  {
+    path: '/user/account/edit',
+    name: 'user.account.edit',
+    component: () => import('@/pages/userDashboard/EditUserAccount.vue'),
+    meta: {
+      layout: 'DashboardLayout',
+      isAuth: true,
+      isAdmin: false,
+    },
+  },
 ]

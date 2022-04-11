@@ -1,78 +1,165 @@
 <template>
-  <div v-if="user" class="w-full h-full px-6 mt-4">
-    <form class="grid grid-cols-2 gap-4">
-      <div class="space-y-2 text-blue dark:text-gray-100">
-        <label class="block mb-2 text-lg font-bold">Prénom&nbsp;:</label>
-        <p>{{ user.firstName }}</p>
-      </div>
-
-      <div class="space-y-2 text-blue dark:text-gray-100">
-        <label class="block mb-2 text-lg font-bold">Nom&nbsp;:</label>
-        <p>{{ user.lastName }}</p>
-      </div>
-
-      <div class="space-y-2 text-blue dark:text-gray-100">
-        <label class="block mb-2 text-lg font-bold">E-mail&nbsp;:</label>
-        <p>{{ user.email }}</p>
-      </div>
-
-      <div class="space-y-2 text-blue dark:text-gray-100">
-        <label class="block mb-2 text-lg font-bold">Nom de l'entreprise&nbsp;:</label>
-        <p>{{ user.companyName }}</p>
-      </div>
-
-      <div class="space-y-2 text-blue dark:text-gray-100">
-        <label class="block mb-2 text-lg font-bold">N° Siret&nbsp;:</label>
-        <p>{{ user.siret ? user.siret : ' -' }}</p>
-      </div>
-
-      <div v-if="isCurrentUserAdmin" class="space-y-2 text-blue dark:text-gray-100">
-        <label class="block mb-2 text-lg font-bold">Roles&nbsp;:</label>
-        <p>{{ user.roles }}</p>
-      </div>
-
-      <div class="space-y-2 text-blue dark:text-gray-100">
-        <label class="block mb-2 text-lg font-bold">Abonnement&nbsp;:</label>
-        <p>{{ getSuscriptionTranslation(user.subscription) }}</p>
-      </div>
-    </form>
-
-    <div class="mt-12 text-black-light">
-      <div class="grid grid-cols-1 mb-12 md:grid-cols-2">
-        <div
-          :class="[activeClasse(1).value, 'text-center uppercase cursor-pointer text-blue dark:text-white-break font-bold text-xl']"
-          @click="toggleActiveTab(1)"
-        >Événements</div>
-        <div
-          :class="[activeClasse(2).value, 'text-center uppercase cursor-pointer text-blue dark:text-white-break font-bold text-xl']"
-          @click="toggleActiveTab(2)"
-        >Destinaires Enregistrés</div>
-      </div>
-
-      <div v-if="activeTabs === 1" class="space-y-12">
-        <div class="space-y-24">
-          <EventUserItem
-            v-if="eventByUserId.length"
-            v-for="event in eventByUserId"
-            :key="event.id"
-            :event="event"
-          />
-          <div v-else class="p-4 text-center text-gray-700 dark:text-gray-300">Aucun événement</div>
+  <div class="space-y-10">
+    <!-- Page header -->
+    <div
+      v-if="user"
+      class="max-w-3xl px-4 mx-auto sm:px-6 md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl lg:px-8"
+    >
+      <div class="flex items-center space-x-5">
+        <div class="flex-shrink-0">
+          <UserAvatar :user="user" size="xl" />
+        </div>
+        <div>
+          <h1
+            class="text-2xl font-bold text-gray-900 dark:text-gray-200"
+          >{{ user.firstName }} {{ user.lastName }}</h1>
+          <p class="space-x-2 text-sm font-medium text-gray-500 dark:text-gray-300">
+            <span>Créé le</span>
+            <time
+              class="text-gray-700 dark:text-gray-200"
+              :datetime="toFormat(user.createdAt, 'D MMMM YYYY')"
+            >
+              {{
+                toFormat(user.createdAt, 'D MMMM YYYY')
+              }}
+            </time>
+          </p>
         </div>
       </div>
-
-      <div v-if="activeTabs === 2" class="space-y-8">
-        <EmployeeUserItem
-          v-if="employeeByUserId.length"
-          v-for="employee in employeeByUserId"
-          :key="employee.id"
-          :employee="employee"
-        />
-        <div
-          v-else
-          class="p-4 text-center text-gray-700 dark:text-gray-300"
-        >Aucun destinataires nregistrés</div>
+      <div
+        class="flex flex-col-reverse mt-6 space-y-4 space-y-reverse justify-stretch sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3"
+      >
+        <BaseButton @click="redirectToUserform">Modifier l'utilisateur</BaseButton>
       </div>
+    </div>
+
+    <div
+      v-if="user"
+      class="grid max-w-3xl grid-cols-1 gap-6 mx-auto mt-8 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-4"
+    >
+      <div class="space-y-6 lg:col-start-1 lg:col-span-2">
+        <!-- Description-->
+        <section aria-labelledby="user-informations">
+          <div class="bg-white shadow sm:rounded-lg">
+            <div class="flex items-center justify-between px-4 py-5 sm:px-6">
+              <h2
+                id="user-informations"
+                class="text-lg font-medium leading-6 text-gray-900"
+              >Détails de l'utilisateur</h2>
+              <div class="flex items-center space-x-4">
+                <UserRoleTag :role="user.roles" />
+                <UserSubscriptionTag :subscription="user.subscription" />
+              </div>
+            </div>
+            <div class="px-4 py-5 border-t border-gray-200 sm:px-6">
+              <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+                <div class="sm:col-span-1">
+                  <dt class="text-sm font-medium text-gray-500">Addresse Email</dt>
+                  <dd class="mt-1 text-sm text-gray-900">{{ user.email }}</dd>
+                </div>
+                <div class="sm:col-span-1">
+                  <dt class="text-sm font-medium text-gray-500">N°siret</dt>
+                  <dd class="mt-1 text-sm text-gray-900">{{ user.siret }}</dd>
+                </div>
+                <div v-if="employees.length > 0" class="sm:col-span-2">
+                  <dt class="text-sm font-medium text-gray-500">Destinataires</dt>
+                  <dd class="mt-1 text-sm text-gray-900">
+                    <ul
+                      role="list"
+                      class="border border-gray-200 divide-y divide-gray-200 rounded-md"
+                    >
+                      <li
+                        v-if="employees.length"
+                        class="px-4 py-2 text-sm text-gray-600"
+                      >Vous n'avez aucun destinataire</li>
+                      <li
+                        v-else
+                        v-for="employee in employees"
+                        :key="employee.id"
+                        class="flex items-center justify-between py-3 pl-3 pr-4 text-sm"
+                      >
+                        <div class="flex items-center flex-1 w-0">
+                          <UserCircleIconOutline
+                            class="flex-shrink-0 w-5 h-5 text-gray-600 dark:text-gray-400"
+                            aria-hidden="true"
+                          />
+                          <span class="flex-1 w-0 ml-2 truncate">
+                            {{ employee.firstName }} {{
+                              employee.lastName
+                            }}
+                          </span>
+                        </div>
+                        <div class="flex-shrink-0 ml-4">
+                          <BaseButton @click="redirectToEmployeeDetail(employee.id)">Voir</BaseButton>
+                        </div>
+                      </li>
+                    </ul>
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section aria-labelledby="timeline-title" class="lg:col-start-3 lg:col-span-2">
+        <div class="px-4 py-5 bg-white shadow sm:rounded-lg sm:px-6">
+          <h2 id="timeline-title" class="text-lg font-medium text-gray-900">Événements</h2>
+
+          <!-- Events Feed -->
+          <div class="flow-root mt-6">
+            <ul role="list" class="-mb-8">
+              <li
+                v-if="events.length === 0"
+                class="pb-8 text-sm text-gray-600"
+              >Vous n'avez aucun Événements</li>
+              <router-link
+                v-else
+                v-for="(event, index) in events"
+                :key="event.id"
+                :to="{ name: 'admin.events.show', params: { eventId: event.id } }"
+              >
+                <div class="relative pb-8">
+                  <span
+                    v-if="events.length - 1 !== index"
+                    class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
+                    aria-hidden="true"
+                  />
+                  <div class="relative flex items-center space-x-3">
+                    <EventStatusTag :status="event.status" />
+                    <div class="flex items-center justify-between flex-1 min-w-0 space-x-4">
+                      <div>
+                        <p
+                          :to="{ name: 'admin.events.show', params: { eventId: event.id } }"
+                          class="font-medium text-gray-900"
+                        >{{ event.name }}</p>
+                      </div>
+                      <div
+                        class="flex flex-col items-center text-sm text-right text-gray-500 whitespace-nowrap"
+                      >
+                        <div class="space-x-2">
+                          <span class="font-medium">Du</span>
+                          <time :datetime="toFormat(event.start, 'D.MM.YY')">
+                            {{
+                              toFormat(event.start, 'D.MM.YY')
+                            }}
+                          </time>
+                        </div>
+                        <div class="space-x-2">
+                          <span class="font-medium">Au</span>
+                          <time
+                            :datetime="toFormat(event.end, 'D.MM.YY')"
+                          >{{ toFormat(event.end, 'D.MM.YY') }}</time>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </router-link>
+            </ul>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </template>
@@ -85,19 +172,29 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   id: null
 })
-const isLoading = ref(false)
 
-const { getOne, isCurrentUserAdmin } = useUserStore()
-const eventStore = useEventStore()
+const router = useRouter()
+const userStore = useUserStore()
 const employeeStore = useEmployeeStore()
-const { getSuscriptionTranslation } = subscriptionHook()
-const { fetchAllByUserId: fetchAllEmployeeByUserId } = employeeHook()
-const { fetchEventsByUser } = eventHook()
+const eventStore = useEventStore()
+const { IncLoading, DecLoading } = useUiStore()
 
-const user = computed(() => props.id ? getOne(props.id) : null)
+const { fetchAllByUserId: fetchAllEmployeeByUserId } = employeeHook()
+const { fetchEventsByUser, sortEventByDate } = eventHook()
+const { fetchOne } = userHook()
+const { toFormat } = dateHook()
+
+const userId = computed(() => props.id)
+const user = computed(() => props.id ? userStore.getOne(props.id) : null)
+
+const employees = computed(() => employeeStore.getWhereArray(employee => employee.createdByUser === userId.value))
+const events = computed(() => sortEventByDate(eventStore.getWhereArray(event => event.createdByUser === userId.value)))
 
 onMounted(async () => {
-  isLoading.value = true
+  IncLoading()
+  if (!user.value && userId.value) {
+    await fetchOne(userId.value)
+  }
   const employeeIds = user.value?.employee as number[]
   const missingEmployeeIds = employeeIds.filter(id => !employeeStore.getOne(id))
 
@@ -110,18 +207,30 @@ onMounted(async () => {
   if (missingEventIds.length > 0 && user.value) {
     await fetchEventsByUser(user.value.id)
   }
-  isLoading.value = false
+  DecLoading()
 })
 
-const eventByUserId = computed(() => user.value ? eventStore.getMany(user.value.events as number[]) : [])
+function redirectToUserform() {
+  if (userStore.isCurrentUserAdmin) {
+    router.push({
+      name: 'admin.users.edit',
+      params: { userId: userId.value },
+    })
+  } else {
+    router.push({
+      name: 'user.account.edit',
+      params: { userId: userId.value },
+    })
 
-const employeeByUserId = computed(() => user.value ? employeeStore.getEmployeesByUserId(user.value.id) : [])
+  }
+}
 
-const activeTabs = ref(1)
-
-const activeClasse = (tab: number) => computed(() => activeTabs.value === tab ? 'border-b-4 border-green-300' : '')
-
-function toggleActiveTab(tab: number) {
-  activeTabs.value = tab
+function redirectToEmployeeDetail(employeeId: number) {
+  if (userStore.isCurrentUserAdmin) {
+    router.push({
+      name: 'admin.employees.details',
+      params: { employeeId },
+    })
+  }
 }
 </script>

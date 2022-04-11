@@ -64,7 +64,10 @@
       <h6 class="mb-4 font-bold text-gray-500">Options</h6>
       <div v-if="store.getCurrent" class="flex items-center w-full mb-5 space-x-2 cursor-pointer">
         <UserAvatar :user="store.getCurrent" size="sm" />
-        <router-link :to="{ name: 'admin.account' }" class="dark:text-white">{{ userFullName }}</router-link>
+        <router-link
+          :to="{ name: 'admin.users.show', params: { userId: store.getCurrentUserId } }"
+          class="dark:text-white"
+        >{{ userFullName }}</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer">

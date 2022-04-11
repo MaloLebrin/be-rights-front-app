@@ -1,7 +1,7 @@
 <template>
-  <form v-if="user">
+  <form v-if="user" class="space-y-10">
     <!-- Profile section -->
-    <div class="px-4 py-6 sm:p-6 lg:pb-8">
+    <div class="px-4 py-6 shadow sm:p-6 lg:pb-8 sm:rounded-lg">
       <h2 class="text-xl font-semibold leading-6 text-gray-900">Votre Profile</h2>
 
       <div class="flex flex-col mt-6 lg:flex-row">
@@ -100,29 +100,23 @@
       </div>
     </div>
 
-    <div class="relative px-4 py-5 space-y-12 rounded-2xl">
-      <div>
-        <div class="flex items-center">
-          <h5 class="px-6 py-4 text-xl font-medium">Votre logo</h5>
-          <ArrowCircleDownIconOutline class="w-6 h-6 text-gray-600" />
-        </div>
+    <div class="relative px-4 py-5 space-y-12 shadow rounded-2xl sm:rounded-lg">
+      <div class="flex items-center">
+        <h5 class="px-6 py-4 text-xl font-medium">Votre logo</h5>
+        <ArrowCircleDownIconOutline class="w-6 h-6 text-gray-600" />
+      </div>
 
-        <div class="px-6 py-4 space-y-12">
-          <div>
-            <InputFile
-              message="Sélectionnez votre logo"
-              :url="userLogoUrl"
-              @uploadFile="uploadFile"
-            />
-          </div>
-          <div class="flex items-center justify-center">
-            <BaseButton :disabled="!file" @click="submitFile">
-              <template #icon>
-                <SaveIconOutline />
-              </template>
-              Enregistrer le Logo
-            </BaseButton>
-          </div>
+      <div class="px-6 py-4 space-y-12">
+        <div>
+          <InputFile message="Sélectionnez votre logo" :url="userLogoUrl" @uploadFile="uploadFile" />
+        </div>
+        <div class="flex items-center justify-center">
+          <BaseButton :disabled="!file" @click="submitFile">
+            <template #icon>
+              <SaveIconOutline />
+            </template>
+            Enregistrer le Logo
+          </BaseButton>
         </div>
       </div>
     </div>
@@ -219,7 +213,10 @@ async function submit() {
       roles: roles.value,
       subscription: subscription.value!,
     }
-
+    delete payload.profilePicture
+    delete payload.events
+    delete payload.employee
+    delete payload.files
     await patchOne(props.id, payload as UserType)
   }
   DecLoading()

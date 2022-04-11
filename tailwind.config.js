@@ -58,6 +58,7 @@ module.exports = {
         DEFAULT: '#453D91',
         dark: '#1b1e3dF2',
         dark_bold: 'rgba(28,31,61)',
+        ...colors.blue,
       },
       indigo: colors.indigo,
       purple: {

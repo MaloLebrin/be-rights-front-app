@@ -28,9 +28,11 @@ function getFileTypeColor() {
     case FileTypeEnum.IMAGE_RIGHT:
       return 'orange'
     case FileTypeEnum.LOGO:
-      return 'gray'
+      return 'yellow'
     case FileTypeEnum.MODEL:
       return 'green'
+    case FileTypeEnum.PROFILE_PICTURE:
+      return 'blue'
     default:
       return 'gray'
   }
