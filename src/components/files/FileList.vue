@@ -12,7 +12,9 @@
               <span class="dark:text-white">{{ file.name }}</span>
               <span class="dark:text-white">{{ file.size }} mo</span>
               <span class="dark:text-white">{{ getDate(file.createdAt.toString()) }}</span>
-              <span class="dark:text-white">{{ getTranslationFileType(file.type) }}</span>
+              <span>
+                <FileTypeTag :type="file.type" />
+              </span>
             </div>
           </template>
 
@@ -50,7 +52,6 @@ withDefaults(defineProps<Props>(), {
 const userStore = useUserStore()
 const uiStore = useUiStore()
 const { setUiModal } = uiStore
-const { getTranslationFileType } = fileHook()
 const { getDate } = dateHook()
 
 function deleteOneFile(file: FileType) {
@@ -84,3 +85,10 @@ const noFileMesssage = computed(() =>
   userStore.isCurrentUserAdmin ? 'Aucun fichié enregistré dans la base de donnée' : 'Vous n\'avez pas de fichié enregistré dans la base de donnée'
 )
 </script>
+
+<style>
+.EventActionButton {
+  @apply bg-gray-500 rounded mb-1 py-2 px-4 text-gray-200 font-semibold hover:translate-x-3 transform transition-all duration-500 
+	dark:bg-white-break dark:text-gray-900 cursor-pointer;
+}
+</style>

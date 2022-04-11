@@ -94,7 +94,11 @@ export default function userHook() {
     if (isUserToSetCurrent) {
       userStore.setCurrent(user)
     }
-    userStore.createOne(user)
+    if (userStore.getAllIds.includes(user.id)) {
+      userStore.updateOne(user.id, user)
+    } else {
+      userStore.createOne(user)
+    }
   }
 
   function storeUsersEntitiesForManyUsers(users: UserType[]): void {

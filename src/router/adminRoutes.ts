@@ -112,16 +112,6 @@ export const adminRoutes = [
     },
   },
   {
-    path: '/admin/account',
-    name: 'admin.account',
-    component: () => import('@/pages/adminDashboard/myAccount.vue'),
-    meta: {
-      layout: 'AdminDashboardLayout',
-      isAuth: true,
-      isAdmin: true,
-    },
-  },
-  {
     path: '/admin/bugs',
     name: 'admin.bugs',
     component: () => import('@/pages/adminDashboard/bugReports/BugsReports.vue'),
