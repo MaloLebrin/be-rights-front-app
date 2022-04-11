@@ -47,7 +47,7 @@ withDefaults(defineProps<Props>(), {
   files: () => [],
 })
 
-const { isCurrentUserAdmin } = useUserStore()
+const userStore = useUserStore()
 const uiStore = useUiStore()
 const { setUiModal } = uiStore
 const { getTranslationFileType } = fileHook()
@@ -81,6 +81,6 @@ function downloadFile(file: FileType) {
 }
 
 const noFileMesssage = computed(() =>
-  isCurrentUserAdmin ? 'Aucun fichié enregistré dans la base de donnée' : 'Vous n\'avez pas de fichié enregistré dans la base de donnée'
+  userStore.isCurrentUserAdmin ? 'Aucun fichié enregistré dans la base de donnée' : 'Vous n\'avez pas de fichié enregistré dans la base de donnée'
 )
 </script>
