@@ -1,12 +1,13 @@
 import APi, { PaginatedResponse } from "@/helpers/api"
-import { FileType, FileTypeEnum } from "@/types/typesExported"
+import { FileType, FileTypeEnum, UserType } from "@/types/typesExported"
 
 export default function fileHook() {
-  const { getCurrent } = useUserStore()
+  const { updateOne, setCurrent } = useUserStore()
+  const userStore = useUserStore()
   const { getAllIds: getAllFilesIds } = useFileStore()
   const fileStore = useFileStore()
   const { setUIErrorToast, IncLoading, DecLoading, setUISucessToast } = useUiStore()
-  const api = new APi(getCurrent?.token!)
+  const api = new APi(userStore.getCurrentUserToken!)
 
   async function postOne(fileForm: FormData, id?: number) {
     try {
@@ -18,6 +19,30 @@ export default function fileHook() {
       console.error(error)
       setUIErrorToast()
     }
+  }
+
+  async function postProfilePicture(fileForm: FormData) {
+    IncLoading()
+    try {
+      const res = await api.post("file/profile", fileForm)
+      const newFile = res as FileType
+      if (newFile && newFile.createdByUser) {
+        fileStore.createOne(newFile)
+        const response = await api.get(`user/${newFile.createdByUser}`)
+        const user = response as UserType
+        if (user) {
+          updateOne(user.id, user)
+          if (userStore.getCurrentUserId === user.id) {
+            setCurrent(user)
+          }
+        }
+        setUISucessToast("File uploaded successfully")
+      }
+    } catch (error) {
+      console.error(error)
+      setUIErrorToast()
+    }
+    DecLoading()
   }
 
   function filteringFilesNotInStore(files: FileType[]) {
@@ -138,5 +163,6 @@ export default function fileHook() {
     getTranslationFileType,
     patchOne,
     postOne,
+    postProfilePicture,
   }
 }

@@ -55,13 +55,14 @@
 
       <h6 class="mb-4 font-bold text-gray-500">Options</h6>
       <div
-        v-if="getCurrentUserId && getUserFullName"
-        class="flex items-center w-full mb-5 cursor-pointer"
+        v-if="userStore.getCurrent"
+        class="flex items-center w-full mb-5 space-x-2 cursor-pointer"
       >
-        <div class="p-1 mr-3 rounded-lg bg-red-light hover:bg-red">
-          <UserIconOutline class="h-6 text-white" />
-        </div>
-        <router-link :to="{ name: 'user.account' }" class="dark:text-white">{{ getUserFullName }}</router-link>
+        <UserAvatar :user="userStore.getCurrent" size="sm" />
+        <router-link
+          :to="{ name: 'user.account' }"
+          class="dark:text-white"
+        >{{ userStore.getUserFullName }}</router-link>
       </div>
 
       <div class="flex items-center w-full mb-5 cursor-pointer" @click="onToggleLogout">
@@ -98,7 +99,6 @@ withDefaults(defineProps<Props>(), {
 })
 
 const userStore = useUserStore()
-const { getUserFullName, getCurrentUserId } = storeToRefs(userStore)
 
 const { logout } = authHook()
 

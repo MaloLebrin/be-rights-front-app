@@ -10,82 +10,18 @@
     </HeaderList>
 
     <div class="space-y-10">
-      <div class="py-4 mt-24 space-y-32 rounded-lg shadow-lg">
+      <div class="py-4 mt-24 space-y-32">
         <Userform :id="userId" />
       </div>
-
-      <BaseAccordion class="rounded-full shadow-2xl dark:bg-blue-dark_bold animate-fade-in-down">
-        <template #title>
-          <h5 class="px-6 py-4 text-xl font-medium">Logo de l'utilisateur</h5>
-        </template>
-
-        <div class="px-6 py-4">
-          <InputFile
-            message="Sélectionnez votre logo"
-            :url="userLogo?.secure_url"
-            @uploadFile="uploadFile"
-          />
-          <div class="flex items-center justify-center">
-            <BaseButton :disabled="!state.file" @click="submitFile">
-              <template #icon>
-                <SaveIconOutline />
-              </template>
-              Enregistrer le Logo
-            </BaseButton>
-          </div>
-        </div>
-      </BaseAccordion>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { FileType, FileTypeEnum } from '@/types/typesExported'
-
 const userStore = useUserStore()
-const fileStore = useFileStore()
-const { DecLoading, IncLoading } = useUiStore()
-const { fetchAll, postOne } = fileHook()
-
-interface State {
-  file: FormData | null
-}
-
-const state = reactive<State>({
-  file: null,
-})
 
 const { params } = useRoute()
 
 const userId = computed(() => parseInt(params.userId as string))
 const user = computed(() => userStore.getOne(userId.value))
-const userLogo = computed(() =>
-  fileStore.getFirstWhere(file => file.createdByUser === userId.value &&
-    file.type === FileTypeEnum.LOGO) as FileType
-)
-
-onMounted(async () => {
-  if (!userLogo.value) {
-    await fetchAll(`?filters[type]=${FileTypeEnum.LOGO}&filters[createdByUser]=${userId.value}`)
-  }
-})
-
-function uploadFile(fileUploaded: File) {
-  const formData = new FormData()
-  formData.append('file', fileUploaded)
-  formData.append('type', FileTypeEnum.LOGO)
-  formData.append('userId', userId.value.toString())
-  formData.append('name', 'logo')
-  formData.append('description', 'Logo de l\'utilisateur')
-  state.file = formData
-}
-
-async function submitFile() {
-  if (state.file && !userLogo.value) {
-    IncLoading()
-    await postOne(state.file)
-    DecLoading()
-    state.file = null
-  }
-}
 </script>
