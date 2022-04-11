@@ -34,6 +34,7 @@ export interface UiState {
     duration?: number
   },
   isLoading: number,
+  isDrawerOpen: boolean,
 }
 
 export interface ToastOptionsUi {
