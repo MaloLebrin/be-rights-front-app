@@ -1,21 +1,14 @@
 <template>
   <span class="relative inline-block">
-    <img
-      v-if="user?.profilePicture"
-      :class="`${avatarSize} rounded-full border`"
-      :src="user?.profilePicture"
-      alt="avatar"
-    />
-    <div
-      v-else
-      :class="`${avatarSize} rounded-full border border-blue-dark dark:border-gray-300 flex items-center justify-center font-bold`"
-    >
+    <img v-if="user?.profilePicture" :class="`${avatarSize} rounded-full border`" :src="user?.profilePicture"
+      alt="avatar" />
+    <div v-else
+      :class="`${avatarSize} rounded-full border border-blue-dark dark:text-white-break dark:border-gray-300 flex items-center justify-center font-bold uppercase`">
       {{ user?.firstName[0] }}
       {{ user?.lastName[0] }}
     </div>
     <span
-      :class="`absolute top-0 right-0 block rounded-full ring-2 ring-white ${isConnectedPinVariations.color} ${isConnectedPinVariations.size}`"
-    />
+      :class="`absolute top-0 right-0 block rounded-full ring-2 ring-white ${isConnectedPinVariations.color} ${isConnectedPinVariations.size}`" />
   </span>
 </template>
 
