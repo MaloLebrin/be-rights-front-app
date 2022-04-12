@@ -1,5 +1,3 @@
-<!-- TODO REplace name by BaseModal but be carefull beacuse a BaseModal already exist -->
-
 <template>
   <TransitionRoot as="template" :show="isOpen">
     <Dialog as="div" class="fixed inset-0 z-10 overflow-y-auto" @close="closeModal">
