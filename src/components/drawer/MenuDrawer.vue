@@ -62,7 +62,8 @@
     </TransitionRoot>
 
     <!-- Static sidebar for desktop -->
-    <div class="hidden px-4 bg-gray-800 shadow-xl md:flex md:w-64 lg:w-72 md:flex-col md:fixed md:inset-y-0">
+    <div
+      class="hidden px-4 bg-white shadow-xl dark:bg-gray-800 md:flex md:w-64 lg:w-72 md:flex-col md:fixed md:inset-y-0">
       <!-- Sidebar component, swap this element with another sidebar if you like -->
       <div class="flex flex-col flex-1 w-full min-h-0 space-y-4">
         <div class="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto">
@@ -71,16 +72,16 @@
               <div class="w-10 h-10 border-4 rounded-full border-red">
                 <div class="w-4 h-4 m-2 rounded-full bg-red-light" />
               </div>
-              <h1 class="ml-2 text-3xl font-bold text-white">Be right</h1>
+              <h1 class="ml-2 text-3xl font-bold dark:text-white">Be right</h1>
             </router-link>
           </div>
           <nav class="flex-1 mt-5 space-y-4">
             <router-link v-for="(item, index) in getMenuItems()" :key="index" :to="{ name: item.linkName }"
               v-slot="{ isExactActive }">
               <div
-                :class="[isExactActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'group flex items-center px-2 py-2 text-sm font-medium rounded-md']">
+                :class="[isExactActive ? 'bg-gray-900 text-white' : 'dark:text-gray-300 text-gray-600 hover:bg-gray-700 hover:text-white', 'group flex items-center px-2 py-2 text-sm font-medium rounded-md']">
                 <component :is="item.icon"
-                  :class="[isExactActive ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300', 'mr-3 flex-shrink-0 h-6 w-6']"
+                  :class="[isExactActive ? 'text-gray-300' : 'dark:text-gray-400 text-gray-600 group-hover:text-gray-300', 'mr-3 flex-shrink-0 h-6 w-6']"
                   aria-hidden="true" />
                 {{ item.label }}
               </div>
@@ -93,7 +94,7 @@
             <MenuButton v-if="userStore.getCurrent" class="flex items-center flex-shrink-0 p-4">
               <UserAvatar :user="userStore.getCurrent" />
               <div class="ml-3">
-                <p class="text-sm font-medium text-white">{{ userStore.getUserFullName }}</p>
+                <p class="text-sm font-medium text-gray-600 dark:text-white">{{ userStore.getUserFullName }}</p>
               </div>
             </MenuButton>
           </div>

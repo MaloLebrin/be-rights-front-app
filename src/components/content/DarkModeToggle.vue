@@ -1,7 +1,7 @@
 <template>
   <SwitchGroup>
     <div class="flex items-center justify-center space-x-4">
-      <SwitchLabel class="text-white-break">
+      <SwitchLabel class="text-gray-600 dark:text-white-break">
         {{ isDarkTheme ? 'Clair' : 'Sombre' }}
       </SwitchLabel>
       <Switch v-model="isAppDarkTheme"
