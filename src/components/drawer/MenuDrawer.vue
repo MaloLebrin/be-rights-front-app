@@ -142,6 +142,7 @@ import { useCookie } from 'vue-cookie-next'
 import { MENU_ITEMS } from '@/helpers/menu'
 
 const userStore = useUserStore()
+const uiStore = useUiStore()
 const { toggleDrawer } = useUiStore()
 const { logout } = authHook()
 
@@ -153,6 +154,10 @@ function onToggleLogout() {
 }
 
 const isDrawerOpen = ref(false)
+
+watch(() => uiStore.isDrawerOpen, (val) => {
+  isDrawerOpen.value = val
+})
 
 function getMenuItems() {
   if (userStore.isCurrentUserAdmin) {
