@@ -1,5 +1,5 @@
 <template>
-  <Modale :isActive="isActive" @close="close">
+  <BaseModal :isActive="isActive" @close="close">
     <div class="sm:flex sm:items-start">
       <div
         class="flex items-center justify-center flex-shrink-0 w-12 h-12 mx-auto bg-red-100 rounded-full sm:mx-0 sm:h-10 sm:w-10">
@@ -19,7 +19,7 @@
       <BaseButton color="red" :isLoading="uiStore.getUIIsLoading" @click="deleteOne">Supprimer</BaseButton>
       <BaseButton @click="close">Annuler</BaseButton>
     </div>
-  </Modale>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
