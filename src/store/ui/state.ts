@@ -15,5 +15,5 @@ export const uiState: UiState = {
     duration: 500,
   },
   isLoading: 0,
-
+  isDrawerOpen: false,
 }
