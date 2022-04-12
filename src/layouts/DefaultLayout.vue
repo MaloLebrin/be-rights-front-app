@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div class="w-full min-h-screen">
     <Header />
     <main class="w-full">
       <router-view />
