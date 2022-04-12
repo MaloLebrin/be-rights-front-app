@@ -1,41 +1,29 @@
 <template>
-  <BaseModal
-    class="z-50 w-4/6 max-w-2xl mt-32 mx-72"
-    title="Créer un événement"
-    :isLoading="uiStore.getUIIsLoading"
-    :isActive="isActive"
-    :mode="getUiModalState.modalMode"
-    @close="close"
-  >
-    <div
-      v-if="getUiModalState.modalMode === ModalModeEnum.DELETE && uiStore.getUiModalData?.event"
-      class="space-y-4"
-    >
-      <p
-        class="text-center text-gray-500"
-      >Êtes-vous sûr de vouloir supprimer le destinataire suivant ?</p>
-      <p class="text-center text-gray-700">{{ uiStore.getUiModalData?.event.name }}</p>
-      <div class="flex items-center justify-center space-x-4">
-        <BaseButton color="red" @click="deleteEvent">
-          <div class="flex items-center">
-            <TrashIconOutline class="w-4 h-4 mr-2" />
-            <span>Supprimer</span>
-          </div>
-        </BaseButton>
-        <BaseButton @click="close()">
-          <div class="flex items-center">
-            <XCircleIconOutline class="w-4 h-4 mr-2" />
-            <span>Annuler</span>
-          </div>
-        </BaseButton>
+  <Modale :isActive="isActive" @close="close">
+    <div class="px-4 py-2 sm:flex sm:items-start">
+      <div
+        class="flex items-center justify-center flex-shrink-0 w-12 h-12 mx-auto bg-red-100 rounded-full sm:mx-0 sm:h-10 sm:w-10">
+        <ExclamationIconOutline class="w-6 h-6 text-red-600" aria-hidden="true" />
+      </div>
+      <div class="mt-3 space-y-4 text-center sm:mt-0 sm:ml-4 sm:text-left">
+        <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">
+          Êtes vous sur de supprimer l'Événement {{ event.name }} ?
+        </DialogTitle>
+        <div class="mt-2">
+          <p class="text-sm text-gray-500">
+            La suppression de l'événement entrainera la suppression de toutes les données qui lui sont associées
+          </p>
+        </div>
       </div>
     </div>
-  </BaseModal>
+    <div class="mt-5 sm:space-x-8 sm:mt-4 sm:flex sm:items-center sm:justify-center">
+      <BaseButton color="red" :isLoading="uiStore.getUIIsLoading" @click="deleteEvent">Supprimer</BaseButton>
+      <BaseButton @click="close">Annuler</BaseButton>
+    </div>
+  </Modale>
 </template>
 
 <script setup lang="ts">
-import { ModalModeEnum } from '@/types/typesExported'
-
 interface Props {
   isActive: boolean
 }
@@ -45,8 +33,10 @@ withDefaults(defineProps<Props>(), {
 })
 
 const uiStore = useUiStore()
-const { getUiModalState, resetUiModalState, IncLoading, DecLoading } = uiStore
+const { resetUiModalState, IncLoading, DecLoading } = uiStore
 const { deleteOne } = eventHook()
+
+const event = computed(() => uiStore.getUiModalData?.event)
 
 async function deleteEvent() {
   if (uiStore.getUiModalData && uiStore.getUiModalData?.event) {
