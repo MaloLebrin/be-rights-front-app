@@ -1,4 +1,3 @@
-import axiosInstance from "@/axios.config"
 import API from "@/helpers/api"
 import { useCookie } from 'vue-cookie-next'
 
@@ -11,10 +10,6 @@ export default function authHook() {
   const { IncLoading, DecLoading } = useUiStore()
   const api = new API(userStore.getCurrentUserToken!)
   const router = useRouter()
-
-  function setBearerToken(token: string) {
-    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`
-  }
 
   function logout() {
     api.deleteCredentials()
@@ -57,7 +52,6 @@ export default function authHook() {
 
 
   return {
-    setBearerToken,
     logout,
     loginWithToken,
     routesIntermsOfUserRoles,
