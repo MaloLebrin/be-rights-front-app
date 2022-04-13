@@ -1,86 +1,101 @@
 <template>
-  <div class="w-full h-full px-4 mt-4">
-    <form class="grid grid-cols-2 gap-4">
-      <div class="space-y-2">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Prénom&nbsp;*&nbsp;:</label>
-        <BaseInput
-          class="text-white dark:text-blue-dark"
-          type="text"
-          id="firstName"
-          v-model="firstName"
-          :error="firstNameError"
-        />
-      </div>
-
-      <div class="space-y-2">
-        <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Nom&nbsp;*&nbsp;:</label>
-        <BaseInput
-          class="text-white dark:text-blue-dark"
-          type="text"
-          id="lastName"
-          v-model="lastName"
-          :error="lastNameError"
-        />
-      </div>
-
-      <div class="space-y-2">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >E-mail&nbsp;*&nbsp;:</label>
-        <BaseInput
-          class="text-white dark:text-blue-dark"
-          type="email"
-          id="email"
-          v-model="email"
-          :error="emailError"
-        />
-      </div>
-
-      <div class="space-y-2">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Téléphone&nbsp;*&nbsp;:</label>
-        <BaseInput
-          class="text-white dark:text-blue-dark"
-          type="tel"
-          id="phone"
-          v-model="phone"
-          :error="phoneError"
-        />
-      </div>
-
-      <div v-if="isCurrentUserAdmin && ModalModeEnum.CREATE" class="space-y-2 md:col-span-2">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Id de l'utilisateur&nbsp;*&nbsp;:</label>
-        <InputSearchSelect baseUrl="user" @selected="onSelectUser" />
-        <p v-if="userIdError?.length" class="text-sm text-red-500">{{ userIdError }}</p>
-      </div>
-    </form>
-
-    <div class="flex items-center justify-center mt-6">
-      <BaseButton :disabled="!meta.valid || !meta.dirty" @click.prevent="submit">
-        <template #icon>
-          <SaveIconOutline />
-        </template>
-        {{ mode === ModalModeEnum.CREATE ? 'Créer' : 'Enregistrer' }}
-      </BaseButton>
+<div class="w-full h-full px-4 mt-4">
+  <form class="grid grid-cols-2 gap-4">
+    <div class="space-y-2">
+      <label
+        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+      >Prénom&nbsp;*&nbsp;:</label>
+      <BaseInput
+        id="firstName"
+        v-model="firstName"
+        class="text-white dark:text-blue-dark"
+        type="text"
+        :error="firstNameError"
+      />
     </div>
+
+    <div class="space-y-2">
+      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Nom&nbsp;*&nbsp;:</label>
+      <BaseInput
+        id="lastName"
+        v-model="lastName"
+        class="text-white dark:text-blue-dark"
+        type="text"
+        :error="lastNameError"
+      />
+    </div>
+
+    <div class="space-y-2">
+      <label
+        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+      >E-mail&nbsp;*&nbsp;:</label>
+      <BaseInput
+        id="email"
+        v-model="email"
+        class="text-white dark:text-blue-dark"
+        type="email"
+        :error="emailError"
+      />
+    </div>
+
+    <div class="space-y-2">
+      <label
+        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+      >Téléphone&nbsp;*&nbsp;:</label>
+      <BaseInput
+        id="phone"
+        v-model="phone"
+        class="text-white dark:text-blue-dark"
+        type="tel"
+        :error="phoneError"
+      />
+    </div>
+
+    <div
+      v-if="isCurrentUserAdmin && ModalModeEnum.CREATE"
+      class="space-y-2 md:col-span-2"
+    >
+      <label
+        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+      >Id de l'utilisateur&nbsp;*&nbsp;:</label>
+      <InputSearchSelect
+        base-url="user"
+        @selected="onSelectUser"
+      />
+      <p
+        v-if="userIdError?.length"
+        class="text-sm text-red-500"
+      >
+        {{ userIdError }}
+      </p>
+    </div>
+  </form>
+
+  <div class="flex items-center justify-center mt-6">
+    <BaseButton
+      :disabled="!meta.valid || !meta.dirty"
+      @click.prevent="submit"
+    >
+      <template #icon>
+        <SaveIconOutline />
+      </template>
+      {{ mode === ModalModeEnum.CREATE ? 'Créer' : 'Enregistrer' }}
+    </BaseButton>
   </div>
+</div>
 </template>
 
 <script setup lang="ts">
-import { EmployeeType, ModalModeEnum, UserType } from '@/types/typesExported'
 import { useField, useForm } from 'vee-validate'
-import { object, string, number } from 'yup'
+import { number, object, string } from 'yup'
+import type { EmployeeType, UserType } from '@/types/typesExported'
+import { ModalModeEnum } from '@/types/typesExported'
 
 interface Props {
-  employee?: EmployeeType | null,
-  mode?: ModalModeEnum,
-  eventId?: number,
-  userId?: number,
+  employee?: EmployeeType | null
+  mode?: ModalModeEnum
+  eventId?: number
+  userId?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -97,11 +112,11 @@ const { IncLoading, DecLoading } = useUiStore()
 const { patchOne, postOne, postManyForEvent } = employeeHook()
 
 const schema = object({
-  email: string().email().required("L'adresse email est requise"),
-  firstName: string().required("Le prénom est requis"),
-  lastName: string().required("Le nom est requis"),
-  phone: string().required("Le numéro de téléphone est requis"),
-  userId: number().required("L'identifiant de l'utilisateur est requis"),
+  email: string().email().required('L\'adresse email est requise'),
+  firstName: string().required('Le prénom est requis'),
+  lastName: string().required('Le nom est requis'),
+  phone: string().required('Le numéro de téléphone est requis'),
+  userId: number().required('L\'identifiant de l\'utilisateur est requis'),
 })
 
 const userIdField = computed(() => {

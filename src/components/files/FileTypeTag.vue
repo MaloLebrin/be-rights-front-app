@@ -1,13 +1,15 @@
 <template>
-  <div class="relative flex justify-center item-center sm:col-start-3">
-    <div
-      :class="`flex item-center justify-center p-2 overflow-y-auto text-xs leading-5 rounded-lg group inset-1 bg-${getFileTypeColor()}-50 hover:bg-${getFileTypeColor()}-100 border border-${getFileTypeColor()}-500 hover:border-${getFileTypeColor()}-700`"
+<div class="relative flex justify-center item-center sm:col-start-3">
+  <div
+    :class="`flex item-center justify-center p-2 overflow-y-auto text-xs leading-5 rounded-lg group inset-1 bg-${getFileTypeColor()}-50 hover:bg-${getFileTypeColor()}-100 border border-${getFileTypeColor()}-500 hover:border-${getFileTypeColor()}-700`"
+  >
+    <p
+      :class="`text-${getFileTypeColor()}-500 group-hover:text-${getFileTypeColor()}-700 font-semibold uppercase`"
     >
-      <p
-        :class="`text-${getFileTypeColor()}-500 group-hover:text-${getFileTypeColor()}-700 font-semibold uppercase`"
-      >{{ getTranslationFileType(type) }}</p>
-    </div>
+      {{ getTranslationFileType(type) }}
+    </p>
   </div>
+</div>
 </template>
 
 <script setup lang="ts">

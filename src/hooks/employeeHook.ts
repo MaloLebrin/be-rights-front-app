@@ -1,5 +1,6 @@
-import API, { PaginatedResponse } from "@/helpers/api"
-import { FileType, EmployeeType, AnswerType } from "@/types/typesExported"
+import type { PaginatedResponse } from '@/helpers/api'
+import API from '@/helpers/api'
+import type { AnswerType, EmployeeType, FileType } from '@/types/typesExported'
 
 export default function employeeHook() {
   const employeeStore = useEmployeeStore()
@@ -9,7 +10,7 @@ export default function employeeHook() {
   const { setUISucessToast, setUIErrorToast, IncLoading, DecLoading } = useUiStore()
   const { filteringFilesNotInStore } = fileHook()
   const { filteringAnswersNotInStore } = answerHook()
-  const api = new API(userStore.entities.current?.token!)
+  const api = new API(userStore.getCurrentUserToken!)
 
   function getEmployeeStatusSignature(employee: EmployeeType): string {
     if (employee.hasSigned) {

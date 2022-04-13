@@ -1,6 +1,7 @@
-import { BugReportType, EntitiesEnum, BugReportCreationFormType } from "../../types/typesExported"
-import createGetters from "../utils/createGetters"
-import { bugState, baseCreationForm } from "./state"
+import type { BugReportCreationFormType, BugReportType } from '../../types/typesExported'
+import { EntitiesEnum } from '../../types/typesExported'
+import createGetters from '../utils/createGetters'
+import { baseCreationForm, bugState } from './state'
 
 export const useBugStore = defineStore(EntitiesEnum.BUGS_REPORTS, {
   state: () => ({
@@ -8,7 +9,7 @@ export const useBugStore = defineStore(EntitiesEnum.BUGS_REPORTS, {
   }),
   getters: {
     ...createGetters<BugReportType>(bugState),
-    getCreationForm: (state) => state.creationForm,
+    getCreationForm: state => state.creationForm,
   },
   actions: {
     // actions common to all entities

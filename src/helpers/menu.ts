@@ -1,11 +1,11 @@
 import {
+  ExclamationCircleIcon,
+  FolderAddIcon,
+  FolderOpenIcon,
   HomeIcon,
+  PlusIcon,
   UserGroupIcon,
   UsersIcon,
-  FolderOpenIcon,
-  ExclamationCircleIcon,
-  PlusIcon,
-  FolderAddIcon,
 } from '@heroicons/vue/outline'
 
 export const MENU_ITEMS = [

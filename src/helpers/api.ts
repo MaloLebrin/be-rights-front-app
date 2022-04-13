@@ -8,7 +8,7 @@ export interface PaginatedResponse<T> {
   total: number | null
 }
 
-export type ApiMethods = {
+export interface ApiMethods {
   setToken: (token: string) => void
   getToken: () => string | null
   get: (url: string) => Promise<any>
@@ -25,19 +25,19 @@ export default class APi implements ApiMethods {
     this.axios = axios.create({
       baseURL: import.meta.env.VITE_API_URL as string,
       headers: {
-        "Content-Type": "application/json",
-      }
+        'Content-Type': 'application/json',
+      },
     })
     this.baseUrl = import.meta.env.VITE_API_URL
     this.setTokenFromCookie(token)
   }
 
   private setTokenFromCookie(token: string): void {
-    this.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    this.axios.defaults.headers.common.Authorization = `Bearer ${token}`
   }
 
   setToken(token: string) {
-    this.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    this.axios.defaults.headers.common.Authorization = `Bearer ${token}`
     return this
   }
 
@@ -47,7 +47,7 @@ export default class APi implements ApiMethods {
   }
 
   public deleteCredentials() {
-    this.axios.defaults.headers.common['Authorization'] = ''
+    this.axios.defaults.headers.common.Authorization = ''
   }
 
   async get(path: string): Promise<any> {

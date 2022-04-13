@@ -1,8 +1,8 @@
-import { defineStore } from "pinia"
-import { EntitiesEnum } from "@/types/globals"
-import { employeState } from "./state"
-import { EmployeeState, EmployeeType } from "./types"
-import createGetters from "../utils/createGetters"
+import { defineStore } from 'pinia'
+import createGetters from '../utils/createGetters'
+import { employeState } from './state'
+import type { EmployeeState, EmployeeType } from './types'
+import { EntitiesEnum } from '@/types/globals'
 
 export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
   state: (): EmployeeState => ({
@@ -12,10 +12,10 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
     ...createGetters<EmployeeType>(employeState),
 
     // bellow getters in this specific store,
-    getAllByEventId: (state) => (eventId: number) => {
+    getAllByEventId: state => (eventId: number) => {
       return Object.values(state.entities.byId).filter(employee => employee.event === eventId)
     },
-    getEmployeesByUserId: (state) => {
+    getEmployeesByUserId: state => {
       return (userId: number) => Object.values(state.entities.byId).filter(employee => employee.createdByUser === userId)
     },
 

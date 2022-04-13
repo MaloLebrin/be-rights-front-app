@@ -11,7 +11,7 @@ export enum EntitiesEnum {
   SUBSCRIPTIONS = 'subscriptions',
 }
 
-export type BaseEntity = {
+export interface BaseEntity {
   readonly id: number
   readonly createdAt: Date
   readonly updatedAt: Date
@@ -19,7 +19,7 @@ export type BaseEntity = {
 
 export enum ThemeEnum {
   LIGHT = 'light',
-  DARK = 'dark'
+  DARK = 'dark',
 }
 
 export enum LoaderTypeEnum {

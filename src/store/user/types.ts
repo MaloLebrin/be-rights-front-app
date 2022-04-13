@@ -1,8 +1,8 @@
-import { BaseEntity } from "@/types/globals";
-import { RoleEnum } from "@/types/Roles";
-import { EmployeeType, EventType, FileType, SubscriptionEnum } from "../../types/typesExported";
+import type { EmployeeType, EventType, FileType, SubscriptionEnum } from '../../types/typesExported'
+import type { BaseEntity } from '@/types/globals'
+import type { RoleEnum } from '@/types/Roles'
 
-export type UserState = {
+export interface UserState {
   users: UserType[]
   currentUser: UserType
 }
@@ -23,12 +23,12 @@ export interface UserType extends BaseEntity {
   profilePicture?: string | null
 }
 
-export type UserFormType = Omit<UserType, "id" | "createdAt" | "updatedAt" | "events" | "employee" | "files">
+export type UserFormType = Omit<UserType, 'id' | 'createdAt' | 'updatedAt' | 'events' | 'employee' | 'files'>
 
 export enum UserSearchableFields {
   EMAIL = 'email',
   FISTNAME = 'firstName',
   LASTNAME = 'lastName',
   COMPANYNAME = 'companyName',
-  SIRET = 'siret'
+  SIRET = 'siret',
 }

@@ -1,12 +1,12 @@
-import { defineStore } from "pinia"
-import createGetters from "@/store/utils/createGetters"
-import { EntitiesEnum } from "@/types/globals"
-import { fileState } from "./state"
-import { FileState, FileType } from "./types"
+import { defineStore } from 'pinia'
+import { fileState } from './state'
+import type { FileState, FileType } from './types'
+import createGetters from '@/store/utils/createGetters'
+import { EntitiesEnum } from '@/types/globals'
 
 export const useFileStore = defineStore(EntitiesEnum.FILES, {
   state: (): FileState => ({
-    ...fileState
+    ...fileState,
   }),
   actions: {
     // actions common to all entities
@@ -58,7 +58,7 @@ export const useFileStore = defineStore(EntitiesEnum.FILES, {
   },
   getters: {
     ...createGetters<FileType>(fileState),
-  }
+  },
 })
 
 export default useFileStore

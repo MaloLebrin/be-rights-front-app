@@ -1,6 +1,6 @@
-import { BaseEntity } from "@/types/globals"
-import { State } from "@/store/utils/types"
-import { FileType, UserType } from "../../types/typesExported"
+import type { FileType, UserType } from '../../types/typesExported'
+import type { BaseEntity } from '@/types/globals'
+import type { State } from '@/store/utils/types'
 
 export interface EventType extends BaseEntity {
   name: string
@@ -19,7 +19,7 @@ export interface EventType extends BaseEntity {
   employees?: number[]
 }
 
-export type EventFormType = Omit<EventType, "id" | "createdAt" | "updatedAt">
+export type EventFormType = Omit<EventType, 'id' | 'createdAt' | 'updatedAt'>
 
 export enum EventSearchableFields {
   NAME = 'name',
@@ -31,14 +31,14 @@ export enum EventStatusEnum {
   CREATE = 'CREATE',
   PENDING = 'PENDING',
   COMPLETED = 'COMPLETED',
-  CLOSED = 'CLOSED'
+  CLOSED = 'CLOSED',
 }
 
 export enum getEventStatusTranslationEnum {
   CREATE = 'créé',
   PENDING = 'en cours',
   COMPLETED = 'complété',
-  CLOSED = 'terminé'
+  CLOSED = 'terminé',
 }
 
 export interface EventState extends State<EventType> { }

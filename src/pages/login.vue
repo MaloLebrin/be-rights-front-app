@@ -1,45 +1,62 @@
 <template>
-  <transition name="fade">
-    <div
-      class="container grid min-h-screen grid-cols-1 gap-12 px-8 py-8 mx-auto mt-32 md:grid-cols-2"
-    >
-      <div class="flex flex-col space-x-12 space-y-12 max-w-1/2">
-        <div class="mb-26">
-          <h1 class="text-black dark:text-white">Connectez vous sur</h1>
-          <SimpleLogo />
-        </div>
-
-        <div class="space-y-4">
-          <label
-            class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-          >Adress email&nbsp;:</label>
-          <BaseInput type="email" v-model="email" :error="emailError" />
-        </div>
-        <div class="space-y-4">
-          <label
-            class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-          >Mot de passe&nbsp;:</label>
-          <BaseInput type="password" v-model="password" :error="passwordError" />
-        </div>
-
-        <div class="flex flex-col items-center justify-center space-y-6">
-          <BaseButton
-            :disabled="!meta.valid || !meta.dirty"
-            @click="submitLogin"
-            :isLoading="uiStore.getUIIsLoading"
-          >Se Connecter</BaseButton>
-          <router-link class="LinkClass" :to="{ name: 'register' }">S'inscrire</router-link>
-          <!-- <router-link class="LinkClass" :to="{ path: '/forgot-password' }">Mot de passe oublié</router-link> -->
-        </div>
+<transition name="fade">
+  <div
+    class="container grid min-h-screen grid-cols-1 gap-12 px-8 py-8 mx-auto mt-32 md:grid-cols-2"
+  >
+    <div class="flex flex-col space-x-12 space-y-12 max-w-1/2">
+      <div class="mb-26">
+        <h1 class="text-black dark:text-white">
+          Connectez vous sur
+        </h1>
+        <SimpleLogo />
       </div>
 
-      <img
-        class="hidden object-cover w-2/3 max-w-5xl shadow-2xl TranslateUpAnimation cursor-none md:block"
-        src="@/assets/camera.jpg"
-        alt="camera picture"
-      />
+      <div class="space-y-4">
+        <label
+          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+        >Adress email&nbsp;:</label>
+        <BaseInput
+          v-model="email"
+          type="email"
+          :error="emailError"
+        />
+      </div>
+      <div class="space-y-4">
+        <label
+          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+        >Mot de passe&nbsp;:</label>
+        <BaseInput
+          v-model="password"
+          type="password"
+          :error="passwordError"
+        />
+      </div>
+
+      <div class="flex flex-col items-center justify-center space-y-6">
+        <BaseButton
+          :disabled="!meta.valid || !meta.dirty"
+          :is-loading="uiStore.getUIIsLoading"
+          @click="submitLogin"
+        >
+          Se Connecter
+        </BaseButton>
+        <router-link
+          class="LinkClass"
+          :to="{ name: 'register' }"
+        >
+          S'inscrire
+        </router-link>
+        <!-- <router-link class="LinkClass" :to="{ path: '/forgot-password' }">Mot de passe oublié</router-link> -->
+      </div>
     </div>
-  </transition>
+
+    <img
+      class="hidden object-cover w-2/3 max-w-5xl shadow-2xl TranslateUpAnimation cursor-none md:block"
+      src="@/assets/camera.jpg"
+      alt="camera picture"
+    >
+  </div>
+</transition>
 </template>
 
 <script setup lang="ts">
@@ -51,8 +68,8 @@ const { IncLoading, DecLoading } = useUiStore()
 const uiStore = useUiStore()
 
 const schema = object({
-  email: string().email().required("L'adresse email est requise"),
-  password: string().required("Le mot de passe est requis"),
+  email: string().email().required('L\'adresse email est requise'),
+  password: string().required('Le mot de passe est requis'),
 })
 
 const { meta } = useForm({ validationSchema: schema })

@@ -1,12 +1,14 @@
-import { EventStatusEnum, EventType, getEventStatusTranslationEnum } from "@/store/event/types"
-import APi, { PaginatedResponse } from "@/helpers/api"
-import { EmployeeType } from "@/store/employee/types"
+import type { EventType } from '@/store/event/types'
+import { EventStatusEnum, getEventStatusTranslationEnum } from '@/store/event/types'
+import type { PaginatedResponse } from '@/helpers/api'
+import APi from '@/helpers/api'
+import type { EmployeeType } from '@/store/employee/types'
 
 export function eventHook() {
   const eventStore = useEventStore()
   const userStore = useUserStore()
   const { setUISucessToast, setUIErrorToast, DecLoading, IncLoading } = useUiStore()
-  const api = new APi(userStore.entities.current?.token!)
+  const api = new APi(userStore.getCurrentUserToken!)
 
   function getEventStatusTranslation(status: EventStatusEnum) {
     return getEventStatusTranslationEnum[status]
@@ -15,15 +17,15 @@ export function eventHook() {
   function getEventStatusColor(status: EventStatusEnum) {
     switch (status) {
       case EventStatusEnum.PENDING:
-        return "text-orange"
+        return 'text-orange'
       case EventStatusEnum.CREATE:
-        return "dark:text-white-break text-black"
+        return 'dark:text-white-break text-black'
       case EventStatusEnum.CLOSED:
-        return "text-gray-500"
+        return 'text-gray-500'
       case EventStatusEnum.COMPLETED:
-        return "text-green"
+        return 'text-green'
       default:
-        return "text-gray-500"
+        return 'text-gray-500'
     }
   }
 
@@ -33,8 +35,10 @@ export function eventHook() {
 
   function sortEventByDate(events: EventType[]) {
     return events.sort((a, b) => {
-      if (a.start < b.start) return 1
-      if (a.start > b.start) return -1
+      if (a.start < b.start)
+        return 1
+      if (a.start > b.start)
+        return -1
       return 0
     })
   }
@@ -116,7 +120,7 @@ export function eventHook() {
     try {
       const res = await api.post(`event/${userId}`, { event })
       eventStore.createOne(res)
-      setUISucessToast(`L'événement a été créé avec succès`)
+      setUISucessToast('L\'événement a été créé avec succès')
       return res
     } catch (error) {
       console.error(error)
@@ -131,7 +135,7 @@ export function eventHook() {
         const res = await api.patch(`event/${event.id}`, { event })
         const updatedEvent = res as EventType
         eventStore.updateOne(updatedEvent.id, updatedEvent)
-        setUISucessToast(`L'événement a été mis à jour avec succès`)
+        setUISucessToast('L\'événement a été mis à jour avec succès')
       } catch (error) {
         console.error(error)
         setUIErrorToast()
@@ -145,7 +149,7 @@ export function eventHook() {
     try {
       await api.delete(`event/${id}`)
       eventStore.deleteOne(id)
-      setUISucessToast(`L'événement a été supprimé avec succès`)
+      setUISucessToast('L\'événement a été supprimé avec succès')
     } catch (error) {
       console.error(error)
       setUIErrorToast()

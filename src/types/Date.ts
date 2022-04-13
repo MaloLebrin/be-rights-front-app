@@ -1,10 +1,10 @@
 export enum DateFormatEnum {
-	DDMMYYYY = 'DDMMYYYY',
-	DAYMONTHYEAR = 'DAYMONTHYEAR',
-	DDMM = 'DDMM',
+  DDMMYYYY = 'DDMMYYYY',
+  DAYMONTHYEAR = 'DAYMONTHYEAR',
+  DDMM = 'DDMM',
 }
 
 export interface Period {
-	end: Date,
-	start: Date,
+  end: Date
+  start: Date
 }

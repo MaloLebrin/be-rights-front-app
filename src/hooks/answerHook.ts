@@ -1,5 +1,5 @@
-import API from "@/helpers/api"
-import { AnswerType } from "@/types/typesExported"
+import API from '@/helpers/api'
+import type { AnswerType } from '@/types/typesExported'
 
 export default function answerHook() {
   const { getCurrentUserToken } = useUserStore()

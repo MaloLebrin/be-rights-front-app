@@ -1,18 +1,23 @@
 <template>
-  <div
-    class="container min-h-screen px-8 py-6 text-left transition-all duration-500 ease-in-out transform md:px-20 lg:px-32">
-    <HeaderList>
-      <template #title>
-        <UsersIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Destinataires
-      </template>
-      <template #additionnalButtons>
-        <BaseInput v-model="state.search" type="text" placeholder="Recherchez" @keyup="searchEntity($event)" />
-      </template>
-    </HeaderList>
-    <EmployeeList :employees="employees" />
-  </div>
+<div
+  class="container min-h-screen px-8 py-6 text-left transition-all duration-500 ease-in-out transform md:px-20 lg:px-32"
+>
+  <HeaderList>
+    <template #title>
+      <UsersIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Destinataires
+    </template>
+    <template #additionnalButtons>
+      <BaseInput
+        v-model="state.search"
+        type="text"
+        placeholder="Recherchez"
+        @keyup="searchEntity($event)"
+      />
+    </template>
+  </HeaderList>
+  <EmployeeList :employees="employees" />
+</div>
 </template>
-
 
 <script setup lang="ts">
 const { IncLoading, DecLoading } = useUiStore()
@@ -29,19 +34,20 @@ const state = reactive({
   timeout: 0,
 })
 
-watch(() => tableStore.getFinalUrl, async (newValue) => {
+watch(() => tableStore.getFinalUrl, async newValue => {
   IncLoading()
   employeeStore.resetState()
   await fetchAll(newValue)
   DecLoading()
 })
 
-onMounted(async () => {
+onMounted(async() => {
   IncLoading()
   await fetchAll(tableStore.getFinalUrl)
   DecLoading()
 })
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function searchEntity(event: KeyboardEvent) {
   clearTimeout(state.timeout)
   state.timeout = window.setTimeout(() => {

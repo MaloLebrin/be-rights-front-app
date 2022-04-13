@@ -1,20 +1,43 @@
 <template>
-  <div
-    class="relative min-h-screen px-8 py-6 text-left transition-all duration-500 ease-in-out transform md:px-20 lg:px-32">
-    <HeaderList>
-      <template #title>
-        <HomeIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Événements
-      </template>
-      <template #additionnalButtons>
-        <BaseButton class="mr-2 dark:text-black" @click="setHeaderFilters(null)">Tout</BaseButton>
-        <BaseButton class="mr-2 dark:text-black" @click="setHeaderFilters(EventStatusEnum.PENDING)">En cours
-        </BaseButton>
-        <BaseButton class="mr-2 dark:text-black" @click="setHeaderFilters(EventStatusEnum.CLOSED)">Terminés</BaseButton>
-        <BaseInput v-model="state.search" type="text" placeholder="Recherchez" @keyup="searchEntity($event)" />
-      </template>
-    </HeaderList>
-    <EventList :events="events" NoEventMessage="Aucun Event en Base de donnée" />
-  </div>
+<div
+  class="relative min-h-screen px-8 py-6 text-left transition-all duration-500 ease-in-out transform md:px-20 lg:px-32"
+>
+  <HeaderList>
+    <template #title>
+      <HomeIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Événements
+    </template>
+    <template #additionnalButtons>
+      <BaseButton
+        class="mr-2 dark:text-black"
+        @click="setHeaderFilters(null)"
+      >
+        Tout
+      </BaseButton>
+      <BaseButton
+        class="mr-2 dark:text-black"
+        @click="setHeaderFilters(EventStatusEnum.PENDING)"
+      >
+        En cours
+      </BaseButton>
+      <BaseButton
+        class="mr-2 dark:text-black"
+        @click="setHeaderFilters(EventStatusEnum.CLOSED)"
+      >
+        Terminés
+      </BaseButton>
+      <BaseInput
+        v-model="state.search"
+        type="text"
+        placeholder="Recherchez"
+        @keyup="searchEntity($event)"
+      />
+    </template>
+  </HeaderList>
+  <EventList
+    :events="events"
+    no-event-message="Aucun Event en Base de donnée"
+  />
+</div>
 </template>
 
 <script setup lang="ts">
@@ -35,14 +58,14 @@ const state = reactive({
 
 const events = computed(() => eventStore.getAllArray)
 
-watch(() => tableStore.getFinalUrl, async (newValue) => {
+watch(() => tableStore.getFinalUrl, async newValue => {
   IncLoading()
   eventStore.resetState()
   await fetchAllEvents(newValue)
   DecLoading()
 })
 
-onMounted(async () => {
+onMounted(async() => {
   if (userStore.getCurrentUserId) {
     IncLoading()
     await fetchAllEvents()
@@ -50,6 +73,7 @@ onMounted(async () => {
   }
 })
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function searchEntity(event: KeyboardEvent) {
   clearTimeout(state.timeout)
   state.timeout = window.setTimeout(() => {

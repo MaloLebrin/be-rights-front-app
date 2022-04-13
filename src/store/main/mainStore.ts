@@ -1,7 +1,7 @@
-import { ThemeEnum } from "@/types"
-import { defineStore } from "pinia"
-import { useAnswerStore } from "@/store/answer/answerStore"
-import { useEmployeeStore, useEventStore, useFileStore, useUserStore } from ".."
+import { defineStore } from 'pinia'
+import { useEmployeeStore, useEventStore, useFileStore, useUserStore } from '..'
+import { ThemeEnum } from '@/types'
+import { useAnswerStore } from '@/store/answer/answerStore'
 
 export const useMainStore = defineStore('main', {
   state: () => ({
@@ -9,9 +9,9 @@ export const useMainStore = defineStore('main', {
     theme: ThemeEnum.LIGHT,
   }),
   getters: {
-    getIsLoggedIn: (state) => state.isLoggedIn,
-    getTheme: (state) => state.theme,
-    isDarkTheme: (state) => state.theme === ThemeEnum.DARK
+    getIsLoggedIn: state => state.isLoggedIn,
+    getTheme: state => state.theme,
+    isDarkTheme: state => state.theme === ThemeEnum.DARK,
   },
   actions: {
     setIsLoggedIn() {

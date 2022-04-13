@@ -1,5 +1,11 @@
 import fs from 'fs'
 
+export const EXCLUDES_STORE_FOLDER_NAME = [
+  'utils',
+  'subscription',
+  'index.ts',
+]
+
 export const getFileNames = (dir: string) => fs.readdirSync(dir)
   .map(file => {
     return file.split('.ts')[0]
@@ -31,9 +37,3 @@ export const getStoreFileNames = () => {
       }
     }, {})
 }
-
-export const EXCLUDES_STORE_FOLDER_NAME = [
-  'utils',
-  'subscription',
-  'index.ts'
-]

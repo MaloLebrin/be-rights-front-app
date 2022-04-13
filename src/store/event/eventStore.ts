@@ -1,18 +1,18 @@
-import { defineStore } from "pinia"
-import { EntitiesEnum } from "@/types/globals"
-import { eventState } from "./state"
-import { EventState, EventType } from "./types"
-import createGetters from "../utils/createGetters"
+import { defineStore } from 'pinia'
+import createGetters from '../utils/createGetters'
+import { eventState } from './state'
+import type { EventState, EventType } from './types'
+import { EntitiesEnum } from '@/types/globals'
 
 export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
   state: (): EventState => ({
-    ...eventState
+    ...eventState,
   }),
   getters: {
     ...createGetters<EventType>(eventState),
 
     // bellow getters in this specific store
-    getEventsByUserId: (state) => (userId: number) => Object.values(state.entities.byId).filter(event => event.createdByUser === userId),
+    getEventsByUserId: state => (userId: number) => Object.values(state.entities.byId).filter(event => event.createdByUser === userId),
   },
   actions: {
     // actions common to all entities

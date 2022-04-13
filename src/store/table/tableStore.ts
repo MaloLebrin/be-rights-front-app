@@ -1,20 +1,20 @@
-import { EntitiesEnum } from "@/types"
-import { defineStore } from "pinia"
-import { tableState } from "./state"
-import { TableState } from "./types"
+import { defineStore } from 'pinia'
+import { tableState } from './state'
+import type { TableState } from './types'
+import { EntitiesEnum } from '@/types'
 
 export const useTableStore = defineStore(EntitiesEnum.TABLE, {
   state: () => ({ ...tableState }),
   getters: {
-    getTableState: (state) => state,
-    getCurrentPage: (state) => state.currentPage,
-    getPerPage: (state) => state.perPage,
-    getTotalPages: (state) => state.totalPages,
-    getOrderBy: (state) => state.orderBy,
-    getOrderDir: (state) => state.orderDir,
-    getFilters: (state) => state.filters,
-    getSearch: (state) => state.search,
-    getFinalUrl: (state) => {
+    getTableState: state => state,
+    getCurrentPage: state => state.currentPage,
+    getPerPage: state => state.perPage,
+    getTotalPages: state => state.totalPages,
+    getOrderBy: state => state.orderBy,
+    getOrderDir: state => state.orderDir,
+    getFilters: state => state.filters,
+    getSearch: state => state.search,
+    getFinalUrl: state => {
       let url: string | null = null
       if (state.search) {
         url = `search=${state.search}`
