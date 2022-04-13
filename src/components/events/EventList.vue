@@ -1,18 +1,8 @@
 <template>
-  <div class="relative mt-32">
-    <div
-      v-if="events.length > 0"
-      v-for="(event, index) in events"
-      :key="event.id"
-      class="relative flex items-center"
-    >
-      <EventItem
-        :event="event"
-        :index="parseInt(index.toString())"
-        @udpateOneItem="updateOneEvent(event.id)"
-        @deleteOne="deleteOneEvent(event)"
-        @addOne="addOneEmployeeToEvent(event.id)"
-      />
+  <div class="relative">
+    <div v-if="events.length > 0" v-for="(event, index) in events" :key="event.id" class="relative flex items-center">
+      <EventItem :event="event" :index="parseInt(index.toString())" @udpateOneItem="updateOneEvent(event.id)"
+        @deleteOne="deleteOneEvent(event)" @addOne="addOneEmployeeToEvent(event.id)" />
     </div>
     <h4 v-else class="text-2xl font-semibold text-blue-dark dark:text-white">{{ NoEventMessage }}</h4>
   </div>

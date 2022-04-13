@@ -1,7 +1,7 @@
 <template>
   <MenuDrawer />
   <main v-bind="$attrs" class="relative w-full h-full bg-white dark:bg-blue-dark">
-    <div class="md:container">
+    <div class="md:container md:mx-auto">
       <Loader v-if="uiStore.getUIIsLoading" :isLoading="uiStore.getUIIsLoading" />
       <router-view v-show="!uiStore.getUIIsLoading" v-slot="{ Component }">
         <transition name="fade">

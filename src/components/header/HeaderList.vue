@@ -1,10 +1,8 @@
 <template>
   <div class="grid items-center w-full grid-cols-3 mb-14">
     <div class="flex items-center space-x-4">
-      <a
-        class="flex items-center space-x-2 text-gray-500 cursor-pointer hover:underline"
-        @click="goBack"
-      >
+      <a class="flex items-center space-x-2 text-gray-500 cursor-pointer dark:text-white-break hover:underline"
+        @click="goBack">
         <ChevronLeftIconOutline class="w-5 h-5" />
         <span>Retour</span>
       </a>
@@ -12,10 +10,7 @@
         <slot name="title" />
       </h3>
     </div>
-    <div
-      v-if="$slots.additionnalButtons"
-      class="flex items-center justify-center col-span-2 space-x-4"
-    >
+    <div v-if="$slots.additionnalButtons" class="flex items-center justify-center col-span-2 space-x-4">
       <slot name="additionnalButtons" />
     </div>
   </div>

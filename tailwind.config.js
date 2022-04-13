@@ -227,7 +227,7 @@ module.exports = {
         DEFAULT: '1.5rem',
         md: '2rem',
         lg: '2.5rem',
-        xl: '3rem',
+        xl: '4rem',
       },
     },
     content: {
