@@ -12,7 +12,5 @@ const store = createPinia()
 app.use(VueCookieNext)
 app.use(store)
 app.use(router)
-app.use(VCalendar, {
-})
-
+app.use(VCalendar)
 app.mount('#app')

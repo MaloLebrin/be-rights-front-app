@@ -1,39 +1,28 @@
 <template>
-  <BaseModal
-    class="z-50 w-4/6 max-w-2xl mt-32 mx-72"
-    :title="getModalTitle"
-    :isLoading="uiStore.getUIIsLoading"
-    :isActive="isActive"
-    @close="close"
-  >
-    <FileForm
-      v-if="mode === ModalModeEnum.EDIT || mode === ModalModeEnum.CREATE"
-      :file="uiStore.getUiModalData?.file"
-      :mode="mode"
-      @submit="onSubmit"
-    />
-    <div v-else-if="mode === ModalModeEnum.DELETE" class="space-y-4">
-      <p class="text-center text-gray-500">Êtes-vous sûr de vouloir supprimer le fichier suivant ?</p>
-      <p
-        class="text-center text-gray-700 dark:text-white"
-      >Nom: {{ uiStore.getUiModalData?.file.name }}</p>
-      <p
-        class="text-center text-gray-700 dark:text-white"
-      >Description: {{ uiStore.getUiModalData?.file.description }}</p>
+  <BaseModal :isActive="isActive" @close="close">
+    <div class="px-4 py-2 sm:flex sm:items-start">
+      <div v-if="mode === ModalModeEnum.DELETE"
+        class="flex items-center justify-center flex-shrink-0 w-12 h-12 mx-auto bg-red-100 rounded-full sm:mx-0 sm:h-10 sm:w-10">
+        <ExclamationIconOutline class="w-6 h-6 text-red-600" aria-hidden="true" />
+      </div>
+      <div class="mt-3 space-y-2 text-center sm:mt-0 sm:ml-4 sm:text-left">
+        <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">
+          {{ getModalTitle }}
+        </DialogTitle>
 
-      <div class="flex items-center justify-center space-x-4">
-        <BaseButton color="red" @click="deleteFile">
-          <div class="flex items-center">
-            <TrashIconOutline class="w-4 h-4 mr-2" />
-            <span>Supprimer</span>
+        <div v-if="mode === ModalModeEnum.EDIT || mode === ModalModeEnum.CREATE"
+          class="flex items-center justify-center">
+          <FileForm v-if="mode === ModalModeEnum.EDIT || mode === ModalModeEnum.CREATE"
+            :file="uiStore.getUiModalData?.file" :mode="mode" @submit="onSubmit" />
+        </div>
+        <div v-else-if="mode === ModalModeEnum.DELETE" class="mt-2 space-y-4">
+          <p class="text-center text-gray-500">Êtes-vous sûr de vouloir supprimer le fichier suivant ?</p>
+          <p class="text-center text-gray-700 dark:text-white">Nom: {{ uiStore.getUiModalData?.file.name }}</p>
+          <div class="mt-5 sm:space-x-8 sm:mt-4 sm:flex sm:items-center sm:justify-center">
+            <BaseButton color="red" :isLoading="uiStore.getUIIsLoading" @click="deleteFile">Supprimer</BaseButton>
+            <BaseButton @click="close">Annuler</BaseButton>
           </div>
-        </BaseButton>
-        <BaseButton @click="close()">
-          <div class="flex items-center">
-            <XCircleIconOutline class="w-4 h-4 mr-2" />
-            <span>Annuler</span>
-          </div>
-        </BaseButton>
+        </div>
       </div>
     </div>
   </BaseModal>

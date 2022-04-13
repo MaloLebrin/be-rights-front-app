@@ -1,23 +1,22 @@
 <template>
   <BaseModal :isActive="isActive" @close="close">
-    <div class="px-4 py-2 sm:flex sm:items-start">
+    <div class="sm:flex sm:items-start">
       <div
         class="flex items-center justify-center flex-shrink-0 w-12 h-12 mx-auto bg-red-100 rounded-full sm:mx-0 sm:h-10 sm:w-10">
         <ExclamationIconOutline class="w-6 h-6 text-red-600" aria-hidden="true" />
       </div>
-      <div class="mt-3 space-y-4 text-center sm:mt-0 sm:ml-4 sm:text-left">
+      <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
         <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">
-          Êtes vous sur de supprimer l'Événement {{ event.name }} ?
+          Êtes vous sur de supprimer cet utilisateur ?
         </DialogTitle>
         <div class="mt-2">
-          <p class="text-sm text-gray-500">
-            La suppression de l'événement entrainera la suppression de toutes les données qui lui sont associées
-          </p>
+          <p class="text-sm text-gray-500">Êtes-vous sûr de vouloir désactiver votre compte ? Toutes vos données
+            seront définitivement supprimés de nos serveurs pour toujours. Cette action ne peut pas être annulée.</p>
         </div>
       </div>
     </div>
     <div class="mt-5 sm:space-x-8 sm:mt-4 sm:flex sm:items-center sm:justify-center">
-      <BaseButton color="red" :isLoading="uiStore.getUIIsLoading" @click="deleteEvent">Supprimer</BaseButton>
+      <BaseButton color="red" :isLoading="uiStore.getUIIsLoading" @click="deleteOne">Supprimer</BaseButton>
       <BaseButton @click="close">Annuler</BaseButton>
     </div>
   </BaseModal>
@@ -33,18 +32,22 @@ withDefaults(defineProps<Props>(), {
 })
 
 const uiStore = useUiStore()
-const { resetUiModalState, IncLoading, DecLoading } = uiStore
-const { deleteOne } = eventHook()
+const { deleteUser } = userHook()
+const { IncLoading, DecLoading, resetUiModalState } = uiStore
 
-const event = computed(() => uiStore.getUiModalData?.event)
-
-async function deleteEvent() {
-  if (uiStore.getUiModalData && uiStore.getUiModalData?.event) {
-    IncLoading()
-    await deleteOne(uiStore.getUiModalData.event.id)
-    DecLoading()
+const user = computed(() => {
+  if (uiStore.getUiModalData && uiStore.getUiModalData.user) {
+    return uiStore.getUiModalData.user
   }
-  close()
+})
+
+async function deleteOne() {
+  if (user?.value.id) {
+    IncLoading()
+    await deleteUser(user.value.id)
+    DecLoading()
+    close()
+  }
 }
 
 const emit = defineEmits<{
@@ -52,7 +55,7 @@ const emit = defineEmits<{
 }>()
 
 function close() {
-  emit('close')
   resetUiModalState()
+  emit('close')
 }
 </script>

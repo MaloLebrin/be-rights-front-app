@@ -1,7 +1,7 @@
 <template>
   <MenuDrawer />
-  <main v-bind="$attrs" class="relative w-full h-full bg-white dark:bg-blue-dark">
-    <div class="md:container">
+  <main v-bind="$attrs" class="w-full mx-auto dark:bg-blue-dark min-h-screen">
+    <div class="md:container md:mx-auto">
       <Loader v-if="uiStore.getUIIsLoading" :isLoading="uiStore.getUIIsLoading" />
       <router-view v-show="!uiStore.getUIIsLoading" v-slot="{ Component }">
         <transition name="fade">
@@ -18,8 +18,8 @@
       @close="CloseResetModalState" @onSubmit="CloseResetModalState" />
     <FileModal v-if="isModalActive(ModalNameEnum.FILE_MODAL).value"
       :isActive="isModalActive(ModalNameEnum.FILE_MODAL).value" :mode="getUiModalState.modalMode" />
-    <UsersAdminModal v-if="isModalActive(ModalNameEnum.USER_ADMIN).value"
-      :isActive="isModalActive(ModalNameEnum.USER_ADMIN).value" :mode="getUiModalState.modalMode" />
+    <AdminModalDeleteUser v-if="isModalActive(ModalNameEnum.USER_ADMIN).value"
+      :isActive="isModalActive(ModalNameEnum.USER_ADMIN).value" />
 
     <Toast :variant="getUiToastState.variant" :isToastOpen="getUiToastState.isActive"
       :toastDuration="getUiToastState.duration" @close="resetUiToastState">{{ getUiToastState.message }}</Toast>

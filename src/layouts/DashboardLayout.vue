@@ -1,7 +1,7 @@
 <template>
   <MenuDrawer />
-  <main v-bind="$attrs" class="w-full mx-auto text-center dark:bg-blue-dark">
-    <div class="w-full md:container">
+  <main v-bind="$attrs" class="w-full min-h-screen mx-auto dark:bg-blue-dark">
+    <div class="w-full md:container md:mx-auto">
       <Loader v-if="uiStore.getUIIsLoading" :isLoading="uiStore.getUIIsLoading" />
       <router-view v-show="!uiStore.getUIIsLoading" v-slot="{ Component }">
         <transition name="fade">
@@ -12,33 +12,17 @@
   </main>
 
   <Teleport to="#portal-target">
-    <EventModal
-      v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.EVENT_FORM"
-      class="top-32"
+    <EventModal v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.EVENT_FORM" class="top-32"
       :isActive="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.EVENT_FORM"
-      @close="CloseResetModalState"
-      @onSubmit="CloseResetModalState"
-    />
-    <EmployeeModal
-      v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.ADD_EMPLOYEE"
-      :isActive="getUiModalState.isActive"
-      :mode="getUiModalState.modalMode"
-      :eventId="eventID"
-      @close="CloseResetModalState"
-      @onSubmit="CloseResetModalState"
-    />
-    <FileModal
-      v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.FILE_MODAL"
-      :isActive="getUiModalState.isActive"
-      :mode="getUiModalState.modalMode"
-    />
+      @close="CloseResetModalState" @onSubmit="CloseResetModalState" />
+    <EmployeeModal v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.ADD_EMPLOYEE"
+      :isActive="getUiModalState.isActive" :mode="getUiModalState.modalMode" :eventId="eventID"
+      @close="CloseResetModalState" @onSubmit="CloseResetModalState" />
+    <FileModal v-if="getUiModalState.isActive && getUiModalState.modalName === ModalNameEnum.FILE_MODAL"
+      :isActive="getUiModalState.isActive" :mode="getUiModalState.modalMode" />
 
-    <Toast
-      :variant="getUiToastState.variant"
-      :isToastOpen="getUiToastState.isActive"
-      :toastDuration="getUiToastState.duration"
-      @close="resetUiToastState"
-    >{{ getUiToastState.message }}</Toast>
+    <Toast :variant="getUiToastState.variant" :isToastOpen="getUiToastState.isActive"
+      :toastDuration="getUiToastState.duration" @close="resetUiToastState">{{ getUiToastState.message }}</Toast>
   </Teleport>
 </template>
 
