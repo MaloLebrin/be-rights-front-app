@@ -1,6 +1,6 @@
 <template>
   <MenuDrawer />
-  <main v-bind="$attrs" class="relative w-full h-full bg-white dark:bg-blue-dark">
+  <main v-bind="$attrs" class="w-full mx-auto dark:bg-blue-dark min-h-screen">
     <div class="md:container md:mx-auto">
       <Loader v-if="uiStore.getUIIsLoading" :isLoading="uiStore.getUIIsLoading" />
       <router-view v-show="!uiStore.getUIIsLoading" v-slot="{ Component }">

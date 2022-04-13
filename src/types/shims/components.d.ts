@@ -38,7 +38,7 @@ declare module 'vue' {
     EmployeeForm: typeof import('./../../components/employees/EmployeeForm.vue')['default']
     EmployeeList: typeof import('./../../components/employees/EmployeeList.vue')['default']
     EmployeeModal: typeof import('./../../components/modals/EmployeeModal.vue')['default']
-    Employees: typeof import('../../pages/adminDashboard/employee/Employees.vue')['default']
+    Employees: typeof import('./../../pages/adminDashboard/employee/Employees.vue')['default']
     EmployeeUserItem: typeof import('./../../components/employees/EmployeeUserItem.vue')['default']
     Event: typeof import('./../../pages/adminDashboard/event/index.vue')['default']
     EventDetail: typeof import('./../../pages/adminDashboard/event/EventDetail.vue')['default']

@@ -24,12 +24,7 @@
             </TransitionChild>
             <div class="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
               <div class="flex items-center flex-shrink-0 px-4">
-                <router-link :to="{ name: 'home' }" class="flex items-center justify-center w-full cursor-pointer">
-                  <div class="w-10 h-10 border-4 rounded-full border-red">
-                    <div class="w-4 h-4 m-2 rounded-full bg-red-light" />
-                  </div>
-                  <h1 class="ml-2 text-3xl font-bold text-white">Be right</h1>
-                </router-link>
+                <SimpleLogo />
               </div>
               <nav class="px-2 mt-5 space-y-1">
                 <router-link v-for="(item, index) in getMenuItems()" :key="index" :to="{ name: item.linkName }"
@@ -70,12 +65,7 @@
       <div class="flex flex-col flex-1 w-full min-h-0 space-y-4">
         <div class="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto">
           <div class="flex items-center flex-shrink-0 px-4">
-            <router-link :to="{ name: 'home' }" class="flex items-center justify-center w-full cursor-pointer">
-              <div class="w-10 h-10 border-4 rounded-full border-red">
-                <div class="w-4 h-4 m-2 rounded-full bg-red-light" />
-              </div>
-              <h1 class="ml-2 text-3xl font-bold dark:text-white">Be right</h1>
-            </router-link>
+            <SimpleLogo />
           </div>
           <nav class="flex-1 mt-5 space-y-4">
             <router-link v-for="(item, index) in getMenuItems()" :key="index" :to="{ name: item.linkName }"
