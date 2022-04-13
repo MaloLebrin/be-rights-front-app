@@ -1,71 +1,103 @@
 <template>
-  <div class="container px-4 space-y-6">
-    <BaseMessage
-      type="warning"
-      v-if="mode === ModalModeEnum.CREATE"
-    >Vous devez enregister votre nouvelle image en cliquant sur le bouton "Enregistrer"</BaseMessage>
+<div class="container px-4 space-y-6">
+  <BaseMessage
+    v-if="mode === ModalModeEnum.CREATE"
+    type="warning"
+  >
+    Vous devez enregister votre nouvelle image en cliquant sur le bouton "Enregistrer"
+  </BaseMessage>
 
-    <div v-if="file && mode === ModalModeEnum.EDIT">
-      <img :src="file.secure_url" :alt="file.original_filename" />
+  <div v-if="file && mode === ModalModeEnum.EDIT">
+    <img
+      :src="file.secure_url"
+      :alt="file.original_filename"
+    >
+  </div>
+
+  <InputFile
+    v-else-if="mode === ModalModeEnum.CREATE"
+    @uploadFile="uploadOneFile"
+  />
+
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div class="space-y-2">
+      <label
+        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+      >Nom du fichier&nbsp;*&nbsp;:</label>
+      <BaseInput
+        id="name"
+        v-model="name"
+        class="text-white dark:text-blue-dark"
+        type="text"
+        :error="errorName"
+      />
     </div>
 
-    <InputFile v-else-if="mode === ModalModeEnum.CREATE" @uploadFile="uploadOneFile" />
-
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-      <div class="space-y-2">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Nom du fichier&nbsp;*&nbsp;:</label>
-        <BaseInput
-          class="text-white dark:text-blue-dark"
-          type="text"
-          id="name"
-          v-model="name"
-          :error="errorName"
-        />
-      </div>
-
-      <div class="space-y-2">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Type du fichier&nbsp;*&nbsp;:</label>
-        <Select
-          :options="fileTypeArray"
-          :default="type ? type : 'Sélectionnez un Role'"
-          @selected="handleFileType"
-        />
-        <p v-if="errorType?.length" class="text-sm text-red-500">{{ errorType }}</p>
-      </div>
-
-      <div class="space-y-2 md:col-span-2">
-        <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Description&nbsp;:</label>
-        <BaseTextarea class="w-full" v-model="description" :error="errorDescription" />
-      </div>
-
-      <div v-if="isCurrentUserAdmin && ModalModeEnum.CREATE" class="space-y-2 md:col-span-2">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Id de l'utilisateur&nbsp;*&nbsp;:</label>
-        <InputSearchSelect baseUrl="user" @selected="addUserId" />
-        <p v-if="userIdError?.length" class="text-sm text-red-500">{{ userIdError }}</p>
-      </div>
+    <div class="space-y-2">
+      <label
+        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+      >Type du fichier&nbsp;*&nbsp;:</label>
+      <Select
+        :options="fileTypeArray"
+        :default="type ? type : 'Sélectionnez un Role'"
+        @selected="handleFileType"
+      />
+      <p
+        v-if="errorType?.length"
+        class="text-sm text-red-500"
+      >
+        {{ errorType }}
+      </p>
     </div>
 
-    <div class="flex items-center justify-center mt-10">
-      <BaseButton :disabled="!meta.dirty || !meta.valid" @click="submit">
-        <template #icon>
-          <SaveIconOutline />
-        </template>
-        Enregistrer
-      </BaseButton>
+    <div class="space-y-2 md:col-span-2">
+      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Description&nbsp;:</label>
+      <BaseTextarea
+        v-model="description"
+        class="w-full"
+        :error="errorDescription"
+      />
+    </div>
+
+    <div
+      v-if="isCurrentUserAdmin && ModalModeEnum.CREATE"
+      class="space-y-2 md:col-span-2"
+    >
+      <label
+        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+      >Id de l'utilisateur&nbsp;*&nbsp;:</label>
+      <InputSearchSelect
+        base-url="user"
+        @selected="addUserId"
+      />
+      <p
+        v-if="userIdError?.length"
+        class="text-sm text-red-500"
+      >
+        {{ userIdError }}
+      </p>
     </div>
   </div>
+
+  <div class="flex items-center justify-center mt-10">
+    <BaseButton
+      :disabled="!meta.dirty || !meta.valid"
+      @click="submit"
+    >
+      <template #icon>
+        <SaveIconOutline />
+      </template>
+      Enregistrer
+    </BaseButton>
+  </div>
+</div>
 </template>
 
 <script setup lang="ts">
-import { FileType, FileTypeEnum, ModalModeEnum, fileTypeArray, UserType } from '@/types/typesExported'
 import { useField, useForm } from 'vee-validate'
-import { object, string, number } from 'yup'
+import { number, object, string } from 'yup'
+import type { FileType, UserType } from '@/types/typesExported'
+import { FileTypeEnum, ModalModeEnum, fileTypeArray } from '@/types/typesExported'
 
 interface Props {
   mode?: ModalModeEnum
@@ -80,7 +112,7 @@ const props = withDefaults(defineProps<Props>(), {
 const state = reactive<{
   file: null | FormData
 }>({
-  file: null
+  file: null,
 })
 
 const { isCurrentUserAdmin } = useUserStore()
@@ -133,7 +165,6 @@ async function submit() {
       await postOne(state.file)
     }
   } else if (props.mode === ModalModeEnum.EDIT) {
-
     const payload = {
       ...props.file,
       name: name.value,

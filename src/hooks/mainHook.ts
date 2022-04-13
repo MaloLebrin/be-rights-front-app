@@ -1,4 +1,4 @@
-import { ThemeEnum } from "@/types/globals"
+import { ThemeEnum } from '@/types/globals'
 
 export default function mainHook() {
   const mainStore = useMainStore()

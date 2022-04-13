@@ -4,6 +4,6 @@ export interface TableState {
   totalPages: number
   orderBy: string
   orderDir: string
-  filters: Record<string, string | string[]> | null,
+  filters: Record<string, string | string[]> | null
   search: string
 }

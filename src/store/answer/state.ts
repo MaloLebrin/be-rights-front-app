@@ -1,6 +1,6 @@
+import type { AnswerType } from './types'
 import createState from '@/store/utils/createState'
 import createEntity from '@/store/utils/createEntity'
-import { AnswerType } from './types'
 
 const entity = createEntity<AnswerType>('answer')
 

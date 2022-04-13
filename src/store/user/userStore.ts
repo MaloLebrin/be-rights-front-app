@@ -1,28 +1,28 @@
-import { EntitiesEnum } from '@/types/globals'
-import { defineStore } from "pinia"
-import { UserType } from './types'
+import { defineStore } from 'pinia'
+import type { UserType } from './types'
 import { userState } from './state'
+import { EntitiesEnum } from '@/types/globals'
 import createGetters from '@/store/utils/createGetters'
 import { RoleEnum } from '@/types/Roles'
 
 export const useUserStore = defineStore(EntitiesEnum.USERS, {
   state: () => ({
-    ...userState
+    ...userState,
   }),
   getters: {
     ...createGetters<UserType>(userState),
 
-    getUserFullName: (state) => {
+    getUserFullName: state => {
       const user = state.entities.current
       return `${user?.firstName} ${user?.lastName}`
     },
-    isCurrentUserAdmin: (state) => {
+    isCurrentUserAdmin: state => {
       return state.entities.current?.roles === RoleEnum.ADMIN
     },
-    getCurrentUserToken: (state) => {
+    getCurrentUserToken: state => {
       return state.entities.current?.token
     },
-    getCurrentUserId: (state) => state.entities.current?.id,
+    getCurrentUserId: state => state.entities.current?.id,
   },
 
   actions: {

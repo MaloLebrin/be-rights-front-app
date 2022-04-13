@@ -1,4 +1,4 @@
-import { State, WithId } from "./types"
+import type { State, WithId } from './types'
 
 export default function createActions<T extends WithId>(state: State<T>) {
   /**
@@ -20,7 +20,7 @@ export default function createActions<T extends WithId>(state: State<T>) {
 
   /**
    * set current used entity
-   * @param payload 
+   * @param payload
    */
   function setCurrent(payload: T): void {
     state.entities.current = payload

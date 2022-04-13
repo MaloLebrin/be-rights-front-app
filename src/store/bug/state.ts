@@ -1,6 +1,7 @@
-import createEntity from "../utils/createEntity"
-import createState from "../utils/createState"
-import { BugReportStatus, BugReportType, BugReportTypeEnum, BugReportCreationFormType } from "./types"
+import createEntity from '../utils/createEntity'
+import createState from '../utils/createState'
+import type { BugReportCreationFormType, BugReportType } from './types'
+import { BugReportStatus, BugReportTypeEnum } from './types'
 
 export const bugEntity = createEntity<BugReportType>('bug')
 

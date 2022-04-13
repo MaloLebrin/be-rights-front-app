@@ -1,5 +1,7 @@
-import APi, { PaginatedResponse } from "@/helpers/api"
-import { FileType, FileTypeEnum, UserType } from "@/types/typesExported"
+import type { PaginatedResponse } from '@/helpers/api'
+import APi from '@/helpers/api'
+import type { FileType, UserType } from '@/types/typesExported'
+import { FileTypeEnum } from '@/types/typesExported'
 
 export default function fileHook() {
   const { updateOne, setCurrent } = useUserStore()
@@ -13,7 +15,7 @@ export default function fileHook() {
     try {
       const res = await api.post(`file/${id}`, fileForm)
       fileStore.createOne(res as FileType)
-      setUISucessToast("File uploaded successfully")
+      setUISucessToast('File uploaded successfully')
       return res
     } catch (error) {
       console.error(error)
@@ -24,7 +26,7 @@ export default function fileHook() {
   async function postProfilePicture(fileForm: FormData) {
     IncLoading()
     try {
-      const res = await api.post("file/profile", fileForm)
+      const res = await api.post('file/profile', fileForm)
       const newFile = res as FileType
       if (newFile && newFile.createdByUser) {
         fileStore.createOne(newFile)
@@ -36,7 +38,7 @@ export default function fileHook() {
             setCurrent(user)
           }
         }
-        setUISucessToast("File uploaded successfully")
+        setUISucessToast('File uploaded successfully')
       }
     } catch (error) {
       console.error(error)
@@ -76,9 +78,9 @@ export default function fileHook() {
   function getTranslationFileType(fileType: FileTypeEnum) {
     switch (fileType) {
       case FileTypeEnum.LOGO:
-        return "Logo"
+        return 'Logo'
       case FileTypeEnum.MODEL:
-        return "Modèle"
+        return 'Modèle'
 
       case FileTypeEnum.IMAGE_RIGHT:
         return 'Droit à l\'image'
@@ -87,7 +89,7 @@ export default function fileHook() {
         return 'Photo de profil'
 
       default:
-        return "Autre"
+        return 'Autre'
     }
   }
 
@@ -96,7 +98,7 @@ export default function fileHook() {
     try {
       await api.delete(`file/${id}`)
       fileStore.deleteOne(id)
-      setUISucessToast("Fichier supprimé avec succès")
+      setUISucessToast('Fichier supprimé avec succès')
     } catch (error) {
       console.error(error)
       setUIErrorToast()

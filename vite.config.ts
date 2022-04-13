@@ -1,10 +1,10 @@
+import path from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Layouts from 'vite-plugin-vue-layouts'
 import Components from 'unplugin-vue-components/vite'
 import { HeadlessUiResolver } from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
-import path from 'path'
 import {
   getDirectoryAuthImportPaths,
   getStoreFileNames,
@@ -44,7 +44,7 @@ export default defineConfig({
             const hookName = `use${name[0].toUpperCase()}${name.substring(1)}Store`
             return {
               ...acc,
-              [`${storePaths[name]}`.replace(`./src/`, '@/')]: [
+              [`${storePaths[name]}`.replace('./src/', '@/')]: [
                 [hookName, hookName],
               ],
             }
@@ -61,7 +61,7 @@ export default defineConfig({
       ],
       resolvers: [
         HeadlessUiResolver({}),
-        (name) => {
+        name => {
           if (name.includes('IconSolid')) {
             const realName = name.split('Solid')[0]
             return { importName: 'default', path: `@heroicons/vue/solid/esm/${realName}.js` }
@@ -77,7 +77,7 @@ export default defineConfig({
 
     }),
     Layouts({
-      defaultLayout: 'DefaultLayout'
+      defaultLayout: 'DefaultLayout',
     }),
   ],
   resolve: {

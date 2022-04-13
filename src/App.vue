@@ -1,7 +1,11 @@
 <template>
-  <router-view v-slot="{ Component, route }">
-    <component :is="Component" :key="route.path" class="min-h-screen bg-white dark:bg-blue-dark" />
-  </router-view>
+<router-view v-slot="{ Component, route }">
+  <component
+    :is="Component"
+    :key="route.path"
+    class="min-h-screen bg-white dark:bg-blue-dark"
+  />
+</router-view>
 </template>
 <script setup lang="ts">
 import { useCookie } from 'vue-cookie-next'
@@ -11,7 +15,7 @@ const store = useMainStore()
 const userStore = useUserStore()
 const { loginWithToken } = authHook()
 
-onBeforeMount(async () => {
+onBeforeMount(async() => {
   const { getCookie } = useCookie()
   const token = getCookie('userToken')
   if (token && token.length > 0) {

@@ -1,5 +1,5 @@
-import API from "@/helpers/api"
 import { useCookie } from 'vue-cookie-next'
+import API from '@/helpers/api'
 
 export default function authHook() {
   const userStore = useUserStore()
@@ -22,7 +22,7 @@ export default function authHook() {
   async function loginWithToken(token: string) {
     IncLoading()
     try {
-      const user = await api.post('user/token', { token: token })
+      const user = await api.post('user/token', { token })
       setThemeClass(user.theme)
       storeUsersEntities(user)
     } catch (error) {
@@ -49,7 +49,6 @@ export default function authHook() {
     }
     DecLoading()
   }
-
 
   return {
     logout,

@@ -1,73 +1,130 @@
 <template>
-  <form class="grid w-full h-full grid-cols-1 gap-6 px-6 mt-4 md:gap-12 md:grid-cols-3">
-    <div class="space-y-2 md:col-span-3">
-      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Nom de l'événement&nbsp;*&nbsp;:</label>
-      <BaseInput class="text-white dark:text-blue-dark" type="text" id="name" v-model="name" :error="nameError" />
-    </div>
-
-    <div class="space-y-2">
-      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Dates de
-        l'événement&nbsp;*&nbsp;:</label>
-      <v-date-picker v-model="period" mode="dateTime" :is-dark="mainStore.isDarkTheme" is-range is24hr is-expanded />
-      <p v-if="datesError?.length">{{ datesError }}</p>
-    </div>
-
-    <BaseTextarea v-model="description" class="md:col-span-2" label="Description de l'événement"
-      :error="descriptionError" is-required />
-
-    <div class="space-y-2 md:col-span-2">
-      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Adresse&nbsp;*&nbsp;:</label>
-      <BaseInput class="text-white dark:text-blue-dark" type="text" id="address" v-model="address"
-        :error="addressError" />
-    </div>
-    <div class="space-y-2">
-      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Code postal&nbsp;*&nbsp;:</label>
-      <BaseInput class="text-white dark:text-blue-dark" type="text" id="postalCode" v-model="postalCode"
-        :error="postalCodeError" />
-    </div>
-
-    <div class="grid grid-cols-1 gap-6 md:col-span-3 md:grid-cols-2">
-      <div class="space-y-2">
-        <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Ville&nbsp;*&nbsp;:</label>
-        <BaseInput class="text-white dark:text-blue-dark" type="text" id="city" v-model="city" :error="cityError" />
-      </div>
-      <div class="space-y-2">
-        <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Pays&nbsp;*&nbsp;:</label>
-        <BaseInput class="text-white dark:text-blue-dark" type="text" id="country" v-model="country"
-          :error="countryError" />
-      </div>
-    </div>
-
-    <div v-if="userStore.isCurrentUserAdmin" class="space-y-2 md:col-span-3">
-      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Id de l'utilisateur&nbsp;*&nbsp;:</label>
-      <InputSearchSelect baseUrl="user" @selected="onSelectedUser" />
-      <p v-if="userIdError?.length">{{ userIdError }}</p>
-    </div>
-
-    <div class="space-y-2 md:col-span-3">
-      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Destinataires&nbsp;*&nbsp;:</label>
-      <InputSearchSelect
-        :baseUrl="userStore.isCurrentUserAdmin ? 'employee' : `employee?filters[createdByUser]=${userStore.getCurrentUserId}`"
-        @selected="handleEmployee" is-multiple />
-      <p v-if="employeeError?.length">{{ employeeError }}</p>
-    </div>
-  </form>
-
-  <div class="flex items-center justify-center mt-6">
-    <BaseButton :disabled="!meta.valid || !meta.dirty" @click="submit">
-      <template #icon>
-        <SaveIconOutline />
-      </template>
-      {{ mode === ModalModeEnum.CREATE ? 'Créer' : 'Enregistrer' }}
-    </BaseButton>
+<form class="grid w-full h-full grid-cols-1 gap-6 px-6 mt-4 md:gap-12 md:grid-cols-3">
+  <div class="space-y-2 md:col-span-3">
+    <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Nom de l'événement&nbsp;*&nbsp;:</label>
+    <BaseInput
+      id="name"
+      v-model="name"
+      class="text-white dark:text-blue-dark"
+      type="text"
+      :error="nameError"
+    />
   </div>
+
+  <div class="space-y-2">
+    <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Dates de
+      l'événement&nbsp;*&nbsp;:</label>
+    <v-date-picker
+      v-model="period"
+      mode="dateTime"
+      :is-dark="mainStore.isDarkTheme"
+      is-range
+      is24hr
+      is-expanded
+    />
+    <p v-if="datesError?.length">
+      {{ datesError }}
+    </p>
+  </div>
+
+  <BaseTextarea
+    v-model="description"
+    class="md:col-span-2"
+    label="Description de l'événement"
+    :error="descriptionError"
+    is-required
+  />
+
+  <div class="space-y-2 md:col-span-2">
+    <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Adresse&nbsp;*&nbsp;:</label>
+    <BaseInput
+      id="address"
+      v-model="address"
+      class="text-white dark:text-blue-dark"
+      type="text"
+      :error="addressError"
+    />
+  </div>
+  <div class="space-y-2">
+    <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Code postal&nbsp;*&nbsp;:</label>
+    <BaseInput
+      id="postalCode"
+      v-model="postalCode"
+      class="text-white dark:text-blue-dark"
+      type="text"
+      :error="postalCodeError"
+    />
+  </div>
+
+  <div class="grid grid-cols-1 gap-6 md:col-span-3 md:grid-cols-2">
+    <div class="space-y-2">
+      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Ville&nbsp;*&nbsp;:</label>
+      <BaseInput
+        id="city"
+        v-model="city"
+        class="text-white dark:text-blue-dark"
+        type="text"
+        :error="cityError"
+      />
+    </div>
+    <div class="space-y-2">
+      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Pays&nbsp;*&nbsp;:</label>
+      <BaseInput
+        id="country"
+        v-model="country"
+        class="text-white dark:text-blue-dark"
+        type="text"
+        :error="countryError"
+      />
+    </div>
+  </div>
+
+  <div
+    v-if="userStore.isCurrentUserAdmin"
+    class="space-y-2 md:col-span-3"
+  >
+    <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Id de l'utilisateur&nbsp;*&nbsp;:</label>
+    <InputSearchSelect
+      base-url="user"
+      @selected="onSelectedUser"
+    />
+    <p v-if="userIdError?.length">
+      {{ userIdError }}
+    </p>
+  </div>
+
+  <div class="space-y-2 md:col-span-3">
+    <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Destinataires&nbsp;*&nbsp;:</label>
+    <InputSearchSelect
+      :base-url="userStore.isCurrentUserAdmin ? 'employee' : `employee?filters[createdByUser]=${userStore.getCurrentUserId}`"
+      is-multiple
+      @selected="handleEmployee"
+    />
+    <p v-if="employeeError?.length">
+      {{ employeeError }}
+    </p>
+  </div>
+</form>
+
+<div class="flex items-center justify-center mt-6">
+  <BaseButton
+    :disabled="!meta.valid || !meta.dirty"
+    @click="submit"
+  >
+    <template #icon>
+      <SaveIconOutline />
+    </template>
+    {{ mode === ModalModeEnum.CREATE ? 'Créer' : 'Enregistrer' }}
+  </BaseButton>
+</div>
 </template>
 
 <script setup lang="ts">
-import { EmployeeType, EventType, ModalModeEnum, UserType } from '@/types/typesExported'
-import type { Period } from '@/types'
 import { useField, useForm } from 'vee-validate'
-import { object, string, date, number } from 'yup'
+import { date, number, object, string } from 'yup'
+import type { EmployeeType, EventType, UserType } from '@/types/typesExported'
+import { ModalModeEnum } from '@/types/typesExported'
+import type { Period } from '@/types'
 
 interface Props {
   eventId?: number | null
@@ -173,7 +230,7 @@ async function submit() {
           const eventId = newEvent.id
           await postManyAnswers(
             eventId,
-            employeesIds
+            employeesIds,
           )
         }
         emit('submitted', newEvent.id)
@@ -191,7 +248,7 @@ async function submit() {
       const eventId = props.eventId
       await postManyAnswers(
         eventId,
-        employeesIds
+        employeesIds,
       )
     }
     emit('submitted', props.eventId)

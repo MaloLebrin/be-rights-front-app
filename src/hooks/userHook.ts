@@ -1,8 +1,10 @@
-import axiosInstance from "@/axios.config"
 import { useCookie } from 'vue-cookie-next'
-import APi, { PaginatedResponse } from '@/helpers/api'
-import { RoleEnum, ThemeEnum } from '@/types'
-import { EmployeeType, EventType, FileType, UserType } from '@/types/typesExported'
+import axiosInstance from '@/axios.config'
+import type { PaginatedResponse } from '@/helpers/api'
+import APi from '@/helpers/api'
+import type { ThemeEnum } from '@/types'
+import { RoleEnum } from '@/types'
+import type { EmployeeType, EventType, FileType, UserType } from '@/types/typesExported'
 
 export default function userHook() {
   const userStore = useUserStore()
@@ -12,10 +14,10 @@ export default function userHook() {
   const { setUIErrorToast, setUISucessToast, IncLoading, DecLoading } = useUiStore()
   const { storeEmployeeRelationsEntities } = employeeHook()
   const { setCookie } = useCookie()
-  const api = new APi(userStore.entities.current?.token!)
+  const api = new APi(userStore.getCurrentUserToken!)
   const router = useRouter()
 
-  async function login({ email, password }: { email: string, password: string }) {
+  async function login({ email, password }: { email: string; password: string }) {
     try {
       IncLoading()
       const res = await axiosInstance.post('user/login', { email, password })
@@ -36,7 +38,7 @@ export default function userHook() {
     DecLoading()
   }
 
-  async function register({ companyName, email, password, firstName, lastName, roles }: { companyName: string, email: string, password: string, firstName: string, lastName: string, roles: RoleEnum }) {
+  async function register({ companyName, email, password, firstName, lastName, roles }: { companyName: string; email: string; password: string; firstName: string; lastName: string; roles: RoleEnum }) {
     try {
       IncLoading()
       const res = await axiosInstance.post('user', { companyName, email, password, firstName, lastName, roles })
@@ -128,7 +130,7 @@ export default function userHook() {
             ...user,
             events: userEvents.map(event => event.id),
             employee: userEmployees.map(employee => employee.id),
-            files: userFiles.map(file => file.id)
+            files: userFiles.map(file => file.id),
           }
         })
         userStore.createMany(usersToStore)

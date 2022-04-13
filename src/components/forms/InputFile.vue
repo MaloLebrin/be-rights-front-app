@@ -1,20 +1,32 @@
 <template>
-  <label
-    :class="[{ 'border-4 border-dashed': !imageUrl },
-    'flex flex-col items-center hover:border-gray-300 py-5 cursor-pointer']"
+<label
+  :class="[{ 'border-4 border-dashed': !imageUrl },
+           'flex flex-col items-center hover:border-gray-300 py-5 cursor-pointer']"
+>
+  <div
+    v-if="!imageUrl"
+    class="flex flex-col items-center justify-center w-full h-full"
   >
-    <div v-if="!imageUrl" class="flex flex-col items-center justify-center w-full h-full">
-      <PhotographIconOutline class="w-12 h-12 overflow-hidden text-gray-600" />
-      <p class="mt-8 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">{{ message }}</p>
-    </div>
-    <img v-else :src="imageUrl" alt="Logo" class="w-48 h-48 roundeds-fulls" />
-    <input type="file" id="file" ref="file" class="opacity-0" @change="emitFile" />
-  </label>
+    <PhotographIconOutline class="w-12 h-12 overflow-hidden text-gray-600" />
+    <p class="mt-8 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">{{ message }}</p>
+  </div>
+  <img
+    v-else
+    :src="imageUrl"
+    alt="Logo"
+    class="w-48 h-48 roundeds-fulls"
+  >
+  <input
+    id="file"
+    ref="file"
+    type="file"
+    class="opacity-0"
+    @change="emitFile"
+  >
+</label>
 </template>
 
 <script setup lang="ts">
-import { FileType } from '@/types/typesExported'
-
 interface Props {
   message?: string
   url?: string
@@ -39,5 +51,4 @@ function emitFile() {
     emit('uploadFile', file.value.files[0])
   }
 }
-
 </script>

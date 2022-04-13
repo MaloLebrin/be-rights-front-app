@@ -1,33 +1,60 @@
 <template>
-  <MenuDrawer />
-  <main v-bind="$attrs" class="w-full mx-auto dark:bg-blue-dark min-h-screen">
-    <div class="md:container md:mx-auto">
-      <Loader v-if="uiStore.getUIIsLoading" :isLoading="uiStore.getUIIsLoading" />
-      <router-view v-show="!uiStore.getUIIsLoading" v-slot="{ Component }">
-        <transition name="fade">
-          <component :is="Component" />
-        </transition>
-      </router-view>
-    </div>
-  </main>
-  <Teleport to="#portal-target">
-    <EventModal v-if="isModalActive(ModalNameEnum.EVENT_FORM).value"
-      :isActive="isModalActive(ModalNameEnum.EVENT_FORM).value" />
-    <EmployeeModal v-if="isModalActive(ModalNameEnum.ADD_EMPLOYEE).value"
-      :isActive="isModalActive(ModalNameEnum.ADD_EMPLOYEE).value" :mode="getUiModalState.modalMode" :eventId="eventID"
-      @close="CloseResetModalState" @onSubmit="CloseResetModalState" />
-    <FileModal v-if="isModalActive(ModalNameEnum.FILE_MODAL).value"
-      :isActive="isModalActive(ModalNameEnum.FILE_MODAL).value" :mode="getUiModalState.modalMode" />
-    <AdminModalDeleteUser v-if="isModalActive(ModalNameEnum.USER_ADMIN).value"
-      :isActive="isModalActive(ModalNameEnum.USER_ADMIN).value" />
+<MenuDrawer />
+<main
+  v-bind="$attrs"
+  class="w-full mx-auto dark:bg-blue-dark min-h-screen"
+>
+  <div class="md:container md:mx-auto">
+    <Loader
+      v-if="uiStore.getUIIsLoading"
+      :is-loading="uiStore.getUIIsLoading"
+    />
+    <router-view
+      v-show="!uiStore.getUIIsLoading"
+      v-slot="{ Component }"
+    >
+      <transition name="fade">
+        <component :is="Component" />
+      </transition>
+    </router-view>
+  </div>
+</main>
+<Teleport to="#portal-target">
+  <EventModal
+    v-if="isModalActive(ModalNameEnum.EVENT_FORM).value"
+    :is-active="isModalActive(ModalNameEnum.EVENT_FORM).value"
+  />
+  <EmployeeModal
+    v-if="isModalActive(ModalNameEnum.ADD_EMPLOYEE).value"
+    :is-active="isModalActive(ModalNameEnum.ADD_EMPLOYEE).value"
+    :mode="getUiModalState.modalMode"
+    :event-id="eventID"
+    @close="CloseResetModalState"
+    @onSubmit="CloseResetModalState"
+  />
+  <FileModal
+    v-if="isModalActive(ModalNameEnum.FILE_MODAL).value"
+    :is-active="isModalActive(ModalNameEnum.FILE_MODAL).value"
+    :mode="getUiModalState.modalMode"
+  />
+  <AdminModalDeleteUser
+    v-if="isModalActive(ModalNameEnum.USER_ADMIN).value"
+    :is-active="isModalActive(ModalNameEnum.USER_ADMIN).value"
+  />
 
-    <Toast :variant="getUiToastState.variant" :isToastOpen="getUiToastState.isActive"
-      :toastDuration="getUiToastState.duration" @close="resetUiToastState">{{ getUiToastState.message }}</Toast>
-  </Teleport>
+  <Toast
+    :variant="getUiToastState.variant"
+    :is-toast-open="getUiToastState.isActive"
+    :toast-duration="getUiToastState.duration"
+    @close="resetUiToastState"
+  >
+    {{ getUiToastState.message }}
+  </Toast>
+</Teleport>
 </template>
 
 <script setup lang="ts">
-import { ModalNameEnum } from "@/types/typesExported"
+import type { ModalNameEnum } from '@/types/typesExported'
 
 const { entities: eventsEntities } = useEventStore()
 const uiStore = useUiStore()

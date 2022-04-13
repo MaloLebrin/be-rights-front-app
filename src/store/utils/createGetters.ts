@@ -1,4 +1,4 @@
-import { State, WithId } from "./types";
+import type { State, WithId } from './types'
 
 export default function createGetters<T extends WithId>(currentState: State<T>) {
   /**

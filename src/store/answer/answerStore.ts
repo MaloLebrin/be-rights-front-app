@@ -1,12 +1,11 @@
-import { EntitiesEnum } from "@/types"
-import createGetters from "../utils/createGetters"
-import { answerState } from "./state"
-import { AnswerState, AnswerType } from "./types"
-
+import createGetters from '../utils/createGetters'
+import { answerState } from './state'
+import type { AnswerState, AnswerType } from './types'
+import { EntitiesEnum } from '@/types'
 
 export const useAnswerStore = defineStore(EntitiesEnum.ANSWERS, {
   state: (): AnswerState => ({
-    ...answerState
+    ...answerState,
   }),
   getters: {
     // getters common to all entities
@@ -103,7 +102,7 @@ export const useAnswerStore = defineStore(EntitiesEnum.ANSWERS, {
     },
 
     // bellow getters in this specific store
-  }
+  },
 })
 
 export default useAnswerStore

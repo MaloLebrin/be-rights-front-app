@@ -1,4 +1,4 @@
-import axiosInstance from "@/axios.config"
+import axiosInstance from '@/axios.config'
 
 export default function newsletterHook() {
   const { IncLoading, DecLoading, setUISucessToast, setUIErrorToast } = useUiStore()
@@ -7,14 +7,14 @@ export default function newsletterHook() {
     email,
     firstName,
     lastName,
-    companyName
+    companyName,
   }:
-    {
-      email: string,
-      firstName: string | null,
-      lastName: string | null,
-      companyName: string | null
-    }) {
+  {
+    email: string
+    firstName: string | null
+    lastName: string | null
+    companyName: string | null
+  }) {
     IncLoading()
     try {
       const res = await axiosInstance.post('createOnenewsletter', { email, firstName, lastName, companyName })

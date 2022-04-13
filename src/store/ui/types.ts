@@ -26,15 +26,15 @@ export interface UiState {
     data: Record<string, any> | null
     modalMode: ModalModeEnum
     isLoading: boolean
-  },
+  }
   toast: {
     isActive: boolean
     message: string
     variant: ToastVariantsEnum
     duration?: number
-  },
-  isLoading: number,
-  isDrawerOpen: boolean,
+  }
+  isLoading: number
+  isDrawerOpen: boolean
 }
 
 export interface ToastOptionsUi {
@@ -57,7 +57,7 @@ export type ToastVariantsMap = {
   [key in ToastVariantsEnum]: string
 }
 
-export const ToastVariantsMap: ToastVariantsMap = {
+export const toastVariantsMap: ToastVariantsMap = {
   primary: 'bg-blue text-white font-normal hover:bg-blue-dark focus:ring-4 ring-blue',
   warning: 'bg-orange text-white hover:bg-orange-dark focus:ring-4 ring-orange',
   danger: 'bg-red text-white hover:text-white hover:bg-red-light focus:ring-4 ring-red',

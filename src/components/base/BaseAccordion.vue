@@ -1,17 +1,20 @@
 <template>
-  <div :class="classes">
-    <div class="z-20 w-full h-full" @click="click">
-      <slot name="title" />
-    </div>
-    <div
-      class="relative z-0 w-full h-full overflow-hidden transition-all duration-700 ease-in-out transform rounded"
-      :class="isAccordionOpen ? 'opacity-1' : 'opacity-0'"
-      ref="contentAccordion"
-      :style="isAccordionOpen ? openClasses : 'max-height: 0'"
-    >
-      <slot />
-    </div>
+<div :class="classes">
+  <div
+    class="z-20 w-full h-full"
+    @click="click"
+  >
+    <slot name="title" />
   </div>
+  <div
+    ref="contentAccordion"
+    class="relative z-0 w-full h-full overflow-hidden transition-all duration-700 ease-in-out transform rounded"
+    :class="isAccordionOpen ? 'opacity-1' : 'opacity-0'"
+    :style="isAccordionOpen ? openClasses : 'max-height: 0'"
+  >
+    <slot />
+  </div>
+</div>
 </template>
 
 <script setup lang="ts">
@@ -24,7 +27,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   title: null,
   isOpen: false,
-  variant: 'primary'
+  variant: 'primary',
 })
 
 const emit = defineEmits<{
@@ -54,7 +57,6 @@ const classes = computed(() => {
 const isAccordionOpen = ref(props.isOpen)
 const contentAccordion = ref<null | HTMLElement>(null)
 const openClasses = computed(() => contentAccordion.value ? `max-height: ${contentAccordion.value.scrollHeight}px` : 'hidden')
-
 
 function click() {
   isAccordionOpen.value = !isAccordionOpen.value

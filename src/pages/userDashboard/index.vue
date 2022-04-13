@@ -1,32 +1,41 @@
 <template>
-  <div
-    class="relative min-h-screen py-6 text-left transition-all duration-500 ease-in-out transform"
-  >
-    <HeaderList>
-      <template #title>
-        <HomeIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Événements
-      </template>
-      <template #additionnalButtons>
-        <BaseButton @click="setHeaderFilters(null)">Tout</BaseButton>
-        <BaseButton @click="setHeaderFilters(EventStatusEnum.PENDING)">En cours</BaseButton>
-        <BaseButton @click="setHeaderFilters(EventStatusEnum.CLOSED)">Terminés</BaseButton>
-        <BaseInput
-          v-model="state.search"
-          type="text"
-          placeholder="Recherchez"
-          @keyup="searchEntity($event)"
-        />
-        <router-link
-          class="flex items-center space-x-2 LinkClass"
-          :to="{ path: '/userDashboard/bugReports/BugReport' }"
-        >
-          <ExclamationIconOutline class="w-6 h-8 text-bg-red" />
-          <span>Signaler un bug</span>
-        </router-link>
-      </template>
-    </HeaderList>
-    <EventList :events="events" NoEventMessage="Aucun Event en Base de donnée" />
-  </div>
+<div
+  class="relative min-h-screen py-6 text-left transition-all duration-500 ease-in-out transform"
+>
+  <HeaderList>
+    <template #title>
+      <HomeIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Événements
+    </template>
+    <template #additionnalButtons>
+      <BaseButton @click="setHeaderFilters(null)">
+        Tout
+      </BaseButton>
+      <BaseButton @click="setHeaderFilters(EventStatusEnum.PENDING)">
+        En cours
+      </BaseButton>
+      <BaseButton @click="setHeaderFilters(EventStatusEnum.CLOSED)">
+        Terminés
+      </BaseButton>
+      <BaseInput
+        v-model="state.search"
+        type="text"
+        placeholder="Recherchez"
+        @keyup="searchEntity($event)"
+      />
+      <router-link
+        class="flex items-center space-x-2 LinkClass"
+        :to="{ path: '/userDashboard/bugReports/BugReport' }"
+      >
+        <ExclamationIconOutline class="w-6 h-8 text-bg-red" />
+        <span>Signaler un bug</span>
+      </router-link>
+    </template>
+  </HeaderList>
+  <EventList
+    :events="events"
+    no-event-message="Aucun Event en Base de donnée"
+  />
+</div>
 </template>
 
 <script setup lang="ts">
@@ -54,7 +63,7 @@ const events = computed(() => {
   return []
 })
 
-onMounted(async () => {
+onMounted(async() => {
   if (userStore.getCurrentUserId) {
     IncLoading()
     await fetchEventsByUser(userStore.getCurrentUserId)
@@ -73,6 +82,7 @@ function setHeaderFilters(filter: string | null) {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function searchEntity(event: KeyboardEvent) {
   clearTimeout(state.timeout)
   state.timeout = window.setTimeout(() => {

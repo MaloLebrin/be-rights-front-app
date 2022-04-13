@@ -1,5 +1,5 @@
-import { BaseEntity } from "@/types/globals"
-import { State } from "@/store/utils/types"
+import type { BaseEntity } from '@/types/globals'
+import type { State } from '@/store/utils/types'
 
 export interface FileType extends BaseEntity {
   name: string
@@ -21,14 +21,14 @@ export interface FileType extends BaseEntity {
   createdByUser: number
 }
 
-export type FileFormType = Omit<FileType, "id" | "createdAt" | "updatedAt">
+export type FileFormType = Omit<FileType, 'id' | 'createdAt' | 'updatedAt'>
 
 export enum FileTypeEnum {
   MODEL = 'MODEL',
   IMAGE_RIGHT = 'IMAGE_RIGHT',
-  LOGO = "LOGO",
-  BUG_REPORT = "BUG_REPORT",
-  PROFILE_PICTURE = "PROFILE_PICTURE",
+  LOGO = 'LOGO',
+  BUG_REPORT = 'BUG_REPORT',
+  PROFILE_PICTURE = 'PROFILE_PICTURE',
 }
 
 export const fileTypeArray = Object.values(FileTypeEnum)

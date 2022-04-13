@@ -1,8 +1,7 @@
-import { DateFormatEnum } from "@/types/Date"
-import dayjs from "dayjs"
+import dayjs from 'dayjs'
+import { DateFormatEnum } from '@/types/Date'
 
 export default function dateHook() {
-
   function getDate(date: string, format?: DateFormatEnum) {
     const options: any = {}
 
@@ -11,9 +10,9 @@ export default function dateHook() {
         break
 
       case DateFormatEnum.DAYMONTHYEAR:
-        options.weekday = "long"
-        options.year = "numeric"
-        options.month = "long"
+        options.weekday = 'long'
+        options.year = 'numeric'
+        options.month = 'long'
         break
 
       case DateFormatEnum.DDMM:
@@ -22,12 +21,12 @@ export default function dateHook() {
         break
 
       default:
-        options.day = "numeric"
-        options.year = "numeric"
-        options.month = "numeric"
+        options.day = 'numeric'
+        options.year = 'numeric'
+        options.month = 'numeric'
     }
 
-    return new Date(date).toLocaleDateString("fr-Fr", options)
+    return new Date(date).toLocaleDateString('fr-Fr', options)
   }
 
   function toFormat(date: Date | string, format: string) {

@@ -1,15 +1,32 @@
 <template>
-  <div class="relative">
-    <div v-if="events.length > 0" v-for="(event, index) in events" :key="event.id" class="relative flex items-center">
-      <EventItem :event="event" :index="parseInt(index.toString())" @udpateOneItem="updateOneEvent(event.id)"
-        @deleteOne="deleteOneEvent(event)" @addOne="addOneEmployeeToEvent(event.id)" />
+<div class="relative">
+  <template v-if="events.length > 0">
+    <div
+      v-for="(event, index) in events"
+      :key="event.id"
+      class="relative flex items-center"
+    >
+      <EventItem
+        :event="event"
+        :index="parseInt(index.toString())"
+        @udpateOneItem="updateOneEvent(event.id)"
+        @deleteOne="deleteOneEvent(event)"
+        @addOne="addOneEmployeeToEvent(event.id)"
+      />
     </div>
-    <h4 v-else class="text-2xl font-semibold text-blue-dark dark:text-white">{{ NoEventMessage }}</h4>
-  </div>
+  </template>
+  <h4
+    v-else
+    class="text-2xl font-semibold text-blue-dark dark:text-white"
+  >
+    {{ noEventMessage }}
+  </h4>
+</div>
 </template>
 
 <script setup lang="ts">
-import { EventType, ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
+import type { EventType } from '@/types/typesExported'
+import { ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
 
 const uiStore = useUiStore()
 const { setUiModal } = uiStore
@@ -17,12 +34,12 @@ const userStore = useUserStore()
 const router = useRouter()
 
 interface Props {
-  NoEventMessage: string,
-  events: EventType[],
+  noEventMessage: string
+  events: EventType[]
 }
 
 withDefaults(defineProps<Props>(), {
-  NoEventMessage: 'Aucun événement enregistré!',
+  noEventMessage: 'Aucun événement enregistré!',
   events: () => [],
 })
 
@@ -40,8 +57,8 @@ function addOneEmployeeToEvent(eventId: number) {
     modalName: ModalNameEnum.ADD_EMPLOYEE,
     modalMode: ModalModeEnum.CREATE,
     data: {
-      eventId: eventId,
-    }
+      eventId,
+    },
   })
 }
 
@@ -51,8 +68,8 @@ function deleteOneEvent(event: EventType) {
     modalName: ModalNameEnum.EVENT_FORM,
     modalMode: ModalModeEnum.DELETE,
     data: {
-      event: event,
-    }
+      event,
+    },
   })
 }
 </script>

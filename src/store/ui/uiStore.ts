@@ -1,18 +1,19 @@
-import { EntitiesEnum } from "@/types"
-import { defineStore } from "pinia"
-import { uiState } from "./state"
-import { ModalModeEnum, ModalOptionsUi, ToastOptionsUi, ToastVariantsEnum } from "./types"
+import { defineStore } from 'pinia'
+import { uiState } from './state'
+import type { ModalOptionsUi, ToastOptionsUi } from './types'
+import { ModalModeEnum, ToastVariantsEnum } from './types'
+import { EntitiesEnum } from '@/types'
 
 export const useUiStore = defineStore(EntitiesEnum.UI, {
   state: () => ({ ...uiState }),
   getters: {
-    getUIState: (state) => state,
-    getUiIsLoading: (state) => state.modal.isLoading,
-    getUiModalState: (state) => state.modal,
-    getUiToastState: (state) => state.toast,
-    getUIIsLoading: (state) => state.isLoading > 0,
-    getUiModalData: (state) => state.modal.data,
-    isDrawerOpen: (state) => state.isDrawerOpen,
+    getUIState: state => state,
+    getUiIsLoading: state => state.modal.isLoading,
+    getUiModalState: state => state.modal,
+    getUiToastState: state => state.toast,
+    getUIIsLoading: state => state.isLoading > 0,
+    getUiModalData: state => state.modal.data,
+    isDrawerOpen: state => state.isDrawerOpen,
   },
   actions: {
     resetUIState() {
@@ -36,7 +37,6 @@ export const useUiStore = defineStore(EntitiesEnum.UI, {
       this.modal.data = null
       this.modal.modalMode = ModalModeEnum.READ
       this.modal.isLoading = false
-
     },
     resetUiToastState() {
       this.toast.isActive = false

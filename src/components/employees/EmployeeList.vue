@@ -1,6 +1,11 @@
 <template>
-  <div class="relative">
-    <div v-if="employees.length > 0" v-for="(employee, index) in employees" :key="employee.id" class="w-full">
+<div class="relative">
+  <template v-if="employees.length > 0">
+    <div
+      v-for="(employee, index) in employees"
+      :key="employee.id"
+      class="w-full"
+    >
       <DashboardItem :index="index">
         <template #title>
           <div class="grid grid-cols-1 gap-4 px-4 py-4 lg:grid-cols-4">
@@ -15,25 +20,36 @@
           </div>
         </template>
         <template #extraButton>
-          <a class="flex items-center space-x-2 cursor-pointer EventActionButton text-white-light dark:text-blue-dark"
-            @click="updateOneEmployee(employee)">
+          <a
+            class="flex items-center space-x-2 cursor-pointer EventActionButton text-white-light dark:text-blue-dark"
+            @click="updateOneEmployee(employee)"
+          >
             <PencilAltIconOutline class="w-4 h-4" />
             <span>Modifier {{ employee.firstName }} {{ employee.lastName }}</span>
           </a>
-          <a class="flex items-center space-x-2 cursor-pointer EventActionButton text-white-light dark:text-blue-dark"
-            @click="deleteOneEmployee(employee)">
+          <a
+            class="flex items-center space-x-2 cursor-pointer EventActionButton text-white-light dark:text-blue-dark"
+            @click="deleteOneEmployee(employee)"
+          >
             <TrashIconOutline class="w-4 h-4 text-red-500" />
             <span>Supprimer {{ employee.firstName }} {{ employee.lastName }}</span>
           </a>
         </template>
       </DashboardItem>
     </div>
-    <h4 v-else class="text-2xl font-semibold text-blue-dark dark:text-white">{{ noEventMesssage }}</h4>
-  </div>
+  </template>
+  <h4
+    v-else
+    class="text-2xl font-semibold text-blue-dark dark:text-white"
+  >
+    {{ noEventMesssage }}
+  </h4>
+</div>
 </template>
 
 <script setup lang="ts">
-import { EmployeeType, ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
+import type { EmployeeType } from '@/types/typesExported'
+import { ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
 
 interface Props {
   employees: EmployeeType[]
@@ -66,6 +82,6 @@ function deleteOneEmployee(employee: EmployeeType) {
   })
 }
 const noEventMesssage = computed(() =>
-  userStore.isCurrentUserAdmin ? 'Aucun destinataire enregistré dans la base de donnée' : 'Vous n\'avez pas de destinataire enregistré dans la base de donnée'
+  userStore.isCurrentUserAdmin ? 'Aucun destinataire enregistré dans la base de donnée' : 'Vous n\'avez pas de destinataire enregistré dans la base de donnée',
 )
 </script>

@@ -1,12 +1,12 @@
 <template>
-  <div class="min-h-screen px-8 py-6 text-left transition-all duration-500 ease-in-out transform md:px-20 lg:px-32">
-    <HeaderList>
-      <template #title>
-        <UserGroupIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Mes destinataires
-      </template>
-    </HeaderList>
-    <EmployeeList :employees="employees" />
-  </div>
+<div class="min-h-screen px-8 py-6 text-left transition-all duration-500 ease-in-out transform md:px-20 lg:px-32">
+  <HeaderList>
+    <template #title>
+      <UserGroupIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Mes destinataires
+    </template>
+  </HeaderList>
+  <EmployeeList :employees="employees" />
+</div>
 </template>
 
 <script setup lang="ts">
@@ -17,10 +17,10 @@ const { getWhereArray: getWhereArrayEmployees } = useEmployeeStore()
 const { fetchAllByUserId } = employeeHook()
 
 const employees = computed(() =>
-  getWhereArrayEmployees(employee => employee.createdByUser === userStore.getCurrentUserId)
+  getWhereArrayEmployees(employee => employee.createdByUser === userStore.getCurrentUserId),
 )
 
-onMounted(async () => {
+onMounted(async() => {
   if (userStore.getCurrentUserId) {
     IncLoading()
     await fetchAllByUserId(userStore.getCurrentUserId)

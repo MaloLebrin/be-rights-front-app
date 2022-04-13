@@ -1,4 +1,4 @@
-import { TableState } from "./types";
+import type { TableState } from './types'
 
 export const tableState: TableState = {
   currentPage: 1,
