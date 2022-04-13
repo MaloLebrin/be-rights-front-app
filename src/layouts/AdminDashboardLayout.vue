@@ -2,7 +2,7 @@
 <MenuDrawer />
 <main
   v-bind="$attrs"
-  class="w-full mx-auto dark:bg-blue-dark min-h-screen"
+  class="w-full min-h-screen mx-auto dark:bg-blue-dark"
 >
   <div class="md:container md:mx-auto">
     <Loader
@@ -54,7 +54,8 @@
 </template>
 
 <script setup lang="ts">
-import type { ModalNameEnum } from '@/types/typesExported'
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { ModalNameEnum } from '@/types/typesExported'
 
 const { entities: eventsEntities } = useEventStore()
 const uiStore = useUiStore()

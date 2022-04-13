@@ -6,5 +6,13 @@
       Créer un fichier
     </h1>
   </div>
+
+  <div class="mt-4">
+    <FileForm :mode="ModalModeEnum.CREATE" />
+  </div>
 </div>
 </template>
+
+<script setup lang="ts">
+import { ModalModeEnum } from '@/types/typesExported'
+</script>
