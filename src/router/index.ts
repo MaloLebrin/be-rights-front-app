@@ -15,23 +15,20 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeResolve((to, from, next) => {
   const mainStore = useMainStore()
   const userStore = useUserStore()
-  if (to.meta.isAuth && (!mainStore.getIsLoggedIn || !userStore.getCurrentUserId)) {
-    return {
-      name: 'login',
-    }
-  }
-  if (to.meta.isAdmin && !userStore.isCurrentUserAdmin) {
-    if (from.name) {
+
+  if (to.meta.isAuth) {
+    if (!mainStore.getIsLoggedIn) {
       return {
-        name: from.name,
+        name: 'login',
       }
     }
-    return {
-      name: 'home',
+    if (to.meta.isAdmin && userStore.isCurrentUserAdmin) {
+      return next()
     }
+    return next()
   }
   return next()
 })

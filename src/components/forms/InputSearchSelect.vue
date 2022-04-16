@@ -7,7 +7,7 @@
     <Tag
       v-for="item in state.selectedItems"
       :key="item.id"
-      :variant="TagVariantsEnum.PROMOTION"
+      :variant="TagVariantsEnum.PURPLE"
       @close="removeItem(item.id)"
     >
       {{ item.firstName }} {{ item.lastName }}
@@ -28,13 +28,13 @@
   </div>
   <div
     v-if="state.data.length > 0"
-    class="relative w-full overflow-y-auto text-gray-700 bg-white border border-gray-400 shadow-inner cursor-pointer dark:border-indigo-100 max-h-48"
+    class="relative w-full overflow-y-auto text-sm text-gray-700 bg-white border border-gray-400 shadow-inner cursor-pointer dark:border-indigo-100 max-h-48"
     :tabindex="0"
   >
     <div
       v-for="item in state.data"
       :key="item.id"
-      class="flex items-center justify-between px-4 py-3 hover:bg-gray-600 hover:text-white"
+      class="flex items-center justify-between px-4 py-2 hover:bg-gray-600 hover:text-white"
       @click="onOptionClick(item)"
     >
       <span>{{ item.firstName }} {{ item.lastName }}</span>

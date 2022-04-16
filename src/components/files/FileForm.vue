@@ -27,7 +27,6 @@
       <BaseInput
         id="name"
         v-model="name"
-        class="text-white dark:text-blue-dark"
         type="text"
         :error="errorName"
       />
@@ -37,11 +36,64 @@
       <label
         class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
       >Type du fichier&nbsp;*&nbsp;:</label>
-      <Select
-        :options="fileTypeArray"
-        :default="type ? type : 'Sélectionnez un Role'"
-        @selected="handleFileType"
-      />
+      <Listbox v-model="type">
+        <div class="relative mt-1">
+          <ListboxButton
+            class="relative w-full py-3 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm"
+          >
+            <span class="block truncate">{{ getTranslationFileType(type) }}</span>
+            <span
+              class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
+            >
+              <SelectorIconOutline
+                class="w-5 h-5 text-gray-400"
+                aria-hidden="true"
+              />
+            </span>
+          </ListboxButton>
+
+          <transition
+            leave-active-class="transition duration-100 ease-in"
+            leave-from-class="opacity-100"
+            leave-to-class="opacity-0"
+          >
+            <ListboxOptions
+              class="absolute z-10 w-full py-2 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+            >
+              <ListboxOption
+                v-for="fileType in fileTypeArray"
+                v-slot="{ active, selected }"
+                :key="fileType"
+                :value="fileType"
+                as="template"
+              >
+                <li
+                  :class="[
+                    active ? 'text-amber-900 bg-amber-100' : 'text-gray-900',
+                    'cursor-default select-none relative py-2 pl-10 pr-4',
+                  ]"
+                >
+                  <span
+                    :class="[
+                      selected ? 'font-medium' : 'font-normal',
+                      'block truncate',
+                    ]"
+                  >{{ getTranslationFileType(fileType) }}</span>
+                  <span
+                    v-if="selected"
+                    class="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"
+                  >
+                    <CheckIconOutline
+                      class="w-5 h-5"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </li>
+              </ListboxOption>
+            </ListboxOptions>
+          </transition>
+        </div>
+      </Listbox>
       <p
         v-if="errorType?.length"
         class="text-sm text-red-500"
@@ -60,7 +112,7 @@
     </div>
 
     <div
-      v-if="isCurrentUserAdmin && ModalModeEnum.CREATE"
+      v-if="userStore.isCurrentUserAdmin && ModalModeEnum.CREATE"
       class="space-y-2 md:col-span-2"
     >
       <label
@@ -115,8 +167,8 @@ const state = reactive<{
   file: null,
 })
 
-const { isCurrentUserAdmin } = useUserStore()
-const { postOne, patchOne } = fileHook()
+const userStore = useUserStore()
+const { postOne, patchOne, getTranslationFileType } = fileHook()
 const { resetUiModalState, IncLoading, DecLoading } = useUiStore()
 
 const schema = object({
@@ -134,7 +186,7 @@ const { value: name, errorMessage: errorName } = useField<string>('name', undefi
 const { value: description, errorMessage: errorDescription } = useField<string>('description', undefined, {
   initialValue: props.file ? props.file.description || '' : '',
 })
-const { value: type, errorMessage: errorType, handleChange: handleFileType } = useField<FileTypeEnum>('type', undefined, {
+const { value: type, errorMessage: errorType } = useField<FileTypeEnum>('type', undefined, {
   initialValue: props.file ? props.file.type : FileTypeEnum.MODEL,
 })
 
@@ -154,12 +206,11 @@ function uploadOneFile(fileUploaded: File) {
 
 async function submit() {
   IncLoading()
-
   if (props.mode === ModalModeEnum.CREATE && state.file) {
     state.file.append('type', type.value)
     state.file.append('name', name.value)
     state.file.append('description', description.value)
-    if (isCurrentUserAdmin) {
+    if (userStore.isCurrentUserAdmin) {
       await postOne(state.file, userId.value)
     } else {
       await postOne(state.file)

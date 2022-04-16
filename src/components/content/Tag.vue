@@ -33,7 +33,7 @@ interface Props {
   isCloseable?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
-  variant: TagVariantsEnum.PRIMARY,
+  variant: TagVariantsEnum.BLUE,
   isCloseable: true,
 })
 
@@ -45,23 +45,23 @@ function onClose() {
   emit('close')
 }
 
-const commonClasses = 'relative rounded px-4 py-2 shadow-2xl'
+const commonClasses = 'relative rounded px-3 py-2 shadow-2xl border hover:text-white text-sm'
 
 const classes = computed(() => {
   switch (props.variant) {
-    case TagVariantsEnum.PRIMARY:
-      return `${commonClasses} bg-blue text-white hover:bg-blue-dark dark:hover:bg-gray-800`
-    case TagVariantsEnum.WARNING:
-      return `${commonClasses} bg-orange-500 text-white hover:bg-orange-800`
+    case TagVariantsEnum.BLUE:
+      return `${commonClasses} bg-blue-200 text-blue-800 hover:bg-blue-500 border-blue-500`
+    case TagVariantsEnum.ORANGE:
+      return `${commonClasses} bg-orange-200 text-orange-800 hover:bg-orange-500 border-orange-500`
 
-    case TagVariantsEnum.DANGER:
-      return `${commonClasses} bg-red text-white hover:bg-red-light`
+    case TagVariantsEnum.RED:
+      return `${commonClasses} bg-red-200 text-red-800 hover:bg-red-500 border-red-500`
 
-    case TagVariantsEnum.SUCCESS:
-      return `${commonClasses} bg-green text-white hover:bg-green-800`
+    case TagVariantsEnum.GREEN:
+      return `${commonClasses} bg-green-200 text-green-800 hover:bg-green-500 border-green-500`
 
-    case TagVariantsEnum.PROMOTION:
-      return `${commonClasses} bg-purple text-white hover:bg-purple-800`
+    case TagVariantsEnum.PURPLE:
+      return `${commonClasses} bg-purple-200 text-purple-800 hover:bg-purple-500 border-purple-500`
   }
 })
 </script>

@@ -88,6 +88,9 @@ export default function fileHook() {
       case FileTypeEnum.PROFILE_PICTURE:
         return 'Photo de profil'
 
+      case FileTypeEnum.BUG_REPORT:
+        return 'Capture d\'écran de bug'
+
       default:
         return 'Autre'
     }
