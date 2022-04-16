@@ -7,7 +7,7 @@
     <Tag
       v-for="item in state.selectedItems"
       :key="item.id"
-      :variant="TagVariantsEnum.PROMOTION"
+      :variant="TagVariantsEnum.PURPLE"
       @close="removeItem(item.id)"
     >
       {{ item.firstName }} {{ item.lastName }}
