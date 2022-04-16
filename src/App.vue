@@ -11,7 +11,7 @@
 import { useCookie } from 'vue-cookie-next'
 const router = useRouter()
 
-const store = useMainStore()
+const { setIsLoggedIn } = useMainStore()
 const userStore = useUserStore()
 const { loginWithToken } = authHook()
 
@@ -20,7 +20,7 @@ onBeforeMount(async() => {
   const token = getCookie('userToken')
   if (token && token.length > 0) {
     await loginWithToken(token)
-    store.setIsLoggedIn()
+    setIsLoggedIn()
     if (userStore.isCurrentUserAdmin) {
       router.push({ name: 'admin.events' })
     } else {
