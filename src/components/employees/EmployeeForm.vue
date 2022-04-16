@@ -8,7 +8,6 @@
       <BaseInput
         id="firstName"
         v-model="firstName"
-        class="text-white dark:text-blue-dark"
         type="text"
         :error="firstNameError"
       />
@@ -19,7 +18,6 @@
       <BaseInput
         id="lastName"
         v-model="lastName"
-        class="text-white dark:text-blue-dark"
         type="text"
         :error="lastNameError"
       />
@@ -32,7 +30,6 @@
       <BaseInput
         id="email"
         v-model="email"
-        class="text-white dark:text-blue-dark"
         type="email"
         :error="emailError"
       />
@@ -45,7 +42,6 @@
       <BaseInput
         id="phone"
         v-model="phone"
-        class="text-white dark:text-blue-dark"
         type="tel"
         :error="phoneError"
       />

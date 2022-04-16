@@ -5,7 +5,6 @@
     <BaseInput
       id="name"
       v-model="name"
-      class="text-white dark:text-blue-dark"
       type="text"
       :error="nameError"
     />
@@ -40,7 +39,6 @@
     <BaseInput
       id="address"
       v-model="address"
-      class="text-white dark:text-blue-dark"
       type="text"
       :error="addressError"
     />
@@ -50,7 +48,6 @@
     <BaseInput
       id="postalCode"
       v-model="postalCode"
-      class="text-white dark:text-blue-dark"
       type="text"
       :error="postalCodeError"
     />
@@ -62,7 +59,6 @@
       <BaseInput
         id="city"
         v-model="city"
-        class="text-white dark:text-blue-dark"
         type="text"
         :error="cityError"
       />
@@ -72,7 +68,6 @@
       <BaseInput
         id="country"
         v-model="country"
-        class="text-white dark:text-blue-dark"
         type="text"
         :error="countryError"
       />

@@ -8,9 +8,9 @@
     :placeholder="placeholder"
     :aria-placeholder="placeholder"
     :type="type"
-    :class="['appearance-none block w-full px-4 py-3 border rounded disabled:border-grey disabled:bg-grey-light focus:outline-none text-black border-blue hover:border-blue-dark focus:ring-2 ring-blue',
+    :class="['appearance-none block shadow-md py-2 px-4 border focus:ring-purple-500 focus:border-purple-500 w-full sm:text-sm border-gray-300 rounded-md text-gray-800',
              { 'border-red-300': error?.length },
-             { 'cursor-not-allowed': disabled },
+             { 'cursor-not-allowed disabled:border-gray-500 disabled:bg-gray-200': disabled },
     ]"
   >
   <p

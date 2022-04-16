@@ -27,7 +27,6 @@
       <BaseInput
         id="name"
         v-model="name"
-        class="text-white dark:text-blue-dark"
         type="text"
         :error="errorName"
       />
@@ -40,7 +39,7 @@
       <Listbox v-model="type">
         <div class="relative mt-1">
           <ListboxButton
-            class="relative w-full py-4 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm"
+            class="relative w-full py-3 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm"
           >
             <span class="block truncate">{{ getTranslationFileType(type) }}</span>
             <span
@@ -113,7 +112,7 @@
     </div>
 
     <div
-      v-if="isCurrentUserAdmin && ModalModeEnum.CREATE"
+      v-if="userStore.isCurrentUserAdmin && ModalModeEnum.CREATE"
       class="space-y-2 md:col-span-2"
     >
       <label
@@ -168,7 +167,7 @@ const state = reactive<{
   file: null,
 })
 
-const { isCurrentUserAdmin } = useUserStore()
+const userStore = useUserStore()
 const { postOne, patchOne, getTranslationFileType } = fileHook()
 const { resetUiModalState, IncLoading, DecLoading } = useUiStore()
 
@@ -207,12 +206,11 @@ function uploadOneFile(fileUploaded: File) {
 
 async function submit() {
   IncLoading()
-
   if (props.mode === ModalModeEnum.CREATE && state.file) {
     state.file.append('type', type.value)
     state.file.append('name', name.value)
     state.file.append('description', description.value)
-    if (isCurrentUserAdmin) {
+    if (userStore.isCurrentUserAdmin) {
       await postOne(state.file, userId.value)
     } else {
       await postOne(state.file)
