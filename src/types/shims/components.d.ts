@@ -5,6 +5,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     404: typeof import('./../../pages/404.vue')['default']
+    AdjustmentsIconOutline: typeof import('@heroicons/vue/outline/esm/AdjustmentsIcon.js')['default']
     AdminModalDeleteUser: typeof import('./../../components/modals/AdminModalDeleteUser.vue')['default']
     BaseAccordion: typeof import('./../../components/base/BaseAccordion.vue')['default']
     BaseButton: typeof import('./../../components/base/BaseButton.vue')['default']
@@ -18,6 +19,7 @@ declare module 'vue' {
     CheckCircleIconOutline: typeof import('@heroicons/vue/outline/esm/CheckCircleIcon.js')['default']
     CheckIconOutline: typeof import('@heroicons/vue/outline/esm/CheckIcon.js')['default']
     ChevronLeftIconOutline: typeof import('@heroicons/vue/outline/esm/ChevronLeftIcon.js')['default']
+    CookiesModal: typeof import('./../../components/modals/CookiesModal.vue')['default']
     CreateEmployee: typeof import('./../../pages/userDashboard/employee/CreateEmployee.vue')['default']
     CreateEvent: typeof import('./../../pages/adminDashboard/event/CreateEvent.vue')['default']
     CreateModel: typeof import('./../../pages/userDashboard/files/CreateModel.vue')['default']

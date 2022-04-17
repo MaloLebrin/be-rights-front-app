@@ -11,12 +11,16 @@
 import { useCookie } from 'vue-cookie-next'
 const router = useRouter()
 
-const { setIsLoggedIn } = useMainStore()
+const { setIsLoggedIn, setCookiesAccepted } = useMainStore()
 const userStore = useUserStore()
 const { loginWithToken } = authHook()
 
 onBeforeMount(async() => {
   const { getCookie } = useCookie()
+  const cookiesAccepted = getCookie('areCookiesAccepted')
+  if (cookiesAccepted) {
+    setCookiesAccepted()
+  }
   const token = getCookie('userToken')
   if (token && token.length > 0) {
     await loginWithToken(token)

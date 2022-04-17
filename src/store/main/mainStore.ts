@@ -7,11 +7,13 @@ export const useMainStore = defineStore('main', {
   state: () => ({
     isLoggedIn: false,
     theme: ThemeEnum.LIGHT,
+    areCookiesAccepted: false,
   }),
   getters: {
     getIsLoggedIn: state => state.isLoggedIn,
     getTheme: state => state.theme,
     isDarkTheme: state => state.theme === ThemeEnum.DARK,
+    getAreCookiesAccepted: state => state.areCookiesAccepted,
   },
   actions: {
     setIsLoggedIn() {
@@ -33,6 +35,9 @@ export const useMainStore = defineStore('main', {
       eventStore.$reset()
       fileStore.$reset()
       employeStore.$reset()
+    },
+    setCookiesAccepted() {
+      this.areCookiesAccepted = true
     },
   },
 })

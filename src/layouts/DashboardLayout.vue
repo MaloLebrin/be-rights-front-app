@@ -50,6 +50,7 @@
   >
     {{ getUiToastState.message }}
   </Toast>
+  <CookiesModal />
 </Teleport>
 </template>
 
