@@ -46,7 +46,12 @@
         >
           S'inscrire
         </router-link>
-        <!-- <router-link class="LinkClass" :to="{ path: '/forgot-password' }">Mot de passe oublié</router-link> -->
+        <router-link
+          class="LinkClass"
+          :to="{ name: 'forgot-password' }"
+        >
+          Mot de passe oublié
+        </router-link>
       </div>
     </div>
 
@@ -68,7 +73,7 @@ const { IncLoading, DecLoading } = useUiStore()
 const uiStore = useUiStore()
 
 const schema = object({
-  email: string().email().required('L\'adresse email est requise'),
+  email: string().email('vous devez entrer in email valide').required('L\'adresse email est requise'),
   password: string().required('Le mot de passe est requis'),
 })
 

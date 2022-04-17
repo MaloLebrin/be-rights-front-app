@@ -37,8 +37,6 @@ export default function authHook() {
     if (token && token.length > 0) {
       await loginWithToken(token)
       mainStore.setIsLoggedIn()
-
-      // TODO abstract this to a function DRY
       if (userStore.isCurrentUserAdmin) {
         router.push({ name: 'admin.events' })
       } else {

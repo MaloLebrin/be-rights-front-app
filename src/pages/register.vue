@@ -127,7 +127,7 @@ const { IncLoading, DecLoading } = useUiStore()
 
 const schema = object({
   companyName: string().required().label('Nom de l\'entreprise'),
-  email: string().email().required().label('Adresse email'),
+  email: string().email('vous devez entrer in email valide').required().label('Adresse email'),
   password: string().required().label('Mot de passe'),
   firstName: string().required().label('Prénom'),
   lastName: string().required().label('Nom'),

@@ -211,7 +211,7 @@ const file = ref<null | FormData>(null)
 
 const schema = object({
   companyName: string().nullable().label('Nom de l\'entreprise'),
-  email: string().email().required('L\'adresse email est requise'),
+  email: string().email('vous devez entrer in email valide').required('L\'adresse email est requise'),
   firstName: string().required('Le prenom est requis'),
   lastName: string().required('Le nom est requis'),
   siret: string().nullable().label('N° Siret'),

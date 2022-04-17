@@ -108,7 +108,7 @@ const { IncLoading, DecLoading } = useUiStore()
 const { patchOne, postOne, postManyForEvent } = employeeHook()
 
 const schema = object({
-  email: string().email().required('L\'adresse email est requise'),
+  email: string().email('vous devez entrer in email valide').required('L\'adresse email est requise'),
   firstName: string().required('Le prénom est requis'),
   lastName: string().required('Le nom est requis'),
   phone: string().required('Le numéro de téléphone est requis'),
