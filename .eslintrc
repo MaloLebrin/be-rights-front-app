@@ -24,7 +24,9 @@
     "vue/no-unused-vars": ["error", {
         "ignorePattern": "^_"
     }],
-    "vue/v-on-event-hyphenation": ["error", "never", { "ignore": ["custom-event"] }],
+    "vue/v-on-event-hyphenation": ["error", "always", {
+      "autoFix": true
+    }],
     "vue/no-template-shadow": "off",
 
     "no-console": ["error", { "allow": ["warn", "error"] }],
