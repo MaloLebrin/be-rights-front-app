@@ -28,7 +28,7 @@
 <script setup lang="ts">
 interface Props {
   errors?: string[]
-  message?: string
+  message?: string | null
   isSuccess: boolean
 }
 const props = defineProps<Props>()
