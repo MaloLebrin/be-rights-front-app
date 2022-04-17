@@ -29,6 +29,24 @@ export const mainRoutes = [
     },
   },
   {
+    path: '/forgot-password',
+    name: 'forgot-password',
+    component: () => import('@/pages/forgotPassword.vue'),
+    meta: {
+      layout: 'DefaultLayout',
+      isAuth: false,
+    },
+  },
+  {
+    path: '/reset-password/:token/:email',
+    name: 'Reset-password',
+    component: () => import('@/pages/ResetPassword.vue'),
+    meta: {
+      layout: 'DefaultLayout',
+      isAuth: false,
+    },
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: '404',
     component: () => import('@/pages/404.vue'),
