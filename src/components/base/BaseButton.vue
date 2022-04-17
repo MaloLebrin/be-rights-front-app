@@ -81,7 +81,7 @@ const props = withDefaults(defineProps<Props>(), {
   tag: 'button',
   type: 'button',
   disabled: false,
-  color: 'blue',
+  color: 'purple',
   variant: 'default',
   href: null,
   isLoading: false,
@@ -93,8 +93,8 @@ const emit = defineEmits<{
 
 const colorClasses = computed(() => {
   let textColorClass = 'text-white'
-  let backgroundClass = `bg-${props.color}-600`
-  if (props.color === 'blue') {
+  let backgroundClass = `bg-${props.color}-500`
+  if (props.color === 'purple') {
     backgroundClass = 'bg-blue'
   }
 
