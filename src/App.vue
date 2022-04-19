@@ -30,8 +30,6 @@ onBeforeMount(async() => {
     } else {
       router.push({ name: 'user.events' })
     }
-  } else {
-    router.push({ name: 'login' })
   }
 })
 </script>

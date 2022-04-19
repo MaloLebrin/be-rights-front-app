@@ -38,8 +38,8 @@ export const mainRoutes = [
     },
   },
   {
-    path: '/reset-password/:token/:email',
-    name: 'Reset-password',
+    path: '/reset-password/:token',
+    name: 'reset-password',
     component: () => import('@/pages/ResetPassword.vue'),
     meta: {
       layout: 'DefaultLayout',
