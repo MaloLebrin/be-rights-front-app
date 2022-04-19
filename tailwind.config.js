@@ -1,5 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const colors = require('tailwindcss/colors')
+delete colors.lightBlue // Avoid warning during build.
+delete colors.warmGray
+delete colors.trueGray
+delete colors.coolGray
+delete colors.blueGray
 
 /** @type {import("@types/tailwindcss/tailwind-config").TailwindConfig } */
 module.exports = {
@@ -225,7 +230,7 @@ module.exports = {
     container: {
       center: true,
       padding: {
-        DEFAULT: '1.5rem',
+        DEFAULT: '2.5rem',
         md: '2rem',
         lg: '2.5rem',
         xl: '4rem',

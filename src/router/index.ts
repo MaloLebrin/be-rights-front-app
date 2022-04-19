@@ -18,9 +18,10 @@ const router = createRouter({
 router.beforeResolve((to, from, next) => {
   const mainStore = useMainStore()
   const userStore = useUserStore()
-
+  console.log(to, 'to')
   if (to.meta.isAuth) {
     if (!mainStore.getIsLoggedIn) {
+      console.log(to.meta, 'to.meta')
       return {
         name: 'login',
       }

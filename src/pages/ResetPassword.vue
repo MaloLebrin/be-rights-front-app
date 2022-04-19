@@ -1,9 +1,9 @@
 <template>
 <transition name="fade">
   <div
-    class="container min-h-screen px-8 py-8 mx-auto mt-32"
+    class="flex items-center justify-center lg:container"
   >
-    <div class="flex flex-col space-x-12 space-y-12 max-w-1/2">
+    <div class="flex flex-col space-x-12 space-y-12 md:max-w-lg">
       <div class="space-y-4 mb-26">
         <SimpleLogo />
         <h1 class="text-black dark:text-white">
@@ -55,16 +55,16 @@
 
 <script setup lang="ts">
 import { useField, useForm } from 'vee-validate'
-import { object, string } from 'yup'
+import { object, ref as reference, string } from 'yup'
 import axiosInstance from '@/axios.config'
 
 const { IncLoading, DecLoading, setUIErrorToast } = useUiStore()
 const uiStore = useUiStore()
-const { params } = useRoute()
+const { params, query } = useRoute()
 
 const schema = object({
-  email: string().email('vous devez entrer in email valide').required('L\'adresse email est requise'),
   password: string().required('Le mot de passe est requis'),
+  passwordConfirmation: string().oneOf([reference('password'), null], 'Les mots de passe sont différents').required('Confirmez votre nouveau mot de passe'),
 })
 
 const { meta } = useForm({ validationSchema: schema })
@@ -93,7 +93,7 @@ async function onSubmit() {
   resetState()
   try {
     const res = await axiosInstance.post('auth/reset-password', {
-      email: params.email,
+      email: query.email,
       password: password.value,
       password_confirmation: passwordConfirmation.value,
       twoFactorRecoveryCode: params.token,
