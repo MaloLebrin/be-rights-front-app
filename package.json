@@ -57,6 +57,6 @@
     "unplugin-vue-components": "^0.17.21",
     "vite": "^2.9.5",
     "vite-plugin-vue-layouts": "^0.5.0",
-    "vue-tsc": "^0.34.6"
+    "vue-tsc": "^0.34.7"
   }
 }

@@ -6,7 +6,7 @@
     </SwitchLabel>
     <Switch
       v-model="isAppDarkTheme"
-      :class="isDarkTheme ? &quot;bg-blue-600 focus:ring-gray-500&quot; : &quot;bg-gray-200 focus:ring-blue-600&quot;"
+      :class="isDarkTheme ? 'bg-blue-600 focus:ring-gray-500' : 'bg-gray-200 focus:ring-blue-600'"
       class="relative inline-flex items-center h-6 transition-colors rounded-full w-11 focus:outline-none focus:ring-2 focus:ring-offset-2"
     >
       <span
