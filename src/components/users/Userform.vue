@@ -196,7 +196,7 @@ const userStore = useUserStore()
 const { IncLoading, DecLoading } = useUiStore()
 const fileStore = useFileStore()
 const { patchOne } = userHook()
-const { postOne } = fileHook()
+const { postLogo } = fileHook()
 
 const user = computed(() => {
   if (props.id)
@@ -246,10 +246,6 @@ function uploadFile(fileUploaded: File) {
   // TODO how to post/patch a file base64
   const formData = new FormData()
   formData.append('file', fileUploaded)
-  formData.append('type', FileTypeEnum.LOGO)
-  formData.append('userId', userStore.getCurrentUserId!.toString())
-  formData.append('name', 'Logo')
-  formData.append('description', 'Logo de l\'utilisateur')
   file.value = formData
 }
 
@@ -278,7 +274,7 @@ async function submit() {
 async function submitFile() {
   if (file.value) {
     IncLoading()
-    await postOne(file.value, userStore.getCurrentUserId)
+    await postLogo(file.value)
     DecLoading()
   }
 }

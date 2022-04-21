@@ -305,6 +305,7 @@ const eventId = computed(() => parseInt(params.eventId as string))
 const event = computed(() => eventStore.getOne(eventId.value))
 const employees = computed(() => employeeStore.getAllByEventId(eventId.value))
 const files = computed(() =>
+// TODO fix this
   // fileStore.getWhereArray(file => file.event === eventId.value)
   fileStore.getAllArray,
 )

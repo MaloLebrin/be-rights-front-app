@@ -47,6 +47,22 @@ export default function fileHook() {
     DecLoading()
   }
 
+  async function postLogo(fileForm: FormData) {
+    IncLoading()
+    try {
+      const res = await api.post('file/logo', fileForm)
+      const newFile = res as FileType
+      if (newFile && newFile.createdByUser) {
+        fileStore.createOne(newFile)
+        setUISucessToast('File uploaded successfully')
+      }
+    } catch (error) {
+      console.error(error)
+      setUIErrorToast()
+    }
+    DecLoading()
+  }
+
   function filteringFilesNotInStore(files: FileType[]) {
     if (files.length > 0) {
       return files.filter(file => !getAllFilesIds.includes(file.id))
@@ -169,5 +185,6 @@ export default function fileHook() {
     patchOne,
     postOne,
     postProfilePicture,
+    postLogo,
   }
 }
