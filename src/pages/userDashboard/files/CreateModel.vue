@@ -8,11 +8,12 @@
   </div>
 
   <div class="mt-4">
-    <FileForm :mode="ModalModeEnum.CREATE" />
+    <!-- <FileForm :mode="ModalModeEnum.CREATE" /> -->
+    <FileEditor />
   </div>
 </div>
 </template>
 
 <script setup lang="ts">
-import { ModalModeEnum } from '@/types/typesExported'
+// import { ModalModeEnum } from '@/types/typesExported'
 </script>

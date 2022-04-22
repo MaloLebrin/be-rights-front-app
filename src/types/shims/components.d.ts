@@ -51,6 +51,7 @@ declare module 'vue' {
     EventUserItem: typeof import('./../../components/events/EventUserItem.vue')['default']
     ExclamationIconOutline: typeof import('@heroicons/vue/outline/esm/ExclamationIcon.js')['default']
     EyeIconOutline: typeof import('@heroicons/vue/outline/esm/EyeIcon.js')['default']
+    FileEditor: typeof import('./../../components/files/FileEditor.vue')['default']
     FileForm: typeof import('./../../components/files/FileForm.vue')['default']
     FileList: typeof import('./../../components/files/FileList.vue')['default']
     FileModal: typeof import('./../../components/files/FileModal.vue')['default']
