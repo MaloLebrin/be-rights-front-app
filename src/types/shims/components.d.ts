@@ -60,8 +60,6 @@ declare module 'vue' {
     FolderAddIconOutline: typeof import('@heroicons/vue/outline/esm/FolderAddIcon.js')['default']
     FolderOpenIconOutline: typeof import('@heroicons/vue/outline/esm/FolderOpenIcon.js')['default']
     Footer: typeof import('./../../components/footer/Footer.vue')['default']
-    ForgotPassword: typeof import('./../../pages/forgotPassword.vue')['default']
-    FormApiMessage: typeof import('./../../components/forms/FormApiMessage.vue')['default']
     Header: typeof import('./../../components/header/Header.vue')['default']
     HeaderList: typeof import('./../../components/header/HeaderList.vue')['default']
     HomeIconOutline: typeof import('@heroicons/vue/outline/esm/HomeIcon.js')['default']
