@@ -206,7 +206,7 @@
 </template>
 
 <script setup lang="ts">
-import { useCookie } from 'vue-cookie-next'
+import { useCookies } from 'vue3-cookies'
 import { MENU_ITEMS } from '@/helpers/menu'
 
 const userStore = useUserStore()
@@ -214,10 +214,10 @@ const uiStore = useUiStore()
 const { toggleDrawer } = useUiStore()
 const { logout } = authHook()
 
-const cookie = useCookie()
+const { cookies } = useCookies()
 
 function onToggleLogout() {
-  cookie.removeCookie('userToken')
+  cookies.remove('userToken')
   logout()
 }
 

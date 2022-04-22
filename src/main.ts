@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import './assets/tailwind.css'
 import { createPinia } from 'pinia'
-import { VueCookieNext } from 'vue-cookie-next'
+import { globalCookiesConfig } from 'vue3-cookies'
 import VCalendar from 'v-calendar'
 import App from './App.vue'
 import router from '@/router/index'
@@ -9,7 +9,14 @@ import router from '@/router/index'
 const app = createApp(App)
 const store = createPinia()
 
-app.use(VueCookieNext)
+globalCookiesConfig({
+  expireTimes: '30d',
+  path: '/',
+  domain: '',
+  secure: true,
+  sameSite: 'None',
+})
+
 app.use(store)
 app.use(router)
 app.use(VCalendar)

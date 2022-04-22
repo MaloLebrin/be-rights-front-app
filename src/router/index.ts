@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { setupLayouts } from 'virtual:generated-layouts'
+import { useCookies } from 'vue3-cookies'
 import { mainRoutes } from './mainRoutes'
 import { userRoutes } from './userRoutes'
 import { adminRoutes } from './adminRoutes'
@@ -15,23 +16,38 @@ const router = createRouter({
   routes,
 })
 
-router.beforeResolve((to, from, next) => {
+router.beforeResolve((to, _from, next) => {
   const mainStore = useMainStore()
+  const { setIsLoggedIn } = useMainStore()
   const userStore = useUserStore()
-  console.log(to, 'to')
-  if (to.meta.isAuth) {
-    if (!mainStore.getIsLoggedIn) {
-      console.log(to.meta, 'to.meta')
+  const { cookies } = useCookies()
+
+  const { isAuth, isAdmin } = to.meta
+  let token: string | null = null
+
+  if (!isAuth) {
+    return next()
+  }
+
+  if (isAuth && !mainStore.getIsLoggedIn) {
+    token = cookies.get('token')
+    if (token) {
+      setIsLoggedIn()
+    } else {
       return {
         name: 'login',
       }
     }
-    if (to.meta.isAdmin && userStore.isCurrentUserAdmin) {
+  }
+  if (isAuth && mainStore.getIsLoggedIn) {
+    if (!isAdmin) {
       return next()
     }
-    return next()
+    if (isAdmin && userStore.isCurrentUserAdmin) {
+      return next()
+    }
+    return false
   }
-  return next()
 })
 
 declare module 'vue-router' {
