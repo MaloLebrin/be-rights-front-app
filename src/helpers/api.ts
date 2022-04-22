@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useCookie } from 'vue-cookie-next'
+import { useCookies } from 'vue3-cookies'
 
 export interface PaginatedResponse<T> {
   currentPage: number | null
@@ -42,8 +42,8 @@ export default class APi implements ApiMethods {
   }
 
   getToken(): string | null {
-    const cookies = useCookie()
-    return cookies.getCookie('userToken')
+    const { cookies } = useCookies()
+    return cookies.get('userToken')
   }
 
   public deleteCredentials() {

@@ -1,4 +1,4 @@
-import { useCookie } from 'vue-cookie-next'
+import { useCookies } from 'vue3-cookies'
 import axiosInstance from '@/axios.config'
 import type { PaginatedResponse } from '@/helpers/api'
 import APi from '@/helpers/api'
@@ -13,7 +13,7 @@ export default function userHook() {
   const fileStore = useFileStore()
   const { setUIErrorToast, setUISucessToast, IncLoading, DecLoading } = useUiStore()
   const { storeEmployeeRelationsEntities } = employeeHook()
-  const { setCookie } = useCookie()
+  const { cookies } = useCookies()
   const api = new APi(userStore.getCurrentUserToken!)
   const router = useRouter()
 
@@ -23,7 +23,7 @@ export default function userHook() {
       const res = await axiosInstance.post('user/login', { email, password })
       const user = res.data as UserType
       storeUsersEntities(user)
-      setCookie('userToken', user.token)
+      cookies.set('userToken', user.token)
       if (user && userStore.isCurrentUserAdmin) {
         router.push({ name: 'admin.events' })
       } else {
@@ -44,7 +44,7 @@ export default function userHook() {
       const res = await axiosInstance.post('user', { companyName, email, password, firstName, lastName, roles })
       const user = res.data as UserType
       storeUsersEntities(user)
-      setCookie('userToken', user.token)
+      cookies.set('userToken', user.token)
       if (user && userStore.isCurrentUserAdmin) {
         router.push({ name: 'admin.events' })
       } else {

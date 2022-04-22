@@ -74,14 +74,14 @@
 </template>
 
 <script setup lang="ts">
-import { useCookie } from 'vue-cookie-next'
+import { useCookies } from 'vue3-cookies'
 const mainStore = useMainStore()
 const { setCookiesAccepted } = useMainStore()
-const { getCookie, setCookie } = useCookie()
+const { cookies } = useCookies()
 const open = ref(!mainStore.getAreCookiesAccepted)
 
 onMounted(async() => {
-  const cookiesAccepted = getCookie('areCookiesAccepted')
+  const cookiesAccepted = cookies.get('areCookiesAccepted')
   if (cookiesAccepted) {
     setCookiesAccepted()
     open.value = false
@@ -89,7 +89,7 @@ onMounted(async() => {
 })
 
 function accepteCookies() {
-  setCookie('areCookiesAccepted', 'true')
+  cookies.set('areCookiesAccepted', 'true')
   open.value = false
   setCookiesAccepted()
 }

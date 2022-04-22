@@ -8,27 +8,23 @@
 </router-view>
 </template>
 <script setup lang="ts">
-import { useCookie } from 'vue-cookie-next'
-const router = useRouter()
+import { useCookies } from 'vue3-cookies'
 
-const { setIsLoggedIn, setCookiesAccepted } = useMainStore()
+const { setCookiesAccepted, setIsLoggedIn } = useMainStore()
 const userStore = useUserStore()
 const { loginWithToken } = authHook()
 
 onBeforeMount(async() => {
-  const { getCookie } = useCookie()
-  const cookiesAccepted = getCookie('areCookiesAccepted')
+  const { cookies } = useCookies()
+  const cookiesAccepted = cookies.get('areCookiesAccepted')
   if (cookiesAccepted) {
     setCookiesAccepted()
   }
-  const token = getCookie('userToken')
-  if (token && token.length > 0) {
-    await loginWithToken(token)
-    setIsLoggedIn()
-    if (userStore.isCurrentUserAdmin) {
-      router.push({ name: 'admin.events' })
-    } else {
-      router.push({ name: 'user.events' })
+  if (!userStore.getCurrent) {
+    const token = cookies.get('userToken')
+    if (token && token.length > 0) {
+      await loginWithToken(token)
+      setIsLoggedIn()
     }
   }
 })
