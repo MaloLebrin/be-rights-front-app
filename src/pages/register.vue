@@ -1,6 +1,6 @@
 <template>
-<div class="grid grid-cols-1 gap-4 px-8 py-8 md:grid-cols-2">
-  <div class="flex flex-col items-center h-full">
+<div class="container grid grid-cols-1 gap-4 px-8 py-8 md:container-lg md:grid-cols-2 lg:grid-cols-3">
+  <div class="flex flex-col items-center h-full lg:col-span-2">
     <div class="mt-10 mb-6">
       <h1 class="text-black dark:text-white">
         Bienvenue sur
@@ -72,7 +72,7 @@
       <div class="space-y-4 md:col-span-2">
         <label
           class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Address e-mail&nbsp;*&nbsp;:</label>
+        >Adresse e-mail&nbsp;*&nbsp;:</label>
         <BaseInput
           v-model="email"
           type="email"
@@ -108,7 +108,7 @@
     </div>
   </div>
 
-  <div class="items-center justify-center hidden md:flex">
+  <div class="items-center justify-end hidden md:flex">
     <img
       class="hidden object-cover w-2/3 max-w-5xl shadow-2xl TranslateUpAnimation cursor-none md:block"
       src="@/assets/camera.jpg"
