@@ -86,7 +86,6 @@ const props = defineProps({
   },
 })
 const mainStore = useMainStore()
-const { isDarkTheme } = mainStore
 
 const { getDate } = dateHook()
 const { getEventStatusTranslation, getEventStatusColor, getSignatureCount } = eventHook()
@@ -109,7 +108,7 @@ const emit = defineEmits<{
   (e: 'downloadAll'): void
 }>()
 
-const extraButtonStyle = computed(() => isDarkTheme ? 'primary' : 'white')
+const extraButtonStyle = computed(() => mainStore.isDarkTheme ? 'primary' : 'white')
 </script>
 
 <style scoped>
