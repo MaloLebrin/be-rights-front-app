@@ -73,7 +73,6 @@
 
 <script setup lang="ts">
 import type { PropType } from 'vue'
-import EmployeeEventItem from '@/components/employees/employeeEventItem.vue'
 import type { EventType } from '@/types/typesExported'
 
 const props = defineProps({
