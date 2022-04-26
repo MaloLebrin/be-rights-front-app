@@ -2,17 +2,32 @@
 <div class="h-full px-4 sm:px-6 lg:px-8">
   <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
-      <p class="mt-2 text-sm text-red-700">
-        Liste de tous les événements. Ajouter recherche
-      </p>
+      <BaseInput
+        v-model="state.search"
+        type="text"
+        placeholder="Recherchez"
+        @keyup="searchEntity($event)"
+      />
     </div>
-    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-      <button
-        type="button"
-        class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
+    <div class="flex items-center mt-4 sm:mt-0 sm:ml-16">
+      <BaseButton
+        class="mr-2 dark:text-black"
+        @click="setHeaderFilters(null)"
       >
-        Add user
-      </button>
+        Tout
+      </BaseButton>
+      <BaseButton
+        class="mr-2 dark:text-black"
+        @click="setHeaderFilters(EventStatusEnum.PENDING)"
+      >
+        En cours
+      </BaseButton>
+      <BaseButton
+        class="mr-2 dark:text-black"
+        @click="setHeaderFilters(EventStatusEnum.CLOSED)"
+      >
+        Terminés
+      </BaseButton>
     </div>
   </div>
   <div class="flex flex-col h-full mt-8">
@@ -48,6 +63,7 @@
 
 <script setup lang="ts">
 import type { EventType } from '@/types/typesExported'
+import { EventStatusEnum } from '@/types/typesExported'
 
 interface Props {
   noEventMessage: string
@@ -58,4 +74,52 @@ withDefaults(defineProps<Props>(), {
   noEventMessage: 'Aucun événement enregistré!',
   events: () => [],
 })
+
+const eventStore = useEventStore()
+const userStore = useUserStore()
+const uiStore = useUiStore()
+const { IncLoading, DecLoading } = uiStore
+const { setSearch, setFilters } = useTableStore()
+const tableStore = useTableStore()
+const { fetchAllEvents } = eventHook()
+
+const state = reactive({
+  search: '',
+  timeout: 0,
+})
+
+const events = computed(() => eventStore.getAllArray)
+
+watch(() => tableStore.getFinalUrl, async newValue => {
+  IncLoading()
+  eventStore.resetState()
+  await fetchAllEvents(newValue)
+  DecLoading()
+})
+
+onMounted(async() => {
+  if (userStore.getCurrentUserId) {
+    IncLoading()
+    await fetchAllEvents()
+    DecLoading()
+  }
+})
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function searchEntity(event: KeyboardEvent) {
+  clearTimeout(state.timeout)
+  state.timeout = window.setTimeout(() => {
+    setSearch(state.search)
+  }, 500)
+}
+
+function setHeaderFilters(filter: string | null) {
+  if (filter) {
+    setFilters({
+      status: filter,
+    })
+  } else {
+    setFilters(null)
+  }
+}
 </script>

@@ -2,7 +2,7 @@
 <tr>
   <th
     scope="col"
-    class="py-3.5 pl-4 inline-flex group text-left text-sm font-semibold text-gray-900 sm:pl-6"
+    class="py-3.5 pl-4 inline-flex group truncate text-left text-sm font-semibold text-gray-900 sm:pl-6"
   >
     Id
     <span class="flex-none invisible ml-2 text-gray-400 rounded group-hover:visible group-focus:visible">
@@ -17,7 +17,7 @@
     class="py-3.5 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
   >
     <span
-      class="inline-flex group"
+      class="inline-flex truncate group"
     >
       Nom de l'événement
       <span class="flex-none invisible ml-2 text-gray-400 rounded group-hover:visible group-focus:visible">
@@ -33,7 +33,7 @@
     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
   >
     <span
-      class="inline-flex group"
+      class="inline-flex truncate group"
     >
       Statut
       <span class="flex-none ml-2 text-gray-900 bg-gray-200 rounded group-hover:bg-gray-300">
@@ -49,9 +49,9 @@
     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
   >
     <span
-      class="inline-flex group"
+      class="inline-flex truncate group"
     >
-      Date de Début
+      Début
       <span class="flex-none invisible ml-2 text-gray-400 rounded group-hover:visible group-focus:visible">
         <ChevronDownIconSolid
           class="flex-none invisible w-5 h-5 ml-2 text-gray-400 rounded group-hover:visible group-focus:visible"
@@ -65,9 +65,9 @@
     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
   >
     <span
-      class="inline-flex group"
+      class="inline-flex truncate group"
     >
-      Date de fin
+      Fin
       <span class="flex-none invisible ml-2 text-gray-400 rounded group-hover:visible group-focus:visible">
         <ChevronDownIconSolid
           class="flex-none invisible w-5 h-5 ml-2 text-gray-400 rounded group-hover:visible group-focus:visible"
@@ -81,7 +81,7 @@
     class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900"
   >
     <span
-      class="inline-flex group"
+      class="inline-flex truncate group"
     >
       Nombre de signatures
       <span class="flex-none invisible ml-2 text-gray-400 rounded group-hover:visible group-focus:visible">
