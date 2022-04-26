@@ -30,7 +30,10 @@ export function eventHook() {
   }
 
   function getSignatureCount(employees: EmployeeType[]) {
-    return employees.filter(employee => employee.hasSigned).length
+    if (employees && employees.length) {
+      return employees.filter(employee => employee.hasSigned).length
+    }
+    return 0
   }
 
   function sortEventByDate(events: EventType[]) {

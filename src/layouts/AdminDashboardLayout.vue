@@ -1,10 +1,11 @@
 <template>
-<MenuDrawer />
-<main
-  v-bind="$attrs"
-  class="w-full min-h-screen mx-auto dark:bg-blue-dark"
->
-  <div class="md:container md:mx-auto">
+<div class="flex">
+  <MenuDrawer />
+  <main
+    v-bind="$attrs"
+    class="w-full lg:pl-64 dark:bg-blue-dark"
+  >
+    <HeaderDashboard />
     <Loader
       v-if="uiStore.getUIIsLoading"
       :is-loading="uiStore.getUIIsLoading"
@@ -17,8 +18,8 @@
         <component :is="Component" />
       </transition>
     </router-view>
-  </div>
-</main>
+  </main>
+</div>
 <Teleport to="#portal-target">
   <EventModal
     v-if="isModalActive(ModalNameEnum.EVENT_FORM).value"
