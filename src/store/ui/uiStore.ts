@@ -13,7 +13,7 @@ export const useUiStore = defineStore(EntitiesEnum.UI, {
     getUiToastState: state => state.toast,
     getUIIsLoading: state => state.isLoading > 0,
     getUiModalData: state => state.modal.data,
-    isDrawerOpen: state => state.isDrawerOpen,
+    getIsDrawerOpen: state => state.isDrawerOpen,
   },
   actions: {
     resetUIState() {
@@ -68,8 +68,14 @@ export const useUiStore = defineStore(EntitiesEnum.UI, {
       this.toast.variant = ToastVariantsEnum.SUCCESS
       this.toast.duration = 500
     },
-    toggleDrawer(isOpen: boolean) {
-      this.isDrawerOpen = isOpen
+    toggleDrawer() {
+      this.isDrawerOpen = !this.isDrawerOpen
+    },
+    closeDrawer() {
+      this.isDrawerOpen = false
+    },
+    openDrawer() {
+      this.isDrawerOpen = true
     },
   },
 })

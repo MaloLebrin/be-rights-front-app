@@ -5,7 +5,7 @@
       class="flex items-center justify-between px-5 py-2 font-semibold text-black dark:text-white"
     >
       <div>{{ event.id }}</div>
-      <span class="mx-3 bg-gray">{{ event.name }}</span>
+      <span class="mx-3 truncate bg-gray">{{ event.name }}</span>
       <span>{{ getDate(event.start.toString()) }}</span>
       <button
         class="px-2 py-1 mx-3 font-medium border-2 rounded-lg border-green text-green hover:text-white hover:bg-green"
@@ -18,7 +18,7 @@
         <div class="w-5 h-5 ml-2 border-4 rounded-full border-red" />
       </div>
       <span
-        :class="getEventStatusColor(event.status)"
+        :class="['truncate', getEventStatusColor(event.status)]"
       >{{ getEventStatusTranslation(event.status) }}</span>
     </div>
   </template>
@@ -58,14 +58,6 @@
       @click="emit('deleteOne', index)"
     >
       <TrashIconOutline class="w-4 h-4 mr-2 text-red-800" />Supprimer
-    </a>
-    <a
-      :variant="extraButtonStyle"
-      :disabled="true"
-      class="cursor-not-allowed EventActionButton"
-      @click="emit('downloadAll')"
-    >
-      <DownloadIconOutline class="w-4 h-4 mr-2 text-gray-800" />Tout télécharger
     </a>
   </template>
 </DashboardItem>
@@ -114,6 +106,6 @@ const extraButtonStyle = computed(() => mainStore.isDarkTheme ? 'primary' : 'whi
 <style scoped>
 .EventActionButton {
   @apply flex items-center cursor-pointer bg-gray-500 rounded mb-1 py-2 px-4 font-semibold hover:translate-x-3 transform transition-all duration-500
-    dark:bg-white-break dark:text-gray-900;
+    dark:bg-white-break dark:text-gray-900 truncate;
 }
 </style>
