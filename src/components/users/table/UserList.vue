@@ -5,11 +5,12 @@
       <BaseInput
         v-model="state.search"
         type="text"
-        placeholder="Recherchez"
+        placeholder="disbled tant que fix backend non résolu"
+        disabled
         @keyup="searchEntity($event)"
       />
     </div>
-    <FiltersEventTable />
+    <FiltersUserTable />
   </div>
   <div class="flex flex-col h-full mt-8">
     <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -17,21 +18,21 @@
         <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
           <table class="min-w-full divide-y divide-gray-300">
             <thead class="bg-gray-50">
-              <HeaderEventTable />
+              <HeaderUserTable />
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <template v-if="events.length > 0">
-                <EventItem
-                  v-for="event in events"
-                  :key="event.id"
-                  :event="event"
+              <template v-if="users.length > 0">
+                <UserItemTable
+                  v-for="user in users"
+                  :key="user.id"
+                  :user="user"
                 />
               </template>
               <p
                 v-else
                 class="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 truncate whitespace-nowrap sm:pl-6"
               >
-                {{ noEventMessage }}
+                Aucun utilisateur en base de donnée
               </p>
             </tbody>
           </table>
@@ -43,48 +44,36 @@
 </template>
 
 <script setup lang="ts">
-import type { EventType } from '@/types/typesExported'
-import { EventStatusEnum } from '@/types/typesExported'
+import type { UserType } from '@/types/typesExported'
+import { ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
 
 interface Props {
-  noEventMessage: string
-  events: EventType[]
+  users: UserType[]
 }
 
 withDefaults(defineProps<Props>(), {
-  noEventMessage: 'Aucun événement enregistré!',
-  events: () => [],
+  users: () => [],
 })
 
-const eventStore = useEventStore()
-const userStore = useUserStore()
-const uiStore = useUiStore()
-const { IncLoading, DecLoading } = uiStore
 const { setSearch } = useTableStore()
-const tableStore = useTableStore()
-const { fetchAllEvents } = eventHook()
+const uiStore = useUiStore()
+const { setUiModal } = uiStore
 
 const state = reactive({
   search: '',
   timeout: 0,
 })
 
-const events = computed(() => eventStore.getAllArray)
-
-watch(() => tableStore.getFinalUrl, async newValue => {
-  IncLoading()
-  eventStore.resetState()
-  await fetchAllEvents(newValue)
-  DecLoading()
-})
-
-onMounted(async() => {
-  if (userStore.getCurrentUserId) {
-    IncLoading()
-    await fetchAllEvents()
-    DecLoading()
-  }
-})
+function onToggleUsersModal(user: UserType) {
+  setUiModal({
+    isActive: true,
+    modalName: ModalNameEnum.USER_ADMIN,
+    modalMode: ModalModeEnum.DELETE,
+    data: {
+      user,
+    },
+  })
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function searchEntity(event: KeyboardEvent) {

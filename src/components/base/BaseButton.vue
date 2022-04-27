@@ -69,7 +69,7 @@ const mainStore = useMainStore()
 
 interface Props {
   tag?: string
-  href?: string | null
+  href?: string | Record< 'name', string > | null
   type?: 'button' | 'submit'
   disabled?: boolean
   variant?: 'default' | 'social'

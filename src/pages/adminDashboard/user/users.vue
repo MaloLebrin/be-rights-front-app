@@ -1,35 +1,25 @@
 <template>
-<div class="min-h-screen px-8 py-6 text-left transition-all duration-500 ease-in-out transform md:px-20 lg:px-32">
-  <HeaderList>
-    <template #title>
-      <UserGroupIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Utilisateurs
-    </template>
-    <template #additionnalButtons>
-      <BaseInput
-        v-model="state.search"
-        type="text"
-        placeholder="Recherchez"
-        @keyup="searchEntity($event)"
-      />
-    </template>
-  </HeaderList>
+<div
+  class="relative min-h-screen px-4 py-6 text-left transition-all duration-500 ease-in-out transform"
+>
   <UserList :users="users" />
 </div>
 </template>
 
 <script setup lang="ts">
-const { fetchAll } = userHook()
+import { onBeforeRouteLeave } from 'vue-router'
 
+const { fetchAll } = userHook()
 const { IncLoading, DecLoading } = useUiStore()
 const tableStore = useTableStore()
-const { setSearch } = tableStore
 const userStore = useUserStore()
-const users = computed(() => userStore.getAllArray)
+const { setFilters } = useTableStore()
 
-const state = reactive({
-  search: '',
-  timeout: 0,
+onBeforeRouteLeave(() => {
+  setFilters(null)
 })
+
+const users = computed(() => userStore.getAllArray)
 
 watch(() => tableStore.getFinalUrl, async newValue => {
   IncLoading()
@@ -43,12 +33,4 @@ onMounted(async() => {
   await fetchAll(tableStore.getFinalUrl)
   DecLoading()
 })
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function searchEntity(event: KeyboardEvent) {
-  clearTimeout(state.timeout)
-  state.timeout = window.setTimeout(() => {
-    setSearch(state.search)
-  }, 500)
-}
 </script>

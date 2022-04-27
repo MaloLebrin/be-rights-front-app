@@ -34,6 +34,8 @@ export enum EventStatusEnum {
   CLOSED = 'CLOSED',
 }
 
+export const eventStatusArray = Object.values(EventStatusEnum)
+
 export enum getEventStatusTranslationEnum {
   CREATE = 'créé',
   PENDING = 'en cours',
