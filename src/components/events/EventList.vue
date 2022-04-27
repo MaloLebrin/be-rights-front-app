@@ -9,7 +9,8 @@
         @keyup="searchEntity($event)"
       />
     </div>
-    <div class="flex items-center mt-4 sm:mt-0 sm:ml-16">
+    <FiltersEventTable />
+    <!-- <div class="flex items-center mt-4 sm:mt-0 sm:ml-16">
       <BaseButton
         class="mr-2 dark:text-black"
         @click="setHeaderFilters(null)"
@@ -28,7 +29,7 @@
       >
         Terminés
       </BaseButton>
-    </div>
+    </div> -->
   </div>
   <div class="flex flex-col h-full mt-8">
     <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -79,7 +80,7 @@ const eventStore = useEventStore()
 const userStore = useUserStore()
 const uiStore = useUiStore()
 const { IncLoading, DecLoading } = uiStore
-const { setSearch, setFilters } = useTableStore()
+const { setSearch } = useTableStore()
 const tableStore = useTableStore()
 const { fetchAllEvents } = eventHook()
 
@@ -111,15 +112,5 @@ function searchEntity(event: KeyboardEvent) {
   state.timeout = window.setTimeout(() => {
     setSearch(state.search)
   }, 500)
-}
-
-function setHeaderFilters(filter: string | null) {
-  if (filter) {
-    setFilters({
-      status: filter,
-    })
-  } else {
-    setFilters(null)
-  }
 }
 </script>
