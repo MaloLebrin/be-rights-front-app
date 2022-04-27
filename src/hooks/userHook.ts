@@ -217,11 +217,16 @@ export default function userHook() {
     }
   }
 
+  function getUserfullName(user: UserType) {
+    return `${user.firstName} ${user.lastName}`
+  }
+
   return {
     deleteUser,
     fetchAll,
     fetchOne,
     getRoleTranslation,
+    getUserfullName,
     login,
     patchOne,
     register,
