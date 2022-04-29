@@ -40,15 +40,21 @@ export const MENU_ITEMS = [
     isAdmin: true,
   },
   {
+    label: 'Créer un événement',
+    icon: PlusIcon,
+    linkName: 'admin.events.create',
+    isAdmin: true,
+  },
+  {
     label: 'Créer un destinataire',
     icon: PlusIcon,
-    linkName: null,
+    linkName: 'admin.employees.create',
     isAdmin: true,
   },
   {
     label: 'Créer un nouveau fichier',
     icon: FolderAddIcon,
-    linkName: null,
+    linkName: 'admin.files.create',
     isAdmin: true,
   },
   // user

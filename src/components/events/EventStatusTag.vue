@@ -1,5 +1,8 @@
 <template>
-<div class="relative flex justify-center item-center sm:col-start-3">
+<button
+  class="relative flex justify-center item-center sm:col-start-3"
+  @click="sendEvent"
+>
   <div
     :class="`flex item-center justify-center p-2 overflow-y-auto text-xs leading-5 rounded-lg group inset-1 bg-${getStatusColor()}-50 hover:bg-${getStatusColor()}-100 border border-${getStatusColor()}-500 hover:border-${getStatusColor()}-700`"
   >
@@ -9,7 +12,7 @@
       {{ getEventStatusTranslation(status) }}
     </p>
   </div>
-</div>
+</button>
 </template>
 
 <script setup lang="ts">
@@ -20,6 +23,10 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
+const emit = defineEmits<{
+  (e: 'click'): void
+}>()
 
 const { getEventStatusTranslation } = eventHook()
 
@@ -36,5 +43,9 @@ function getStatusColor() {
     default:
       return 'gray'
   }
+}
+
+function sendEvent() {
+  emit('click')
 }
 </script>

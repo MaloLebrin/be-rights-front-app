@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { fileState } from './state'
+import { defaultFileState, fileState } from './state'
 import type { FileState, FileType } from './types'
 import createGetters from '@/store/utils/createGetters'
 import { EntitiesEnum } from '@/types/globals'
@@ -41,10 +41,7 @@ export const useFileStore = defineStore(EntitiesEnum.FILES, {
       ids.forEach(id => this.deleteOne(id))
     },
     resetState() {
-      this.entities.byId = {}
-      this.entities.allIds = []
-      this.entities.active = []
-      this.entities.current = null
+      this.$state = defaultFileState()
     },
     setActive(id: number) {
       if (!this.entities.active.includes(id)) {

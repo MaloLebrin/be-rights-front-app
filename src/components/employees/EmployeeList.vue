@@ -1,87 +1,119 @@
 <template>
-<div class="relative">
-  <template v-if="employees.length > 0">
-    <div
-      v-for="(employee, index) in employees"
-      :key="employee.id"
-      class="w-full"
-    >
-      <DashboardItem :index="index">
-        <template #title>
-          <div class="grid grid-cols-1 gap-4 px-4 py-4 lg:grid-cols-4">
-            <span class="text-sm text-gray-500 dark:text-gray-400">Prénom - Nom</span>
-            <span class="text-sm text-gray-500 dark:text-gray-400">Email</span>
-            <span class="text-sm text-gray-500 dark:text-gray-400">Téléphone</span>
-            <span class="text-sm text-gray-500 dark:text-gray-400">Créé le :</span>
-            <span class="dark:text-white">{{ employee.firstName }} {{ employee.lastName }}</span>
-            <span class="dark:text-white">{{ employee.email }}</span>
-            <span class="dark:text-white">{{ employee.phone }}</span>
-            <span class="dark:text-white">{{ getDate(employee.createdAt.toString()) }}</span>
-          </div>
-        </template>
-        <template #extraButton>
-          <a
-            class="flex items-center space-x-2 cursor-pointer EventActionButton text-white-light dark:text-blue-dark"
-            @click="updateOneEmployee(employee)"
-          >
-            <PencilAltIconOutline class="w-4 h-4" />
-            <span>Modifier {{ employee.firstName }} {{ employee.lastName }}</span>
-          </a>
-          <a
-            class="flex items-center space-x-2 cursor-pointer EventActionButton text-white-light dark:text-blue-dark"
-            @click="deleteOneEmployee(employee)"
-          >
-            <TrashIconOutline class="w-4 h-4 text-red-500" />
-            <span>Supprimer {{ employee.firstName }} {{ employee.lastName }}</span>
-          </a>
-        </template>
-      </DashboardItem>
-    </div>
-  </template>
-  <h4
+<div class="relative z-0 flex flex-col flex-1 overflow-hidden md:flex-row">
+  <EmployeeDetails
+    v-if="!state.isLoading && state.activeEmployee"
+    :employee="state.activeEmployee"
+  />
+  <BaseLoader
     v-else
-    class="text-2xl font-semibold text-blue-dark dark:text-white"
-  >
-    {{ noEventMesssage }}
-  </h4>
+    class="mt-12"
+  />
+
+  <aside class="order-first border-r border-gray-200 md:flex-shrink-0 xl:flex xl:flex-col w-96">
+    <div class="px-6 pt-6 pb-4">
+      <h2 class="text-lg font-medium text-gray-900">
+        {{ userStore.isCurrentUserAdmin ? 'Liste de vos destinataires' : 'Liste des destinataires' }}
+      </h2>
+      <form
+        class="flex mt-6 space-x-4"
+        action="#"
+      >
+        <div class="flex-1 min-w-0">
+          <label
+            for="search"
+            class="sr-only"
+          >Recherche</label>
+          <BaseInput
+            v-model="state.search"
+            type="text"
+            placeholder="Recherchez"
+            @keyup="searchEntity($event)"
+          />
+        </div>
+      </form>
+    </div>
+    <!-- Employee list -->
+    <nav
+      class="flex-1 max-h-screen min-h-0 overflow-y-auto"
+      aria-label="Employee"
+    >
+      <template v-if="employees.length > 0">
+        <div
+          v-for="letter in Object.keys(alphabeticalAmployeeList)"
+          :key="letter"
+          class="relative"
+        >
+          <div class="sticky top-0 z-10 px-6 py-1 text-sm font-medium text-gray-500 border-t border-b border-gray-200 bg-gray-50">
+            <h3>{{ letter }}</h3>
+          </div>
+          <ul
+            role="list"
+            class="relative z-0 divide-y divide-gray-200"
+          >
+            <!-- TODO max height -->
+            <EmployeeItem
+              v-for="employee in alphabeticalAmployeeList[letter]"
+              :key="employee.id"
+              :employee="employee"
+              :class="{ 'bg-gray-100' : employee.id === state.activeEmployee.id }"
+              @click="setActiveEmployee(employee)"
+            />
+          </ul>
+        </div>
+      </template>
+      <p
+        v-else
+        class="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 truncate whitespace-nowrap sm:pl-6"
+      >
+        {{ userStore.isCurrentUserAdmin ?
+          'Aucun destinataire enregistré dans la base de donnée' :
+          'Vous n\'avez pas de destinataire enregistré dans la base de donnée'
+        }}
+      </p>
+    </nav>
+  </aside>
 </div>
 </template>
 
 <script setup lang="ts">
+import { alphabetical } from '@/utils/array'
 import type { EmployeeType } from '@/types/typesExported'
-import { ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
 
-interface Props {
-  employees: EmployeeType[]
-}
+const { setSearch } = useTableStore()
+const userStore = useUserStore()
+const employeeStore = useEmployeeStore()
 
-withDefaults(defineProps<Props>(), {
-  employees: () => [],
+const employees = computed(() => alphabetical(employeeStore.getAllArray) as EmployeeType[])
+
+const state = reactive({
+  search: '',
+  timeout: 0,
+  isLoading: false,
+  activeEmployee: employees.value[0] || null,
 })
 
-const uiStore = useUiStore()
-const userStore = useUserStore()
-const { setUiModal } = uiStore
-const { getDate } = dateHook()
+const alphabeticalAmployeeList = computed(() => {
+  return employees.value.reduce((acc: Record<string, EmployeeType[]>, employee: EmployeeType) => {
+    const letter = employee.lastName[0].toUpperCase()
+    if (!acc[letter]) {
+      acc[letter] = []
+    }
+    acc[letter].push(employee)
+    return acc
+  }, {})
+})
 
-function updateOneEmployee(employee: EmployeeType) {
-  setUiModal({
-    isActive: true,
-    modalName: ModalNameEnum.ADD_EMPLOYEE,
-    modalMode: ModalModeEnum.EDIT,
-    data: { employee },
-  })
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function searchEntity(event: KeyboardEvent) {
+  clearTimeout(state.timeout)
+  state.timeout = window.setTimeout(() => {
+    setSearch(state.search)
+  }, 500)
 }
 
-function deleteOneEmployee(employee: EmployeeType) {
-  setUiModal({
-    isActive: true,
-    modalName: ModalNameEnum.ADD_EMPLOYEE,
-    modalMode: ModalModeEnum.DELETE,
-    data: { employee },
-  })
+function setActiveEmployee(employee: EmployeeType) {
+  state.isLoading = true
+  state.activeEmployee = employee
+  state.isLoading = false
 }
-const noEventMesssage = computed(() =>
-  userStore.isCurrentUserAdmin ? 'Aucun destinataire enregistré dans la base de donnée' : 'Vous n\'avez pas de destinataire enregistré dans la base de donnée',
-)
 </script>

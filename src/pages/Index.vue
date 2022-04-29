@@ -364,14 +364,12 @@
       Commencez
     </BaseButton>
   </div>
-  <Toast v-else>
-    Email enregistré
-  </Toast>
 </section>
 </template>
 
 <script setup lang="ts">
 const { newsletterSignup } = newsletterHook()
+const toast = useToast()
 
 const email = ref('')
 const isSuccess = ref(false)
@@ -384,6 +382,7 @@ async function submit() {
     companyName: null,
   })
   isSuccess.value = true
+  toast.success('Merci pour votre inscription!')
 }
 
 </script>

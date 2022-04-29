@@ -12,13 +12,6 @@ export enum ModalModeEnum {
   READ = 'READ',
 }
 
-export enum ToastVariantsEnum {
-  'PRIMARY' = 'primary',
-  'WARNING' = 'warning',
-  'DANGER' = 'danger',
-  'SUCCESS' = 'success',
-}
-
 export interface UiState {
   modal: {
     modalName: ModalNameEnum | null
@@ -27,21 +20,8 @@ export interface UiState {
     modalMode: ModalModeEnum
     isLoading: boolean
   }
-  toast: {
-    isActive: boolean
-    message: string
-    variant: ToastVariantsEnum
-    duration?: number
-  }
   isLoading: number
   isDrawerOpen: boolean
-}
-
-export interface ToastOptionsUi {
-  isActive: boolean
-  message: string
-  variant: ToastVariantsEnum
-  duration?: number
 }
 
 export interface ModalOptionsUi {
@@ -49,17 +29,4 @@ export interface ModalOptionsUi {
   isActive: boolean
   data: Record<string, any>
   modalMode: ModalModeEnum
-}
-
-export const ToastVariantsArray = Object.values(ToastVariantsEnum).map(variant => variant)
-
-export type ToastVariantsMap = {
-  [key in ToastVariantsEnum]: string
-}
-
-export const toastVariantsMap: ToastVariantsMap = {
-  primary: 'bg-blue text-white font-normal hover:bg-blue-dark focus:ring-4 ring-blue',
-  warning: 'bg-orange text-white hover:bg-orange-dark focus:ring-4 ring-orange',
-  danger: 'bg-red text-white hover:text-white hover:bg-red-light focus:ring-4 ring-red',
-  success: 'bg-green text-white hover:bg-green-dark focus:ring-4 ring-green',
 }
