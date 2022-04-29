@@ -15,10 +15,22 @@ export const useTableStore = defineStore(EntitiesEnum.TABLE, {
     getFilters: state => state.filters,
     getSearch: state => state.search,
     getFinalUrl: state => {
+      const userStore = useUserStore()
+
       let url: string | null = null
-      if (state.search) {
-        url = `search=${state.search}`
+
+      if (!userStore.isCurrentUserAdmin && userStore.getCurrentUserId) {
+        url = `filters[createdByUser]=${userStore.getCurrentUserId}`
       }
+
+      if (state.search) {
+        if (!url) {
+          url = `search=${state.search}`
+        } else {
+          url += `&search=${state.search}`
+        }
+      }
+
       if (state.filters) {
         Object.keys(state.filters).forEach(field => {
           if (state.filters && state.filters[field]) {

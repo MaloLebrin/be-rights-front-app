@@ -62,6 +62,17 @@ export const userRoutes = [
     },
   },
   {
+    path: '/user/employees/:employeeId/details',
+    name: 'user.employees.details',
+    component: () => import('@/pages/adminDashboard/employee/EmployeeId.vue'),
+    // TODO FIXME use convience component
+    meta: {
+      layout: 'DashboardLayout',
+      isAuth: true,
+      isAdmin: false,
+    },
+  },
+  {
     path: '/user/files',
     name: 'user.files',
     component: () => import('@/pages/userDashboard/files/MyFiles.vue'),

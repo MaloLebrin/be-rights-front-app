@@ -6,10 +6,7 @@
     class="w-full lg:pl-64 dark:bg-blue-dark"
   >
     <HeaderDashboard />
-    <Loader
-      v-if="uiStore.getUIIsLoading"
-      :is-loading="uiStore.getUIIsLoading"
-    />
+    <BaseLoader v-if="uiStore.getUIIsLoading" />
     <router-view
       v-show="!uiStore.getUIIsLoading"
       v-slot="{ Component }"
@@ -20,6 +17,7 @@
     </router-view>
   </main>
 </div>
+
 <Teleport to="#portal-target">
   <EventModal
     v-if="isModalActive(ModalNameEnum.EVENT_FORM).value"

@@ -19,21 +19,24 @@
             <thead class="bg-gray-50">
               <HeaderEventTable />
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              <template v-if="events.length > 0">
+            <template v-if="events.length > 0">
+              <tbody class="bg-white divide-y divide-gray-200">
                 <EventItem
                   v-for="event in events"
                   :key="event.id"
                   :event="event"
                 />
-              </template>
-              <p
-                v-else
-                class="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 truncate whitespace-nowrap sm:pl-6"
-              >
-                {{ noEventMessage }}
-              </p>
-            </tbody>
+              </tbody>
+            </template>
+            <div
+              v-else
+              class="flex items-center py-4 pl-4 pr-3 space-x-2 text-sm font-medium text-gray-900 truncate whitespace-nowrap sm:pl-6"
+            >
+              <p>{{ noEventMessage }}</p>
+              <BaseButton :href="{ name: userStore.isCurrentUserAdmin ? 'admin.events.create' : 'user.events.create' }">
+                Créer un événement
+              </BaseButton>
+            </div>
           </table>
         </div>
       </div>
@@ -47,7 +50,7 @@ import type { EventType } from '@/types/typesExported'
 import { EventStatusEnum } from '@/types/typesExported'
 
 interface Props {
-  noEventMessage: string
+  noEventMessage?: string
   events: EventType[]
 }
 
@@ -56,34 +59,12 @@ withDefaults(defineProps<Props>(), {
   events: () => [],
 })
 
-const eventStore = useEventStore()
-const userStore = useUserStore()
-const uiStore = useUiStore()
-const { IncLoading, DecLoading } = uiStore
 const { setSearch } = useTableStore()
-const tableStore = useTableStore()
-const { fetchAllEvents } = eventHook()
+const userStore = useUserStore()
 
 const state = reactive({
   search: '',
   timeout: 0,
-})
-
-const events = computed(() => eventStore.getAllArray)
-
-watch(() => tableStore.getFinalUrl, async newValue => {
-  IncLoading()
-  eventStore.resetState()
-  await fetchAllEvents(newValue)
-  DecLoading()
-})
-
-onMounted(async() => {
-  if (userStore.getCurrentUserId) {
-    IncLoading()
-    await fetchAllEvents()
-    DecLoading()
-  }
 })
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

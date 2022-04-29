@@ -1,37 +1,28 @@
 <template>
 <div
-  class="container min-h-screen px-8 py-6 text-left transition-all duration-500 ease-in-out transform md:px-20 lg:px-32"
+  class="relative min-h-screen px-4 py-6 text-left transition-all duration-500 ease-in-out transform"
 >
-  <HeaderList>
-    <template #title>
-      <UsersIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Destinataires
-    </template>
-    <template #additionnalButtons>
-      <BaseInput
-        v-model="state.search"
-        type="text"
-        placeholder="Recherchez"
-        @keyup="searchEntity($event)"
-      />
-    </template>
-  </HeaderList>
-  <EmployeeList :employees="employees" />
+  <EmployeeList />
 </div>
 </template>
 
 <script setup lang="ts">
-const { IncLoading, DecLoading } = useUiStore()
-const tableStore = useTableStore()
-const { setSearch } = tableStore
+import { onBeforeRouteLeave } from 'vue-router'
+import { uniq } from '@/utils/array'
 
-const { fetchAll } = employeeHook()
+const tableStore = useTableStore()
+const { setFilters } = useTableStore()
+const uiStore = useUiStore()
+const { IncLoading, DecLoading } = uiStore
+const userStore = useUserStore()
 const employeeStore = useEmployeeStore()
 
-const employees = computed(() => employeeStore.getAllArray)
+const { fetchAll } = employeeHook()
+const { fetchMany } = userHook()
+const { fetchLogoByUserId } = fileHook()
 
-const state = reactive({
-  search: '',
-  timeout: 0,
+onBeforeRouteLeave(() => {
+  setFilters(null)
 })
 
 watch(() => tableStore.getFinalUrl, async newValue => {
@@ -44,14 +35,17 @@ watch(() => tableStore.getFinalUrl, async newValue => {
 onMounted(async() => {
   IncLoading()
   await fetchAll(tableStore.getFinalUrl)
+  if (employeeStore.getAllArray.length > 0) {
+    const userIds = employeeStore.getAllArray.map(employee => employee.createdByUser) as number[]
+    if (userIds.length > 0) {
+      const uniqIds = uniq(userIds)
+      const missingIds = uniqIds.filter(id => !userStore.getAllIds.includes(id))
+      if (missingIds.length > 0) {
+        await fetchMany(missingIds)
+      }
+      await Promise.all(uniqIds.map(id => fetchLogoByUserId(id)))
+    }
+  }
   DecLoading()
 })
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function searchEntity(event: KeyboardEvent) {
-  clearTimeout(state.timeout)
-  state.timeout = window.setTimeout(() => {
-    setSearch(state.search)
-  }, 500)
-}
 </script>

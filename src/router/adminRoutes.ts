@@ -84,7 +84,7 @@ export const adminRoutes = [
   {
     path: '/admin/employees/:employeeId/details',
     name: 'admin.employees.details',
-    component: () => import('@/pages/adminDashboard/employee/EmployeeDetails.vue'),
+    component: () => import('@/pages/adminDashboard/employee/EmployeeId.vue'),
     meta: {
       layout: 'AdminDashboardLayout',
       isAuth: true,

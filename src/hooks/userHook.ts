@@ -221,9 +221,30 @@ export default function userHook() {
     return `${user.firstName} ${user.lastName}`
   }
 
+  async function fetchMany(ids: number[]) {
+    IncLoading()
+    try {
+      if (ids.length > 0) {
+        const res = await api.get(`user/many/?ids=${ids.join(',')}`)
+        const users = res as UserType[]
+        if (users && users.length > 0) {
+          const missingsUsers = users.filter(user => !userStore.getAllIds.includes(user.id))
+          if (missingsUsers.length > 0) {
+            userStore.createMany(missingsUsers)
+          }
+        }
+      }
+    } catch (error) {
+      setUIErrorToast()
+      console.error(error)
+    }
+    DecLoading()
+  }
+
   return {
     deleteUser,
     fetchAll,
+    fetchMany,
     fetchOne,
     getRoleTranslation,
     getUserfullName,
