@@ -20,6 +20,7 @@
     </router-view>
   </main>
 </div>
+
 <Teleport to="#portal-target">
   <EventModal
     v-if="isModalActive(ModalNameEnum.EVENT_FORM).value"
