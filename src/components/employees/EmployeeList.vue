@@ -1,5 +1,5 @@
 <template>
-<div class="relative z-0 flex flex-1 overflow-hidden">
+<div class="relative z-0 flex flex-col flex-1 overflow-hidden md:flex-row">
   <EmployeeDetails
     v-if="!state.isLoading && state.activeEmployee"
     :employee="state.activeEmployee"
@@ -9,7 +9,7 @@
     class="mt-12"
   />
 
-  <aside class="flex-shrink-0 hidden border-r border-gray-200 xl:order-first xl:flex xl:flex-col w-96">
+  <aside class="order-first border-r border-gray-200 md:flex-shrink-0 xl:flex xl:flex-col w-96">
     <div class="px-6 pt-6 pb-4">
       <h2 class="text-lg font-medium text-gray-900">
         {{ userStore.isCurrentUserAdmin ? 'Liste de vos destinataires' : 'Liste des destinataires' }}
@@ -34,7 +34,7 @@
     </div>
     <!-- Employee list -->
     <nav
-      class="flex-1 min-h-0 overflow-y-auto"
+      class="flex-1 max-h-screen min-h-0 overflow-y-auto"
       aria-label="Employee"
     >
       <template v-if="employees.length > 0">
