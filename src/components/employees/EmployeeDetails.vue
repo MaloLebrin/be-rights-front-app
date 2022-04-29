@@ -7,7 +7,7 @@
         <img
           class="object-cover w-full h-56 lg:h-64"
           :src="'https://images.unsplash.com/photo-1460132011327-1bcd44f7ae20?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8cGhvdG9ncmFwaGVyc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=900&q=60'"
-          alt=""
+          alt="Photo de couverture du destinataire"
         >
       </div>
       <div class="max-w-5xl px-4 mx-auto sm:px-6 lg:px-8">
