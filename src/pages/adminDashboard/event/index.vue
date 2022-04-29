@@ -40,5 +40,4 @@ onMounted(async() => {
     DecLoading()
   }
 })
-
 </script>

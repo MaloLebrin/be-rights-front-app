@@ -1,65 +1,52 @@
 <template>
-<div class="relative mt-32">
-  <div v-if="files.length > 0">
-    <div
-      v-for="(file, index) in files"
-      :key="file.id"
-    >
-      <DashboardItem :index="index">
-        <template #title>
-          <div class="grid grid-cols-1 gap-4 px-4 py-4 md:grid-cols-4">
-            <span class="text-sm text-gray-500 dark:text-gray-400">Nom du fichier</span>
-            <span class="text-sm text-gray-500 dark:text-gray-400">Taille</span>
-            <span class="text-sm text-gray-500 dark:text-gray-400">Créé le :</span>
-            <span class="text-sm text-gray-500 dark:text-gray-400">Type :</span>
-            <span class="dark:text-white">{{ file.name }}</span>
-            <span class="dark:text-white">{{ file.size }} mo</span>
-            <span class="dark:text-white">{{ getDate(file.createdAt.toString()) }}</span>
-            <span>
-              <FileTypeTag :type="file.type" />
-            </span>
-          </div>
-        </template>
-
-        <div class="flex items-center justify-center py-4">
-          <img
-            class="w-32 h-32 rounded"
-            :src="file.secure_url"
-            :alt="file.original_filename"
-          >
+<div class="h-full px-4 sm:px-6 lg:px-8">
+  <div class="sm:flex sm:items-center">
+    <div class="sm:flex-auto">
+      <BaseInput
+        v-model="state.search"
+        type="text"
+        placeholder="Recherchez"
+        @keyup="searchEntity($event)"
+      />
+    </div>
+    <FiltersFilesTable />
+  </div>
+  <div class="flex flex-col h-full mt-8">
+    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-300">
+            <thead class="bg-gray-50">
+              <HeaderFileTable />
+            </thead>
+            <template v-if="files.length > 0">
+              <tbody class="bg-white divide-y divide-gray-200">
+                <FileTableItem
+                  v-for="file in files"
+                  :key="file.id"
+                  :file="file"
+                />
+              </tbody>
+            </template>
+            <div
+              v-else
+              class="flex items-center py-4 pl-4 pr-3 space-x-2 text-sm font-medium text-gray-900 truncate whitespace-nowrap sm:pl-6"
+            >
+              <p>{{ userStore.isCurrentUserAdmin ? 'Aucun fichier en base de donnée' : 'Vous n\'avez aucun fichier' }}</p>
+              <BaseButton :href="{ name: userStore.isCurrentUserAdmin ? 'admin.files.create' : 'user.files.create-model' }">
+                Créer un fichier
+              </BaseButton>
+            </div>
+          </table>
         </div>
-
-        <template #extraButton>
-          <!-- TODO refacto this component -->
-          <a
-            class="EventActionButton"
-            @click="deleteOneFile(file)"
-          >Supprimer {{ file.name }}</a>
-          <a
-            v-if="file.format === FileFormatEnum.PDF"
-            class="EventActionButton"
-            @click="downloadFile(file)"
-          >Télécharger {{ file.name }}</a>
-          <a
-            class="EventActionButton"
-            @click="updateFile(file)"
-          >Modifier {{ file.name }}</a>
-        </template>
-      </DashboardItem>
+      </div>
     </div>
   </div>
-  <h4
-    v-else
-    class="text-2xl font-semibold text-blue-dark dark:text-white"
-  >
-    {{ noFileMesssage }}
-  </h4>
 </div>
 </template>
 
 <script setup lang="ts">
 import type { FileType } from '@/types/typesExported'
-import { FileFormatEnum, ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
 
 interface Props {
   files: FileType[]
@@ -70,40 +57,20 @@ withDefaults(defineProps<Props>(), {
 })
 
 const userStore = useUserStore()
-const uiStore = useUiStore()
-const { setUiModal } = uiStore
-const { getDate } = dateHook()
+const { setSearch } = useTableStore()
 
-function deleteOneFile(file: FileType) {
-  setUiModal({
-    isActive: true,
-    modalName: ModalNameEnum.FILE_MODAL,
-    modalMode: ModalModeEnum.DELETE,
-    data: { file },
-  })
+const state = reactive({
+  search: '',
+  timeout: 0,
+})
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function searchEntity(event: KeyboardEvent) {
+  clearTimeout(state.timeout)
+  state.timeout = window.setTimeout(() => {
+    setSearch(state.search)
+  }, 500)
 }
-
-function updateFile(file: FileType) {
-  setUiModal({
-    isActive: true,
-    modalName: ModalNameEnum.FILE_MODAL,
-    modalMode: ModalModeEnum.EDIT,
-    data: { file },
-  })
-}
-
-function downloadFile(file: FileType) {
-  const blob = new Blob([file.secure_url], { type: 'application/png' })
-  const link = document.createElement('a')
-  link.href = URL.createObjectURL(blob)
-  link.download = file.name
-  link.click()
-  URL.revokeObjectURL(link.href)
-}
-
-const noFileMesssage = computed(() =>
-  userStore.isCurrentUserAdmin ? 'Aucun fichié enregistré dans la base de donnée' : 'Vous n\'avez pas de fichié enregistré dans la base de donnée',
-)
 </script>
 
 <style>
