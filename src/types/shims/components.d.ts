@@ -19,6 +19,7 @@ declare module 'vue' {
     BugCreationForm: typeof import('./../../components/bugs/BugCreationForm.vue')['default']
     BugReport: typeof import('./../../pages/userDashboard/bugReports/BugReport.vue')['default']
     BugsReports: typeof import('./../../pages/adminDashboard/bugReports/BugsReports.vue')['default']
+    CalendarIconOutline: typeof import('@heroicons/vue/outline/esm/CalendarIcon.js')['default']
     CheckCircleIconOutline: typeof import('@heroicons/vue/outline/esm/CheckCircleIcon.js')['default']
     CheckIconOutline: typeof import('@heroicons/vue/outline/esm/CheckIcon.js')['default']
     ChevronDownIconSolid: typeof import('@heroicons/vue/solid/esm/ChevronDownIcon.js')['default']
