@@ -2,65 +2,32 @@
 <div
   class="relative min-h-screen py-6 text-left transition-all duration-500 ease-in-out transform"
 >
-  <HeaderList>
-    <template #title>
-      <HomeIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Événements
-    </template>
-    <template #additionnalButtons>
-      <BaseButton @click="setHeaderFilters(null)">
-        Tout
-      </BaseButton>
-      <BaseButton @click="setHeaderFilters(EventStatusEnum.PENDING)">
-        En cours
-      </BaseButton>
-      <BaseButton @click="setHeaderFilters(EventStatusEnum.CLOSED)">
-        Terminés
-      </BaseButton>
-      <BaseInput
-        v-model="state.search"
-        type="text"
-        placeholder="Recherchez"
-        @keyup="searchEntity($event)"
-      />
-      <router-link
-        class="flex items-center space-x-2 LinkClass"
-        :to="{ path: '/userDashboard/bugReports/BugReport' }"
-      >
-        <ExclamationIconOutline class="w-6 h-8 text-bg-red" />
-        <span>Signaler un bug</span>
-      </router-link>
-    </template>
-  </HeaderList>
   <EventList
     :events="events"
-    no-event-message="Aucun Event en Base de donnée"
   />
 </div>
 </template>
 
 <script setup lang="ts">
-import { EventStatusEnum } from '@/types/typesExported'
-
-const { getEventsByUserId } = useEventStore()
+const eventStore = useEventStore()
 const { IncLoading, DecLoading } = useUiStore()
 const userStore = useUserStore()
-const { setSearch, setFilters } = useTableStore()
+const tableStore = useTableStore()
 
-const { fetchEventsByUser } = eventHook()
-
-const state = reactive<{
-  search: string
-  timeout: number
-}>({
-  search: '',
-  timeout: 0,
-})
+const { fetchEventsByUser, fetchAllEvents } = eventHook()
 
 const events = computed(() => {
   if (userStore.getCurrentUserId) {
-    return getEventsByUserId(userStore.getCurrentUserId)
+    return eventStore.getEventsByUserId(userStore.getCurrentUserId)
   }
   return []
+})
+
+watch(() => tableStore.getFinalUrl, async newValue => {
+  IncLoading()
+  eventStore.resetState()
+  await fetchAllEvents(newValue)
+  DecLoading()
 })
 
 onMounted(async() => {
@@ -70,23 +37,4 @@ onMounted(async() => {
     DecLoading()
   }
 })
-
-function setHeaderFilters(filter: string | null) {
-  if (filter) {
-    setFilters({
-      status: filter,
-      createdByUser: userStore.getCurrentUserId!.toString(),
-    })
-  } else {
-    setFilters(null)
-  }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function searchEntity(event: KeyboardEvent) {
-  clearTimeout(state.timeout)
-  state.timeout = window.setTimeout(() => {
-    setSearch(state.search)
-  }, 500)
-}
 </script>

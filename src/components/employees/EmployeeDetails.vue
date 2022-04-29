@@ -6,20 +6,13 @@
       <div>
         <img
           class="object-cover w-full h-56 lg:h-64"
-          :src="creatorLogo?.secure_url ||'https://images.unsplash.com/photo-1460132011327-1bcd44f7ae20?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8cGhvdG9ncmFwaGVyc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=900&q=60'"
+          :src="'https://images.unsplash.com/photo-1460132011327-1bcd44f7ae20?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8cGhvdG9ncmFwaGVyc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=900&q=60'"
           alt=""
         >
       </div>
       <div class="max-w-5xl px-4 mx-auto sm:px-6 lg:px-8">
         <div class="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
-          <!-- <div class="flex">
-            <img
-              class="w-24 h-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
-              :src="profile.imageUrl || 'https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80'"
-              alt="Photo de profil du destinataire"
-            >
-          </div> -->
-          <div class="mt-6 sm:flex-1 sm:min-w-0 sm:flex sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
+          <div class="mt-12 sm:flex-1 sm:min-w-0 sm:flex sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
             <div class="flex-1 min-w-0 mt-6 sm:hidden 2xl:block">
               <h1 class="text-2xl font-bold text-gray-900 truncate">
                 {{ getEmployeeFullname(employee) }}

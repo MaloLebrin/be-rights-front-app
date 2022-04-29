@@ -50,6 +50,7 @@
             role="list"
             class="relative z-0 divide-y divide-gray-200"
           >
+            <!-- TODO max height -->
             <EmployeeItem
               v-for="employee in alphabeticalAmployeeList[letter]"
               :key="employee.id"

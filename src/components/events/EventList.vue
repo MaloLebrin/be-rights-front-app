@@ -56,34 +56,11 @@ withDefaults(defineProps<Props>(), {
   events: () => [],
 })
 
-const eventStore = useEventStore()
-const userStore = useUserStore()
-const uiStore = useUiStore()
-const { IncLoading, DecLoading } = uiStore
 const { setSearch } = useTableStore()
-const tableStore = useTableStore()
-const { fetchAllEvents } = eventHook()
 
 const state = reactive({
   search: '',
   timeout: 0,
-})
-
-const events = computed(() => eventStore.getAllArray)
-
-watch(() => tableStore.getFinalUrl, async newValue => {
-  IncLoading()
-  eventStore.resetState()
-  await fetchAllEvents(newValue)
-  DecLoading()
-})
-
-onMounted(async() => {
-  if (userStore.getCurrentUserId) {
-    IncLoading()
-    await fetchAllEvents()
-    DecLoading()
-  }
 })
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
