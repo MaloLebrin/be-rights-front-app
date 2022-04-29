@@ -7,7 +7,8 @@ import type { EmployeeType } from '@/store/employee/types'
 export function eventHook() {
   const eventStore = useEventStore()
   const userStore = useUserStore()
-  const { setUISucessToast, setUIErrorToast, DecLoading, IncLoading } = useUiStore()
+  const { DecLoading, IncLoading } = useUiStore()
+  const toast = useToast()
   const api = new APi(userStore.getCurrentUserToken!)
 
   function getEventStatusTranslation(status: EventStatusEnum) {
@@ -62,7 +63,7 @@ export function eventHook() {
       }
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -76,7 +77,7 @@ export function eventHook() {
       }
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -99,7 +100,7 @@ export function eventHook() {
       }
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -114,7 +115,7 @@ export function eventHook() {
       }
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -123,11 +124,11 @@ export function eventHook() {
     try {
       const res = await api.post(`event/${userId}`, { event })
       eventStore.createOne(res)
-      setUISucessToast('L\'événement a été créé avec succès')
+      toast.success('L\'événement a été créé avec succès')
       return res
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
   }
 
@@ -138,10 +139,10 @@ export function eventHook() {
         const res = await api.patch(`event/${event.id}`, { event })
         const updatedEvent = res as EventType
         eventStore.updateOne(updatedEvent.id, updatedEvent)
-        setUISucessToast('L\'événement a été mis à jour avec succès')
+        toast.success('L\'événement a été mis à jour avec succès')
       } catch (error) {
         console.error(error)
-        setUIErrorToast()
+        toast.error('Une erreur est survenue')
       }
       DecLoading()
     }
@@ -152,10 +153,10 @@ export function eventHook() {
     try {
       await api.delete(`event/${id}`)
       eventStore.deleteOne(id)
-      setUISucessToast('L\'événement a été supprimé avec succès')
+      toast.success('L\'événement a été supprimé avec succès')
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }

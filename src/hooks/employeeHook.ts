@@ -7,9 +7,10 @@ export default function employeeHook() {
   const userStore = useUserStore()
   const { createMany: createManyAnswers } = useAnswerStore()
   const { createMany: createManyFiles } = useFileStore()
-  const { setUISucessToast, setUIErrorToast, IncLoading, DecLoading } = useUiStore()
+  const { IncLoading, DecLoading } = useUiStore()
   const { filteringFilesNotInStore } = fileHook()
   const { filteringAnswersNotInStore } = answerHook()
+  const toast = useToast()
   const api = new API(userStore.getCurrentUserToken!)
 
   function getEmployeeStatusSignature(employee: EmployeeType): string {
@@ -81,7 +82,7 @@ export default function employeeHook() {
       employeeStore.createMany(employees)
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
   }
 
@@ -96,7 +97,7 @@ export default function employeeHook() {
       })))
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -114,7 +115,7 @@ export default function employeeHook() {
       storeEmployeeRelationsEntities(data)
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -124,10 +125,10 @@ export default function employeeHook() {
     try {
       await api.delete(`employee/${id}`)
       employeeStore.deleteOne(id)
-      setUISucessToast('Destinataire supprimé avec succès')
+      toast.success('Destinataire supprimé avec succès')
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -137,10 +138,10 @@ export default function employeeHook() {
     try {
       const res = await api.patch(`employee/${id}`, { employee: data })
       employeeStore.updateOne(id, res)
-      setUISucessToast('Destinataire modifié avec succès')
+      toast.success('Destinataire modifié avec succès')
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -157,10 +158,10 @@ export default function employeeHook() {
         employee: [...userEmployee, data.id],
       })
       employeeStore.createOne(data)
-      setUISucessToast('Destinataire créé avec succès')
+      toast.success('Destinataire créé avec succès')
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -178,10 +179,10 @@ export default function employeeHook() {
         employee: [...userEmployee, ...employeeIds],
       })
       employeeStore.createMany(data)
-      setUISucessToast('Destinataires créés avec succès')
+      toast.success('Destinataires créés avec succès')
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
