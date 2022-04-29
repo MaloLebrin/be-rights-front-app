@@ -50,7 +50,7 @@ import type { EventType } from '@/types/typesExported'
 import { EventStatusEnum } from '@/types/typesExported'
 
 interface Props {
-  noEventMessage: string
+  noEventMessage?: string
   events: EventType[]
 }
 
