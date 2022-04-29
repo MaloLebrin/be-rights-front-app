@@ -92,6 +92,16 @@ export const adminRoutes = [
     },
   },
   {
+    path: '/admin/employees/create',
+    name: 'admin.employees.create',
+    component: () => import('@/pages/userDashboard/employee/CreateEmployee.vue'),
+    meta: {
+      layout: 'DashboardLayout',
+      isAuth: true,
+      isAdmin: true,
+    },
+  },
+  {
     path: '/admin/files',
     name: 'admin.files',
     component: () => import('@/pages/adminDashboard/file/Files.vue'),

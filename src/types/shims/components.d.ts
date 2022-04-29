@@ -26,6 +26,7 @@ declare module 'vue' {
     ChevronDownIconSolid: typeof import('@heroicons/vue/solid/esm/ChevronDownIcon.js')['default']
     ChevronLeftIconOutline: typeof import('@heroicons/vue/outline/esm/ChevronLeftIcon.js')['default']
     CookiesModal: typeof import('./../../components/modals/CookiesModal.vue')['default']
+    Create: typeof import('./../../pages/adminDashboard/employee/Create.vue')['default']
     CreateEmployee: typeof import('./../../pages/userDashboard/employee/CreateEmployee.vue')['default']
     CreateEvent: typeof import('./../../pages/adminDashboard/event/CreateEvent.vue')['default']
     CreateModel: typeof import('./../../pages/userDashboard/files/CreateModel.vue')['default']
