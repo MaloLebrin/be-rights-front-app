@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import createGetters from '../utils/createGetters'
-import { eventState } from './state'
+import { defaultEventState, eventState } from './state'
 import type { EventState, EventType } from './types'
 import { EntitiesEnum } from '@/types/globals'
 
@@ -47,10 +47,7 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
       ids.forEach(id => this.deleteOne(id))
     },
     resetState() {
-      this.entities.byId = {}
-      this.entities.allIds = []
-      this.entities.active = []
-      this.entities.current = null
+      this.$state = defaultEventState()
     },
     setActive(id: number) {
       if (!this.entities.active.includes(id)) {

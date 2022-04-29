@@ -13,7 +13,11 @@ export const baseCreationForm: BugReportCreationFormType = {
   description: '',
 }
 
-export const bugState = {
-  ...createState<BugReportType>(bugEntity),
-  creationForm: baseCreationForm,
+export const bugState = defaultUserState()
+
+export function defaultUserState() {
+  return {
+    ...createState<BugReportType>(bugEntity),
+    creationForm: baseCreationForm,
+  }
 }
