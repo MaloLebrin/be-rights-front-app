@@ -41,6 +41,14 @@
         </router-link>
       </MenuItem>
 
+      <MenuButton v-if="!userStore.isCurrentUserAdmin">
+        <div class="flex items-center justify-start w-full space-x-2 text-sm text-gray-700 cursor-pointer">
+          <ExclamationCircleIconOutline class="h-6 text-gray-500" />
+          <router-link :to="{ name: 'user.bug.create' }">
+            Signaler un problème
+          </router-link>
+        </div>
+      </MenuButton>
       <MenuButton>
         <div
           class="flex items-center justify-start w-full space-x-2 text-sm text-gray-700 cursor-pointer"

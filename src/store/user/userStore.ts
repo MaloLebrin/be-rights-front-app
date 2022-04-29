@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import type { UserType } from './types'
-import { userState } from './state'
+import { defaultUserState, userState } from './state'
 import { EntitiesEnum } from '@/types/globals'
 import createGetters from '@/store/utils/createGetters'
 import { RoleEnum } from '@/types/Roles'
@@ -67,9 +67,9 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
     },
 
     resetState() {
-      this.entities.byId = {}
-      this.entities.allIds = []
-      this.entities.active = []
+      // console.log(userState, 'userState')
+      this.$state = defaultUserState()
+      // this.$reset()
     },
   },
 })

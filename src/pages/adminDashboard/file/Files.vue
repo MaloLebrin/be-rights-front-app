@@ -1,12 +1,7 @@
 <template>
 <div
-  class="container min-h-screen px-8 py-6 text-left transition-all duration-500 ease-in-out transform md:px-20 lg:px-32"
+  class="relative min-h-screen px-4 py-6 text-left transition-all duration-500 ease-in-out transform"
 >
-  <HeaderList>
-    <template #title>
-      <FolderOpenIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Fichiers
-    </template>
-  </HeaderList>
   <FileList :files="files" />
 </div>
 </template>
@@ -16,8 +11,16 @@ const uiStore = useUiStore()
 const { IncLoading, DecLoading } = uiStore
 const { fetchAll } = fileHook()
 const fileStore = useFileStore()
+const tableStore = useTableStore()
 
 const files = computed(() => fileStore.getAllArray)
+
+watch(() => tableStore.getFinalUrl, async newValue => {
+  IncLoading()
+  fileStore.resetState()
+  await fetchAll(newValue)
+  DecLoading()
+})
 
 onMounted(async() => {
   IncLoading()

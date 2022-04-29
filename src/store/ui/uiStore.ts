@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { uiState } from './state'
+import { defaultUiState, uiState } from './state'
 import type { ModalOptionsUi, ToastOptionsUi } from './types'
 import { ModalModeEnum, ToastVariantsEnum } from './types'
 import { EntitiesEnum } from '@/types'
@@ -17,7 +17,7 @@ export const useUiStore = defineStore(EntitiesEnum.UI, {
   },
   actions: {
     resetUIState() {
-      this.$reset()
+      this.$state = defaultUiState()
     },
     IncLoading() {
       this.isLoading++

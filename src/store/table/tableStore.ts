@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { tableState } from './state'
+import { defaultTableState, tableState } from './state'
 import type { TableState } from './types'
 import { EntitiesEnum } from '@/types'
 
@@ -47,7 +47,7 @@ export const useTableStore = defineStore(EntitiesEnum.TABLE, {
   },
   actions: {
     resetTableState() {
-      this.$reset()
+      this.$state = defaultTableState()
     },
 
     setTableState(options: TableState) {

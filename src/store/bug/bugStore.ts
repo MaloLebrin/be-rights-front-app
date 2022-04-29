@@ -1,7 +1,7 @@
 import type { BugReportCreationFormType, BugReportType } from '../../types/typesExported'
 import { EntitiesEnum } from '../../types/typesExported'
 import createGetters from '../utils/createGetters'
-import { baseCreationForm, bugState } from './state'
+import { baseCreationForm, bugState, defaultUserState } from './state'
 
 export const useBugStore = defineStore(EntitiesEnum.BUGS_REPORTS, {
   state: () => ({
@@ -53,9 +53,7 @@ export const useBugStore = defineStore(EntitiesEnum.BUGS_REPORTS, {
     },
 
     resetState() {
-      this.entities.byId = {}
-      this.entities.allIds = []
-      this.entities.active = []
+      this.$state = defaultUserState()
     },
 
     setCreationForm(payload: BugReportCreationFormType) {
