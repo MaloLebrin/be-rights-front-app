@@ -9,10 +9,13 @@
 </template>
 
 <script setup lang="ts">
+import { onBeforeRouteLeave } from 'vue-router'
+
 const eventStore = useEventStore()
 const { IncLoading, DecLoading } = useUiStore()
 const userStore = useUserStore()
 const tableStore = useTableStore()
+const { setFilters } = tableStore
 
 const { fetchEventsByUser, fetchAllEvents } = eventHook()
 
@@ -21,6 +24,10 @@ const events = computed(() => {
     return eventStore.getEventsByUserId(userStore.getCurrentUserId)
   }
   return []
+})
+
+onBeforeRouteLeave(() => {
+  setFilters(null)
 })
 
 watch(() => tableStore.getFinalUrl, async newValue => {
