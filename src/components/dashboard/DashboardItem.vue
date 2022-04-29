@@ -4,7 +4,7 @@
   class="flex items-center lg:w-full"
 >
   <BaseAccordion
-    class="flex flex-col items-center w-3/4 max-w-3xl pb-4 mb-6 bg-white rounded-full shadow-2xl dark:bg-blue-dark_bold hover:-translate-y-2 animate-fade-in-down"
+    class="flex flex-col items-center w-3/4 max-w-3xl bg-white rounded-full shadow-2xl dark:bg-blue-dark_bold hover:-translate-y-2 animate-fade-in-down"
   >
     <template #title>
       <slot name="title" />

@@ -4,7 +4,8 @@ import type { AnswerType } from '@/types/typesExported'
 export default function answerHook() {
   const { getCurrentUserToken } = useUserStore()
   const answerStore = useAnswerStore()
-  const { setUIErrorToast, setUIErrorToastWithMessage, IncLoading, DecLoading } = useUiStore()
+  const { IncLoading, DecLoading } = useUiStore()
+  const toast = useToast()
   const api = new API(getCurrentUserToken!)
 
   async function postMany(eventId: number, employeeIds: number[]) {
@@ -18,10 +19,10 @@ export default function answerHook() {
         }
       } catch (error) {
         console.error(error)
-        setUIErrorToast()
+        toast.error('Une erreur est survenue')
       }
     } else {
-      setUIErrorToastWithMessage('Veuillez sélectionner au moins un participant et un événement')
+      toast.error('Veuillez sélectionner au moins un participant et un événement')
     }
     DecLoading()
   }

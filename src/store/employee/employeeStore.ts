@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import createGetters from '../utils/createGetters'
-import { employeState } from './state'
+import { defaultEmployeeState, employeState } from './state'
 import type { EmployeeState, EmployeeType } from './types'
 import { EntitiesEnum } from '@/types/globals'
 
@@ -53,10 +53,7 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
       ids.forEach(id => this.deleteOne(id))
     },
     resetState() {
-      this.entities.byId = {}
-      this.entities.allIds = []
-      this.entities.active = []
-      this.entities.current = null
+      this.$state = defaultEmployeeState()
     },
     setActive(id: number) {
       if (!this.entities.active.includes(id)) {

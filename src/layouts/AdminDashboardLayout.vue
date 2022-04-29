@@ -1,14 +1,12 @@
 <template>
-<MenuDrawer />
-<main
-  v-bind="$attrs"
-  class="w-full min-h-screen mx-auto dark:bg-blue-dark"
->
-  <div class="md:container md:mx-auto">
-    <Loader
-      v-if="uiStore.getUIIsLoading"
-      :is-loading="uiStore.getUIIsLoading"
-    />
+<div class="flex">
+  <MenuDrawer />
+  <main
+    v-bind="$attrs"
+    class="w-full lg:pl-64 dark:bg-blue-dark"
+  >
+    <HeaderDashboard />
+    <BaseLoader v-if="uiStore.getUIIsLoading" />
     <router-view
       v-show="!uiStore.getUIIsLoading"
       v-slot="{ Component }"
@@ -17,8 +15,9 @@
         <component :is="Component" />
       </transition>
     </router-view>
-  </div>
-</main>
+  </main>
+</div>
+
 <Teleport to="#portal-target">
   <EventModal
     v-if="isModalActive(ModalNameEnum.EVENT_FORM).value"
@@ -41,15 +40,6 @@
     v-if="isModalActive(ModalNameEnum.USER_ADMIN).value"
     :is-active="isModalActive(ModalNameEnum.USER_ADMIN).value"
   />
-
-  <Toast
-    :variant="getUiToastState.variant"
-    :is-toast-open="getUiToastState.isActive"
-    :toast-duration="getUiToastState.duration"
-    @close="resetUiToastState"
-  >
-    {{ getUiToastState.message }}
-  </Toast>
 </Teleport>
 </template>
 
@@ -59,7 +49,7 @@ import { ModalNameEnum } from '@/types/typesExported'
 
 const { entities: eventsEntities } = useEventStore()
 const uiStore = useUiStore()
-const { getUiModalState, resetUiModalState, resetUiToastState, getUiToastState } = uiStore
+const { getUiModalState, resetUiModalState } = uiStore
 
 const eventID = computed(() => {
   if (getUiModalState.data && getUiModalState.data.eventId) {

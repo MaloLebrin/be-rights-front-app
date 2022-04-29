@@ -5,3 +5,7 @@ import createEntity from '@/store/utils/createEntity'
 const entity = createEntity<FileType>('file')
 
 export const fileState = createState<FileType>(entity)
+
+export function defaultFileState() {
+  return createState<FileType>(entity)
+}

@@ -1,5 +1,5 @@
 import createGetters from '../utils/createGetters'
-import { answerState } from './state'
+import { answerState, defaultAnswerState } from './state'
 import type { AnswerState, AnswerType } from './types'
 import { EntitiesEnum } from '@/types'
 
@@ -10,41 +10,6 @@ export const useAnswerStore = defineStore(EntitiesEnum.ANSWERS, {
   getters: {
     // getters common to all entities
     ...createGetters<AnswerType>(answerState),
-    // findOnebyId: (state) => (id: number) => state.entities.byId[id],
-    // findManyById: (state) => (ids: number[]) => ids.map(id => state.entities.byId[id]),
-    // getAll: (state) => state.entities.byId,
-    // getAllArray: (state) => Object.values(state.entities.byId),
-    // getAllIds: (state) => state.entities.allIds,
-    // getIsEmpty: (state) => state.entities.allIds.length === 0,
-    // getIsNotEmpty: (state) => state.entities.allIds.length > 0,
-    // getOne: (state) => (id: number) => state.entities.byId[id],
-    // getMany: (state) => (ids: number[]) => ids.map(id => state.entities.byId[id]),
-    // getWhere: (state) => (filter: (arg: AnswerType) => boolean | null) => {
-    //   if (typeof filter !== 'function') {
-    //     return state.entities.byId
-    //   }
-    //   return state.entities.allIds.reduce((acc: Record<number, AnswerType>, id: number) => {
-    //     const item = state.entities.byId[id]
-    //     if (!filter(item)) {
-    //       return acc
-    //     }
-    //     acc[id] = item
-    //     return acc
-    //   }, {} as Record<number, AnswerType>)
-    // },
-    // getWhereArray: (state) => (filter: (arg: AnswerType) => boolean | null) => {
-    //   if (typeof filter !== 'function') {
-    //     return Object.values(state.entities.byId)
-    //   }
-    //   return Object.values(state.entities.allIds.reduce((acc: Record<number, AnswerType>, id: number) => {
-    //     const item = state.entities.byId[id]
-    //     if (!filter(item)) {
-    //       return acc
-    //     }
-    //     acc[id] = item
-    //     return acc
-    //   }, {} as Record<number, AnswerType>))
-    // },
 
     // bellow getters in this specific store
     getManyByEventId(state) {
@@ -87,10 +52,7 @@ export const useAnswerStore = defineStore(EntitiesEnum.ANSWERS, {
       ids.forEach(id => this.deleteOne(id))
     },
     resetState() {
-      this.entities.byId = {}
-      this.entities.allIds = []
-      this.entities.active = []
-      this.entities.current = null
+      this.$state = defaultAnswerState()
     },
     setActive(id: number) {
       if (!this.entities.active.includes(id)) {

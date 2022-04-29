@@ -58,9 +58,10 @@ import { useField, useForm } from 'vee-validate'
 import { object, ref as reference, string } from 'yup'
 import axiosInstance from '@/axios.config'
 
-const { IncLoading, DecLoading, setUIErrorToast } = useUiStore()
+const { IncLoading, DecLoading } = useUiStore()
 const uiStore = useUiStore()
 const { params, query } = useRoute()
+const toast = useToast()
 
 const schema = object({
   password: string().required('Le mot de passe est requis'),
@@ -105,7 +106,7 @@ async function onSubmit() {
     state.successMessage = response.message
   } catch (error: any) {
     state.submissionErrors.push(error.response.data.error)
-    setUIErrorToast()
+    toast.error('Une erreur est survenue')
   } finally {
     DecLoading()
   }

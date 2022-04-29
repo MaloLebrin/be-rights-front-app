@@ -6,7 +6,7 @@
   :aria-disabled="disabled"
   :to="href"
   :class="[
-    'flex justify-center px-4 py-2 sm:text-sm md:text-base font-medium border border-transparent rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transform transition hover:-translate-y-1 hover:scale-105 duration-300 ease-in-out',
+    'flex justify-center px-4 py-2 text-sm font-medium border border-transparent rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transform transition hover:-translate-y-1 hover:scale-105 duration-300 ease-in-out',
     colorClasses,
     { 'inline-flex flex-row items-center space-x-2': $slots.icon },
     { 'justify-start': $slots.icon && $slots.default },
@@ -36,7 +36,7 @@
   :disabled="disabled"
   :aria-disabled="disabled"
   :class="[
-    'flex items-center justify-center px-4 py-2 sm:text-sm md:text-base font-medium border border-transparent rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transform transition hover:-translate-y-1 hover:scale-105 duration-300 ease-in-out',
+    'flex items-center justify-center px-4 py-2 text-sm font-medium border border-transparent rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transform transition hover:-translate-y-1 hover:scale-105 duration-300 ease-in-out',
     colorClasses,
     { 'inline-flex flex-row items-center space-x-2': $slots.icon },
     { 'justify-start': $slots.icon && $slots.default },
@@ -69,7 +69,7 @@ const mainStore = useMainStore()
 
 interface Props {
   tag?: string
-  href?: string | null
+  href?: string | Record< 'name', string > | null
   type?: 'button' | 'submit'
   disabled?: boolean
   variant?: 'default' | 'social'

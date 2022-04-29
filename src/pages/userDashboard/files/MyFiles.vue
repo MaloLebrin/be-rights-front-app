@@ -1,10 +1,5 @@
 <template>
-<div class="min-h-screen px-8 py-6 text-left transition-all duration-500 ease-in-out transform md:px-20 lg:px-32">
-  <HeaderList>
-    <template #title>
-      <FolderOpenIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Fichiers
-    </template>
-  </HeaderList>
+<div class="relative min-h-screen py-6 text-left transition-all duration-500 ease-in-out transform">
   <FileList :files="files" />
 </div>
 </template>

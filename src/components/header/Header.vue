@@ -28,14 +28,14 @@
               </router-link>
 
               <BaseButton
-                href="register"
-                color="white"
+                :href="getButtonPath"
                 @click="onClickStartButton"
               >
-                Commencer
+                {{ mainStore.getIsLoggedIn ? 'Mon compte' : 'Commencer' }}
               </BaseButton>
 
               <router-link
+                v-if="!mainStore.getIsLoggedIn"
                 :to="{ name: 'login' }"
                 class="px-3 py-2 text-sm font-medium rounded-md text-blue dark:text-white dark:hover:text-red-light hover:text-red-light"
               >
@@ -105,15 +105,15 @@
                 as="li"
                 class="flex items-center w-full px-2 py-2 text-sm rounded-md group"
               >
-                <router-link
-                  :to="{ path: '/login' }"
-                  class="px-3 py-2 text-sm font-medium text-black rounded-md hover:text-white dark:text-white"
+                <BaseButton
+                  :href="getButtonPath"
                   @click="onClickStartButton"
                 >
-                  Commencer
-                </router-link>
+                  {{ mainStore.getIsLoggedIn ? 'Mon compte' : 'Commencer' }}
+                </BaseButton>
               </MenuItem>
               <MenuItem
+                v-if="!mainStore.getIsLoggedIn"
                 as="li"
                 class="flex items-center w-full px-2 py-2 text-sm rounded-md group"
               >
@@ -134,6 +134,21 @@
 </template>
 
 <script setup lang="ts">
+
+const userStore = useUserStore()
+const mainStore = useMainStore()
+
+const getButtonPath = computed(() => {
+  if (!mainStore.getIsLoggedIn) {
+    return { name: 'register' }
+  }
+  if (userStore.isCurrentUserAdmin) {
+    return { name: 'admin.events' }
+  } else {
+    return { name: 'user.events' }
+  }
+})
+
 const emit = defineEmits<{
   (e: 'startNow'): void
 }>()

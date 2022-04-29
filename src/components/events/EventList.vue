@@ -1,40 +1,56 @@
 <template>
-<div class="relative">
-  <template v-if="events.length > 0">
-    <div
-      v-for="(event, index) in events"
-      :key="event.id"
-      class="relative flex items-center"
-    >
-      <EventItem
-        :event="event"
-        :index="parseInt(index.toString())"
-        @udpateOneItem="updateOneEvent(event.id)"
-        @deleteOne="deleteOneEvent(event)"
-        @addOne="addOneEmployeeToEvent(event.id)"
+<div class="h-full px-4 sm:px-6 lg:px-8">
+  <div class="sm:flex sm:items-center">
+    <div class="sm:flex-auto">
+      <BaseInput
+        v-model="state.search"
+        type="text"
+        placeholder="Recherchez"
+        @keyup="searchEntity($event)"
       />
     </div>
-  </template>
-  <h4
-    v-else
-    class="text-2xl font-semibold text-blue-dark dark:text-white"
-  >
-    {{ noEventMessage }}
-  </h4>
+    <FiltersEventTable />
+  </div>
+  <div class="flex flex-col h-full mt-8">
+    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-300">
+            <thead class="bg-gray-50">
+              <HeaderEventTable />
+            </thead>
+            <template v-if="events.length > 0">
+              <tbody class="bg-white divide-y divide-gray-200">
+                <EventItem
+                  v-for="event in events"
+                  :key="event.id"
+                  :event="event"
+                />
+              </tbody>
+            </template>
+            <div
+              v-else
+              class="flex items-center py-4 pl-4 pr-3 space-x-2 text-sm font-medium text-gray-900 truncate whitespace-nowrap sm:pl-6"
+            >
+              <p>{{ noEventMessage }}</p>
+              <BaseButton :href="{ name: userStore.isCurrentUserAdmin ? 'admin.events.create' : 'user.events.create' }">
+                Créer un événement
+              </BaseButton>
+            </div>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 </template>
 
 <script setup lang="ts">
 import type { EventType } from '@/types/typesExported'
-import { ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
-
-const uiStore = useUiStore()
-const { setUiModal } = uiStore
-const userStore = useUserStore()
-const router = useRouter()
+import { EventStatusEnum } from '@/types/typesExported'
 
 interface Props {
-  noEventMessage: string
+  noEventMessage?: string
   events: EventType[]
 }
 
@@ -43,33 +59,19 @@ withDefaults(defineProps<Props>(), {
   events: () => [],
 })
 
-function updateOneEvent(eventId: number) {
-  if (userStore.isCurrentUserAdmin) {
-    router.push({ name: 'admin.events.show', params: { eventId } })
-  } else {
-    router.push({ name: 'user.events.show', params: { eventId } })
-  }
-}
+const { setSearch } = useTableStore()
+const userStore = useUserStore()
 
-function addOneEmployeeToEvent(eventId: number) {
-  setUiModal({
-    isActive: true,
-    modalName: ModalNameEnum.ADD_EMPLOYEE,
-    modalMode: ModalModeEnum.CREATE,
-    data: {
-      eventId,
-    },
-  })
-}
+const state = reactive({
+  search: '',
+  timeout: 0,
+})
 
-function deleteOneEvent(event: EventType) {
-  setUiModal({
-    isActive: true,
-    modalName: ModalNameEnum.EVENT_FORM,
-    modalMode: ModalModeEnum.DELETE,
-    data: {
-      event,
-    },
-  })
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function searchEntity(event: KeyboardEvent) {
+  clearTimeout(state.timeout)
+  state.timeout = window.setTimeout(() => {
+    setSearch(state.search)
+  }, 500)
 }
 </script>

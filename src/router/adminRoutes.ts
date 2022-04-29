@@ -84,9 +84,19 @@ export const adminRoutes = [
   {
     path: '/admin/employees/:employeeId/details',
     name: 'admin.employees.details',
-    component: () => import('@/pages/adminDashboard/employee/EmployeeDetails.vue'),
+    component: () => import('@/pages/adminDashboard/employee/EmployeeId.vue'),
     meta: {
       layout: 'AdminDashboardLayout',
+      isAuth: true,
+      isAdmin: true,
+    },
+  },
+  {
+    path: '/admin/employees/create',
+    name: 'admin.employees.create',
+    component: () => import('@/pages/userDashboard/employee/CreateEmployee.vue'),
+    meta: {
+      layout: 'DashboardLayout',
       isAuth: true,
       isAdmin: true,
     },

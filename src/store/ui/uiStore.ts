@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import { uiState } from './state'
-import type { ModalOptionsUi, ToastOptionsUi } from './types'
-import { ModalModeEnum, ToastVariantsEnum } from './types'
+import { defaultUiState, uiState } from './state'
+import type { ModalOptionsUi } from './types'
+import { ModalModeEnum } from './types'
 import { EntitiesEnum } from '@/types'
 
 export const useUiStore = defineStore(EntitiesEnum.UI, {
@@ -10,14 +10,13 @@ export const useUiStore = defineStore(EntitiesEnum.UI, {
     getUIState: state => state,
     getUiIsLoading: state => state.modal.isLoading,
     getUiModalState: state => state.modal,
-    getUiToastState: state => state.toast,
     getUIIsLoading: state => state.isLoading > 0,
     getUiModalData: state => state.modal.data,
-    isDrawerOpen: state => state.isDrawerOpen,
+    getIsDrawerOpen: state => state.isDrawerOpen,
   },
   actions: {
     resetUIState() {
-      this.$reset()
+      this.$state = defaultUiState()
     },
     IncLoading() {
       this.isLoading++
@@ -38,38 +37,14 @@ export const useUiStore = defineStore(EntitiesEnum.UI, {
       this.modal.modalMode = ModalModeEnum.READ
       this.modal.isLoading = false
     },
-    resetUiToastState() {
-      this.toast.isActive = false
-      this.toast.message = ''
-      this.toast.variant = ToastVariantsEnum.PRIMARY
-      this.toast.duration = undefined
+    toggleDrawer() {
+      this.isDrawerOpen = !this.isDrawerOpen
     },
-    setUIToast(options: ToastOptionsUi) {
-      this.toast.isActive = options.isActive
-      this.toast.message = options.message
-      this.toast.variant = options.variant
-      this.toast.duration = options.duration ? options.duration : this.toast.duration
+    closeDrawer() {
+      this.isDrawerOpen = false
     },
-    setUIErrorToast() {
-      this.toast.isActive = true
-      this.toast.message = 'Une erreur est survenue'
-      this.toast.variant = ToastVariantsEnum.DANGER
-      this.toast.duration = 500
-    },
-    setUIErrorToastWithMessage(message: string) {
-      this.toast.isActive = true
-      this.toast.message = message
-      this.toast.variant = ToastVariantsEnum.DANGER
-      this.toast.duration = 500
-    },
-    setUISucessToast(message: string) {
-      this.toast.isActive = true
-      this.toast.message = message
-      this.toast.variant = ToastVariantsEnum.SUCCESS
-      this.toast.duration = 500
-    },
-    toggleDrawer(isOpen: boolean) {
-      this.isDrawerOpen = isOpen
+    openDrawer() {
+      this.isDrawerOpen = true
     },
   },
 })

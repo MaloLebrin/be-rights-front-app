@@ -1,11 +1,6 @@
 <template>
-<div class="min-h-screen px-8 py-6 text-left transition-all duration-500 ease-in-out transform md:px-20 lg:px-32">
-  <HeaderList>
-    <template #title>
-      <UserGroupIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Mes destinataires
-    </template>
-  </HeaderList>
-  <EmployeeList :employees="employees" />
+<div class="relative min-h-screen px-4 py-6 text-left transition-all duration-500 ease-in-out transform">
+  <EmployeeList />
 </div>
 </template>
 
@@ -13,12 +8,16 @@
 const { IncLoading, DecLoading } = useUiStore()
 const userStore = useUserStore()
 
-const { getWhereArray: getWhereArrayEmployees } = useEmployeeStore()
-const { fetchAllByUserId } = employeeHook()
+const employeeStore = useEmployeeStore()
+const tableStore = useTableStore()
+const { fetchAllByUserId, fetchAll } = employeeHook()
 
-const employees = computed(() =>
-  getWhereArrayEmployees(employee => employee.createdByUser === userStore.getCurrentUserId),
-)
+watch(() => tableStore.getFinalUrl, async newValue => {
+  IncLoading()
+  employeeStore.resetState()
+  await fetchAll(newValue)
+  DecLoading()
+})
 
 onMounted(async() => {
   if (userStore.getCurrentUserId) {

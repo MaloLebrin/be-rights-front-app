@@ -1,10 +1,10 @@
 <template>
 <transition name="fade">
   <div
-    class="container grid min-h-screen grid-cols-1 gap-12 px-8 py-8 mx-auto mt-32 md:grid-cols-2"
+    class="container grid min-h-screen grid-cols-1 gap-12 mx-auto mt-32 md:grid-cols-2"
   >
     <div class="flex flex-col space-x-12 space-y-12 max-w-1/2">
-      <div class="mb-26">
+      <div class="space-y-2 mb-26">
         <h1 class="text-black dark:text-white">
           Connectez vous sur
         </h1>
@@ -14,7 +14,7 @@
       <div class="space-y-4">
         <label
           class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Adress email&nbsp;:</label>
+        >Adresse email&nbsp;:</label>
         <BaseInput
           v-model="email"
           type="email"

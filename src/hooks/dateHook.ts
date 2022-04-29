@@ -30,7 +30,7 @@ export default function dateHook() {
   }
 
   function toFormat(date: Date | string, format: string) {
-    return dayjs(date).format(format)
+    return dayjs(date).locale('fr').format(format)
   }
 
   return {
