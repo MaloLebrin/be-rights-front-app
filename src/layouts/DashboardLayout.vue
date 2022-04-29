@@ -40,14 +40,6 @@
     :mode="getUiModalState.modalMode"
   />
 
-  <Toast
-    :variant="getUiToastState.variant"
-    :is-toast-open="getUiToastState.isActive"
-    :toast-duration="getUiToastState.duration"
-    @close="resetUiToastState"
-  >
-    {{ getUiToastState.message }}
-  </Toast>
   <CookiesModal />
 </Teleport>
 </template>
@@ -56,7 +48,7 @@
 import { ModalNameEnum } from '@/types/typesExported'
 
 const { entities: eventsEntities } = useEventStore()
-const { getUiModalState, resetUiModalState, resetUiToastState, getUiToastState } = useUiStore()
+const { getUiModalState, resetUiModalState } = useUiStore()
 const uiStore = useUiStore()
 
 const eventID = computed(() => {

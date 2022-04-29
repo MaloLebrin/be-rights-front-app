@@ -59,8 +59,9 @@ import { useField, useForm } from 'vee-validate'
 import { object, string } from 'yup'
 import axiosInstance from '@/axios.config'
 
-const { IncLoading, DecLoading, setUIErrorToast } = useUiStore()
+const { IncLoading, DecLoading } = useUiStore()
 const uiStore = useUiStore()
+const toast = useToast()
 
 const schema = object({
   email: string().email('vous devez entrer in email valide').required('L\'adresse email est requise'),
@@ -98,7 +99,7 @@ async function onSubmit() {
     state.successMessage = response.message
   } catch (error: any) {
     state.submissionErrors.push(error.response.data.error)
-    setUIErrorToast()
+    toast.error('Une erreur est survenue')
   } finally {
     DecLoading()
   }

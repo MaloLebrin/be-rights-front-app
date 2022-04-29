@@ -8,18 +8,19 @@ export default function fileHook() {
   const userStore = useUserStore()
   const { getAllIds: getAllFilesIds } = useFileStore()
   const fileStore = useFileStore()
-  const { setUIErrorToast, IncLoading, DecLoading, setUISucessToast } = useUiStore()
+  const { IncLoading, DecLoading } = useUiStore()
+  const toast = useToast()
   const api = new APi(userStore.getCurrentUserToken!)
 
   async function postOne(fileForm: FormData, id?: number) {
     try {
       const res = await api.post(`file/${id}`, fileForm)
       fileStore.createOne(res as FileType)
-      setUISucessToast('File uploaded successfully')
+      toast.success('fichier créé avec succès')
       return res
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
   }
 
@@ -38,11 +39,11 @@ export default function fileHook() {
             setCurrent(user)
           }
         }
-        setUISucessToast('File uploaded successfully')
+        toast.success('Photo de profile créé avec succès')
       }
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -54,11 +55,11 @@ export default function fileHook() {
       const newFile = res as FileType
       if (newFile && newFile.createdByUser) {
         fileStore.createOne(newFile)
-        setUISucessToast('File uploaded successfully')
+        toast.success('Logo créé avec succès')
       }
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -86,7 +87,7 @@ export default function fileHook() {
       }
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -117,10 +118,10 @@ export default function fileHook() {
     try {
       await api.delete(`file/${id}`)
       fileStore.deleteOne(id)
-      setUISucessToast('Fichier supprimé avec succès')
+      toast.success('Fichier supprimé avec succès')
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -131,10 +132,10 @@ export default function fileHook() {
       const res = await api.patch(`file/${file.id}`, { file })
       const fileUpdated = res as FileType
       fileStore.updateOne(fileUpdated.id, fileUpdated)
-      setUISucessToast('file successfully updated')
+      toast.success('fichier modifié avec succès')
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -152,7 +153,7 @@ export default function fileHook() {
       }
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -170,7 +171,7 @@ export default function fileHook() {
       }
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -186,7 +187,7 @@ export default function fileHook() {
       }
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }

@@ -40,15 +40,6 @@
     v-if="isModalActive(ModalNameEnum.USER_ADMIN).value"
     :is-active="isModalActive(ModalNameEnum.USER_ADMIN).value"
   />
-
-  <Toast
-    :variant="getUiToastState.variant"
-    :is-toast-open="getUiToastState.isActive"
-    :toast-duration="getUiToastState.duration"
-    @close="resetUiToastState"
-  >
-    {{ getUiToastState.message }}
-  </Toast>
 </Teleport>
 </template>
 
@@ -58,7 +49,7 @@ import { ModalNameEnum } from '@/types/typesExported'
 
 const { entities: eventsEntities } = useEventStore()
 const uiStore = useUiStore()
-const { getUiModalState, resetUiModalState, resetUiToastState, getUiToastState } = uiStore
+const { getUiModalState, resetUiModalState } = uiStore
 
 const eventID = computed(() => {
   if (getUiModalState.data && getUiModalState.data.eventId) {

@@ -32,6 +32,11 @@ export default defineConfig({
         'vue-router',
         'pinia',
         {
+          'vue-toastification': [
+            'useToast',
+          ],
+        },
+        {
           ...Object.keys(hookPaths).reduce((acc, name) => {
             return {
               ...acc,

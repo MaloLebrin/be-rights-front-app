@@ -6,7 +6,8 @@ import { BugReportTypeTranslation } from '@/types/typesExported'
 export default function bugReportsHook() {
   const bugStore = useBugStore()
   const userStore = useUserStore()
-  const { setUIErrorToast, IncLoading, DecLoading } = useUiStore()
+  const { IncLoading, DecLoading } = useUiStore()
+  const toast = useToast()
   const api = new API(userStore.getCurrentUserToken!)
 
   async function fetchAll(url?: string) {
@@ -24,7 +25,7 @@ export default function bugReportsHook() {
       }
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -38,10 +39,11 @@ export default function bugReportsHook() {
       const res = await api.post('bugreport', { bugReport })
       const data = res as BugReportType
       bugStore.createOne(data)
+      toast.success('Le rapport de bug a bien été envoyé')
       return data
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
   }
 

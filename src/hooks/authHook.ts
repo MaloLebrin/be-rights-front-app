@@ -17,6 +17,7 @@ export default function authHook() {
   const { IncLoading, DecLoading } = useUiStore()
   const api = new API(userStore.getCurrentUserToken!)
   const router = useRouter()
+  const toast = useToast()
 
   function logout() {
     api.deleteCredentials()
@@ -33,6 +34,7 @@ export default function authHook() {
     uiStore.resetUIState()
     userStore.resetState()
     router.replace({ name: 'home' })
+    toast.success('Vous êtes déconnecté')
   }
 
   async function loginWithToken(token: string) {

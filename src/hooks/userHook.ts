@@ -11,7 +11,8 @@ export default function userHook() {
   const mainStore = useMainStore()
   const eventStore = useEventStore()
   const fileStore = useFileStore()
-  const { setUIErrorToast, setUISucessToast, IncLoading, DecLoading } = useUiStore()
+  const toast = useToast()
+  const { IncLoading, DecLoading } = useUiStore()
   const { storeEmployeeRelationsEntities } = employeeHook()
   const { cookies } = useCookies()
   const api = new APi(userStore.getCurrentUserToken!)
@@ -29,11 +30,11 @@ export default function userHook() {
       } else {
         router.push({ name: 'user.events' })
       }
-      setUISucessToast('Vous êtes connecté')
+      toast.success('Connexion réussie, bienvenue !')
       mainStore.setIsLoggedIn()
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -50,11 +51,11 @@ export default function userHook() {
       } else {
         router.push({ name: 'user.events' })
       }
-      setUISucessToast('Vous êtes inscrit avec succès')
+      toast.success('Vous êtes inscrit avec succès')
       mainStore.setIsLoggedIn()
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -69,7 +70,7 @@ export default function userHook() {
       }
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
   }
 
@@ -148,7 +149,7 @@ export default function userHook() {
       }
     } catch (error) {
       console.error(error)
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -164,7 +165,7 @@ export default function userHook() {
       const { data }: PaginatedResponse<UserType> = res
       storeUsersEntitiesForManyUsers(data)
     } catch (error) {
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
       console.error(error)
     }
     DecLoading()
@@ -175,9 +176,9 @@ export default function userHook() {
       IncLoading()
       await api.delete(`user/${id}`)
       userStore.deleteOne(id)
-      setUISucessToast('Utilisateurs à été supprimé avec succès')
+      toast.success('Utilisateurs à été supprimé avec succès')
     } catch (error) {
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
       console.error(error)
     }
     DecLoading()
@@ -188,9 +189,9 @@ export default function userHook() {
     try {
       const res = await api.patch(`user/${id}`, { user })
       userStore.updateOne(id, res as UserType)
-      setUISucessToast('Utilisateur à été modifié avec succès')
+      toast.success('Utilisateur à été modifié avec succès')
     } catch (error) {
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
       console.error(error)
     }
     DecLoading()
@@ -235,7 +236,7 @@ export default function userHook() {
         }
       }
     } catch (error) {
-      setUIErrorToast()
+      toast.error('Une erreur est survenue')
       console.error(error)
     }
     DecLoading()
