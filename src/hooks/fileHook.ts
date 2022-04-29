@@ -175,11 +175,28 @@ export default function fileHook() {
     DecLoading()
   }
 
+  async function fetchLogoByUserId(userId: number) {
+    IncLoading()
+    try {
+      const res = await api.get(`file?filters[type]=${FileTypeEnum.LOGO}&filters[createdByUser]=${userId}`)
+      const { data }: PaginatedResponse<FileType> = res
+      const files = filteringFilesNotInStore(data)
+      if (files.length > 0) {
+        fileStore.createMany(files)
+      }
+    } catch (error) {
+      console.error(error)
+      setUIErrorToast()
+    }
+    DecLoading()
+  }
+
   return {
     deleteOne,
     fetchAll,
     fetchAllByUserId,
     fetchAllForEvent,
+    fetchLogoByUserId,
     filteringFilesNotInStore,
     getTranslationFileType,
     patchOne,

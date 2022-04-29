@@ -186,16 +186,21 @@ export default function employeeHook() {
     DecLoading()
   }
 
+  function getEmployeeFullname(employee: EmployeeType): string {
+    return `${employee.firstName} ${employee.lastName}`
+  }
+
   return {
     deleteOne,
     fetchAll,
     fetchAllByUserId,
-    getEmployeeStatusSignature,
-    getEmployeeStatusColor,
+    getEmployeeFullname,
     getEmployeesByEventId,
+    getEmployeeStatusColor,
+    getEmployeeStatusSignature,
     patchOne,
-    postOne,
     postManyForEvent,
+    postOne,
     storeEmployeeRelationsEntities,
   }
 }
