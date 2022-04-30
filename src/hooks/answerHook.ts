@@ -34,8 +34,25 @@ export default function answerHook() {
     return []
   }
 
+  async function fetchManyAnswerForEvent(eventId: number) {
+    IncLoading()
+    try {
+      const res = await api.get(`answer/event/${eventId}`)
+      const answers = res as AnswerType[]
+      const answersNotInStore = filteringAnswersNotInStore(answers)
+      if (answersNotInStore.length > 0) {
+        answerStore.createMany(answersNotInStore)
+      }
+    } catch (error) {
+      console.error(error)
+      toast.error('Une erreur est survenue')
+    }
+    DecLoading()
+  }
+
   return {
     postMany,
     filteringAnswersNotInStore,
+    fetchManyAnswerForEvent,
   }
 }

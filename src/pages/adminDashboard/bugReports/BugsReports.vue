@@ -2,20 +2,6 @@
 <div
   class="container min-h-screen px-8 py-6 text-left transition-all duration-500 ease-in-out transform md:px-20 lg:px-32"
 >
-  <HeaderList>
-    <template #title>
-      <UsersIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />Bugs
-    </template>
-    <template #additionnalButtons>
-      <BaseInput
-        v-model="state.search"
-        class="ml-12"
-        type="text"
-        placeholder="Recherchez"
-        @keyup="searchEntity($event)"
-      />
-    </template>
-  </HeaderList>
   <div class="relative mt-32">
     <template v-if="bugs.length > 0">
       <div

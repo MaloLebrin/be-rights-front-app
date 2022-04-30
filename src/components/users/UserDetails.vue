@@ -89,7 +89,7 @@
                     class="border border-gray-200 divide-y divide-gray-200 rounded-md"
                   >
                     <li
-                      v-if="employees.length"
+                      v-if="employees.length === 0"
                       class="px-4 py-2 text-sm text-gray-600"
                     >
                       Vous n'avez aucun destinataire

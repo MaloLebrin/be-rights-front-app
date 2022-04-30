@@ -24,12 +24,21 @@
       <ChevronLeftIconOutline class="w-5 h-5" />
       <span>Retour</span>
     </a>
-    <h3 class="flex items-center space-x-4 text-2xl font-semibold text-gray-800 dark:text-white">
+    <h3
+      v-if="getRouteHeaderContent"
+      class="flex items-center space-x-4 text-2xl font-semibold text-gray-800 dark:text-white"
+    >
       <component
-        :is="getRouteHeaderContent?.icon"
+        :is="getRouteHeaderContent.icon"
         class="h-6 rounded-lg dark:bg-red"
       />
-      <span>{{ getRouteHeaderContent?.label }}</span>
+      <span>{{ getRouteHeaderContent.label }}</span>
+    </h3>
+    <h3
+      v-else
+      class="flex items-center space-x-4 text-2xl font-semibold text-gray-800 dark:text-white"
+    >
+      <span>{{ getOutsideMenuRouteLabel }}</span>
     </h3>
   </div>
   <UserMenu
@@ -49,6 +58,35 @@ const { toggleDrawer } = useUiStore()
 const getRouteHeaderContent = computed(() =>
   MENU_ITEMS.find(item => item.linkName === route.name),
 )
+
+const getOutsideMenuRouteLabel = computed(() => {
+  if (route.name) {
+    const formatedRouteName = route.name.toString().split('.').splice(1).join('.')
+
+    switch (formatedRouteName) {
+      case 'events.show':
+        return 'Détail de l\'événement'
+
+      case 'events.edit':
+        return 'Modifier l\'événement'
+
+      case 'users.show':
+        return 'Détail de l\'utilisateur'
+
+      case 'users.edit':
+        return 'Modifier l\'utilisateur'
+
+      case 'employees.details':
+        return 'Détail du destinataire'
+
+      case 'account':
+        return 'Mon compte'
+
+      case 'account.edit':
+        return 'Modifier le compte'
+    }
+  }
+})
 
 function goBack() {
   router.back()

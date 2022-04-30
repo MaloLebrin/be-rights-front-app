@@ -1,11 +1,12 @@
 <template>
 <div class="min-h-screen px-8 py-6 text-left transition-all duration-500 ease-in-out transform md:px-20 lg:px-32">
   <div class="mt-4">
-    <FileForm :mode="ModalModeEnum.CREATE" />
+    <!-- <FileForm :mode="ModalModeEnum.CREATE" /> -->
+    <FileEditor />
   </div>
 </div>
 </template>
 
 <script setup lang="ts">
-import { ModalModeEnum } from '@/types/typesExported'
+// import { ModalModeEnum } from '@/types/typesExported'
 </script>
