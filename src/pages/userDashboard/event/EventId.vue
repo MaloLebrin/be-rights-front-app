@@ -1,11 +1,5 @@
 <template>
 <div class="min-h-screen px-8 py-6 text-left transition-all duration-500 ease-in-out transform md:px-20 lg:px-32">
-  <HeaderList>
-    <template #title>
-      <CalendarIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />
-      {{ event.name }}
-    </template>
-  </HeaderList>
   <div class="py-4 mt-24 rounded-lg shadow-lg">
     <EventForm
       :mode="ModalModeEnum.EDIT"

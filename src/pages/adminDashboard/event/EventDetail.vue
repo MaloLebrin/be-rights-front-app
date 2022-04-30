@@ -1,13 +1,7 @@
 <template>
 <div
-  class="container min-h-screen px-8 py-6 text-left transition-all duration-500 ease-in-out transform md:px-20 lg:px-32"
+  class="relative min-h-screen px-4 py-6 text-left transition-all duration-500 ease-in-out transform md:px-24 lg:px-32"
 >
-  <HeaderList>
-    <template #title>
-      <CalendarIconOutline class="h-8 p-1 mr-4 rounded-lg dark:bg-red" />
-      {{ event.name }}
-    </template>
-  </HeaderList>
   <div class="shadow-lg rounded-b-md">
     <header class="py-8 rounded-t-lg bg-gray-50">
       <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 xl:flex xl:items-center xl:justify-between">
