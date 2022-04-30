@@ -9,6 +9,7 @@ declare module 'vue' {
     ActionUserTable: typeof import('./../../components/users/table/ActionUserTable.vue')['default']
     AdjustmentsIconOutline: typeof import('@heroicons/vue/outline/esm/AdjustmentsIcon.js')['default']
     AdminModalDeleteUser: typeof import('./../../components/modals/AdminModalDeleteUser.vue')['default']
+    ArrowCircleDownIconOutline: typeof import('@heroicons/vue/outline/esm/ArrowCircleDownIcon.js')['default']
     BaseAccordion: typeof import('./../../components/base/BaseAccordion.vue')['default']
     BaseButton: typeof import('./../../components/base/BaseButton.vue')['default']
     BaseInput: typeof import('./../../components/base/BaseInput.vue')['default']
