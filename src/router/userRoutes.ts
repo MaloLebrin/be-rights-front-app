@@ -22,6 +22,16 @@ export const userRoutes = [
     },
   },
   {
+    path: '/user/events/:eventId/edit',
+    name: 'user.events.edit',
+    component: () => import('@/pages/userDashboard/event/EditEvent.vue'),
+    meta: {
+      layout: 'DashboardLayout',
+      isAuth: true,
+      isAdmin: false,
+    },
+  },
+  {
     path: '/user/events/create',
     name: 'user.events.create',
     component: () => import('@/pages/userDashboard/event/CreateEvent.vue'),
