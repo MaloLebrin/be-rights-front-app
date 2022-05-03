@@ -1,5 +1,5 @@
 <template>
-<div class="sticky top-0 z-10 flex items-center justify-between flex-shrink-0 w-full h-16 bg-white border-b border-gray-200 drop-shadow">
+<div class="sticky top-0 z-10 flex items-center justify-between flex-shrink-0 w-full h-16 bg-white border-b border-gray-200 dark:border-0 dark:bg-gray-800 drop-shadow">
   <div class="flex items-center ml-2 space-x-4">
     <div class="flex flex-col flex-1">
       <div class="sticky top-0 z-10 pt-1 pl-1 lg:hidden sm:pl-3 sm:pt-3">
