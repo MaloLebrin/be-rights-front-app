@@ -11,7 +11,6 @@ export default function fileHook() {
   const fileStore = useFileStore()
   const { IncLoading, DecLoading } = useUiStore()
   const toast = useToast()
-  const { isUserType } = userHook()
   const api = new APi(userStore.getCurrentUserToken!)
 
   async function postOne(fileForm: FormData, id?: number) {
@@ -29,14 +28,14 @@ export default function fileHook() {
   }
 
   async function postProfilePicture(fileForm: FormData) {
+    const { isUserType } = userHook()
     IncLoading()
     try {
       const res = await api.post('file/profile', fileForm)
       if (isFileType(res)) {
         if (res && res.createdByUser) {
           fileStore.createOne(res)
-          const response = await api.get(`user/${res.createdByUser}`)
-          const user = response
+          const user = await api.get(`user/${res.createdByUser}`)
           if (user && isUserType(user)) {
             updateOne(user.id, user)
             if (userStore.getCurrentUserId === user.id) {
