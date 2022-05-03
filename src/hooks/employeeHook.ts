@@ -1,6 +1,7 @@
 import type { PaginatedResponse } from '@/helpers/api'
 import API from '@/helpers/api'
 import type { AnswerType, EmployeeType, FileType } from '@/types/typesExported'
+import { isArrayOfNumbers } from '@/utils'
 
 export default function employeeHook() {
   const employeeStore = useEmployeeStore()
@@ -44,14 +45,14 @@ export default function employeeHook() {
           let employeeAnswers: AnswerType[] = []
           let employeeFiles: FileType[] = []
 
-          if (employee.files && employee.files.length > 0) {
+          if (employee.files && employee.files.length > 0 && !isArrayOfNumbers(employee.files)) {
             employeeFiles = filteringFilesNotInStore(employee.files as FileType[])
             if (employeeFiles.length > 0) {
               createManyFiles(employeeFiles)
             }
           }
 
-          if (employee.answers && employee.answers.length > 0) {
+          if (employee.answers && employee.answers.length > 0 && !isArrayOfNumbers(employee.answers)) {
             employeeAnswers = filteringAnswersNotInStore(employee.answers as AnswerType[])
             if (employeeAnswers.length > 0) {
               createManyAnswers(employeeAnswers)
