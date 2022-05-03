@@ -268,6 +268,7 @@ const { toFormat } = dateHook()
 const { getEmployeesByEventId } = employeeHook()
 const { fetchAllForEvent } = fileHook()
 const { fetchManyAnswerForEvent } = answerHook()
+const { isNotPersonnalFile } = fileHook()
 const employeeStore = useEmployeeStore()
 const fileStore = useFileStore()
 const answerStore = useAnswerStore()
@@ -278,9 +279,7 @@ const event = computed(() => eventStore.getOne(props.eventId))
 const employees = computed(() => employeeStore.getAllByEventId(props.eventId))
 const answers = computed(() => answerStore.getManyByEventId(props.eventId))
 const files = computed(() =>
-// TODO fix this
-  // fileStore.getWhereArray(file => file.event === props.eventId)
-  fileStore.getAllArray,
+  fileStore.getWhereArray(file => isNotPersonnalFile(file) && file.event === props.eventId),
 )
 
 const getAnswerForEmployee = (employeeId: number) => computed(() => {

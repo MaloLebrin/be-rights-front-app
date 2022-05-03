@@ -192,6 +192,10 @@ export default function fileHook() {
     DecLoading()
   }
 
+  function isNotPersonnalFile(file: FileType) {
+    return ![FileTypeEnum.BUG_REPORT, FileTypeEnum.PROFILE_PICTURE, FileTypeEnum.LOGO].includes(file.type)
+  }
+
   return {
     deleteOne,
     fetchAll,
@@ -200,6 +204,7 @@ export default function fileHook() {
     fetchLogoByUserId,
     filteringFilesNotInStore,
     getTranslationFileType,
+    isNotPersonnalFile,
     patchOne,
     postOne,
     postProfilePicture,
