@@ -33,10 +33,9 @@ export default function fileHook() {
     try {
       const res = await api.post('file/profile', fileForm)
       if (isFileType(res)) {
-        const newFile = res
-        if (newFile && newFile.createdByUser) {
-          fileStore.createOne(newFile)
-          const response = await api.get(`user/${newFile.createdByUser}`)
+        if (res && res.createdByUser) {
+          fileStore.createOne(res)
+          const response = await api.get(`user/${res.createdByUser}`)
           const user = response
           if (user && isUserType(user)) {
             updateOne(user.id, user)
@@ -58,9 +57,8 @@ export default function fileHook() {
     IncLoading()
     try {
       const res = await api.post('file/logo', fileForm)
-      const newFile = res as FileType
-      if (newFile && newFile.createdByUser && isFileType(res)) {
-        fileStore.createOne(newFile)
+      if (res && res.createdByUser && isFileType(res)) {
+        fileStore.createOne(res)
         toast.success('Logo créé avec succès')
       }
     } catch (error) {
