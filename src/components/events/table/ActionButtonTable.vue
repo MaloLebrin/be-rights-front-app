@@ -25,7 +25,7 @@
     leave-to-class="transform scale-95 opacity-0"
   >
     <MenuItems
-      class="absolute right-0 z-10 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+      class="absolute right-0 z-10 w-56 mt-2 overflow-visible origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
     >
       <div class="px-1 py-1">
         <MenuItem v-slot="{ active }">
@@ -45,7 +45,7 @@
           </button>
         </MenuItem>
       </div>
-      <div class="px-1 py-1">
+      <!-- <div class="px-1 py-1">
         <MenuItem v-slot="{ active }">
           <button
             :class="[
@@ -62,7 +62,8 @@
             Ajouter un destinataire
           </button>
         </MenuItem>
-      </div>
+      </div> -->
+      <!-- TODO find UI-UX and code way to add existing or new Employee to event -->
       <div class="px-1 py-1">
         <MenuItem v-slot="{ active }">
           <button
@@ -109,16 +110,16 @@ function updateOneEvent() {
   }
 }
 
-function addEmployeeToEvent() {
-  setUiModal({
-    isActive: true,
-    modalName: ModalNameEnum.ADD_EMPLOYEE,
-    modalMode: ModalModeEnum.CREATE,
-    data: {
-      eventId: props.event.id,
-    },
-  })
-}
+// function addEmployeeToEvent() {
+//   setUiModal({
+//     isActive: true,
+//     modalName: ModalNameEnum.ADD_EMPLOYEE,
+//     modalMode: ModalModeEnum.CREATE,
+//     data: {
+//       eventId: props.event.id,
+//     },
+//   })
+// }
 
 function deleteEvent() {
   setUiModal({

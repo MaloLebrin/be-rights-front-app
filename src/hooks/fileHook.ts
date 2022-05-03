@@ -1,7 +1,8 @@
 import type { PaginatedResponse } from '@/helpers/api'
 import APi from '@/helpers/api'
-import type { FileType, UserType } from '@/types/typesExported'
+import type { FileType } from '@/types/typesExported'
 import { FileTypeEnum } from '@/types/typesExported'
+import { hasOwnProperty } from '@/utils'
 
 export default function fileHook() {
   const { updateOne, setCurrent } = useUserStore()
@@ -15,8 +16,10 @@ export default function fileHook() {
   async function postOne(fileForm: FormData, id?: number) {
     try {
       const res = await api.post(`file/${id}`, fileForm)
-      fileStore.createOne(res as FileType)
-      toast.success('fichier créé avec succès')
+      if (isFileType(res)) {
+        fileStore.createOne(res)
+        toast.success('fichier créé avec succès')
+      }
       return res
     } catch (error) {
       console.error(error)
@@ -25,21 +28,22 @@ export default function fileHook() {
   }
 
   async function postProfilePicture(fileForm: FormData) {
+    const { isUserType } = userHook()
     IncLoading()
     try {
       const res = await api.post('file/profile', fileForm)
-      const newFile = res as FileType
-      if (newFile && newFile.createdByUser) {
-        fileStore.createOne(newFile)
-        const response = await api.get(`user/${newFile.createdByUser}`)
-        const user = response as UserType
-        if (user) {
-          updateOne(user.id, user)
-          if (userStore.getCurrentUserId === user.id) {
-            setCurrent(user)
+      if (isFileType(res)) {
+        if (res && res.createdByUser) {
+          fileStore.createOne(res)
+          const user = await api.get(`user/${res.createdByUser}`)
+          if (user && isUserType(user)) {
+            updateOne(user.id, user)
+            if (userStore.getCurrentUserId === user.id) {
+              setCurrent(user)
+            }
           }
+          toast.success('Photo de profile créé avec succès')
         }
-        toast.success('Photo de profile créé avec succès')
       }
     } catch (error) {
       console.error(error)
@@ -52,9 +56,8 @@ export default function fileHook() {
     IncLoading()
     try {
       const res = await api.post('file/logo', fileForm)
-      const newFile = res as FileType
-      if (newFile && newFile.createdByUser) {
-        fileStore.createOne(newFile)
+      if (res && res.createdByUser && isFileType(res)) {
+        fileStore.createOne(res)
         toast.success('Logo créé avec succès')
       }
     } catch (error) {
@@ -130,9 +133,10 @@ export default function fileHook() {
     IncLoading()
     try {
       const res = await api.patch(`file/${file.id}`, { file })
-      const fileUpdated = res as FileType
-      fileStore.updateOne(fileUpdated.id, fileUpdated)
-      toast.success('fichier modifié avec succès')
+      if (res && isFileType(res)) {
+        fileStore.updateOne(res.id, res)
+        toast.success('fichier modifié avec succès')
+      }
     } catch (error) {
       console.error(error)
       toast.error('Une erreur est survenue')
@@ -192,6 +196,14 @@ export default function fileHook() {
     DecLoading()
   }
 
+  function isNotPersonnalFile(file: FileType) {
+    return ![FileTypeEnum.BUG_REPORT, FileTypeEnum.PROFILE_PICTURE, FileTypeEnum.LOGO].includes(file.type)
+  }
+
+  function isFileType(file: any): file is FileType {
+    return hasOwnProperty(file, 'fileName')
+  }
+
   return {
     deleteOne,
     fetchAll,
@@ -200,6 +212,8 @@ export default function fileHook() {
     fetchLogoByUserId,
     filteringFilesNotInStore,
     getTranslationFileType,
+    isFileType,
+    isNotPersonnalFile,
     patchOne,
     postOne,
     postProfilePicture,

@@ -1,8 +1,8 @@
-import type { FileType, UserType } from '../../types/typesExported'
+import type { EmployeeType, FileType } from '../../types/typesExported'
 import type { BaseEntity } from '@/types/globals'
 import type { State } from '@/store/utils/types'
 
-export interface EventType extends BaseEntity {
+export interface IEvent extends BaseEntity {
   name: string
   description: string
   start: Date
@@ -14,9 +14,19 @@ export interface EventType extends BaseEntity {
   country: string | null
   signatureCount: number
   totalSignatureNeeded: number
-  createdByUser?: number | UserType
-  files?: number[] | FileType[]
+  createdByUser?: number
+}
+
+export interface EventType extends IEvent {
+  files?: number[]
   employees?: number[]
+  events?: number[]
+}
+
+export interface EventTypeWithRelations extends IEvent {
+  files?: FileType[]
+  employees?: EmployeeType[]
+  events?: EventType[]
 }
 
 export type EventFormType = Omit<EventType, 'id' | 'createdAt' | 'updatedAt'>

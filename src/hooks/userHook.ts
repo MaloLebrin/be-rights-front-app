@@ -5,6 +5,7 @@ import APi from '@/helpers/api'
 import type { ThemeEnum } from '@/types'
 import { RoleEnum } from '@/types'
 import type { EmployeeType, EventType, FileType, UserType } from '@/types/typesExported'
+import { hasOwnProperty, isArrayOfNumbers } from '@/utils'
 
 export default function userHook() {
   const userStore = useUserStore()
@@ -75,20 +76,20 @@ export default function userHook() {
   }
 
   function storeUsersEntities(user: UserType, isUserToSetCurrent = true) {
-    if (user.events && user.events.length > 0) {
+    if (user.events && user.events.length > 0 && !isArrayOfNumbers(user.events)) {
       const userEvents = user.events as EventType[]
       const eventsToStore = userEvents.filter(event => !eventStore.getAllIds.includes(event.id))
       eventStore.createMany(eventsToStore)
       user.events = eventsToStore.map(event => event.id)
     }
-    if (user.employee && user.employee.length > 0) {
+    if (user.employee && user.employee.length > 0 && !isArrayOfNumbers(user.employee)) {
       const employeesToStore = storeEmployeeRelationsEntities(user.employee.map(e => ({
         ...e as EmployeeType,
         createdByUser: user.id,
       })))
       user.employee = employeesToStore.map(employee => employee.id)
     }
-    if (user.files && user.files.length > 0) {
+    if (user.files && user.files.length > 0 && !isArrayOfNumbers(user.files)) {
       const files = user.files as FileType[]
       const filesToStore = files.filter(file => !fileStore.getAllIds.includes(file.id))
       fileStore.createMany(filesToStore)
@@ -145,7 +146,9 @@ export default function userHook() {
       const id = userStore.entities.current?.id
       if (id) {
         const res = await api.patch(`user/theme/${id}`, { theme })
-        userStore.updateOne(id, res as UserType)
+        if (isUserType(res)) {
+          userStore.updateOne(id, res)
+        }
       }
     } catch (error) {
       console.error(error)
@@ -163,7 +166,9 @@ export default function userHook() {
       }
       const res = await api.get(finalUrl)
       const { data }: PaginatedResponse<UserType> = res
-      storeUsersEntitiesForManyUsers(data)
+      if (isArrayUserType(data)) {
+        storeUsersEntitiesForManyUsers(data)
+      }
     } catch (error) {
       toast.error('Une erreur est survenue')
       console.error(error)
@@ -188,8 +193,10 @@ export default function userHook() {
     IncLoading()
     try {
       const res = await api.patch(`user/${id}`, { user })
-      userStore.updateOne(id, res as UserType)
-      toast.success('Utilisateur à été modifié avec succès')
+      if (isUserType(res)) {
+        userStore.updateOne(id, res)
+        toast.success('Utilisateur à été modifié avec succès')
+      }
     } catch (error) {
       toast.error('Une erreur est survenue')
       console.error(error)
@@ -228,7 +235,7 @@ export default function userHook() {
       if (ids.length > 0) {
         const res = await api.get(`user/many/?ids=${ids.join(',')}`)
         const users = res as UserType[]
-        if (users && users.length > 0) {
+        if (users && users.length > 0 && isArrayUserType(users)) {
           const missingsUsers = users.filter(user => !userStore.getAllIds.includes(user.id))
           if (missingsUsers.length > 0) {
             userStore.createMany(missingsUsers)
@@ -242,6 +249,14 @@ export default function userHook() {
     DecLoading()
   }
 
+  function isUserType(user: any): user is UserType {
+    return hasOwnProperty(user, 'id') && hasOwnProperty(user, 'token')
+  }
+
+  function isArrayUserType(users: any[]): users is UserType[] {
+    return users.every(isUserType)
+  }
+
   return {
     deleteUser,
     fetchAll,
@@ -249,6 +264,8 @@ export default function userHook() {
     fetchOne,
     getRoleTranslation,
     getUserfullName,
+    isArrayUserType,
+    isUserType,
     login,
     patchOne,
     register,

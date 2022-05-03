@@ -1,5 +1,5 @@
 <template>
-<form class="grid w-full h-full grid-cols-1 gap-6 mt-4 md:gap-12 lg:gap-24 md:grid-cols-3">
+<form class="grid w-full h-full grid-cols-1 gap-6 mt-4 md:gap-12 md:grid-cols-3">
   <div class="space-y-2 md:col-span-3">
     <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Nom de l'événement&nbsp;*&nbsp;:</label>
     <BaseInput

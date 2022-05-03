@@ -27,84 +27,34 @@
         </div>
       </div>
       <div
-        class="flex flex-col items-center justify-center mt-5 space-y-4 md:flex-row md:space-y-0 xl:mt-0 xl:ml-4"
+        class="flex flex-col items-center justify-center mt-5 space-y-4 md:flex-row md:space-y-0 md:space-x-4 xl:mt-0 xl:ml-4"
       >
-        <span class="relative z-0 sm:ml-3">
-          <Listbox
-            v-model="selected"
-            as="div"
-          >
-            <ListboxLabel class="sr-only">Change published status</ListboxLabel>
-            <div class="relative">
-              <div class="inline-flex divide-x divide-purple-600 rounded-md shadow-sm">
-                <div class="relative z-0 inline-flex divide-x divide-purple-600 rounded-md shadow-sm">
-                  <div
-                    class="relative inline-flex items-center py-2 pl-3 pr-4 text-white bg-purple-500 border border-transparent shadow-sm rounded-l-md"
-                  >
-                    <CheckIconOutline
-                      class="w-5 h-5"
-                      aria-hidden="true"
-                    />
-                    <p class="ml-2.5 text-sm font-medium uppercase">{{ selected.name }}</p>
-                  </div>
-                  <ListboxButton
-                    class="relative inline-flex items-center p-2 text-sm font-medium text-white bg-purple-500 rounded-l-none rounded-r-md hover:bg-purple-600 focus:outline-none focus:z-10 focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-purple-500"
-                  >
-                    <span class="sr-only">Change published status</span>
-                    <ChevronDownIconOutline
-                      class="w-5 h-5 text-white"
-                      aria-hidden="true"
-                    />
-                  </ListboxButton>
-                </div>
-              </div>
-
-              <transition
-                leave-active-class="transition duration-100 ease-in"
-                leave-from-class="opacity-100"
-                leave-to-class="opacity-0"
-              >
-                <ListboxOptions
-                  class="absolute left-0 mt-2 -mr-1 overflow-hidden origin-top-right bg-white divide-y divide-gray-200 rounded-md shadow-lg w-72 ring-1 ring-black ring-opacity-5 focus:outline-none sm:left-auto sm:right-0"
-                >
-                  <ListboxOption
-                    v-for="action in actions"
-                    :key="action.name"
-                    v-slot="{ active, selected }"
-                    as="template"
-                    :value="action"
-                  >
-                    <li
-                      :class="[active ? 'text-white bg-purple-500' : 'text-gray-900', 'cursor-default select-none relative p-4 text-sm flex items-center space-x-4 w-full']"
-                    >
-                      <component
-                        :is="action.icon"
-                        class="w-5 h-5 text-gray-500 dark:text-white-light"
-                        aria-hidden="true"
-                      />
-                      <div class="flex flex-col">
-                        <div class="flex justify-between">
-                          <p :class="selected ? 'font-semibold' : 'font-normal'">{{ action.name }}</p>
-                          <span
-                            v-if="selected"
-                            :class="active ? 'text-white' : 'text-purple-500'"
-                          >
-                            <CheckIconOutline
-                              class="w-5 h-5"
-                              aria-hidden="true"
-                            />
-                          </span>
-                        </div>
-                        <p :class="[active ? 'text-purple-200' : 'text-gray-500', 'mt-2']">{{ action.description }}
-                        </p>
-                      </div>
-                    </li>
-                  </ListboxOption>
-                </ListboxOptions>
-              </transition>
-            </div>
-          </Listbox>
-        </span>
+        <BaseButton
+          :href="{
+            name: userStore.isCurrentUserAdmin ? 'admin.events.edit' : 'user.events.edit',
+            params: { eventId: event.id }
+          }"
+        >
+          <template #icon>
+            <PencilAltIconOutline
+              class="w-5 h-5"
+              aria-hidden="true"
+            />
+          </template>
+          Modifier
+        </BaseButton>
+        <BaseButton
+          color="red"
+          @click="deleteEvent"
+        >
+          <template #icon>
+            <TrashIconOutline
+              class="w-5 h-5"
+              aria-hidden="true"
+            />
+          </template>
+          Supprimer
+        </BaseButton>
       </div>
     </div>
   </header>
@@ -305,7 +255,7 @@
 </template>
 
 <script setup lang="ts">
-import { PencilIcon, TrashIcon } from '@heroicons/vue/outline'
+import { ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
 
 interface Props {
   eventId: number
@@ -318,17 +268,18 @@ const { toFormat } = dateHook()
 const { getEmployeesByEventId } = employeeHook()
 const { fetchAllForEvent } = fileHook()
 const { fetchManyAnswerForEvent } = answerHook()
+const { isNotPersonnalFile } = fileHook()
 const employeeStore = useEmployeeStore()
 const fileStore = useFileStore()
 const answerStore = useAnswerStore()
+const userStore = useUserStore()
+const { IncLoading, DecLoading, setUiModal } = useUiStore()
 
 const event = computed(() => eventStore.getOne(props.eventId))
 const employees = computed(() => employeeStore.getAllByEventId(props.eventId))
 const answers = computed(() => answerStore.getManyByEventId(props.eventId))
 const files = computed(() =>
-// TODO fix this
-  // fileStore.getWhereArray(file => file.event === props.eventId)
-  fileStore.getAllArray,
+  fileStore.getWhereArray(file => isNotPersonnalFile(file) && file.event === props.eventId),
 )
 
 const getAnswerForEmployee = (employeeId: number) => computed(() => {
@@ -336,25 +287,23 @@ const getAnswerForEmployee = (employeeId: number) => computed(() => {
 })
 
 onMounted(async() => {
+  IncLoading()
   if (props.eventId) {
     await getEmployeesByEventId(props.eventId)
     await fetchAllForEvent(props.eventId)
     await fetchManyAnswerForEvent(props.eventId)
   }
+  DecLoading()
 })
 
-const actions = [
-  {
-    name: 'Modifier',
-    icon: PencilIcon,
-    description: 'Modifier un l\'évenement',
-  },
-  {
-    name: 'Supprimer',
-    icon: TrashIcon,
-    description: 'Supprimer un l\'évenement peut entrainer la perte de documents liés',
-  },
-]
-
-const selected = ref(actions[0])
+function deleteEvent() {
+  setUiModal({
+    modalName: ModalNameEnum.EVENT_FORM,
+    isActive: true,
+    modalMode: ModalModeEnum.DELETE,
+    data: {
+      event: event.value,
+    },
+  })
+}
 </script>

@@ -16,11 +16,12 @@ const router = createRouter({
   routes,
 })
 
-router.beforeResolve((to, _from, next) => {
+router.beforeResolve(async(to, _from, next) => {
   const mainStore = useMainStore()
   const { setIsLoggedIn } = useMainStore()
   const userStore = useUserStore()
   const { cookies } = useCookies()
+  const { loginWithToken } = authHook()
 
   const { isAuth, isAdmin } = to.meta
   let token: string | null = null
@@ -32,6 +33,7 @@ router.beforeResolve((to, _from, next) => {
   if (isAuth && !mainStore.getIsLoggedIn) {
     token = cookies.get('token')
     if (token) {
+      await loginWithToken(token)
       setIsLoggedIn()
     } else {
       return {
