@@ -1,8 +1,9 @@
-import type { EventType } from '@/store/event/types'
+import type { EventType, EventTypeWithRelations } from '@/store/event/types'
 import { EventStatusEnum, getEventStatusTranslationEnum } from '@/store/event/types'
 import type { PaginatedResponse } from '@/helpers/api'
 import APi from '@/helpers/api'
 import type { EmployeeType } from '@/store/employee/types'
+import { hasOwnProperty, isArrayOfNumbers, noNull } from '@/utils'
 
 export function eventHook() {
   const eventStore = useEventStore()
@@ -32,7 +33,7 @@ export function eventHook() {
 
   function getSignatureCount(employees: EmployeeType[]) {
     if (employees && employees.length) {
-      return employees.filter(employee => employee.hasSigned).length
+      return employees.filter(employee => noNull(employee.signedAt)).length
     }
     return 0
   }
@@ -72,7 +73,7 @@ export function eventHook() {
     IncLoading()
     try {
       const res: any = await api.get(`event/${id}`)
-      if (!eventStore.getAllIds.includes(res.id)) {
+      if (!eventStore.getAllIds.includes(res.id) && isEventType(res)) {
         eventStore.createOne(res)
       }
     } catch (error) {
@@ -137,9 +138,10 @@ export function eventHook() {
       IncLoading()
       try {
         const res = await api.patch(`event/${event.id}`, { event })
-        const updatedEvent = res as EventType
-        eventStore.updateOne(updatedEvent.id, updatedEvent)
-        toast.success('L\'événement a été mis à jour avec succès')
+        if (isEventType(res)) {
+          eventStore.updateOne(res.id, res)
+          toast.success('L\'événement a été mis à jour avec succès')
+        }
       } catch (error) {
         console.error(error)
         toast.error('Une erreur est survenue')
@@ -162,7 +164,18 @@ export function eventHook() {
   }
 
   function isEventType(event: any): event is EventType {
-    return event.start !== undefined
+    return hasOwnProperty(event, 'start') && hasOwnProperty(event, 'end')
+  }
+
+  function isEventTypeArray(events: any[]): events is EventType[] {
+    return events.every(isEventType)
+  }
+
+  function isEventWithRelations(event: any): event is EventTypeWithRelations {
+    if (isEventType(event) && event.employees) {
+      return isEventType(event) && event.employees && !isArrayOfNumbers(event.employees)
+    } else
+      return false
   }
 
   return {
@@ -175,6 +188,8 @@ export function eventHook() {
     getEventStatusTranslation,
     getSignatureCount,
     isEventType,
+    isEventTypeArray,
+    isEventWithRelations,
     patchOne,
     postOne,
     sortEventByDate,
