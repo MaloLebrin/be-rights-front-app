@@ -1,6 +1,6 @@
 <template>
 <div
-  class="relative min-h-screen px-4 py-6 text-left transition-all duration-500 ease-in-out transform"
+  class="relative h-full px-4 py-6 text-left transition-all duration-500 ease-in-out transform"
 >
   <EventList
     :events="events"
