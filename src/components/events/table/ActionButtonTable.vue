@@ -110,16 +110,16 @@ function updateOneEvent() {
   }
 }
 
-function addEmployeeToEvent() {
-  setUiModal({
-    isActive: true,
-    modalName: ModalNameEnum.ADD_EMPLOYEE,
-    modalMode: ModalModeEnum.CREATE,
-    data: {
-      eventId: props.event.id,
-    },
-  })
-}
+// function addEmployeeToEvent() {
+//   setUiModal({
+//     isActive: true,
+//     modalName: ModalNameEnum.ADD_EMPLOYEE,
+//     modalMode: ModalModeEnum.CREATE,
+//     data: {
+//       eventId: props.event.id,
+//     },
+//   })
+// }
 
 function deleteEvent() {
   setUiModal({
