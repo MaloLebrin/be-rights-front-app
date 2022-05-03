@@ -95,6 +95,7 @@ declare module 'vue' {
     MyFiles: typeof import('./../../pages/userDashboard/files/MyFiles.vue')['default']
     MyUserAccount: typeof import('./../../pages/userDashboard/MyUserAccount.vue')['default']
     PencilAltIconOutline: typeof import('@heroicons/vue/outline/esm/PencilAltIcon.js')['default']
+    PencilIconOutline: typeof import('@heroicons/vue/outline/esm/PencilIcon.js')['default']
     PhoneIconOutline: typeof import('@heroicons/vue/outline/esm/PhoneIcon.js')['default']
     PhotographIconOutline: typeof import('@heroicons/vue/outline/esm/PhotographIcon.js')['default']
     PlusCircleIconOutline: typeof import('@heroicons/vue/outline/esm/PlusCircleIcon.js')['default']

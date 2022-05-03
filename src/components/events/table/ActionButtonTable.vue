@@ -45,7 +45,7 @@
           </button>
         </MenuItem>
       </div>
-      <div class="px-1 py-1">
+      <!-- <div class="px-1 py-1">
         <MenuItem v-slot="{ active }">
           <button
             :class="[
@@ -62,7 +62,8 @@
             Ajouter un destinataire
           </button>
         </MenuItem>
-      </div>
+      </div> -->
+      <!-- TODO find UI-UX and code way to add existing or new Employee to event -->
       <div class="px-1 py-1">
         <MenuItem v-slot="{ active }">
           <button
