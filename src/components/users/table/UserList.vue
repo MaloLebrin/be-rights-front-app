@@ -5,8 +5,7 @@
       <BaseInput
         v-model="state.search"
         type="text"
-        placeholder="disbled tant que fix backend non résolu"
-        disabled
+        placeholder="Recherchez"
         @keyup="searchEntity($event)"
       />
     </div>

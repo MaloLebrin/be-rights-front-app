@@ -4,8 +4,17 @@ import createEntity from '@/store/utils/createEntity'
 
 const entity = createEntity<FileType>('file')
 
-export const fileState = createState<FileType>(entity)
+export const baseCreationForm = {
+  name: '',
+  url: '',
+  description: '',
+}
+
+export const fileState = defaultFileState()
 
 export function defaultFileState() {
-  return createState<FileType>(entity)
+  return {
+    ...createState<FileType>(entity),
+    creationForm: baseCreationForm,
+  }
 }

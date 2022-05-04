@@ -21,7 +21,7 @@ export interface FileType extends BaseEntity {
   createdByUser: number
 }
 
-export type FileFormType = Omit<FileType, 'id' | 'createdAt' | 'updatedAt'>
+export type FileFormType = Pick<FileType, 'name' | 'url' | 'description'>
 
 export enum FileTypeEnum {
   MODEL = 'MODEL',
@@ -38,4 +38,6 @@ export enum FileFormatEnum {
   PNG = 'png',
 }
 
-export interface FileState extends State<FileType> { }
+export interface FileState extends State<FileType> {
+  creationForm: FileFormType
+}

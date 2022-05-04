@@ -55,6 +55,8 @@ export const useFileStore = defineStore(EntitiesEnum.FILES, {
   },
   getters: {
     ...createGetters<FileType>(fileState),
+
+    getCreationForm: state => state.creationForm,
   },
 })
 
