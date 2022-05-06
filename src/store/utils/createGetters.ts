@@ -1,4 +1,5 @@
 import type { State, WithId } from './types'
+import { noNull } from '@/utils'
 
 export default function createGetters<T extends WithId>(currentState: State<T>) {
   /**
@@ -142,8 +143,16 @@ export default function createGetters<T extends WithId>(currentState: State<T>) 
     return state.entities.active
   }
 
+  function isAlReadyActive(state = currentState) {
+    return (id: number) => state.entities.active.includes(id)
+  }
+
   function getFirstActive(state = currentState) {
     return state.entities.active[0]
+  }
+
+  function isAlReadyInStore(state = currentState) {
+    return (id: number) => noNull(state.entities.byId[id])
   }
 
   return {
@@ -162,5 +171,7 @@ export default function createGetters<T extends WithId>(currentState: State<T>) 
     getOne,
     getWhere,
     getWhereArray,
+    isAlReadyActive,
+    isAlReadyInStore,
   }
 }

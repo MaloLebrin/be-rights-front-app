@@ -57,9 +57,9 @@ export function eventHook() {
       }
       const res = await api.get(finalUrl)
       const { data }: PaginatedResponse<EventType> = res
-      const ids = data.map((event: EventType) => event.id).filter(id => !eventStore.getAllIds.includes(id))
-      if (ids.length > 0) {
-        const events = data.filter(event => ids.includes(event.id))
+      const missingIds = data.map((event: EventType) => event.id).filter(id => !eventStore.isAlReadyInStore(id))
+      if (missingIds.length > 0) {
+        const events = data.filter(event => missingIds.includes(event.id))
         eventStore.createMany(events)
       }
     } catch (error) {
@@ -73,7 +73,7 @@ export function eventHook() {
     IncLoading()
     try {
       const res: any = await api.get(`event/${id}`)
-      if (!eventStore.getAllIds.includes(res.id) && isEventType(res)) {
+      if (!eventStore.isAlReadyInStore(res.id) && isEventType(res)) {
         eventStore.createOne(res)
       }
     } catch (error) {
@@ -89,9 +89,9 @@ export function eventHook() {
       if (userId) {
         const res = await api.get(`event/user/${userId}`)
         const data = res as EventType[]
-        const ids = data.map((event: EventType) => event.id).filter(id => !eventStore.getAllIds.includes(id))
-        if (ids.length > 0) {
-          const events = data.filter(event => ids.includes(event.id))
+        const missingIds = data.map((event: EventType) => event.id).filter(id => !eventStore.isAlReadyInStore(id))
+        if (missingIds.length > 0) {
+          const events = data.filter(event => missingIds.includes(event.id))
           const eventToStore = events.map(event => ({
             ...event,
             createdByUser: userId,
@@ -111,7 +111,7 @@ export function eventHook() {
     try {
       const res = await api.get(`event/${id}`)
       const event = res as EventType
-      if (!eventStore.getAllIds.includes(event.id)) {
+      if (!eventStore.isAlReadyInStore(event.id)) {
         eventStore.createOne(event)
       }
     } catch (error) {
@@ -172,8 +172,8 @@ export function eventHook() {
   }
 
   function isEventWithRelations(event: any): event is EventTypeWithRelations {
-    if (isEventType(event) && event.employees) {
-      return isEventType(event) && event.employees && !isArrayOfNumbers(event.employees)
+    if (isEventType(event) && event.employees?.length) {
+      return !isArrayOfNumbers(event.employees)
     } else
       return false
   }

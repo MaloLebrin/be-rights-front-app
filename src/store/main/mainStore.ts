@@ -1,28 +1,25 @@
 import { defineStore } from 'pinia'
 import { defaultState } from './state'
 import { ThemeEnum } from '@/types'
+import { noNull } from '@/utils'
 
 export const useMainStore = defineStore('main', {
   state: () => ({
-    isLoggedIn: false,
     theme: ThemeEnum.LIGHT,
     areCookiesAccepted: false,
   }),
   getters: {
-    getIsLoggedIn: state => state.isLoggedIn,
+    getIsLoggedIn: () => {
+      const userStore = useUserStore()
+      return noNull(userStore.getCurrent)
+    },
     getTheme: state => state.theme,
     isDarkTheme: state => state.theme === ThemeEnum.DARK,
     getAreCookiesAccepted: state => state.areCookiesAccepted,
   },
   actions: {
-    setIsLoggedIn() {
-      this.isLoggedIn = true
-    },
-    setIsLoggedOut() {
-      this.isLoggedIn = false
-    },
     resetAllState() {
-      this.$reset()
+      this.$state = defaultState()
     },
     setCookiesAccepted() {
       this.areCookiesAccepted = true
