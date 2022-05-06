@@ -130,7 +130,7 @@
 
 <script setup lang="ts">
 import type { EmployeeType } from '@/types/typesExported'
-import { FileTypeEnum, ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
+import { ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
 
 interface Props {
   employee: EmployeeType
@@ -139,10 +139,10 @@ interface Props {
 const props = defineProps<Props>()
 
 const userStore = useUserStore()
-const fileStore = useFileStore()
+// const fileStore = useFileStore()
 const { setUiModal } = useUiStore()
 const employeeCreator = computed(() => userStore.getOne(props.employee.createdByUser as number))
-const creatorLogo = computed(() => fileStore.getWhereArray(file => file.createdByUser === employeeCreator.value.id && file.type === FileTypeEnum.LOGO)[0])
+// const creatorLogo = computed(() => fileStore.getWhereArray(file => file.createdByUser === employeeCreator.value.id && file.type === FileTypeEnum.LOGO)[0])
 
 const { getEmployeeFullname } = employeeHook()
 const { getUserfullName } = userHook()
