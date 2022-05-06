@@ -2,11 +2,11 @@ import API from '@/helpers/api'
 import type { AnswerType } from '@/types/typesExported'
 
 export default function answerHook() {
-  const { getCurrentUserToken } = useUserStore()
+  const userStore = useUserStore()
   const answerStore = useAnswerStore()
   const { IncLoading, DecLoading } = useUiStore()
   const toast = useToast()
-  const api = new API(getCurrentUserToken!)
+  const api = new API(userStore.getCurrentUserToken!)
 
   async function postMany(eventId: number, employeeIds: number[]) {
     IncLoading()
