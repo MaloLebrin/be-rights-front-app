@@ -19,7 +19,7 @@ export default function bugReportsHook() {
       }
       const res = await api.get(finalUrl)
       const { data }: PaginatedResponse<BugReportType> = res
-      const bugs = data.filter(bug => !bugStore.getAllIds.includes(bug.id))
+      const bugs = data.filter(bug => !bugStore.isAlReadyInStore(bug.id))
       if (bugs.length > 0) {
         bugStore.createMany(bugs)
       }

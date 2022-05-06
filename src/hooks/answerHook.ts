@@ -29,7 +29,7 @@ export default function answerHook() {
 
   function filteringAnswersNotInStore(answers: AnswerType[]) {
     if (answers.length > 0) {
-      return answers.filter(answer => !answerStore.getAllIds.includes(answer.id))
+      return answers.filter(answer => !answerStore.isAlReadyInStore(answer.id))
     }
     return []
   }

@@ -80,7 +80,7 @@ export default function userHook() {
   function storeUsersEntities(user: UserType, isUserToSetCurrent = true) {
     if (user.events && user.events.length > 0 && !isArrayOfNumbers(user.events)) {
       const userEvents = user.events as EventType[]
-      const eventsToStore = userEvents.filter(event => !eventStore.getAllIds.includes(event.id))
+      const eventsToStore = userEvents.filter(event => !eventStore.isAlReadyInStore(event.id))
       eventStore.createMany(eventsToStore)
       user.events = eventsToStore.map(event => event.id)
     }
@@ -93,14 +93,14 @@ export default function userHook() {
     }
     if (user.files && user.files.length > 0 && !isArrayOfNumbers(user.files)) {
       const files = user.files as FileType[]
-      const filesToStore = files.filter(file => !fileStore.getAllIds.includes(file.id))
+      const filesToStore = files.filter(file => !fileStore.isAlReadyInStore(file.id))
       fileStore.createMany(filesToStore)
       user.files = filesToStore.map(file => file.id)
     }
     if (isUserToSetCurrent) {
       userStore.setCurrent(user)
     }
-    if (userStore.getAllIds.includes(user.id)) {
+    if (userStore.isAlReadyInStore(user.id)) {
       userStore.updateOne(user.id, user)
     } else {
       userStore.createOne(user)
@@ -110,7 +110,7 @@ export default function userHook() {
   function storeUsersEntitiesForManyUsers(users: UserType[]): void {
     if (users.length > 0) {
       const events = users.reduce((acc, user) => [...acc, ...user.events as EventType[]], [] as EventType[])
-      const eventsToStore = events.filter(event => !eventStore.getAllIds.includes(event.id))
+      const eventsToStore = events.filter(event => !eventStore.isAlReadyInStore(event.id))
       if (eventsToStore.length > 0) {
         eventStore.createMany(eventsToStore)
       }
@@ -119,12 +119,12 @@ export default function userHook() {
       storeEmployeeRelationsEntities(employees)
 
       const files = users.reduce((acc, user) => [...acc, ...user.files as FileType[]], [] as FileType[])
-      const filesToStore = files.filter(file => !fileStore.getAllIds.includes(file.id))
+      const filesToStore = files.filter(file => !fileStore.isAlReadyInStore(file.id))
       if (filesToStore.length > 0) {
         fileStore.createMany(filesToStore)
       }
 
-      const missingsUsers = users.filter(user => !userStore.getAllIds.includes(user.id))
+      const missingsUsers = users.filter(user => !userStore.isAlReadyInStore(user.id))
       if (missingsUsers.length > 0) {
         const usersToStore = missingsUsers.map(user => {
           const userEvents = user.events as EventType[]
@@ -238,7 +238,7 @@ export default function userHook() {
         const res = await api.get(`user/many/?ids=${ids.join(',')}`)
         const users = res as UserType[]
         if (users && users.length > 0 && isArrayUserType(users)) {
-          const missingsUsers = users.filter(user => !userStore.getAllIds.includes(user.id))
+          const missingsUsers = users.filter(user => !userStore.isAlReadyInStore(user.id))
           if (missingsUsers.length > 0) {
             userStore.createMany(missingsUsers)
           }

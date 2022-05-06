@@ -39,7 +39,7 @@ onMounted(async() => {
     const userIds = employeeStore.getAllArray.map(employee => employee.createdByUser) as number[]
     if (userIds.length > 0) {
       const uniqIds = uniq(userIds)
-      const missingIds = uniqIds.filter(id => !userStore.getAllIds.includes(id))
+      const missingIds = uniqIds.filter(id => !userStore.isAlReadyInStore(id))
       if (missingIds.length > 0) {
         await fetchMany(missingIds)
       }
