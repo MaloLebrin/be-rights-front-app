@@ -47,13 +47,12 @@
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { ModalNameEnum } from '@/types'
 
-const { entities: eventsEntities } = useEventStore()
 const uiStore = useUiStore()
 const { getUiModalState, resetUiModalState } = uiStore
 
 const eventID = computed(() => {
-  if (getUiModalState.data && getUiModalState.data.eventId) {
-    return eventsEntities.byId[getUiModalState.data.eventId].id
+  if (uiStore.getUiModalState.data) {
+    return uiStore.getUiModalState.data.eventId
   }
 })
 

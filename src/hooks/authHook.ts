@@ -20,7 +20,10 @@ export default function authHook() {
   const { cookies } = useCookies()
 
   function logout() {
+    const { cookies } = useCookies()
+
     api.deleteCredentials()
+    cookies.remove('userToken')
     userStore.removeCurrent()
     cookies.remove('userToken')
     answerStore.resetState()

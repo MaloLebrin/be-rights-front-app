@@ -16,7 +16,7 @@ globalCookiesConfig({
   expireTimes: '30d',
   path: '/',
   domain: '',
-  secure: true,
+  secure: import.meta.env.MODE === 'production',
   sameSite: 'None',
 })
 
