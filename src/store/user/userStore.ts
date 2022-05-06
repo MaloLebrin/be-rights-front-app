@@ -41,10 +41,14 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
       this.entities.current = null
     },
     updateOne(id: number, payload: UserType): void {
-      const entity = this.entities.byId[id]
-      this.entities.byId[id] = {
-        ...entity,
-        ...payload,
+      if (this.isAlReadyInStore(id)) {
+        const entity = this.entities.byId[id]
+        this.entities.byId[id] = {
+          ...entity,
+          ...payload,
+        }
+      } else {
+        this.createOne(payload)
       }
     },
     updateMany(payload: UserType[]): void {
@@ -58,7 +62,7 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
       ids.forEach(id => this.deleteOne(id))
     },
     setActive(id: number) {
-      if (!this.entities.active.includes(id)) {
+      if (!this.isAlReadyActive(id)) {
         this.entities.active.push(id)
       }
     },
@@ -67,9 +71,7 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
     },
 
     resetState() {
-      // console.log(userState, 'userState')
       this.$state = defaultUserState()
-      // this.$reset()
     },
   },
 })

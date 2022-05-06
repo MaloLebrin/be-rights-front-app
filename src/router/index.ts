@@ -18,7 +18,6 @@ const router = createRouter({
 
 router.beforeResolve(async(to, _from, next) => {
   const mainStore = useMainStore()
-  const { setIsLoggedIn } = useMainStore()
   const userStore = useUserStore()
   const { cookies } = useCookies()
   const { loginWithToken } = authHook()
@@ -34,7 +33,6 @@ router.beforeResolve(async(to, _from, next) => {
     token = cookies.get('token')
     if (token) {
       await loginWithToken(token)
-      setIsLoggedIn()
     } else {
       return {
         name: 'login',

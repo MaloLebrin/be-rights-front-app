@@ -30,10 +30,14 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
       this.entities.current = null
     },
     updateOne(id: number, payload: EventType): void {
-      const entity = this.entities.byId[id]
-      this.entities.byId[id] = {
-        ...entity,
-        ...payload,
+      if (this.isAlReadyInStore(id)) {
+        const entity = this.entities.byId[id]
+        this.entities.byId[id] = {
+          ...entity,
+          ...payload,
+        }
+      } else {
+        this.createOne(payload)
       }
     },
     updateMany(payload: EventType[]): void {
@@ -50,7 +54,7 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
       this.$state = defaultEventState()
     },
     setActive(id: number) {
-      if (!this.entities.active.includes(id)) {
+      if (!this.isAlReadyActive(id)) {
         this.entities.active.push(id)
       }
     },

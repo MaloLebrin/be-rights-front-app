@@ -21,7 +21,6 @@ export default function authHook() {
 
   function logout() {
     api.deleteCredentials()
-    mainStore.setIsLoggedOut()
     userStore.removeCurrent()
 
     answerStore.resetState()
@@ -33,6 +32,7 @@ export default function authHook() {
     tableStore.resetTableState()
     uiStore.resetUIState()
     userStore.resetState()
+
     router.replace({ name: 'home' })
     toast.success('Vous êtes déconnecté')
   }
@@ -54,7 +54,6 @@ export default function authHook() {
     const token = cookies.get('userToken')
     if (token && token.length > 0) {
       await loginWithToken(token)
-      mainStore.setIsLoggedIn()
       if (userStore.isCurrentUserAdmin) {
         router.push({ name: 'admin.events' })
       } else {

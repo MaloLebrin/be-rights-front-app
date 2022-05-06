@@ -9,7 +9,6 @@ import { hasOwnProperty, isArrayOfNumbers } from '@/utils'
 
 export default function userHook() {
   const userStore = useUserStore()
-  const mainStore = useMainStore()
   const eventStore = useEventStore()
   const fileStore = useFileStore()
   const toast = useToast()
@@ -32,7 +31,6 @@ export default function userHook() {
         router.push({ name: 'user.events' })
       }
       toast.success('Connexion réussie, bienvenue !')
-      mainStore.setIsLoggedIn()
     } catch (error) {
       console.error(error)
       toast.error('Une erreur est survenue')
@@ -53,7 +51,6 @@ export default function userHook() {
         router.push({ name: 'user.events' })
       }
       toast.success('Vous êtes inscrit avec succès')
-      mainStore.setIsLoggedIn()
     } catch (error) {
       console.error(error)
       toast.error('Une erreur est survenue')
@@ -75,6 +72,11 @@ export default function userHook() {
     }
   }
 
+  /**
+   * function to store all objetcs or arrays user's entities, and set user to current
+   * @param user
+   * @param isUserToSetCurrent
+   */
   function storeUsersEntities(user: UserType, isUserToSetCurrent = true) {
     if (user.events && user.events.length > 0 && !isArrayOfNumbers(user.events)) {
       const userEvents = user.events as EventType[]

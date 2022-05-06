@@ -10,8 +10,8 @@
 <script setup lang="ts">
 import { useCookies } from 'vue3-cookies'
 
-const { setCookiesAccepted, setIsLoggedIn } = useMainStore()
-const userStore = useUserStore()
+const mainStore = useMainStore()
+const { setCookiesAccepted } = useMainStore()
 const { loginWithToken } = authHook()
 
 onBeforeMount(async() => {
@@ -20,11 +20,10 @@ onBeforeMount(async() => {
   if (cookiesAccepted) {
     setCookiesAccepted()
   }
-  if (!userStore.getCurrent) {
+  if (!mainStore.getIsLoggedIn) {
     const token = cookies.get('userToken')
     if (token && token.length > 0) {
       await loginWithToken(token)
-      setIsLoggedIn()
     }
   }
 })
