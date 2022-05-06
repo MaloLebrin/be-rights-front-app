@@ -62,7 +62,7 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
       this.entities.active = []
     },
 
-    // bellow getters in this specific store
+    // bellow actions in this specific store
   },
 })
 

@@ -67,7 +67,7 @@ export const useAnswerStore = defineStore(EntitiesEnum.ANSWERS, {
       this.entities.active = []
     },
 
-    // bellow getters in this specific store
+    // bellow Actions in this specific store
   },
 })
 
