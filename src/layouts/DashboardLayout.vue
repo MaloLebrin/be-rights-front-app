@@ -3,7 +3,7 @@
   <MenuDrawer />
   <main
     v-bind="$attrs"
-    class="w-full lg:pl-64 dark:bg-blue-dark"
+    class="w-full min-h-screen lg:pl-64 dark:bg-blue-dark"
   >
     <HeaderDashboard />
     <BaseLoader v-if="uiStore.getUIIsLoading" />
