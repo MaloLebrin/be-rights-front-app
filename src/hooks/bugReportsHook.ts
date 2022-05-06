@@ -38,7 +38,9 @@ export default function bugReportsHook() {
     try {
       const res = await api.post('bugreport', { bugReport })
       const data = res as BugReportType
-      bugStore.createOne(data)
+      if (data) {
+        bugStore.createOne(data)
+      }
       toast.success('Le rapport de bug a bien été envoyé')
       return data
     } catch (error) {
