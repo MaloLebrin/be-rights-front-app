@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import type { UserType } from '@/types/typesExported'
-import { ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
+// import { ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
 
 interface Props {
   users: UserType[]
@@ -55,24 +55,24 @@ withDefaults(defineProps<Props>(), {
 })
 
 const { setSearch } = useTableStore()
-const uiStore = useUiStore()
-const { setUiModal } = uiStore
+// const uiStore = useUiStore()
+// const { setUiModal } = uiStore
 
 const state = reactive({
   search: '',
   timeout: 0,
 })
 
-function onToggleUsersModal(user: UserType) {
-  setUiModal({
-    isActive: true,
-    modalName: ModalNameEnum.USER_ADMIN,
-    modalMode: ModalModeEnum.DELETE,
-    data: {
-      user,
-    },
-  })
-}
+// function onToggleUsersModal(user: UserType) {
+//   setUiModal({
+//     isActive: true,
+//     modalName: ModalNameEnum.USER_ADMIN,
+//     modalMode: ModalModeEnum.DELETE,
+//     data: {
+//       user,
+//     },
+//   })
+// }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function searchEntity(event: KeyboardEvent) {
