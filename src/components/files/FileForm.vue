@@ -134,6 +134,7 @@
   <div class="flex items-center justify-center mt-10">
     <BaseButton
       :disabled="!meta.dirty || !meta.valid"
+      :is-loading="uiStore.getUIIsLoading"
       @click="submit"
     >
       <template #icon>
@@ -169,7 +170,8 @@ const state = reactive<{
 
 const userStore = useUserStore()
 const { postOne, patchOne, getTranslationFileType } = fileHook()
-const { resetUiModalState, IncLoading, DecLoading } = useUiStore()
+const uiStore = useUiStore()
+const { resetUiModalState, IncLoading, DecLoading } = uiStore
 
 const schema = object({
   name: string().required('Le nom du fichier est obligatoire'),
@@ -213,7 +215,7 @@ async function submit() {
     if (userStore.isCurrentUserAdmin) {
       await postOne(state.file, userId.value)
     } else {
-      await postOne(state.file)
+      await postOne(state.file, userStore.getCurrentUserId)
     }
   } else if (props.mode === ModalModeEnum.EDIT) {
     const payload = {
