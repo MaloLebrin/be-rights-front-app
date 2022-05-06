@@ -1,4 +1,3 @@
-import { useCookies } from 'vue3-cookies'
 import API from '@/helpers/api'
 
 export default function authHook() {
@@ -11,7 +10,6 @@ export default function authHook() {
   const fileStore = useFileStore()
   const tableStore = useTableStore()
   const uiStore = useUiStore()
-  const { cookies } = useCookies()
   const { setThemeClass } = mainHook()
   const { storeUsersEntities } = userHook()
   const { IncLoading, DecLoading } = useUiStore()
@@ -49,25 +47,8 @@ export default function authHook() {
     DecLoading()
   }
 
-  async function routesIntermsOfUserRoles() {
-    IncLoading()
-    const token = cookies.get('userToken')
-    if (token && token.length > 0) {
-      await loginWithToken(token)
-      if (userStore.isCurrentUserAdmin) {
-        router.push({ name: 'admin.events' })
-      } else {
-        router.push({ name: 'user.events' })
-      }
-    } else {
-      router.push({ name: 'login' })
-    }
-    DecLoading()
-  }
-
   return {
     logout,
     loginWithToken,
-    routesIntermsOfUserRoles,
   }
 }
