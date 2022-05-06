@@ -21,8 +21,3 @@ export enum ThemeEnum {
   LIGHT = 'light',
   DARK = 'dark',
 }
-
-export enum LoaderTypeEnum {
-  SPINNER = 'spinner',
-  BOUNCE = 'bounce',
-}

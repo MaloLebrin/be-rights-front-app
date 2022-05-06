@@ -1,7 +1,7 @@
 import type { PaginatedResponse } from '@/helpers/api'
 import API from '@/helpers/api'
 import type { AnswerType, EmployeeType, FileType } from '@/types/typesExported'
-import { isArrayOfNumbers } from '@/utils'
+import { isArrayOfNumbers, uniq } from '@/utils'
 
 export default function employeeHook() {
   const employeeStore = useEmployeeStore()
@@ -36,12 +36,12 @@ export default function employeeHook() {
     }
   }
 
-  function storeEmployeeRelationsEntities(employees: EmployeeType[]) {
+  function storeEmployeeRelationsEntities(employees: EmployeeType[]): EmployeeType[] {
     if (employees.length > 0) {
-      const ids = employees.map(employee => employee.id).filter(id => !employeeStore.getAllIds.includes(id))
-      if (ids.length > 0) {
-        // TODO : see to optimize this with reduce
-        const employeesToStore = employees.filter(employee => ids.includes(employee.id)).map(employee => {
+      const missingIds = employees.map(employee => employee.id).filter(id => !employeeStore.isAlReadyInStore(id))
+      if (missingIds.length > 0) {
+        // TODO : optimize this with reduce
+        const employeesToStore = employees.filter(employee => missingIds.includes(employee.id)).map(employee => {
           let employeeAnswers: AnswerType[] = []
           let employeeFiles: FileType[] = []
 
@@ -177,7 +177,7 @@ export default function employeeHook() {
       const userEmployee = user.employee as number[]
       userStore.updateOne(userId, {
         ...user,
-        employee: [...userEmployee, ...employeeIds],
+        employee: uniq([...userEmployee, ...employeeIds]),
       })
       employeeStore.createMany(data)
       toast.success('Destinataires créés avec succès')
@@ -189,7 +189,12 @@ export default function employeeHook() {
   }
 
   function getEmployeeFullname(employee: EmployeeType): string {
-    return `${employee.firstName} ${employee.lastName}`
+    let str = ''
+    if (employee.firstName)
+      str += employee.firstName
+    if (employee.lastName)
+      str += ` ${employee.lastName}`
+    return str
   }
 
   return {

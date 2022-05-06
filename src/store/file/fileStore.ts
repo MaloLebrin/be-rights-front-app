@@ -24,10 +24,14 @@ export const useFileStore = defineStore(EntitiesEnum.FILES, {
       this.entities.current = null
     },
     updateOne(id: number, payload: FileType): void {
-      const entity = this.entities.byId[id]
-      this.entities.byId[id] = {
-        ...entity,
-        ...payload,
+      if (this.isAlReadyInStore(id)) {
+        const entity = this.entities.byId[id]
+        this.entities.byId[id] = {
+          ...entity,
+          ...payload,
+        }
+      } else {
+        this.createOne(payload)
       }
     },
     updateMany(payload: FileType[]): void {
@@ -44,7 +48,7 @@ export const useFileStore = defineStore(EntitiesEnum.FILES, {
       this.$state = defaultFileState()
     },
     setActive(id: number) {
-      if (!this.entities.active.includes(id)) {
+      if (!this.isAlReadyActive(id)) {
         this.entities.active.push(id)
       }
     },

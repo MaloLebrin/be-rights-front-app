@@ -1,18 +1,11 @@
 <template>
 <div class="min-h-screen px-8 py-6 text-left transition-all duration-500 ease-in-out transform md:px-20 lg:px-32">
-  <div class="space-y-10">
-    <div class="py-4 mt-24 space-y-32">
-      <Userform :id="userId" />
-    </div>
-  </div>
+  <Userform :id="userId" />
 </div>
 </template>
 
 <script setup lang="ts">
-const userStore = useUserStore()
-
 const { params } = useRoute()
 
 const userId = computed(() => parseInt(params.userId as string))
-const user = computed(() => userStore.getOne(userId.value))
 </script>

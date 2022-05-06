@@ -57,6 +57,7 @@ export const MENU_ITEMS = [
     linkName: 'admin.files.create',
     isAdmin: true,
   },
+
   // user
   {
     label: 'Événements',

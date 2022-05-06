@@ -1,7 +1,8 @@
 import { ThemeEnum } from '@/types/typesExported'
 
-export const defaultState = {
-  isLoggedIn: false,
-  theme: ThemeEnum.LIGHT,
-  areCookiesAccepted: false,
+export function defaultState() {
+  return {
+    theme: ThemeEnum.LIGHT,
+    areCookiesAccepted: false,
+  }
 }

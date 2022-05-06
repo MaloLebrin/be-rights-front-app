@@ -27,10 +27,14 @@ export const useBugStore = defineStore(EntitiesEnum.BUGS_REPORTS, {
       this.entities.current = null
     },
     updateOne(id: number, payload: BugReportType): void {
-      const entity = this.entities.byId[id]
-      this.entities.byId[id] = {
-        ...entity,
-        ...payload,
+      if (this.isAlReadyInStore(id)) {
+        const entity = this.entities.byId[id]
+        this.entities.byId[id] = {
+          ...entity,
+          ...payload,
+        }
+      } else {
+        this.createOne(payload)
       }
     },
     updateMany(payload: BugReportType[]): void {
@@ -44,7 +48,7 @@ export const useBugStore = defineStore(EntitiesEnum.BUGS_REPORTS, {
       ids.forEach(id => this.deleteOne(id))
     },
     setActive(id: number) {
-      if (!this.entities.active.includes(id)) {
+      if (!this.isAlReadyActive(id)) {
         this.entities.active.push(id)
       }
     },
