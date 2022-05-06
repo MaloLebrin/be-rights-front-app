@@ -26,7 +26,6 @@
         class="flex items-center justify-center"
       >
         <FileForm
-          v-if="mode === ModalModeEnum.EDIT || mode === ModalModeEnum.CREATE"
           :file="uiStore.getUiModalData?.file"
           :mode="mode"
           @submit="onSubmit"
