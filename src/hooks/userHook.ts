@@ -5,7 +5,7 @@ import APi from '@/helpers/api'
 import type { ThemeEnum } from '@/types'
 import { RoleEnum } from '@/types'
 import type { EmployeeType, EventType, FileType, UserType } from '@/types/typesExported'
-import { hasOwnProperty, isArrayOfNumbers } from '@/utils'
+import { hasOwnProperty, isArrayOfNumbers, noNull } from '@/utils'
 
 export default function userHook() {
   const userStore = useUserStore()
@@ -25,11 +25,7 @@ export default function userHook() {
       const user = res.data as UserType
       storeUsersEntities(user)
       cookies.set('userToken', user.token)
-      if (user && userStore.isCurrentUserAdmin) {
-        router.push({ name: 'admin.events' })
-      } else {
-        router.push({ name: 'user.events' })
-      }
+      redirectBaseOneCurrentUserRole()
       toast.success('Connexion réussie, bienvenue !')
     } catch (error) {
       console.error(error)
@@ -45,11 +41,7 @@ export default function userHook() {
       const user = res.data as UserType
       storeUsersEntities(user)
       cookies.set('userToken', user.token)
-      if (user && userStore.isCurrentUserAdmin) {
-        router.push({ name: 'admin.events' })
-      } else {
-        router.push({ name: 'user.events' })
-      }
+      redirectBaseOneCurrentUserRole()
       toast.success('Vous êtes inscrit avec succès')
     } catch (error) {
       console.error(error)
@@ -228,7 +220,12 @@ export default function userHook() {
   }
 
   function getUserfullName(user: UserType) {
-    return `${user.firstName} ${user.lastName}`
+    let str = ''
+    if (user.firstName)
+      str += user.firstName
+    if (user.lastName)
+      str += ` ${user.lastName}`
+    return str
   }
 
   async function fetchMany(ids: number[]) {
@@ -259,6 +256,21 @@ export default function userHook() {
     return users.every(isUserType)
   }
 
+  /**
+   * redirection based on current user's role in store
+   */
+  function redirectBaseOneCurrentUserRole() {
+    if (noNull(userStore.getCurrent)) {
+      if (userStore.isCurrentUserAdmin) {
+        router.push({ name: 'admin.events' })
+      } else {
+        router.push({ name: 'user.events' })
+      }
+    } else {
+      router.push({ name: 'login' })
+    }
+  }
+
   return {
     deleteUser,
     fetchAll,
@@ -270,6 +282,7 @@ export default function userHook() {
     isUserType,
     login,
     patchOne,
+    redirectBaseOneCurrentUserRole,
     register,
     storeUsersEntities,
     userToggleTheme,
