@@ -152,7 +152,7 @@ export default function createGetters<T extends WithId>(currentState: State<T>) 
   }
 
   function isAlReadyInStore(state = currentState) {
-    return (id: number) => noNull(state.entities.byId[id])
+    return (id: number) => state.entities.allIds.includes(id)
   }
 
   return {

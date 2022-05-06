@@ -1,3 +1,4 @@
+import { useCookies } from 'vue3-cookies'
 import API from '@/helpers/api'
 
 export default function authHook() {
@@ -18,7 +19,10 @@ export default function authHook() {
   const toast = useToast()
 
   function logout() {
+    const { cookies } = useCookies()
+
     api.deleteCredentials()
+    cookies.remove('userToken')
     userStore.removeCurrent()
 
     answerStore.resetState()
