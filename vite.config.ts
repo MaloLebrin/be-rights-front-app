@@ -79,7 +79,6 @@ export default defineConfig({
       ],
       include: [/\.vue$/, /\.vue\?vue/],
       extensions: ['vue'],
-
     }),
     Layouts({
       defaultLayout: 'DefaultLayout',
