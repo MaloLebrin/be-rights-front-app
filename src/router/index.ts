@@ -16,7 +16,7 @@ const router = createRouter({
   routes,
 })
 
-router.beforeResolve(async(to, _from, next) => {
+router.beforeResolve(async (to, _from, next) => {
   const mainStore = useMainStore()
   const userStore = useUserStore()
   const { cookies } = useCookies()
@@ -34,9 +34,9 @@ router.beforeResolve(async(to, _from, next) => {
     if (token) {
       await loginWithToken(token)
     } else {
-      return {
+      return next({
         name: 'login',
-      }
+      })
     }
   }
   if (isAuth && mainStore.getIsLoggedIn) {
@@ -46,7 +46,7 @@ router.beforeResolve(async(to, _from, next) => {
     if (isAdmin && userStore.isCurrentUserAdmin) {
       return next()
     }
-    return false
+    return next(to)
   }
 })
 
