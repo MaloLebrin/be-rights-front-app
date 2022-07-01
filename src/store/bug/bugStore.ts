@@ -27,7 +27,7 @@ export const useBugStore = defineStore(EntitiesEnum.BUGS_REPORTS, {
       this.entities.current = null
     },
     updateOne(id: number, payload: BugReportType): void {
-      if (this.isAlReadyInStore(id)) {
+      if (this.isAlreadyInStore(id)) {
         const entity = this.entities.byId[id]
         this.entities.byId[id] = {
           ...entity,

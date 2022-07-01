@@ -1,11 +1,8 @@
+import { createState } from '@malolebrin/pinia-entity-store'
 import type { UserType } from './types'
-import createState from '@/store/utils/createState'
-import createEntity from '@/store/utils/createEntity'
 
-const entity = createEntity<UserType>('user')
-
-export const userState = createState<UserType>(entity)
+export const userState = createState<UserType>()
 
 export function defaultUserState() {
-  return createState<UserType>(entity)
+  return createState<UserType>()
 }

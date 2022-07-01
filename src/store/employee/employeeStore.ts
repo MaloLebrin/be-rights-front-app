@@ -36,7 +36,7 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
       this.entities.current = null
     },
     updateOne(id: number, payload: EmployeeType): void {
-      if (this.isAlReadyInStore(id)) {
+      if (this.isAlreadyInStore(id)) {
         const entity = this.entities.byId[id]
         this.entities.byId[id] = {
           ...entity,

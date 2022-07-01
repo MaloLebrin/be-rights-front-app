@@ -24,7 +24,7 @@ export const useFileStore = defineStore(EntitiesEnum.FILES, {
       this.entities.current = null
     },
     updateOne(id: number, payload: FileType): void {
-      if (this.isAlReadyInStore(id)) {
+      if (this.isAlreadyInStore(id)) {
         const entity = this.entities.byId[id]
         this.entities.byId[id] = {
           ...entity,

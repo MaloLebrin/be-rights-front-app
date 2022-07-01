@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
+import { createGetters } from '@malolebrin/pinia-entity-store'
 import type { UserType } from './types'
 import { defaultUserState, userState } from './state'
 import { EntitiesEnum } from '@/types/globals'
-import createGetters from '@/store/utils/createGetters'
 import { RoleEnum } from '@/types/Roles'
 
 export const useUserStore = defineStore(EntitiesEnum.USERS, {
@@ -37,7 +37,7 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
       this.entities.current = null
     },
     updateOne(id: number, payload: UserType): void {
-      if (this.isAlReadyInStore(id)) {
+      if (this.isAlreadyInStore(id)) {
         const entity = this.entities.byId[id]
         this.entities.byId[id] = {
           ...entity,
@@ -58,7 +58,7 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
       ids.forEach(id => this.deleteOne(id))
     },
     setActive(id: number) {
-      if (!this.isAlReadyActive(id)) {
+      if (!this.isAlreadyInStore(id)) {
         this.entities.active.push(id)
       }
     },
