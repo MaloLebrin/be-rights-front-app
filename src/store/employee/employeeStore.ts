@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
-import createGetters from '../utils/createGetters'
+import { createGetters } from '@malolebrin/pinia-entity-store'
 import { defaultEmployeeState, employeState } from './state'
-import type { EmployeeState, EmployeeType } from './types'
+import type { EmployeeType } from './types'
 import { EntitiesEnum } from '@/types/globals'
 
 export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
-  state: (): EmployeeState => ({
+  state: () => ({
     ...employeState,
   }),
   getters: {

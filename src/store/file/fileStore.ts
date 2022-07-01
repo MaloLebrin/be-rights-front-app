@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
 import { createGetters } from '@malolebrin/pinia-entity-store'
 import { defaultFileState, fileState } from './state'
-import type { FileState, FileType } from './types'
+import type { FileType } from './types'
 import { EntitiesEnum } from '@/types/globals'
 
 export const useFileStore = defineStore(EntitiesEnum.FILES, {
-  state: (): FileState => ({
+  state: () => ({
     ...fileState,
   }),
   actions: {

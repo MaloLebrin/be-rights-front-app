@@ -1,10 +1,10 @@
-import createGetters from '../utils/createGetters'
+import { createGetters } from '@malolebrin/pinia-entity-store'
 import { answerState, defaultAnswerState } from './state'
-import type { AnswerState, AnswerType } from './types'
+import type { AnswerType } from './types'
 import { EntitiesEnum } from '@/types'
 
 export const useAnswerStore = defineStore(EntitiesEnum.ANSWERS, {
-  state: (): AnswerState => ({
+  state: () => ({
     ...answerState,
   }),
   getters: {
