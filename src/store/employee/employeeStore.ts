@@ -60,7 +60,7 @@ export const useEmployeeStore = defineStore(EntitiesEnum.EMPLOYEES, {
       this.$state = defaultEmployeeState()
     },
     setActive(id: number) {
-      if (!this.isAlReadyActive(id)) {
+      if (!this.isAlreadyActive(id)) {
         this.entities.active.push(id)
       }
     },

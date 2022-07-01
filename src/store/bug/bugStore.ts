@@ -48,7 +48,7 @@ export const useBugStore = defineStore(EntitiesEnum.BUGS_REPORTS, {
       ids.forEach(id => this.deleteOne(id))
     },
     setActive(id: number) {
-      if (!this.isAlReadyActive(id)) {
+      if (!this.isAlreadyActive(id)) {
         this.entities.active.push(id)
       }
     },

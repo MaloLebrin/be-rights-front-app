@@ -58,7 +58,7 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
       ids.forEach(id => this.deleteOne(id))
     },
     setActive(id: number) {
-      if (!this.isAlreadyInStore(id)) {
+      if (!this.isAlreadyActive(id)) {
         this.entities.active.push(id)
       }
     },

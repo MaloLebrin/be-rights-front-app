@@ -59,7 +59,7 @@ export const useAnswerStore = defineStore(EntitiesEnum.ANSWERS, {
       this.$state = defaultAnswerState()
     },
     setActive(id: number) {
-      if (!this.isAlReadyActive(id)) {
+      if (!this.isAlreadyActive(id)) {
         this.entities.active.push(id)
       }
     },

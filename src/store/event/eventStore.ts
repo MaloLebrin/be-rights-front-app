@@ -54,7 +54,7 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
       this.$state = defaultEventState()
     },
     setActive(id: number) {
-      if (!this.isAlReadyActive(id)) {
+      if (!this.isAlreadyActive(id)) {
         this.entities.active.push(id)
       }
     },
