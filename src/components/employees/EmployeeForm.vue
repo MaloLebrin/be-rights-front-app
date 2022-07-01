@@ -48,7 +48,7 @@
     </div>
 
     <div
-      v-if="isCurrentUserAdmin && !ModalModeEnum.EDIT"
+      v-if="userStore.isCurrentUserAdmin && mode !== ModalModeEnum.EDIT"
       class="space-y-2 md:col-span-2"
     >
       <label
