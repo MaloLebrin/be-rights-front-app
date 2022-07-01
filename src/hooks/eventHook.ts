@@ -8,6 +8,7 @@ import { hasOwnProperty, isArrayOfNumbers, noNull } from '@/utils'
 export function eventHook() {
   const eventStore = useEventStore()
   const userStore = useUserStore()
+  const { isUserType } = userHook()
   const { DecLoading, IncLoading } = useUiStore()
   const toast = useToast()
   const api = new APi(userStore.getCurrentUserToken!)
@@ -124,9 +125,13 @@ export function eventHook() {
   async function postOne(event: EventType, userId?: number): Promise<EventType | undefined> {
     try {
       const res = await api.post(`event/${userId}`, { event })
-      eventStore.createOne(res)
+      const eventToStore = res as EventType
+      if (isUserType(eventToStore.createdByUser)) {
+        eventToStore.createdByUser = res.createdByUser.id
+      }
+      eventStore.createOne(eventToStore)
       toast.success('L\'événement a été créé avec succès')
-      return res
+      return eventToStore
     } catch (error) {
       console.error(error)
       toast.error('Une erreur est survenue')
