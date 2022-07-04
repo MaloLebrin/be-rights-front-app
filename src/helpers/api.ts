@@ -21,7 +21,8 @@ export default class APi implements ApiMethods {
   // private static instance: APi
   axios
   baseUrl
-  constructor(token: string) {
+  userStore = useUserStore()
+  constructor() {
     this.axios = axios.create({
       baseURL: import.meta.env.VITE_API_URL as string,
       headers: {
@@ -29,7 +30,13 @@ export default class APi implements ApiMethods {
       },
     })
     this.baseUrl = import.meta.env.VITE_API_URL
-    this.setTokenFromCookie(token)
+
+    const token = this.getToken()
+    if (token) {
+      this.setTokenFromCookie(token)
+    } else if (this.userStore.entities.current?.token) {
+      this.setToken(this.userStore.entities.current?.token)
+    }
   }
 
   private setTokenFromCookie(token: string): void {

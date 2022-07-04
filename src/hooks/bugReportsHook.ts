@@ -5,10 +5,9 @@ import { BugReportTypeTranslation } from '@/types/typesExported'
 
 export default function bugReportsHook() {
   const bugStore = useBugStore()
-  const userStore = useUserStore()
   const { IncLoading, DecLoading } = useUiStore()
   const toast = useToast()
-  const api = new API(userStore.getCurrentUserToken!)
+  const api = new API()
 
   async function fetchAll(url?: string) {
     IncLoading()

@@ -15,7 +15,7 @@ export default function userHook() {
   const { IncLoading, DecLoading } = useUiStore()
   const { storeEmployeeRelationsEntities } = employeeHook()
   const { cookies } = useCookies()
-  const api = new APi(userStore.getCurrentUserToken!)
+  const api = new APi()
   const router = useRouter()
 
   async function login({ email, password }: { email: string; password: string }) {
@@ -23,10 +23,10 @@ export default function userHook() {
       IncLoading()
       const res = await axiosInstance.post('user/login', { email, password })
       const user = res.data as UserType
-      storeUsersEntities(user)
+      storeUsersEntities(user, true)
       cookies.set('userToken', user.token)
       redirectBaseOneCurrentUserRole()
-      toast.success('Connexion réussie, bienvenue !')
+      toast.success(`Heureux de vous revoir ${getUserfullName(user)}`)
     } catch (error) {
       console.error(error)
       toast.error('Une erreur est survenue')
@@ -56,7 +56,7 @@ export default function userHook() {
       const res = await api.get(`user/${userId}`)
       const user = res.data as UserType
       if (user) {
-        storeUsersEntities(user)
+        storeUsersEntities(user, false)
       }
     } catch (error) {
       console.error(error)
@@ -260,7 +260,7 @@ export default function userHook() {
    * redirection based on current user's role in store
    */
   function redirectBaseOneCurrentUserRole() {
-    if (noNull(userStore.getCurrent)) {
+    if (userStore.getCurrent) {
       if (userStore.isCurrentUserAdmin) {
         router.push({ name: 'admin.events' })
       } else {

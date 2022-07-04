@@ -12,7 +12,7 @@ export default function employeeHook() {
   const { filteringFilesNotInStore } = fileHook()
   const { filteringAnswersNotInStore } = answerHook()
   const toast = useToast()
-  const api = new API(userStore.getCurrentUserToken!)
+  const api = new API()
 
   function getEmployeeStatusSignature(employee: EmployeeType): string {
     if (employee.hasSigned) {

@@ -7,11 +7,10 @@ import { hasOwnProperty, isArrayOfNumbers, noNull } from '@/utils'
 
 export function eventHook() {
   const eventStore = useEventStore()
-  const userStore = useUserStore()
   const { isUserType } = userHook()
   const { DecLoading, IncLoading } = useUiStore()
   const toast = useToast()
-  const api = new APi(userStore.getCurrentUserToken!)
+  const api = new APi()
 
   function getEventStatusTranslation(status: EventStatusEnum) {
     return getEventStatusTranslationEnum[status]

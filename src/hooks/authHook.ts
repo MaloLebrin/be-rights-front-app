@@ -13,7 +13,7 @@ export default function authHook() {
   const { setThemeClass } = mainHook()
   const { storeUsersEntities } = userHook()
   const { IncLoading, DecLoading } = useUiStore()
-  const api = new API(userStore.getCurrentUserToken!)
+  const api = new API()
   const router = useRouter()
   const toast = useToast()
 
@@ -40,7 +40,7 @@ export default function authHook() {
     try {
       const user = await api.post('user/token', { token })
       setThemeClass(user.theme)
-      storeUsersEntities(user)
+      storeUsersEntities(user, true)
     } catch (error) {
       console.error(error)
     }
