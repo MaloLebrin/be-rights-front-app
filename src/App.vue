@@ -10,22 +10,24 @@
 <script setup lang="ts">
 import { useCookies } from 'vue3-cookies'
 
-const mainStore = useMainStore()
+const userStore = useUserStore()
 const { setCookiesAccepted } = useMainStore()
 const { loginWithToken } = authHook()
+const { redirectBaseOneCurrentUserRole } = userHook()
 
-onBeforeMount(async() => {
+onMounted(async() => {
   const { cookies } = useCookies()
   const cookiesAccepted = cookies.get('areCookiesAccepted')
   if (cookiesAccepted) {
     setCookiesAccepted()
   }
-  if (!mainStore.getIsLoggedIn) {
+  if (!userStore.isLoggedIn) {
     const token = cookies.get('userToken')
     if (token && token.length > 0) {
       await loginWithToken(token)
     }
   }
+  redirectBaseOneCurrentUserRole()
 })
 </script>
 
