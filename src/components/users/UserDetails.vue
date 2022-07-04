@@ -233,13 +233,13 @@ onMounted(async() => {
     await fetchOne(userId.value)
   }
   const employeeIds = user.value?.employee as number[]
-  const missingEmployeeIds = employeeIds.filter(id => !employeeStore.getOne(id))
+  const missingEmployeeIds = employeeIds?.length > 0 ? employeeStore.getMissingIds(employeeIds) : []
 
   if (missingEmployeeIds.length > 0 && user.value) {
     await fetchAllEmployeeByUserId(user.value.id)
   }
   const eventIds = user.value?.events as number[]
-  const missingEventIds = eventIds.filter(id => !eventStore.getOne(id))
+  const missingEventIds = eventIds?.length > 0 ? eventStore.getMissingIds(eventIds) : []
 
   if (missingEventIds.length > 0 && user.value) {
     await fetchEventsByUser(user.value.id)
