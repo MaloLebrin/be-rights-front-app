@@ -1,6 +1,6 @@
+import type { State } from '@malolebrin/pinia-entity-store'
 import type { EmployeeType, EventType } from '../../types/typesExported'
 import type { BaseEntity } from '@/types/globals'
-import type { State } from '@/store/utils/types'
 
 export interface AnswerType extends BaseEntity {
   hasSigned: boolean

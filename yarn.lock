@@ -155,10 +155,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@malolebrin/pinia-entity-store@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@malolebrin/pinia-entity-store/-/pinia-entity-store-0.1.4.tgz#7ac73a1fee17e3250b653e78d906d7c1b7fa1a74"
-  integrity sha512-9EhOcIfS0jJpGANIzJnwTMQGyznn8pfgtXsuq3iazFcQDLn/52iO2+5w7q0jVOeLG0kUeMXKxkA1JRwraR3kCA==
+"@malolebrin/pinia-entity-store@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@malolebrin/pinia-entity-store/-/pinia-entity-store-0.1.5.tgz#b96e2d253e9ff8eaecad2f4b59899dba620ff438"
+  integrity sha512-c+6tTMzAv06gc44myxjWXAYF0Wyz/Lf9KiAhYsr1I7txJdxTrQ+gGbUaVkwEDTNnI2nx1NXx3IneMfuD9ym10Q==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
