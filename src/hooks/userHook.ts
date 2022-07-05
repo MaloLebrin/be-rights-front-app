@@ -2,10 +2,10 @@ import { useCookies } from 'vue3-cookies'
 import axiosInstance from '@/axios.config'
 import type { PaginatedResponse } from '@/helpers/api'
 import APi from '@/helpers/api'
-import type { ThemeEnum } from '@/types'
+import type { Loginpayload, RegisterPayload, ThemeEnum } from '@/types'
 import { RoleEnum } from '@/types'
 import type { EmployeeType, EventType, FileType, UserType } from '@/types/typesExported'
-import { hasOwnProperty, isArrayOfNumbers, noNull } from '@/utils'
+import { hasOwnProperty, isArrayOfNumbers } from '@/utils'
 
 export default function userHook() {
   const userStore = useUserStore()
@@ -15,18 +15,18 @@ export default function userHook() {
   const { IncLoading, DecLoading } = useUiStore()
   const { storeEmployeeRelationsEntities } = employeeHook()
   const { cookies } = useCookies()
-  const api = new APi(userStore.getCurrentUserToken!)
+  const api = new APi()
   const router = useRouter()
 
-  async function login({ email, password }: { email: string; password: string }) {
+  async function login(payload: Loginpayload) {
     try {
       IncLoading()
-      const res = await axiosInstance.post('user/login', { email, password })
+      const res = await axiosInstance.post('user/login', payload)
       const user = res.data as UserType
-      storeUsersEntities(user)
+      storeUsersEntities(user, true)
       cookies.set('userToken', user.token)
       redirectBaseOneCurrentUserRole()
-      toast.success('Connexion réussie, bienvenue !')
+      toast.success(`Heureux de vous revoir ${getUserfullName(user)}`)
     } catch (error) {
       console.error(error)
       toast.error('Une erreur est survenue')
@@ -34,10 +34,10 @@ export default function userHook() {
     DecLoading()
   }
 
-  async function register({ companyName, email, password, firstName, lastName, roles }: { companyName: string; email: string; password: string; firstName: string; lastName: string; roles: RoleEnum }) {
+  async function register(payload: RegisterPayload) {
     try {
       IncLoading()
-      const res = await axiosInstance.post('user', { companyName, email, password, firstName, lastName, roles })
+      const res = await axiosInstance.post('user', payload)
       const user = res.data as UserType
       storeUsersEntities(user)
       cookies.set('userToken', user.token)
@@ -56,7 +56,7 @@ export default function userHook() {
       const res = await api.get(`user/${userId}`)
       const user = res.data as UserType
       if (user) {
-        storeUsersEntities(user)
+        storeUsersEntities(user, false)
       }
     } catch (error) {
       console.error(error)
@@ -72,7 +72,7 @@ export default function userHook() {
   function storeUsersEntities(user: UserType, isUserToSetCurrent = true) {
     if (user.events && user.events.length > 0 && !isArrayOfNumbers(user.events)) {
       const userEvents = user.events as EventType[]
-      const eventsToStore = userEvents.filter(event => !eventStore.isAlReadyInStore(event.id))
+      const eventsToStore = userEvents.filter(event => !eventStore.isAlreadyInStore(event.id))
       eventStore.createMany(eventsToStore)
       user.events = eventsToStore.map(event => event.id)
     }
@@ -85,14 +85,14 @@ export default function userHook() {
     }
     if (user.files && user.files.length > 0 && !isArrayOfNumbers(user.files)) {
       const files = user.files as FileType[]
-      const filesToStore = files.filter(file => !fileStore.isAlReadyInStore(file.id))
+      const filesToStore = files.filter(file => !fileStore.isAlreadyInStore(file.id))
       fileStore.createMany(filesToStore)
       user.files = filesToStore.map(file => file.id)
     }
     if (isUserToSetCurrent) {
       userStore.setCurrent(user)
     }
-    if (userStore.isAlReadyInStore(user.id)) {
+    if (userStore.isAlreadyInStore(user.id)) {
       userStore.updateOne(user.id, user)
     } else {
       userStore.createOne(user)
@@ -102,7 +102,7 @@ export default function userHook() {
   function storeUsersEntitiesForManyUsers(users: UserType[]): void {
     if (users.length > 0) {
       const events = users.reduce((acc, user) => [...acc, ...user.events as EventType[]], [] as EventType[])
-      const eventsToStore = events.filter(event => !eventStore.isAlReadyInStore(event.id))
+      const eventsToStore = events.filter(event => !eventStore.isAlreadyInStore(event.id))
       if (eventsToStore.length > 0) {
         eventStore.createMany(eventsToStore)
       }
@@ -111,12 +111,12 @@ export default function userHook() {
       storeEmployeeRelationsEntities(employees)
 
       const files = users.reduce((acc, user) => [...acc, ...user.files as FileType[]], [] as FileType[])
-      const filesToStore = files.filter(file => !fileStore.isAlReadyInStore(file.id))
+      const filesToStore = files.filter(file => !fileStore.isAlreadyInStore(file.id))
       if (filesToStore.length > 0) {
         fileStore.createMany(filesToStore)
       }
 
-      const missingsUsers = users.filter(user => !userStore.isAlReadyInStore(user.id))
+      const missingsUsers = users.filter(user => !userStore.isAlreadyInStore(user.id))
       if (missingsUsers.length > 0) {
         const usersToStore = missingsUsers.map(user => {
           const userEvents = user.events as EventType[]
@@ -235,7 +235,7 @@ export default function userHook() {
         const res = await api.get(`user/many/?ids=${ids.join(',')}`)
         const users = res as UserType[]
         if (users && users.length > 0 && isArrayUserType(users)) {
-          const missingsUsers = users.filter(user => !userStore.isAlReadyInStore(user.id))
+          const missingsUsers = users.filter(user => !userStore.isAlreadyInStore(user.id))
           if (missingsUsers.length > 0) {
             userStore.createMany(missingsUsers)
           }
@@ -260,7 +260,7 @@ export default function userHook() {
    * redirection based on current user's role in store
    */
   function redirectBaseOneCurrentUserRole() {
-    if (noNull(userStore.getCurrent)) {
+    if (userStore.getCurrent) {
       if (userStore.isCurrentUserAdmin) {
         router.push({ name: 'admin.events' })
       } else {

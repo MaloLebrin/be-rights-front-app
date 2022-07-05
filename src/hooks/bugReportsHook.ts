@@ -5,10 +5,9 @@ import { BugReportTypeTranslation } from '@/types/typesExported'
 
 export default function bugReportsHook() {
   const bugStore = useBugStore()
-  const userStore = useUserStore()
   const { IncLoading, DecLoading } = useUiStore()
   const toast = useToast()
-  const api = new API(userStore.getCurrentUserToken!)
+  const api = new API()
 
   async function fetchAll(url?: string) {
     IncLoading()
@@ -19,7 +18,7 @@ export default function bugReportsHook() {
       }
       const res = await api.get(finalUrl)
       const { data }: PaginatedResponse<BugReportType> = res
-      const bugs = data.filter(bug => !bugStore.isAlReadyInStore(bug.id))
+      const bugs = data.filter(bug => !bugStore.isAlreadyInStore(bug.id))
       if (bugs.length > 0) {
         bugStore.createMany(bugs)
       }

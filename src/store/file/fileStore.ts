@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
+import { createGetters } from '@malolebrin/pinia-entity-store'
 import { defaultFileState, fileState } from './state'
-import type { FileState, FileType } from './types'
-import createGetters from '@/store/utils/createGetters'
+import type { FileType } from './types'
 import { EntitiesEnum } from '@/types/globals'
 
 export const useFileStore = defineStore(EntitiesEnum.FILES, {
-  state: (): FileState => ({
+  state: () => ({
     ...fileState,
   }),
   actions: {
@@ -24,7 +24,7 @@ export const useFileStore = defineStore(EntitiesEnum.FILES, {
       this.entities.current = null
     },
     updateOne(id: number, payload: FileType): void {
-      if (this.isAlReadyInStore(id)) {
+      if (this.isAlreadyInStore(id)) {
         const entity = this.entities.byId[id]
         this.entities.byId[id] = {
           ...entity,
@@ -48,7 +48,7 @@ export const useFileStore = defineStore(EntitiesEnum.FILES, {
       this.$state = defaultFileState()
     },
     setActive(id: number) {
-      if (!this.isAlReadyActive(id)) {
+      if (!this.isAlreadyActive(id)) {
         this.entities.active.push(id)
       }
     },

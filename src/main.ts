@@ -10,6 +10,7 @@ import 'vue-toastification/dist/index.css'
 
 const app = createApp(App)
 const store = createPinia()
+app.config.performance = import.meta.env.VITE_DEV
 
 globalCookiesConfig({
   expireTimes: '30d',

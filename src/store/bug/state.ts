@@ -1,9 +1,6 @@
-import createEntity from '../utils/createEntity'
-import createState from '../utils/createState'
+import { createState } from '@malolebrin/pinia-entity-store'
 import type { BugReportCreationFormType, BugReportType } from './types'
 import { BugReportStatus, BugReportTypeEnum } from './types'
-
-export const bugEntity = createEntity<BugReportType>('bug')
 
 export const baseCreationForm: BugReportCreationFormType = {
   name: '',
@@ -17,7 +14,7 @@ export const bugState = defaultUserState()
 
 export function defaultUserState() {
   return {
-    ...createState<BugReportType>(bugEntity),
+    ...createState<BugReportType>(),
     creationForm: baseCreationForm,
   }
 }

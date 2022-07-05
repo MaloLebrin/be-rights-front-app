@@ -92,7 +92,7 @@ const state = reactive<State>({
   selectedItems: [],
   isLoading: false,
 })
-const api = new APi(userStore.getCurrentUserToken!)
+const api = new APi()
 
 onMounted(async() => {
   if (!userStore.isCurrentUserAdmin) {

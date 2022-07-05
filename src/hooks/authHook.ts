@@ -1,3 +1,4 @@
+import { useCookies } from 'vue3-cookies'
 import API from '@/helpers/api'
 
 export default function authHook() {
@@ -13,14 +14,15 @@ export default function authHook() {
   const { setThemeClass } = mainHook()
   const { storeUsersEntities } = userHook()
   const { IncLoading, DecLoading } = useUiStore()
-  const api = new API(userStore.getCurrentUserToken!)
+  const api = new API()
   const router = useRouter()
   const toast = useToast()
+  const { cookies } = useCookies()
 
   function logout() {
     api.deleteCredentials()
     userStore.removeCurrent()
-
+    cookies.remove('userToken')
     answerStore.resetState()
     bugStore.resetState()
     employeeStore.resetState()
@@ -40,7 +42,7 @@ export default function authHook() {
     try {
       const user = await api.post('user/token', { token })
       setThemeClass(user.theme)
-      storeUsersEntities(user)
+      storeUsersEntities(user, true)
     } catch (error) {
       console.error(error)
     }

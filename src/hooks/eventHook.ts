@@ -7,10 +7,10 @@ import { hasOwnProperty, isArrayOfNumbers, noNull } from '@/utils'
 
 export function eventHook() {
   const eventStore = useEventStore()
-  const userStore = useUserStore()
+  const { isUserType } = userHook()
   const { DecLoading, IncLoading } = useUiStore()
   const toast = useToast()
-  const api = new APi(userStore.getCurrentUserToken!)
+  const api = new APi()
 
   function getEventStatusTranslation(status: EventStatusEnum) {
     return getEventStatusTranslationEnum[status]
@@ -57,7 +57,7 @@ export function eventHook() {
       }
       const res = await api.get(finalUrl)
       const { data }: PaginatedResponse<EventType> = res
-      const missingIds = data.map((event: EventType) => event.id).filter(id => !eventStore.isAlReadyInStore(id))
+      const missingIds = data.map((event: EventType) => event.id).filter(id => !eventStore.isAlreadyInStore(id))
       if (missingIds.length > 0) {
         const events = data.filter(event => missingIds.includes(event.id))
         eventStore.createMany(events)
@@ -73,7 +73,7 @@ export function eventHook() {
     IncLoading()
     try {
       const res: any = await api.get(`event/${id}`)
-      if (!eventStore.isAlReadyInStore(res.id) && isEventType(res)) {
+      if (!eventStore.isAlreadyInStore(res.id) && isEventType(res)) {
         eventStore.createOne(res)
       }
     } catch (error) {
@@ -89,7 +89,7 @@ export function eventHook() {
       if (userId) {
         const res = await api.get(`event/user/${userId}`)
         const data = res as EventType[]
-        const missingIds = data.map((event: EventType) => event.id).filter(id => !eventStore.isAlReadyInStore(id))
+        const missingIds = data.map((event: EventType) => event.id).filter(id => !eventStore.isAlreadyInStore(id))
         if (missingIds.length > 0) {
           const events = data.filter(event => missingIds.includes(event.id))
           const eventToStore = events.map(event => ({
@@ -111,7 +111,7 @@ export function eventHook() {
     try {
       const res = await api.get(`event/${id}`)
       const event = res as EventType
-      if (!eventStore.isAlReadyInStore(event.id)) {
+      if (!eventStore.isAlreadyInStore(event.id)) {
         eventStore.createOne(event)
       }
     } catch (error) {
@@ -124,9 +124,13 @@ export function eventHook() {
   async function postOne(event: EventType, userId?: number): Promise<EventType | undefined> {
     try {
       const res = await api.post(`event/${userId}`, { event })
-      eventStore.createOne(res)
+      const eventToStore = res as EventType
+      if (isUserType(eventToStore.createdByUser)) {
+        eventToStore.createdByUser = res.createdByUser.id
+      }
+      eventStore.createOne(eventToStore)
       toast.success('L\'événement a été créé avec succès')
-      return res
+      return eventToStore
     } catch (error) {
       console.error(error)
       toast.error('Une erreur est survenue')

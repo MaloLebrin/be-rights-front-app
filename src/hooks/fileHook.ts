@@ -11,7 +11,7 @@ export default function fileHook() {
   const fileStore = useFileStore()
   const { IncLoading, DecLoading } = useUiStore()
   const toast = useToast()
-  const api = new APi(userStore.getCurrentUserToken!)
+  const api = new APi()
 
   async function postOne(fileForm: FormData, id?: number) {
     try {

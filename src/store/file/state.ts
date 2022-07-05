@@ -1,11 +1,8 @@
+import { createState } from '@malolebrin/pinia-entity-store'
 import type { FileType } from './types'
-import createState from '@/store/utils/createState'
-import createEntity from '@/store/utils/createEntity'
 
-const entity = createEntity<FileType>('file')
-
-export const fileState = createState<FileType>(entity)
+export const fileState = createState<FileType>()
 
 export function defaultFileState() {
-  return createState<FileType>(entity)
+  return createState<FileType>()
 }

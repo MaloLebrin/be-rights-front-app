@@ -75,7 +75,7 @@
   </div>
 
   <div
-    v-if="userStore.isCurrentUserAdmin && !mode === ModalModeEnum.EDIT"
+    v-if="userStore.isCurrentUserAdmin && mode !== ModalModeEnum.EDIT"
     class="space-y-2 md:col-span-3"
   >
     <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Id de l'utilisateur&nbsp;*&nbsp;:</label>
@@ -142,6 +142,7 @@ const uiStore = useUiStore()
 const { IncLoading, DecLoading, resetUiModalState } = uiStore
 const { postMany: postManyAnswers } = answerHook()
 const { postOne: PostOneEvent, patchOne: patchOneEvent } = eventHook()
+const { isUserType } = userHook()
 
 const event = computed(() => props.eventId ? eventStore.getOne(props.eventId) : null)
 
@@ -161,7 +162,7 @@ const schema = object({
 
 const userCreateEvent = computed(() => {
   if (userStore.isCurrentUserAdmin) {
-    return event.value ? event.value.createdByUser as number : null
+    return event.value ? isUserType(event.value.createdByUser) ? event.value.createdByUser.id : event.value.createdByUser as number : null
   } else {
     return userStore.getCurrentUserId
   }

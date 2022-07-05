@@ -1,10 +1,10 @@
-import createGetters from '../utils/createGetters'
+import { createGetters } from '@malolebrin/pinia-entity-store'
 import { answerState, defaultAnswerState } from './state'
-import type { AnswerState, AnswerType } from './types'
+import type { AnswerType } from './types'
 import { EntitiesEnum } from '@/types'
 
 export const useAnswerStore = defineStore(EntitiesEnum.ANSWERS, {
-  state: (): AnswerState => ({
+  state: () => ({
     ...answerState,
   }),
   getters: {
@@ -35,7 +35,7 @@ export const useAnswerStore = defineStore(EntitiesEnum.ANSWERS, {
       this.entities.current = null
     },
     updateOne(id: number, payload: AnswerType): void {
-      if (this.isAlReadyInStore(id)) {
+      if (this.isAlreadyInStore(id)) {
         const entity = this.entities.byId[id]
         this.entities.byId[id] = {
           ...entity,
@@ -59,7 +59,7 @@ export const useAnswerStore = defineStore(EntitiesEnum.ANSWERS, {
       this.$state = defaultAnswerState()
     },
     setActive(id: number) {
-      if (!this.isAlReadyActive(id)) {
+      if (!this.isAlreadyActive(id)) {
         this.entities.active.push(id)
       }
     },
