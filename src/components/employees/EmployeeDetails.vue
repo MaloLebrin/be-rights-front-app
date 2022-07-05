@@ -82,6 +82,17 @@
             {{ toFormat(employee.createdAt, 'D MMMM YYYY') }}
           </dd>
         </div>
+        <div
+          v-if="employee.deletedAt"
+          class="sm:col-span-1"
+        >
+          <dt class="text-sm font-medium text-gray-500">
+            Supprimé le
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            {{ toFormat(employee.deletedAt, 'D MMMM YYYY') }}
+          </dd>
+        </div>
       </dl>
     </div>
 
