@@ -32,7 +32,7 @@ router.beforeResolve(async (to, _from, next) => {
     token = cookies.get('token')
     if (token) {
       await loginWithToken(token)
-      if (isAuth && userStore.getCurrent) {
+      if (userStore.getCurrent) {
         if (!isAdmin) {
           return next()
         }

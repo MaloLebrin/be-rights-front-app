@@ -2,10 +2,10 @@ import { useCookies } from 'vue3-cookies'
 import axiosInstance from '@/axios.config'
 import type { PaginatedResponse } from '@/helpers/api'
 import APi from '@/helpers/api'
-import type { ThemeEnum } from '@/types'
+import type { Loginpayload, RegisterPayload, ThemeEnum } from '@/types'
 import { RoleEnum } from '@/types'
 import type { EmployeeType, EventType, FileType, UserType } from '@/types/typesExported'
-import { hasOwnProperty, isArrayOfNumbers, noNull } from '@/utils'
+import { hasOwnProperty, isArrayOfNumbers } from '@/utils'
 
 export default function userHook() {
   const userStore = useUserStore()
@@ -18,10 +18,10 @@ export default function userHook() {
   const api = new APi()
   const router = useRouter()
 
-  async function login({ email, password }: { email: string; password: string }) {
+  async function login(payload: Loginpayload) {
     try {
       IncLoading()
-      const res = await axiosInstance.post('user/login', { email, password })
+      const res = await axiosInstance.post('user/login', payload)
       const user = res.data as UserType
       storeUsersEntities(user, true)
       cookies.set('userToken', user.token)
@@ -34,10 +34,10 @@ export default function userHook() {
     DecLoading()
   }
 
-  async function register({ companyName, email, password, firstName, lastName, roles }: { companyName: string; email: string; password: string; firstName: string; lastName: string; roles: RoleEnum }) {
+  async function register(payload: RegisterPayload) {
     try {
       IncLoading()
-      const res = await axiosInstance.post('user', { companyName, email, password, firstName, lastName, roles })
+      const res = await axiosInstance.post('user', payload)
       const user = res.data as UserType
       storeUsersEntities(user)
       cookies.set('userToken', user.token)
