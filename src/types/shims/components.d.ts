@@ -138,6 +138,7 @@ declare module 'vue' {
     TransitionChild: typeof import('@headlessui/vue')['TransitionChild']
     TransitionRoot: typeof import('@headlessui/vue')['TransitionRoot']
     TrashIconOutline: typeof import('@heroicons/vue/outline/esm/TrashIcon.js')['default']
+    Test: typeof import('./../../components/files/test.vue')['default']
     UserAccountContent: typeof import('./../../components/users/UserAccountContent.vue')['default']
     UserAvatar: typeof import('./../../components/users/UserAvatar.vue')['default']
     UserAvatarForm: typeof import('./../../components/users/UserAvatarForm.vue')['default']
