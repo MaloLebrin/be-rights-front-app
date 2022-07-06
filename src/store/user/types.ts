@@ -1,11 +1,6 @@
-import type { EmployeeType, EventType, FileType, SubscriptionEnum } from '../../types/typesExported'
+import type { EmployeeType, EventType, FileType, SubscriptionEnum } from '@/types/typesExported'
 import type { BaseEntity } from '@/types/globals'
 import type { RoleEnum } from '@/types/Roles'
-
-export interface UserState {
-  users: UserType[]
-  currentUser: UserType
-}
 
 export interface UserType extends BaseEntity {
   email: string
