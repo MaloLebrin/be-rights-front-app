@@ -111,7 +111,7 @@ export default function employeeHook() {
         finalUrl += `${url}`
       }
 
-      const res = await api.get(finalUrl)
+      const res = await api.get(`${finalUrl}&withDeleted=true`)
       const { data }: PaginatedResponse<EmployeeType> = res
       storeEmployeeRelationsEntities(data)
     } catch (error) {
