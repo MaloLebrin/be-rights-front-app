@@ -114,6 +114,7 @@ declare module 'vue' {
     SwitchLabel: typeof import('@headlessui/vue')['SwitchLabel']
     Tag: typeof import('./../../components/content/Tag.vue')['default']
     TrashIconOutline: typeof import('@heroicons/vue/outline/esm/TrashIcon.js')['default']
+    Test: typeof import('./../../components/files/test.vue')['default']
     UserAccountContent: typeof import('./../../components/users/UserAccountContent.vue')['default']
     UserAvatar: typeof import('./../../components/users/UserAvatar.vue')['default']
     UserAvatarForm: typeof import('./../../components/users/UserAvatarForm.vue')['default']
