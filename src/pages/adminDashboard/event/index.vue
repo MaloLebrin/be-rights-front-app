@@ -4,7 +4,6 @@
 >
   <EventList
     :events="events"
-    no-event-message="Aucun Event en Base de donnée"
   />
 </div>
 </template>
