@@ -15,3 +15,10 @@ export interface AddressType extends BaseEntity {
   event?: EventType | number
   employee?: EmployeeType | number
 }
+
+export interface AddressPostPayload {
+  address: AddressType
+  eventId?: number
+  userId?: number
+  employeeId?: number
+}
