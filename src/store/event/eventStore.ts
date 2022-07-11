@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { createGetters } from '@malolebrin/pinia-entity-store'
 import { defaultEventState, eventState } from './state'
-import type { EventType } from './types'
+import type { BaseCreationFormType, EventType } from './types'
 import { EntitiesEnum } from '@/types/globals'
 
 export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
@@ -13,8 +13,16 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
 
     // bellow getters in this specific store
     getEventsByUserId: state => (userId: number) => Object.values(state.entities.byId).filter(event => event.createdByUser === userId),
+    getCreationForm: state => state.creationForm,
   },
   actions: {
+    setCreationFormField<K extends keyof BaseCreationFormType>(field: K, value: BaseCreationFormType[K]) {
+      this.creationForm[field] = value
+    },
+    setCreationForm(payload: BaseCreationFormType) {
+      this.creationForm = payload
+    },
+
     // actions common to all entities
     createOne(payload: EventType) {
       this.entities.byId[payload.id] = payload
