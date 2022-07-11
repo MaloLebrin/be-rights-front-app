@@ -13,7 +13,6 @@ import { useCookies } from 'vue3-cookies'
 const userStore = useUserStore()
 const { setCookiesAccepted } = useMainStore()
 const { loginWithToken } = authHook()
-const { redirectBaseOneCurrentUserRole } = userHook()
 
 onMounted(async() => {
   const { cookies } = useCookies()
@@ -27,7 +26,6 @@ onMounted(async() => {
       await loginWithToken(token)
     }
   }
-  redirectBaseOneCurrentUserRole()
 })
 </script>
 
