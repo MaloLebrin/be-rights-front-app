@@ -26,7 +26,7 @@ export default function addressHook() {
   async function postOne(payload: AddressPostPayload) {
     IncLoading()
     try {
-      const res = await api.post('/', payload)
+      const res = await api.post('address/', payload)
       const address = res as AddressType
       if (address) {
         addressStore.createOne(address)
