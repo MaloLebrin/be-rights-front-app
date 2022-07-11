@@ -9,30 +9,26 @@ export interface IEvent extends BaseEntity {
   end: Date
   status: EventStatusEnum
   signatureCount: number
-  address?: AddressType | number
   totalSignatureNeeded: number
-  createdByUser?: number
+  createdByUser: number
 }
 
 export interface EventType extends IEvent {
   files?: number[]
   employees?: number[]
-  events?: number[]
+  address?: AddressType | number
 }
 
 export interface EventTypeWithRelations extends IEvent {
   files?: FileType[]
   employees?: EmployeeType[]
-  events?: EventType[]
 }
 
-export type EventTypeCreate = Omit<IEvent, 'status' | 'id' | 'createdAt' | 'deletedAt' | 'updatedAt' | 'totalSignatureNeeded' | 'signatureCount'>
+export type EventTypeCreate = Omit<IEvent, 'status' | 'id' | 'createdAt' | 'deletedAt' | 'updatedAt' | 'totalSignatureNeeded' | 'signatureCount' | 'files' | 'address'>
 export interface EventCreatePayload {
   event: EventTypeCreate
   address: AddressTypeCreate
 }
-
-export type EventFormType = Omit<EventType, 'id' | 'createdAt' | 'updatedAt'>
 
 export enum EventSearchableFields {
   NAME = 'name',
@@ -54,6 +50,14 @@ export enum getEventStatusTranslationEnum {
   PENDING = 'en cours',
   COMPLETED = 'complété',
   CLOSED = 'terminé',
+}
+
+export interface BaseCreationFormType {
+  name: string
+  description: string
+  start: Date
+  end: Date
+  createdByUser: null | number
 }
 
 export interface EventState extends State<EventType> { }
