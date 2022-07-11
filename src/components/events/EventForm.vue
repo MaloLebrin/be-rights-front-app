@@ -34,46 +34,6 @@
     is-required
   />
 
-  <div class="space-y-2 md:col-span-2">
-    <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Adresse&nbsp;*&nbsp;:</label>
-    <BaseInput
-      id="address"
-      v-model="address"
-      type="text"
-      :error="addressError"
-    />
-  </div>
-  <div class="space-y-2">
-    <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Code postal&nbsp;*&nbsp;:</label>
-    <BaseInput
-      id="postalCode"
-      v-model="postalCode"
-      type="text"
-      :error="postalCodeError"
-    />
-  </div>
-
-  <div class="grid grid-cols-1 gap-6 md:col-span-3 md:grid-cols-2">
-    <div class="space-y-2">
-      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Ville&nbsp;*&nbsp;:</label>
-      <BaseInput
-        id="city"
-        v-model="city"
-        type="text"
-        :error="cityError"
-      />
-    </div>
-    <div class="space-y-2">
-      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Pays&nbsp;*&nbsp;:</label>
-      <BaseInput
-        id="country"
-        v-model="country"
-        type="text"
-        :error="countryError"
-      />
-    </div>
-  </div>
-
   <div
     v-if="userStore.isCurrentUserAdmin && mode !== ModalModeEnum.EDIT"
     class="space-y-2 md:col-span-3"
@@ -117,9 +77,10 @@
 <script setup lang="ts">
 import { useField, useForm } from 'vee-validate'
 import { date, number, object, string } from 'yup'
-import type { EmployeeType, EventType, UserType } from '@/types/typesExported'
+import type { EmployeeType, UserType } from '@/types/typesExported'
 import { ModalModeEnum } from '@/types/typesExported'
-import type { Period } from '@/types'
+import type { EventType, Period } from '@/types'
+import router from '@/router'
 
 interface Props {
   eventId?: number | null
@@ -153,10 +114,6 @@ const schema = object({
     start: date().required('La date de début est obligatoire'),
     end: date().required('La date de fin est obligatoire'),
   }).required('L\'événement doit avoir une date de début et une date de fin'),
-  address: string().required('L\'adresse est obligatoire'),
-  postalCode: string().required('Le code postal est obligatoire'),
-  city: string().required('La ville est obligatoire'),
-  country: string().required('Le pays est obligatoire'),
   userId: number().required('L\'utilisateur est obligatoire'),
 })
 
@@ -179,18 +136,6 @@ const { errorMessage: descriptionError, value: description } = useField<string>(
 const { errorMessage: datesError, value: period } = useField<Period>('period', undefined, {
   initialValue: event.value ? { start: event.value.start, end: event.value.end } : { start: new Date(), end: new Date() },
 })
-const { errorMessage: addressError, value: address } = useField<string | null>('address', undefined, {
-  initialValue: event.value ? event.value.address : '',
-})
-const { errorMessage: postalCodeError, value: postalCode } = useField<string | null>('postalCode', undefined, {
-  initialValue: event.value ? event.value.postalCode?.toString() : '',
-})
-const { errorMessage: cityError, value: city } = useField<string | null>('city', undefined, {
-  initialValue: event.value ? event.value.city : '',
-})
-const { errorMessage: countryError, value: country } = useField<string | null>('country', undefined, {
-  initialValue: event.value ? event.value.country : '',
-})
 const { errorMessage: userIdError, value: userId, handleChange: handleUserId } = useField<number | null>('userId', undefined, {
   initialValue: userCreateEvent.value,
 })
@@ -206,20 +151,18 @@ async function submit() {
   IncLoading()
 
   const payload = {
-    name: name.value,
-    description: description.value,
-    start: period.value.start,
-    end: period.value.end,
-    address: address.value,
-    postalCode: postalCode.value,
-    city: city.value,
-    country: country.value,
-    createdByUser: userId.value,
+    event: {
+      name: name.value,
+      description: description.value,
+      start: period.value.start,
+      end: period.value.end,
+      createdByUser: userId.value!,
+    },
   }
 
   if (props.mode === ModalModeEnum.CREATE) {
     if (userId.value) {
-      const newEvent = await PostOneEvent(payload as EventType, userId.value)
+      const newEvent = await PostOneEvent(payload.event, userId.value)
       if (newEvent) {
         if (employees.value && employees.value.length > 0) {
           const employeesIds = employees.value.map(employee => employee.id)
@@ -229,16 +172,27 @@ async function submit() {
             employeesIds,
           )
         }
+        router.push({
+          name: 'admin.address.create',
+          query: {
+            event: newEvent.id,
+          },
+        })
+
         emit('submitted', newEvent.id)
       }
     }
   }
 
   if (props.mode === ModalModeEnum.EDIT && props.eventId) {
-    await patchOneEvent({
-      ...payload as EventType,
-      id: props.eventId,
-    })
+    const payload = {
+      ...event.value,
+      name: name.value,
+      description: description.value,
+      start: period.value.start,
+      end: period.value.end,
+    }
+    await patchOneEvent(payload as EventType)
     if (employees.value && employees.value.length > 0) {
       const employeesIds = employees.value.map(employee => employee.id)
       const eventId = props.eventId
