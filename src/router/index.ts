@@ -16,10 +16,10 @@ const router = createRouter({
   routes,
 })
 
-router.beforeResolve(async (to, _from, next) => {
+router.beforeResolve((to, _from, next) => {
   const userStore = useUserStore()
   const { cookies } = useCookies()
-  const { loginWithToken } = authHook()
+  // const { loginWithToken } = authHook()
 
   const { isAuth, isAdmin } = to.meta
   let token: string | null = null
@@ -31,7 +31,7 @@ router.beforeResolve(async (to, _from, next) => {
   if (isAuth && !userStore.getCurrent) {
     token = cookies.get('token')
     if (token) {
-      await loginWithToken(token)
+      // await loginWithToken(token)
       if (userStore.getCurrent) {
         if (!isAdmin) {
           return next()
