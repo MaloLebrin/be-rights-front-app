@@ -1,6 +1,6 @@
 import type { State } from '@malolebrin/pinia-entity-store'
 import type { EmployeeType, FileType } from '@/types/typesExported'
-import type { BaseEntity } from '@/types/globals'
+import type { AddressType, AddressTypeCreate, BaseEntity } from '@/types'
 
 export interface IEvent extends BaseEntity {
   name: string
@@ -8,11 +8,8 @@ export interface IEvent extends BaseEntity {
   start: Date
   end: Date
   status: EventStatusEnum
-  address: string | null
-  postalCode: string | null
-  city: string | null
-  country: string | null
   signatureCount: number
+  address?: AddressType | number
   totalSignatureNeeded: number
   createdByUser?: number
 }
@@ -27,6 +24,12 @@ export interface EventTypeWithRelations extends IEvent {
   files?: FileType[]
   employees?: EmployeeType[]
   events?: EventType[]
+}
+
+export type EventTypeCreate = Omit<IEvent, 'status' | 'id' | 'createdAt' | 'deletedAt' | 'updatedAt' | 'totalSignatureNeeded' | 'signatureCount'>
+export interface EventCreatePayload {
+  event: EventTypeCreate
+  address: AddressTypeCreate
 }
 
 export type EventFormType = Omit<EventType, 'id' | 'createdAt' | 'updatedAt'>

@@ -4,7 +4,7 @@ import type { EmployeeType, EventType, UserType } from '@/types/typesExported'
 export interface AddressType extends BaseEntity {
   addressLine: string
   addressLine2?: string
-  postalCode: number
+  postalCode: string
   city: string
   subdivision?: string // Code ISO des régions (pour la France)
   subdivision2?: string // Code ISO des départements (pour la France)
@@ -17,8 +17,10 @@ export interface AddressType extends BaseEntity {
 }
 
 export interface AddressPostPayload {
-  address: AddressType
+  address: AddressTypeCreate
   eventId?: number
   userId?: number
   employeeId?: number
 }
+
+export type AddressTypeCreate = Omit<AddressType, 'id' | 'createdAt' | 'deletedAt' | 'updatedAt' | 'lat' | 'lng'>
