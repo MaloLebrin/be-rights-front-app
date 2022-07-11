@@ -148,7 +148,6 @@ export default function employeeHook() {
   }
 
   async function postOne(employee: EmployeeType, userId: number) {
-    IncLoading()
     try {
       const res = await api.post(`employee/${userId}`, { employee })
       const data = res as EmployeeType
@@ -160,11 +159,11 @@ export default function employeeHook() {
       })
       employeeStore.createOne(data)
       toast.success('Destinataire créé avec succès')
+      return data
     } catch (error) {
       console.error(error)
       toast.error('Une erreur est survenue')
     }
-    DecLoading()
   }
 
   async function postManyForEvent(employees: EmployeeType[], eventId: number, userId: number) {

@@ -106,6 +106,7 @@ const userStore = useUserStore()
 const eventStore = useEventStore()
 const { IncLoading, DecLoading } = useUiStore()
 const { patchOne, postOne, postManyForEvent } = employeeHook()
+const router = useRouter()
 
 const schema = object({
   email: string().email('vous devez entrer in email valide').required('L\'adresse email est requise'),
@@ -169,7 +170,15 @@ async function submit() {
     } else {
       if (userStore.getCurrentUserId) {
         const createdByUser = isCurrentUserAdmin ? userId.value! : userStore.getCurrentUserId
-        await postOne(employeeToPost, createdByUser)
+        const employee = await postOne(employeeToPost, createdByUser)
+        if (employee) {
+          router.push({
+            name: 'admin.address.create',
+            query: {
+              employee: employee.id,
+            },
+          })
+        }
       }
     }
   } else if (props.mode === ModalModeEnum.EDIT && props.employee) {

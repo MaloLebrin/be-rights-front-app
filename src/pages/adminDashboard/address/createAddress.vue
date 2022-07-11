@@ -5,10 +5,12 @@
 </template>
 
 <script setup lang="ts">
-import type { AddressTypeCreate } from '@/types'
+import type { AddressPostPayload, AddressTypeCreate } from '@/types'
 
 const route = useRoute()
+const router = useRouter()
 const { IncLoading, DecLoading } = useUiStore()
+const userStore = useUserStore()
 const { postOne } = addressHook()
 const { redirectBaseOneCurrentUserRole } = userHook()
 
@@ -17,19 +19,26 @@ const isEmployeeCreation = computed(() => route.query.employee !== null || route
 
 async function submit(address: AddressTypeCreate) {
   IncLoading()
-  const payload = {
+  const payload: AddressPostPayload = {
     address,
   }
-  if (isEventCreation) {
+  if (isEventCreation.value) {
     const eventId = route.query.event as unknown as number
     payload.eventId = eventId
   }
-  if (isEmployeeCreation) {
+  if (isEmployeeCreation.value) {
     const employeeId = route.query.employee as unknown as number
     payload.employeeId = employeeId
   }
   await postOne(payload)
-  redirectBaseOneCurrentUserRole()
+  if (isEventCreation) {
+    redirectBaseOneCurrentUserRole()
+  }
+  if (isEmployeeCreation.value) {
+    router.push({
+      name: userStore.isCurrentUserAdmin ? 'admin.employees' : 'user.employees',
+    })
+  }
   DecLoading()
 }
 </script>
