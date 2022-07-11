@@ -21,7 +21,9 @@ export interface FileType extends BaseEntity {
   createdByUser: number
 }
 
-export type FileFormType = Pick<FileType, 'name' | 'url' | 'description'>
+export type FileFormType = Pick<FileType, 'name' | 'url' | 'description'> & {
+  content: string
+}
 
 export enum FileTypeEnum {
   MODEL = 'MODEL',

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { createGetters } from '@malolebrin/pinia-entity-store'
 import { defaultFileState, fileState } from './state'
-import type { FileType } from './types'
+import type { FileFormType, FileType } from './types'
 import { EntitiesEnum } from '@/types/globals'
 
 export const useFileStore = defineStore(EntitiesEnum.FILES, {
@@ -44,9 +44,6 @@ export const useFileStore = defineStore(EntitiesEnum.FILES, {
     deleteMany(ids: number[]) {
       ids.forEach(id => this.deleteOne(id))
     },
-    resetState() {
-      this.$state = defaultFileState()
-    },
     setActive(id: number) {
       if (!this.isAlreadyActive(id)) {
         this.entities.active.push(id)
@@ -54,6 +51,13 @@ export const useFileStore = defineStore(EntitiesEnum.FILES, {
     },
     resetActive() {
       this.entities.active = []
+    },
+
+    resetState() {
+      this.$state = defaultFileState()
+    },
+    setCreationFormField(content: string, field: keyof FileFormType) {
+      this.creationForm[field] = content
     },
 
   },
