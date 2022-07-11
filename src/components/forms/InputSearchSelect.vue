@@ -52,7 +52,6 @@ import type { PaginatedResponse } from '@/helpers/api'
 import APi from '@/helpers/api'
 import type { EmployeeType } from '@/types/typesExported'
 import { TagVariantsEnum } from '@/types'
-import { useUserStore } from '@/store'
 
 interface Props {
   disabled?: boolean
