@@ -1,14 +1,15 @@
 export enum EntitiesEnum {
-  BUGS_REPORTS = 'bugs_reports',
-  USERS = 'users',
-  EVENTS = 'events',
-  EMPLOYEES = 'employees',
-  FILES = 'files',
+  ADDRESS = 'address',
   ANSWERS = 'answers',
-  UI = 'ui',
-  TABLE = 'table',
+  BUGS_REPORTS = 'bugs_reports',
+  EMPLOYEES = 'employees',
+  EVENTS = 'events',
+  FILES = 'files',
   PAYMENTS = 'payments',
   SUBSCRIPTIONS = 'subscriptions',
+  TABLE = 'table',
+  UI = 'ui',
+  USERS = 'users',
 }
 
 export interface BaseEntity {
