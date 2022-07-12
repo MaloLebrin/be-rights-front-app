@@ -1,6 +1,6 @@
 <template>
 <main class="relative z-0 flex-1 overflow-y-auto focus:outline-none xl:order-last">
-  <article>
+  <article v-if="employee">
     <!-- Profile header -->
     <div>
       <div>
@@ -195,7 +195,7 @@ import type { EmployeeType } from '@/types'
 import { ModalModeEnum, ModalNameEnum } from '@/types'
 
 interface Props {
-  employee: EmployeeType
+  employee: EmployeeType | null
 }
 
 const props = defineProps<Props>()
@@ -204,8 +204,8 @@ const userStore = useUserStore()
 const addressStore = useAddressStore()
 // const fileStore = useFileStore()
 const { setUiModal } = useUiStore()
-const employeeCreator = computed(() => userStore.getOne(props.employee.createdByUser as number))
-const employeeAddress = computed(() => addressStore.getOne(props.employee.address as number))
+const employeeCreator = computed(() => userStore.getOne(props.employee?.createdByUser as number))
+const employeeAddress = computed(() => addressStore.getOne(props.employee?.address as number))
 // const creatorLogo = computed(() => fileStore.getWhereArray(file => file.createdByUser === employeeCreator.value.id && file.type === FileTypeEnum.LOGO)[0])
 
 const { getEmployeeFullname } = employeeHook()
