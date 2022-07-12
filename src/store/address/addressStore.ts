@@ -9,7 +9,7 @@ export const useAddressStore = defineStore(EntitiesEnum.ADDRESS, {
   }),
   getters: {
     ...createGetters<AddressType>(addressState),
-    getOneByEventId: state => (eventId: number) => Object.values(state.entities.byId).filter(address => address.event === eventId)[0],
+    getOneByEventId: state => (eventId: number) => Object.values(state.entities.byId).filter(address => address.eventId === eventId)[0],
     getOneByEmployeeId: state => (employeeId: number) => Object.values(state.entities.byId).filter(address => address.employeeId === employeeId)[0],
   },
   actions: {

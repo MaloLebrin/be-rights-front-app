@@ -1,5 +1,8 @@
 <template>
-<div class="shadow-lg rounded-b-md">
+<div
+  v-if="event"
+  class="shadow-lg rounded-b-md"
+>
   <header class="py-8 rounded-t-lg bg-gray-50">
     <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 xl:flex xl:items-center xl:justify-between">
       <div class="flex-1 min-w-0">
@@ -15,7 +18,7 @@
               class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
               aria-hidden="true"
             />
-            {{ event.city }}
+            {{ eventAddress.city }}
           </div>
           <div class="flex items-center mt-2 text-sm text-gray-500">
             <CalendarIconOutline
@@ -273,9 +276,19 @@ const employeeStore = useEmployeeStore()
 const fileStore = useFileStore()
 const answerStore = useAnswerStore()
 const userStore = useUserStore()
+const addressStore = useAddressStore()
 const { IncLoading, DecLoading, setUiModal } = useUiStore()
+const { fetchEvent } = eventHook()
 
 const event = computed(() => eventStore.getOne(props.eventId))
+const eventAddress = computed(() => {
+  if (event.value) {
+    if (event.value.address) {
+      return addressStore.getOne(event.value?.address as number) || addressStore.getOneByEventId(event.value?.id)
+    }
+    return addressStore.getOneByEventId(event.value?.id)
+  }
+})
 const employees = computed(() => employeeStore.getAllByEventId(props.eventId))
 const answers = computed(() => answerStore.getManyByEventId(props.eventId))
 const files = computed(() =>
@@ -289,6 +302,9 @@ const getAnswerForEmployee = (employeeId: number) => computed(() => {
 onMounted(async() => {
   IncLoading()
   if (props.eventId) {
+    if (!eventStore.isAlreadyInStore(props.eventId)) {
+      await fetchEvent(props.eventId)
+    }
     await getEmployeesByEventId(props.eventId)
     await fetchAllForEvent(props.eventId)
     await fetchManyAnswerForEvent(props.eventId)
