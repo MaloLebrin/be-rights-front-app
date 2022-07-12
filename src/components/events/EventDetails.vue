@@ -18,7 +18,7 @@
               class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
               aria-hidden="true"
             />
-            {{ eventAddress.city }}
+            {{ eventAddress?.city }}
           </div>
           <div class="flex items-center mt-2 text-sm text-gray-500">
             <CalendarIconOutline
@@ -35,7 +35,7 @@
         <BaseButton
           :href="{
             name: userStore.isCurrentUserAdmin ? 'admin.events.edit' : 'user.events.edit',
-            params: { eventId: event.id }
+            params: { eventId: event?.id.toString() }
           }"
         >
           <template #icon>
@@ -151,10 +151,10 @@
                           >
                             <p class="text-sm text-gray-900">
                               Ajouté le
-                              <time>{{ toFormat(getAnswerForEmployee(employee.id).value.createdAt, 'D MMMM YYYY') }}</time>
+                              <time>{{ toFormat(getAnswerForEmployee(employee.id).value?.createdAt, 'D MMMM YYYY') }}</time>
                             </p>
                             <p
-                              v-if="getAnswerForEmployee(employee.id).value.hasSigned && getAnswerForEmployee(employee.id).value.signetAt"
+                              v-if="getAnswerForEmployee(employee.id).value?.hasSigned && getAnswerForEmployee(employee.id).value?.signetAt"
                               class="flex items-center mt-2 text-sm text-gray-500"
                             >
                               <CheckCircleIconOutline
@@ -164,7 +164,7 @@
                               <span>Signé</span>
                             </p>
                             <p
-                              v-else-if="!getAnswerForEmployee(employee.id).value.hasSigned && getAnswerForEmployee(employee.id).value.signetAt"
+                              v-else-if="!getAnswerForEmployee(employee.id).value?.hasSigned && getAnswerForEmployee(employee.id).value?.signetAt"
                               class="flex items-center mt-2 text-sm text-gray-500"
                             >
                               <XCircleIconOutline
