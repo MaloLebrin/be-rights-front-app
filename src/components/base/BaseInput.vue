@@ -7,7 +7,7 @@
 >
   <label
     v-if="label"
-    class="block font-bold text-blue dark:text-gray-100"
+    class="block text-sm font-bold text-blue dark:text-gray-100"
     :for="name"
   >
     <!-- Don't insert a line break here, would add a space between the label and the * that we don't want -->
