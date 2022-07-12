@@ -15,6 +15,7 @@ declare module 'vue' {
     BaseLoader: typeof import('./../../components/base/BaseLoader.vue')['default']
     BaseMessage: typeof import('./../../components/base/BaseMessage.vue')['default']
     BaseModal: typeof import('./../../components/base/BaseModal.vue')['default']
+    BaseRadio: typeof import('./../../components/base/BaseRadio.vue')['default']
     BaseTextarea: typeof import('./../../components/base/BaseTextarea.vue')['default']
     BugCreationForm: typeof import('./../../components/bugs/BugCreationForm.vue')['default']
     BugReport: typeof import('./../../pages/userDashboard/bugReports/BugReport.vue')['default']
