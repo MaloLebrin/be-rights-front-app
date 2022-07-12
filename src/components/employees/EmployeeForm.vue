@@ -1,143 +1,122 @@
 <template>
 <div class="w-full h-full px-4 mt-4">
-  <form class="grid grid-cols-2 gap-4">
-    <div class="space-y-2">
-      <label
-        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-      >Prénom&nbsp;*&nbsp;:</label>
-      <BaseInput
-        id="firstName"
-        v-model="firstName"
-        type="text"
-        :error="firstNameError"
-      />
-    </div>
+  <Form
+    v-slot="{ meta, isSubmitting, values }"
+    :validation-schema="schema"
+    :initial-values="initialValues"
+    class="grid grid-cols-2 gap-4"
+    @submit="submit"
+  >
+    <BaseInput
+      label="Prénom"
+      name="firstName"
+      type="text"
+      autocomplete="firstName"
+      is-required
+    />
 
-    <div class="space-y-2">
-      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Nom&nbsp;*&nbsp;:</label>
-      <BaseInput
-        id="lastName"
-        v-model="lastName"
-        type="text"
-        :error="lastNameError"
-      />
-    </div>
+    <BaseInput
+      label="Nom"
+      name="lastName"
+      type="text"
+      autocomplete="lastName"
+      is-required
+    />
 
-    <div class="space-y-2">
-      <label
-        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-      >E-mail&nbsp;*&nbsp;:</label>
-      <BaseInput
-        id="email"
-        v-model="email"
-        type="email"
-        :error="emailError"
-      />
-    </div>
+    <BaseInput
+      class="col-span-2"
+      label="Adresse email"
+      name="email"
+      type="email"
+      autocomplete="email"
+      is-required
+    />
 
-    <div class="space-y-2">
-      <label
-        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-      >Téléphone&nbsp;*&nbsp;:</label>
-      <BaseInput
-        id="phone"
-        v-model="phone"
-        type="tel"
-        :error="phoneError"
-      />
-    </div>
+    <BaseInput
+      label="Téléphone"
+      name="phone"
+      type="tel"
+      autocomplete="phone"
+      is-required
+    />
+
     <div class="col-span-2 space-y-2">
-      <label
-        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-      >Adresse&nbsp;*&nbsp;:</label>
       <BaseInput
-        id="addressLine"
-        v-model="addressLine"
-        type="text"
-        :error="addressLineError"
+        label="Adresse"
+        name="addressLine"
+        autocomplete="addressLine"
+        is-required
       />
     </div>
 
     <div class="col-span-2 space-y-2">
-      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Addresse complément&nbsp;:</label>
       <BaseInput
-        id="addressLine2"
-        v-model="addressLine2"
-        type="text"
-        :error="addressLine2Error"
+        label="Complément d'adresse"
+        name="addressLine2"
+        autocomplete="addressLine"
       />
     </div>
 
-    <div class="space-y-2">
-      <label
-        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-      >Code postal&nbsp;*&nbsp;:</label>
-      <BaseInput
-        id="postalCode"
-        v-model="postalCode"
-        :error="postalCodeError"
-      />
-    </div>
+    <BaseInput
+      label="Code postal"
+      name="postalCode"
+      autocomplete="postalCode"
+      is-required
+    />
 
-    <div class="space-y-2">
-      <label
-        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-      >Ville&nbsp;*&nbsp;:</label>
-      <BaseInput
-        id="city"
-        v-model="city"
-        :error="cityError"
-      />
-    </div>
-    <div class="space-y-2">
-      <label
-        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-      >Pays&nbsp;*&nbsp;:</label>
-      <BaseInput
-        id="country"
-        v-model="country"
-        :error="countryError"
-      />
-    </div>
+    <BaseInput
+      label="Ville"
+      name="city"
+      autocomplete="city"
+      is-required
+    />
+
+    <BaseInput
+      label="Pays"
+      name="country"
+      autocomplete="country"
+      is-required
+    />
 
     <div
       v-if="userStore.isCurrentUserAdmin && mode !== ModalModeEnum.EDIT"
       class="space-y-2 md:col-span-2"
     >
-      <label
-        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-      >Id de l'utilisateur&nbsp;*&nbsp;:</label>
-      <InputSearchSelect
-        base-url="user"
-        @selected="onSelectUser"
-      />
-      <p
-        v-if="userIdError?.length"
-        class="text-sm text-red-500"
+      <BaseSelect
+        label="Id de l'utilisateur"
+        name="userId"
+        placeholder="Choisissez un utilisateur"
+        :display-value="getUserfullName(userStore.getOne(values.userId))"
+        is-required
       >
-        {{ userIdError }}
-      </p>
+        <BaseOption
+          v-for="user in userStore.getAllArray"
+          :key="user.id"
+          :value="user.id"
+          :name="getUserfullName(user)"
+        />
+      </BaseSelect>
     </div>
-  </form>
 
-  <div class="flex items-center justify-center mt-6">
-    <BaseButton
-      :disabled="!meta.valid || !meta.dirty"
-      @click.prevent="submit"
-    >
-      <template #icon>
-        <SaveIconOutline />
-      </template>
-      {{ mode === ModalModeEnum.CREATE ? 'Créer' : 'Enregistrer' }}
-    </BaseButton>
-  </div>
+    <div class="flex items-center justify-center mt-6 md:col-span-2">
+      <BaseButton
+        :disabled="!meta.valid || !meta.dirty || isSubmitting"
+        :is-loading="uiStore.getUIIsLoading || isSubmitting"
+        type="submit"
+      >
+        <template #icon>
+          <SaveIconOutline />
+        </template>
+        {{ mode === ModalModeEnum.CREATE ? 'Créer' : 'Enregistrer' }}
+      </BaseButton>
+    </div>
+  </Form>
 </div>
 </template>
 
 <script setup lang="ts">
-import { useField, useForm } from 'vee-validate'
 import { number, object, string } from 'yup'
-import type { EmployeeType, UserType } from '@/types'
+import type { EmployeeType, VeeValidateValues } from '@/types'
 import { ModalModeEnum } from '@/types'
 
 interface Props {
@@ -158,23 +137,13 @@ const { isCurrentUserAdmin, getCurrentUserId } = useUserStore()
 const userStore = useUserStore()
 const eventStore = useEventStore()
 const addressStore = useAddressStore()
-const { IncLoading, DecLoading } = useUiStore()
+const uiStore = useUiStore()
+const { IncLoading, DecLoading } = uiStore
 const { patchOne, postOne: postOneEmployee, postManyForEvent } = employeeHook()
 const { postOne: postOneAddress, patchOne: patchOneAddress } = addressHook()
+const { fetchAll, getUserfullName } = userHook()
 const router = useRouter()
-
-const schema = object({
-  email: string().email('vous devez entrer in email valide').required('L\'adresse email est requise'),
-  firstName: string().required('Le prénom est requis'),
-  lastName: string().required('Le nom est requis'),
-  phone: string().required('Le numéro de téléphone est requis'),
-  userId: number().required('L\'identifiant de l\'utilisateur est requis'),
-  addressLine: string().required('L\'adresse est requise'),
-  addressLine2: string(),
-  postalCode: string().required('Le code postal est requis'),
-  city: string().required('La ville est requise'),
-  country: string().required('Le pays est requis'),
-})
+const employeeAddress = computed(() => props.employee ? addressStore.getOne(props.employee.address as number) : null)
 
 const userIdField = computed(() => {
   if (props.employee) {
@@ -186,58 +155,50 @@ const userIdField = computed(() => {
   return getCurrentUserId
 })
 
-const employeeAddress = computed(() => props.employee ? addressStore.getOne(props.employee.address as number) : null)
-
-const { meta } = useForm({ validationSchema: schema })
-const { errorMessage: emailError, value: email } = useField<string>('email', undefined, {
-  initialValue: props.employee ? props.employee.email : '',
-})
-const { errorMessage: phoneError, value: phone } = useField<string>('phone', undefined, {
-  initialValue: props.employee ? props.employee.phone : '',
-})
-const { errorMessage: firstNameError, value: firstName } = useField<string>('firstName', undefined, {
-  initialValue: props.employee ? props.employee.firstName : '',
-})
-const { errorMessage: lastNameError, value: lastName } = useField<string>('lastName', undefined, {
-  initialValue: props.employee ? props.employee.lastName : '',
+const schema = object({
+  email: string().email('vous devez entrer in email valide').required('L\'adresse email est requise'),
+  firstName: string().required('Le prénom est requis'),
+  lastName: string().required('Le nom est requis'),
+  phone: string().required('Le numéro de téléphone est requis'),
+  addressLine: string().required('L\'adresse est requise'),
+  addressLine2: string().nullable(),
+  postalCode: string().required('Le code postal est requis'),
+  city: string().required('La ville est requise'),
+  country: string().required('Le pays est requis'),
+  userId: number().required('L\'identifiant de l\'utilisateur est requis'),
 })
 
-const { errorMessage: userIdError, value: userId, handleChange: handleNewUserId } = useField<number | null>('userId', undefined, {
-  initialValue: userIdField.value,
-})
-const { errorMessage: addressLineError, value: addressLine } = useField<string>('addressLine', undefined, {
-  initialValue: employeeAddress.value ? employeeAddress.value.addressLine : '',
-})
-const { errorMessage: addressLine2Error, value: addressLine2 } = useField<string | null>('addressLine2', undefined, {
-  initialValue: employeeAddress.value ? employeeAddress.value.addressLine2 : null,
-})
-const { errorMessage: postalCodeError, value: postalCode } = useField<string>('postalCode', undefined, {
-  initialValue: employeeAddress.value ? employeeAddress.value.postalCode : '',
-})
-const { errorMessage: cityError, value: city } = useField<string>('city', undefined, {
-  initialValue: employeeAddress.value ? employeeAddress.value.city : '',
-})
-
-const { errorMessage: countryError, value: country } = useField<string>('country', undefined, {
-  initialValue: employeeAddress.value ? employeeAddress.value.country : 'France',
-})
-
-function onSelectUser(user: UserType) {
-  handleNewUserId(user.id)
+const initialValues = {
+  email: props.employee?.email || '',
+  firstName: props.employee?.firstName || '',
+  lastName: props.employee?.lastName || '',
+  phone: props.employee?.phone || '',
+  addressLine: employeeAddress.value?.addressLine || '',
+  addressLine2: employeeAddress.value?.addressLine2 || null,
+  postalCode: employeeAddress.value?.postalCode || '',
+  city: employeeAddress.value?.city || '',
+  country: employeeAddress.value?.country || 'France',
+  userId: userIdField.value,
 }
+
+onMounted(async() => {
+  if (userStore.isCurrentUserAdmin) {
+    await fetchAll()
+  }
+})
 
 const emit = defineEmits<{
   (e: 'submit'): void
 }>()
 
-async function submit() {
+async function submit(form: VeeValidateValues) {
   IncLoading()
 
   const employeeToPost = {
-    email: email.value,
-    firstName: firstName.value,
-    lastName: lastName.value,
-    phone: phone.value,
+    email: form.email,
+    firstName: form.firstName,
+    lastName: form.lastName,
+    phone: form.phone,
   } as EmployeeType
 
   if (props.mode === ModalModeEnum.CREATE) {
@@ -247,16 +208,16 @@ async function submit() {
         props.eventId, createdByUser)
     } else {
       if (userStore.getCurrentUserId) {
-        const createdByUser = isCurrentUserAdmin ? userId.value! : userStore.getCurrentUserId
+        const createdByUser = isCurrentUserAdmin ? form.userId! : userStore.getCurrentUserId
         const employee = await postOneEmployee(employeeToPost, createdByUser)
         if (employee) {
           await postOneAddress({
             address: {
-              addressLine: addressLine.value,
-              addressLine2: addressLine2.value,
-              postalCode: postalCode.value,
-              city: city.value,
-              country: country.value,
+              addressLine: form.addressLine,
+              addressLine2: form.addressLine2,
+              postalCode: form.postalCode,
+              city: form.city,
+              country: form.country,
             },
             employeeId: employee.id,
           })
@@ -267,11 +228,11 @@ async function submit() {
     await patchOne(props.employee.id, { ...employeeToPost, createdByUser: props.employee.createdByUser })
     if (employeeAddress.value) {
       await patchOneAddress(employeeAddress.value.id, {
-        addressLine: addressLine.value,
-        addressLine2: addressLine2.value,
-        postalCode: postalCode.value,
-        city: city.value,
-        country: country.value,
+        addressLine: form.addressLine,
+        addressLine2: form.addressLine2,
+        postalCode: form.postalCode,
+        city: form.city,
+        country: form.country,
       })
     }
   }

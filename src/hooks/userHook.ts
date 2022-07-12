@@ -2,9 +2,8 @@ import { useCookies } from 'vue3-cookies'
 import axiosInstance from '@/axios.config'
 import type { PaginatedResponse } from '@/helpers/api'
 import APi from '@/helpers/api'
-import type { Loginpayload, RegisterPayload, ThemeEnum } from '@/types'
 import { RoleEnum } from '@/types'
-import type { EmployeeType, EventType, FileType, UserType } from '@/types'
+import type { EmployeeType, EventType, FileType, Loginpayload, RegisterPayload, ThemeEnum, UserType } from '@/types'
 import { hasOwnProperty, isArrayOfNumbers } from '@/utils'
 
 export default function userHook() {
@@ -221,9 +220,9 @@ export default function userHook() {
 
   function getUserfullName(user: UserType) {
     let str = ''
-    if (user.firstName)
+    if (user?.firstName)
       str += user.firstName
-    if (user.lastName)
+    if (user?.lastName)
       str += ` ${user.lastName}`
     return str
   }
