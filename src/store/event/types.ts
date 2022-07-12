@@ -1,6 +1,6 @@
 import type { State } from '@malolebrin/pinia-entity-store'
 import type { EmployeeType, FileType } from '@/types/typesExported'
-import type { BaseEntity } from '@/types/globals'
+import type { AddressType, AddressTypeCreate, BaseEntity } from '@/types'
 
 export interface IEvent extends BaseEntity {
   name: string
@@ -8,28 +8,27 @@ export interface IEvent extends BaseEntity {
   start: Date
   end: Date
   status: EventStatusEnum
-  address: string | null
-  postalCode: string | null
-  city: string | null
-  country: string | null
   signatureCount: number
   totalSignatureNeeded: number
-  createdByUser?: number
+  createdByUser: number
 }
 
 export interface EventType extends IEvent {
   files?: number[]
   employees?: number[]
-  events?: number[]
+  address?: AddressType | number
 }
 
 export interface EventTypeWithRelations extends IEvent {
   files?: FileType[]
   employees?: EmployeeType[]
-  events?: EventType[]
 }
 
-export type EventFormType = Omit<EventType, 'id' | 'createdAt' | 'updatedAt'>
+export type EventTypeCreate = Omit<IEvent, 'status' | 'id' | 'createdAt' | 'deletedAt' | 'updatedAt' | 'totalSignatureNeeded' | 'signatureCount' | 'files' | 'address'>
+export interface EventCreatePayload {
+  event: EventTypeCreate
+  address: AddressTypeCreate
+}
 
 export enum EventSearchableFields {
   NAME = 'name',
@@ -51,6 +50,14 @@ export enum getEventStatusTranslationEnum {
   PENDING = 'en cours',
   COMPLETED = 'complété',
   CLOSED = 'terminé',
+}
+
+export interface BaseCreationFormType {
+  name: string
+  description: string
+  start: Date
+  end: Date
+  createdByUser: null | number
 }
 
 export interface EventState extends State<EventType> { }

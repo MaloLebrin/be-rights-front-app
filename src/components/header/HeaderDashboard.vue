@@ -84,6 +84,9 @@ const getOutsideMenuRouteLabel = computed(() => {
 
       case 'account.edit':
         return 'Modifier le compte'
+
+      case 'address.create':
+        return 'Ajouter une adresse'
     }
   }
 })

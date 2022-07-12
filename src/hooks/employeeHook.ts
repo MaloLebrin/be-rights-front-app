@@ -9,8 +9,11 @@ export default function employeeHook() {
   const { createMany: createManyAnswers } = useAnswerStore()
   const { createMany: createManyFiles } = useFileStore()
   const { IncLoading, DecLoading } = useUiStore()
+  const addressStore = useAddressStore()
+  const { createOne: createOneAddress } = addressStore
   const { filteringFilesNotInStore } = fileHook()
   const { filteringAnswersNotInStore } = answerHook()
+  const { isAddressType } = addressHook()
   const toast = useToast()
   const api = new API()
 
@@ -57,6 +60,12 @@ export default function employeeHook() {
             if (employeeAnswers.length > 0) {
               createManyAnswers(employeeAnswers)
             }
+          }
+          if (employee.address && isAddressType(employee.address)) {
+            if (!addressStore.isAlreadyInStore(employee.address.id)) {
+              createOneAddress(employee.address)
+            }
+            employee.address = employee.address.id
           }
 
           return {
@@ -148,7 +157,6 @@ export default function employeeHook() {
   }
 
   async function postOne(employee: EmployeeType, userId: number) {
-    IncLoading()
     try {
       const res = await api.post(`employee/${userId}`, { employee })
       const data = res as EmployeeType
@@ -160,11 +168,11 @@ export default function employeeHook() {
       })
       employeeStore.createOne(data)
       toast.success('Destinataire créé avec succès')
+      return data
     } catch (error) {
       console.error(error)
       toast.error('Une erreur est survenue')
     }
-    DecLoading()
   }
 
   async function postManyForEvent(employees: EmployeeType[], eventId: number, userId: number) {

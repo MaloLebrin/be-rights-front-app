@@ -2,6 +2,7 @@
 // We suggest you to commit this file into source control
 declare global {
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
+  const addressHook: typeof import('@/hooks/addressHook')['default']
   const answerHook: typeof import('@/hooks/answerHook')['default']
   const authHook: typeof import('@/hooks/authHook')['default']
   const bugReportsHook: typeof import('@/hooks/bugReportsHook')['default']
@@ -64,6 +65,7 @@ declare global {
   const toRefs: typeof import('vue')['toRefs']
   const triggerRef: typeof import('vue')['triggerRef']
   const unref: typeof import('vue')['unref']
+  const useAddressStore: typeof import('@/store/address/addressStore')['useAddressStore']
   const useAnswerStore: typeof import('@/store/answer/answerStore')['useAnswerStore']
   const useAttrs: typeof import('vue')['useAttrs']
   const useBugStore: typeof import('@/store/bug/bugStore')['useBugStore']

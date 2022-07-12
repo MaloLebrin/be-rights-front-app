@@ -52,13 +52,13 @@ import type { PaginatedResponse } from '@/helpers/api'
 import APi from '@/helpers/api'
 import type { EmployeeType } from '@/types/typesExported'
 import { TagVariantsEnum } from '@/types'
-import { useUserStore } from '@/store'
 
 interface Props {
   disabled?: boolean
   placeholder?: string
   baseUrl: string
   isMultiple?: boolean
+  defaultValue: Record<string, any>[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -66,6 +66,7 @@ const props = withDefaults(defineProps<Props>(), {
   placeholder: undefined,
   isMultiple: false,
   baseUrl: '',
+  defaultValue: () => [],
 })
 
 const emit = defineEmits<{
@@ -89,7 +90,7 @@ const state = reactive<State>({
   data: [],
   allData: [],
   timeout: 0,
-  selectedItems: [],
+  selectedItems: props.defaultValue,
   isLoading: false,
 })
 const api = new APi()
@@ -103,6 +104,7 @@ onMounted(async() => {
     })
     state.isLoading = false
   }
+  state.selectedItems = props.defaultValue
 })
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

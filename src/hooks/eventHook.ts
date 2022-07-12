@@ -1,4 +1,4 @@
-import type { EventType, EventTypeWithRelations } from '@/store/event/types'
+import type { EventType, EventTypeCreate, EventTypeWithRelations } from '@/store/event/types'
 import { EventStatusEnum, getEventStatusTranslationEnum } from '@/store/event/types'
 import type { PaginatedResponse } from '@/helpers/api'
 import APi from '@/helpers/api'
@@ -8,7 +8,10 @@ import { hasOwnProperty, isArrayOfNumbers, noNull } from '@/utils'
 export function eventHook() {
   const eventStore = useEventStore()
   const { isUserType } = userHook()
+  const { isAddressType } = addressHook()
   const { DecLoading, IncLoading } = useUiStore()
+  const addressStore = useAddressStore()
+  const { createOne: createOneAddress } = addressStore
   const toast = useToast()
   const api = new APi()
 
@@ -29,6 +32,27 @@ export function eventHook() {
       default:
         return 'text-gray-500'
     }
+  }
+
+  function storeEventRelationEntities(events: EventType[]) {
+    if (events?.length > 0) {
+      const eventsToStore = events.map(event => {
+        const address = event.address
+        if (address && isAddressType(address)) {
+          if (!addressStore.isAlreadyInStore(address?.id)) {
+            createOneAddress(address)
+            event.address = address.id
+          }
+        }
+
+        return {
+          ...event,
+        }
+      })
+      eventStore.createMany(eventsToStore)
+      return eventsToStore
+    }
+    return []
   }
 
   function getSignatureCount(employees: EmployeeType[]) {
@@ -60,7 +84,7 @@ export function eventHook() {
       const missingIds = data.map((event: EventType) => event.id).filter(id => !eventStore.isAlreadyInStore(id))
       if (missingIds.length > 0) {
         const events = data.filter(event => missingIds.includes(event.id))
-        eventStore.createMany(events)
+        storeEventRelationEntities(events)
       }
     } catch (error) {
       console.error(error)
@@ -74,7 +98,7 @@ export function eventHook() {
     try {
       const res: any = await api.get(`event/${id}`)
       if (!eventStore.isAlreadyInStore(res.id) && isEventType(res)) {
-        eventStore.createOne(res)
+        storeEventRelationEntities([res])
       }
     } catch (error) {
       console.error(error)
@@ -96,7 +120,7 @@ export function eventHook() {
             ...event,
             createdByUser: userId,
           }))
-          eventStore.createMany(eventToStore)
+          storeEventRelationEntities(eventToStore)
         }
       }
     } catch (error) {
@@ -112,7 +136,7 @@ export function eventHook() {
       const res = await api.get(`event/${id}`)
       const event = res as EventType
       if (!eventStore.isAlreadyInStore(event.id)) {
-        eventStore.createOne(event)
+        storeEventRelationEntities([event])
       }
     } catch (error) {
       console.error(error)
@@ -121,7 +145,7 @@ export function eventHook() {
     DecLoading()
   }
 
-  async function postOne(event: EventType, userId?: number): Promise<EventType | undefined> {
+  async function postOne(event: EventTypeCreate, userId?: number): Promise<EventType | undefined> {
     try {
       const res = await api.post(`event/${userId}`, { event })
       const eventToStore = res as EventType
@@ -197,6 +221,7 @@ export function eventHook() {
     patchOne,
     postOne,
     sortEventByDate,
+    storeEventRelationEntities,
   }
 }
 

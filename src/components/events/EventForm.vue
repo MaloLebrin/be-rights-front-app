@@ -34,44 +34,58 @@
     is-required
   />
 
-  <div class="space-y-2 md:col-span-2">
-    <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Adresse&nbsp;*&nbsp;:</label>
+  <div class="col-span-3 space-y-2">
+    <label
+      class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+    >Adresse&nbsp;*&nbsp;:</label>
     <BaseInput
-      id="address"
-      v-model="address"
+      id="addressLine"
+      v-model="addressLine"
       type="text"
-      :error="addressError"
+      :error="addressLineError"
     />
   </div>
+
+  <div class="col-span-3 space-y-2">
+    <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Addresse complément&nbsp;:</label>
+    <BaseInput
+      id="addressLine2"
+      v-model="addressLine2"
+      type="text"
+      :error="addressLine2Error"
+    />
+  </div>
+
   <div class="space-y-2">
-    <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Code postal&nbsp;*&nbsp;:</label>
+    <label
+      class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+    >Code postal&nbsp;*&nbsp;:</label>
     <BaseInput
       id="postalCode"
       v-model="postalCode"
-      type="text"
       :error="postalCodeError"
     />
   </div>
 
-  <div class="grid grid-cols-1 gap-6 md:col-span-3 md:grid-cols-2">
-    <div class="space-y-2">
-      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Ville&nbsp;*&nbsp;:</label>
-      <BaseInput
-        id="city"
-        v-model="city"
-        type="text"
-        :error="cityError"
-      />
-    </div>
-    <div class="space-y-2">
-      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Pays&nbsp;*&nbsp;:</label>
-      <BaseInput
-        id="country"
-        v-model="country"
-        type="text"
-        :error="countryError"
-      />
-    </div>
+  <div class="space-y-2">
+    <label
+      class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+    >Ville&nbsp;*&nbsp;:</label>
+    <BaseInput
+      id="city"
+      v-model="city"
+      :error="cityError"
+    />
+  </div>
+  <div class="space-y-2">
+    <label
+      class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+    >Pays&nbsp;*&nbsp;:</label>
+    <BaseInput
+      id="country"
+      v-model="country"
+      :error="countryError"
+    />
   </div>
 
   <div
@@ -93,6 +107,7 @@
     <InputSearchSelect
       :base-url="userStore.isCurrentUserAdmin ? 'employee' : `employee?filters[createdByUser]=${userStore.getCurrentUserId}`"
       is-multiple
+      :default-value="eventEmployees"
       @selected="handleEmployee"
     />
     <p v-if="employeeError?.length">
@@ -117,9 +132,9 @@
 <script setup lang="ts">
 import { useField, useForm } from 'vee-validate'
 import { date, number, object, string } from 'yup'
-import type { EmployeeType, EventType, UserType } from '@/types/typesExported'
+import type { EmployeeType, UserType } from '@/types/typesExported'
 import { ModalModeEnum } from '@/types/typesExported'
-import type { Period } from '@/types'
+import type { EventType, Period } from '@/types'
 
 interface Props {
   eventId?: number | null
@@ -138,13 +153,26 @@ const mainStore = useMainStore()
 const eventStore = useEventStore()
 const userStore = useUserStore()
 const uiStore = useUiStore()
+const addressStore = useAddressStore()
+const employeeStore = useEmployeeStore()
 
 const { IncLoading, DecLoading, resetUiModalState } = uiStore
 const { postMany: postManyAnswers } = answerHook()
 const { postOne: PostOneEvent, patchOne: patchOneEvent } = eventHook()
 const { isUserType } = userHook()
+const { postOne: postOneAddress, patchOne: patchOneAddress } = addressHook()
 
 const event = computed(() => props.eventId ? eventStore.getOne(props.eventId) : null)
+const eventAddress = computed(() => {
+  if (event.value) {
+    const address = addressStore.getOne(event.value.address as number)
+    if (!address) {
+      return addressStore.getOneByEventId(event.value.id) || null
+    }
+    return address
+  }
+  return null
+})
 
 const schema = object({
   name: string().required('le nom de l\'événement est obligatoire'),
@@ -153,11 +181,13 @@ const schema = object({
     start: date().required('La date de début est obligatoire'),
     end: date().required('La date de fin est obligatoire'),
   }).required('L\'événement doit avoir une date de début et une date de fin'),
-  address: string().required('L\'adresse est obligatoire'),
-  postalCode: string().required('Le code postal est obligatoire'),
-  city: string().required('La ville est obligatoire'),
-  country: string().required('Le pays est obligatoire'),
   userId: number().required('L\'utilisateur est obligatoire'),
+  addressLine: string().required('L\'adresse est requise'),
+  addressLine2: string(),
+  postalCode: string().required('Le code postal est requis'),
+  city: string().required('La ville est requise'),
+  country: string().required('Le pays est requis'),
+
 })
 
 const userCreateEvent = computed(() => {
@@ -167,6 +197,7 @@ const userCreateEvent = computed(() => {
     return userStore.getCurrentUserId
   }
 })
+const eventEmployees = computed(() => props.eventId ? employeeStore.getAllByEventId(props.eventId) : [])
 
 const { meta } = useForm({ validationSchema: schema })
 
@@ -179,23 +210,28 @@ const { errorMessage: descriptionError, value: description } = useField<string>(
 const { errorMessage: datesError, value: period } = useField<Period>('period', undefined, {
   initialValue: event.value ? { start: event.value.start, end: event.value.end } : { start: new Date(), end: new Date() },
 })
-const { errorMessage: addressError, value: address } = useField<string | null>('address', undefined, {
-  initialValue: event.value ? event.value.address : '',
-})
-const { errorMessage: postalCodeError, value: postalCode } = useField<string | null>('postalCode', undefined, {
-  initialValue: event.value ? event.value.postalCode?.toString() : '',
-})
-const { errorMessage: cityError, value: city } = useField<string | null>('city', undefined, {
-  initialValue: event.value ? event.value.city : '',
-})
-const { errorMessage: countryError, value: country } = useField<string | null>('country', undefined, {
-  initialValue: event.value ? event.value.country : '',
-})
 const { errorMessage: userIdError, value: userId, handleChange: handleUserId } = useField<number | null>('userId', undefined, {
   initialValue: userCreateEvent.value,
 })
 const { errorMessage: employeeError, value: employees, handleChange: handleEmployee } = useField<EmployeeType[] | null>('employees', undefined, {
-  initialValue: event.value ? event.value.employees as unknown as EmployeeType[] : [],
+  initialValue: event.value ? eventEmployees.value : [],
+})
+
+const { errorMessage: addressLineError, value: addressLine } = useField<string>('addressLine', undefined, {
+  initialValue: eventAddress.value ? eventAddress.value.addressLine : '',
+})
+const { errorMessage: addressLine2Error, value: addressLine2 } = useField<string | null>('addressLine2', undefined, {
+  initialValue: eventAddress.value ? eventAddress.value.addressLine2 : null,
+})
+const { errorMessage: postalCodeError, value: postalCode } = useField<string>('postalCode', undefined, {
+  initialValue: eventAddress.value ? eventAddress.value.postalCode : '',
+})
+const { errorMessage: cityError, value: city } = useField<string>('city', undefined, {
+  initialValue: eventAddress.value ? eventAddress.value.city : '',
+})
+
+const { errorMessage: countryError, value: country } = useField<string>('country', undefined, {
+  initialValue: eventAddress.value ? eventAddress.value.country : 'France',
 })
 
 function onSelectedUser(user: UserType) {
@@ -206,20 +242,18 @@ async function submit() {
   IncLoading()
 
   const payload = {
-    name: name.value,
-    description: description.value,
-    start: period.value.start,
-    end: period.value.end,
-    address: address.value,
-    postalCode: postalCode.value,
-    city: city.value,
-    country: country.value,
-    createdByUser: userId.value,
+    event: {
+      name: name.value,
+      description: description.value,
+      start: period.value.start,
+      end: period.value.end,
+      createdByUser: userId.value!,
+    },
   }
 
   if (props.mode === ModalModeEnum.CREATE) {
     if (userId.value) {
-      const newEvent = await PostOneEvent(payload as EventType, userId.value)
+      const newEvent = await PostOneEvent(payload.event, userId.value)
       if (newEvent) {
         if (employees.value && employees.value.length > 0) {
           const employeesIds = employees.value.map(employee => employee.id)
@@ -228,17 +262,42 @@ async function submit() {
             eventId,
             employeesIds,
           )
+          await postOneAddress({
+            address: {
+              addressLine: addressLine.value,
+              addressLine2: addressLine2.value,
+              postalCode: postalCode.value,
+              city: city.value,
+              country: country.value,
+            },
+            eventId: newEvent.id,
+          })
         }
+
         emit('submitted', newEvent.id)
       }
     }
   }
 
   if (props.mode === ModalModeEnum.EDIT && props.eventId) {
-    await patchOneEvent({
-      ...payload as EventType,
-      id: props.eventId,
-    })
+    const payload = {
+      ...event.value,
+      name: name.value,
+      description: description.value,
+      start: period.value.start,
+      end: period.value.end,
+    }
+    await patchOneEvent(payload as EventType)
+    if (eventAddress.value) {
+      await patchOneAddress(eventAddress.value.id, {
+        addressLine: addressLine.value,
+        addressLine2: addressLine2.value || null,
+        postalCode: postalCode.value,
+        city: city.value,
+        country: country.value,
+      })
+    }
+
     if (employees.value && employees.value.length > 0) {
       const employeesIds = employees.value.map(employee => employee.id)
       const eventId = props.eventId
