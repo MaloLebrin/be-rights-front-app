@@ -8,6 +8,7 @@ declare module 'vue' {
     ActionButtonTable: typeof import('./../../components/events/table/ActionButtonTable.vue')['default']
     ActionUserTable: typeof import('./../../components/users/table/ActionUserTable.vue')['default']
     AddressForm: typeof import('./../../components/address/AddressForm.vue')['default']
+    AdjustmentsIconOutline: typeof import('@heroicons/vue/outline/esm/AdjustmentsIcon.js')['default']
     AdminModalDeleteUser: typeof import('./../../components/modals/AdminModalDeleteUser.vue')['default']
     BaseAccordion: typeof import('./../../components/base/BaseAccordion.vue')['default']
     BaseButton: typeof import('./../../components/base/BaseButton.vue')['default']
