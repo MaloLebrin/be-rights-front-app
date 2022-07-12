@@ -56,25 +56,6 @@
         :error="countryError"
       />
     </div>
-
-    <!-- <div
-      v-if="userStore.isCurrentUserAdmin && mode !== ModalModeEnum.EDIT"
-      class="space-y-2 md:col-span-2"
-    >
-      <label
-        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-      >Id de l'utilisateur&nbsp;*&nbsp;:</label>
-      <InputSearchSelect
-        base-url="user"
-        @selected="onSelectUser"
-      />
-      <p
-        v-if="userIdError?.length"
-        class="text-sm text-red-500"
-      >
-        {{ userIdError }}
-      </p>
-    </div> -->
   </form>
 
   <div class="flex items-center justify-center mt-6">

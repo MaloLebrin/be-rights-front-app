@@ -131,14 +131,4 @@ export const adminRoutes = [
       isAdmin: true,
     },
   },
-  {
-    path: '/admin/address/create',
-    name: 'admin.address.create',
-    component: () => import('@/pages/adminDashboard/address/createAddress.vue'),
-    meta: {
-      layout: 'AdminDashboardLayout',
-      isAuth: true,
-      isAdmin: true,
-    },
-  },
 ]

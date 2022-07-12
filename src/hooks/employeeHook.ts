@@ -9,8 +9,11 @@ export default function employeeHook() {
   const { createMany: createManyAnswers } = useAnswerStore()
   const { createMany: createManyFiles } = useFileStore()
   const { IncLoading, DecLoading } = useUiStore()
+  const addressStore = useAddressStore()
+  const { createOne: createOneAddress } = addressStore
   const { filteringFilesNotInStore } = fileHook()
   const { filteringAnswersNotInStore } = answerHook()
+  const { isAddressType } = addressHook()
   const toast = useToast()
   const api = new API()
 
@@ -57,6 +60,12 @@ export default function employeeHook() {
             if (employeeAnswers.length > 0) {
               createManyAnswers(employeeAnswers)
             }
+          }
+          if (employee.address && isAddressType(employee.address)) {
+            if (!addressStore.isAlreadyInStore(employee.address.id)) {
+              createOneAddress(employee.address)
+            }
+            employee.address = employee.address.id
           }
 
           return {

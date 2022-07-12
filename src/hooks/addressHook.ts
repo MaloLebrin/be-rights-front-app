@@ -5,7 +5,7 @@ import { hasOwnProperty } from '@/utils'
 export default function addressHook() {
   const { IncLoading, DecLoading } = useUiStore()
   const toast = useToast()
-  const addressStore = useAddressStore()
+  const { createOne, updateOne } = useAddressStore()
   const api = new API()
 
   async function fetchOne(id: number) {
@@ -14,7 +14,7 @@ export default function addressHook() {
       const res = await api.get(`address/${id}`)
       const address = res as AddressType
       if (address) {
-        addressStore.createOne(address)
+        createOne(address)
       }
     } catch (error) {
       console.error(error)
@@ -29,7 +29,21 @@ export default function addressHook() {
       const res = await api.post('address/', payload)
       const address = res as AddressType
       if (address) {
-        addressStore.createOne(address)
+        createOne(address)
+      }
+    } catch (error) {
+      console.error(error)
+      toast.error('Une erreur est survenue')
+    }
+    DecLoading()
+  }
+
+  async function patchOne(id: number, payload: Partial<AddressType>) {
+    IncLoading()
+    try {
+      const res = await api.patch(`address/${id}`, { address: payload })
+      if (isAddressType(res)) {
+        updateOne(id, res)
       }
     } catch (error) {
       console.error(error)
@@ -48,6 +62,7 @@ export default function addressHook() {
   return {
     fetchOne,
     isAddressType,
+    patchOne,
     postOne,
   }
 }

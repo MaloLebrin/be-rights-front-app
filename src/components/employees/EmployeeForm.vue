@@ -46,6 +46,59 @@
         :error="phoneError"
       />
     </div>
+    <div class="col-span-2 space-y-2">
+      <label
+        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+      >Adresse&nbsp;*&nbsp;:</label>
+      <BaseInput
+        id="addressLine"
+        v-model="addressLine"
+        type="text"
+        :error="addressLineError"
+      />
+    </div>
+
+    <div class="col-span-2 space-y-2">
+      <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Addresse complément&nbsp;:</label>
+      <BaseInput
+        id="addressLine2"
+        v-model="addressLine2"
+        type="text"
+        :error="addressLine2Error"
+      />
+    </div>
+
+    <div class="space-y-2">
+      <label
+        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+      >Code postal&nbsp;*&nbsp;:</label>
+      <BaseInput
+        id="postalCode"
+        v-model="postalCode"
+        :error="postalCodeError"
+      />
+    </div>
+
+    <div class="space-y-2">
+      <label
+        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+      >Ville&nbsp;*&nbsp;:</label>
+      <BaseInput
+        id="city"
+        v-model="city"
+        :error="cityError"
+      />
+    </div>
+    <div class="space-y-2">
+      <label
+        class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
+      >Pays&nbsp;*&nbsp;:</label>
+      <BaseInput
+        id="country"
+        v-model="country"
+        :error="countryError"
+      />
+    </div>
 
     <div
       v-if="userStore.isCurrentUserAdmin && mode !== ModalModeEnum.EDIT"
@@ -104,8 +157,10 @@ const props = withDefaults(defineProps<Props>(), {
 const { isCurrentUserAdmin, getCurrentUserId } = useUserStore()
 const userStore = useUserStore()
 const eventStore = useEventStore()
+const addressStore = useAddressStore()
 const { IncLoading, DecLoading } = useUiStore()
-const { patchOne, postOne, postManyForEvent } = employeeHook()
+const { patchOne, postOne: postOneEmployee, postManyForEvent } = employeeHook()
+const { postOne: postOneAddress, patchOne: patchOneAddress } = addressHook()
 const router = useRouter()
 
 const schema = object({
@@ -114,6 +169,11 @@ const schema = object({
   lastName: string().required('Le nom est requis'),
   phone: string().required('Le numéro de téléphone est requis'),
   userId: number().required('L\'identifiant de l\'utilisateur est requis'),
+  addressLine: string().required('L\'adresse est requise'),
+  addressLine2: string(),
+  postalCode: string().required('Le code postal est requis'),
+  city: string().required('La ville est requise'),
+  country: string().required('Le pays est requis'),
 })
 
 const userIdField = computed(() => {
@@ -125,6 +185,8 @@ const userIdField = computed(() => {
   }
   return getCurrentUserId
 })
+
+const employeeAddress = computed(() => props.eventId ? addressStore.getOneByEventId(props.eventId) : null)
 
 const { meta } = useForm({ validationSchema: schema })
 const { errorMessage: emailError, value: email } = useField<string>('email', undefined, {
@@ -142,6 +204,22 @@ const { errorMessage: lastNameError, value: lastName } = useField<string>('lastN
 
 const { errorMessage: userIdError, value: userId, handleChange: handleNewUserId } = useField<number | null>('userId', undefined, {
   initialValue: userIdField.value,
+})
+const { errorMessage: addressLineError, value: addressLine } = useField<string>('addressLine', undefined, {
+  initialValue: employeeAddress.value ? employeeAddress.value.addressLine : '',
+})
+const { errorMessage: addressLine2Error, value: addressLine2 } = useField<string>('addressLine2', undefined, {
+  initialValue: employeeAddress.value ? employeeAddress.value.addressLine2 : '',
+})
+const { errorMessage: postalCodeError, value: postalCode } = useField<string>('postalCode', undefined, {
+  initialValue: employeeAddress.value ? employeeAddress.value.postalCode : '',
+})
+const { errorMessage: cityError, value: city } = useField<string>('city', undefined, {
+  initialValue: employeeAddress.value ? employeeAddress.value.city : '',
+})
+
+const { errorMessage: countryError, value: country } = useField<string>('country', undefined, {
+  initialValue: employeeAddress.value ? employeeAddress.value.country : 'France',
 })
 
 function onSelectUser(user: UserType) {
@@ -170,20 +248,36 @@ async function submit() {
     } else {
       if (userStore.getCurrentUserId) {
         const createdByUser = isCurrentUserAdmin ? userId.value! : userStore.getCurrentUserId
-        const employee = await postOne(employeeToPost, createdByUser)
+        const employee = await postOneEmployee(employeeToPost, createdByUser)
         if (employee) {
-          router.push({
-            name: 'admin.address.create',
-            query: {
-              employee: employee.id,
+          await postOneAddress({
+            address: {
+              addressLine: addressLine.value,
+              addressLine2: addressLine2.value,
+              postalCode: postalCode.value,
+              city: city.value,
+              country: country.value,
             },
+            employeeId: employee.id,
           })
         }
       }
     }
   } else if (props.mode === ModalModeEnum.EDIT && props.employee) {
     await patchOne(props.employee.id, { ...employeeToPost, createdByUser: props.employee.createdByUser })
+    if (employeeAddress.value) {
+      await patchOneAddress(employeeAddress.value.id, {
+        addressLine: addressLine.value,
+        addressLine2: addressLine2.value,
+        postalCode: postalCode.value,
+        city: city.value,
+        country: country.value,
+      })
+    }
   }
+  router.push({
+    name: userStore.isCurrentUserAdmin ? 'admin.employees' : 'user.employees',
+  })
   emit('submit')
   DecLoading()
 }
