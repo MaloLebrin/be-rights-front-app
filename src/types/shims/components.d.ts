@@ -7,6 +7,7 @@ declare module 'vue' {
     404: typeof import('./../../pages/404.vue')['default']
     ActionButtonTable: typeof import('./../../components/events/table/ActionButtonTable.vue')['default']
     ActionUserTable: typeof import('./../../components/users/table/ActionUserTable.vue')['default']
+    AddressDetail: typeof import('./../../components/address/AddressDetail.vue')['default']
     AddressForm: typeof import('./../../components/address/AddressForm.vue')['default']
     AdjustmentsIconOutline: typeof import('@heroicons/vue/outline/esm/AdjustmentsIcon.js')['default']
     AdminModalDeleteUser: typeof import('./../../components/modals/AdminModalDeleteUser.vue')['default']

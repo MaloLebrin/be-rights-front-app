@@ -13,7 +13,7 @@ export interface AddressType extends BaseEntity {
   lng?: number
   user?: UserType | number
   event?: EventType | number
-  employee?: EmployeeType | number
+  employeeId?: EmployeeType | number
 }
 
 export interface AddressPostPayload {

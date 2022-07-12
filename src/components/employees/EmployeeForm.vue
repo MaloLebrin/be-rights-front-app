@@ -186,7 +186,7 @@ const userIdField = computed(() => {
   return getCurrentUserId
 })
 
-const employeeAddress = computed(() => props.eventId ? addressStore.getOneByEventId(props.eventId) : null)
+const employeeAddress = computed(() => props.employee ? addressStore.getOne(props.employee.address as number) : null)
 
 const { meta } = useForm({ validationSchema: schema })
 const { errorMessage: emailError, value: email } = useField<string>('email', undefined, {

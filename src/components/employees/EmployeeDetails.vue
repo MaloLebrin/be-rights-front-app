@@ -5,7 +5,7 @@
     <div>
       <div>
         <img
-          class="object-cover w-full h-56 lg:h-64"
+          class="object-cover w-full h-56"
           :src="'https://images.unsplash.com/photo-1460132011327-1bcd44f7ae20?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8cGhvdG9ncmFwaGVyc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=900&q=60'"
           alt="Photo de couverture du destinataire"
         >
@@ -94,6 +94,54 @@
           </dd>
         </div>
       </dl>
+      <dl class="grid grid-cols-1 mt-4 gap-x-4 gap-y-8 sm:grid-cols-2">
+        <div
+          class="sm:col-span-1"
+        >
+          <dt class="text-sm font-medium text-gray-500">
+            Addresse
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            {{ employeeAddress.addressLine }}
+          </dd>
+          <dd
+            v-if="employeeAddress.addressLine2"
+            class="mt-1 text-sm text-gray-900"
+          >
+            {{ employeeAddress.addressLine2 }}
+          </dd>
+        </div>
+        <div
+          class="sm:col-span-1"
+        >
+          <dt class="text-sm font-medium text-gray-500">
+            Code postal
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            {{ employeeAddress.postalCode }}
+          </dd>
+        </div>
+        <div
+          class="sm:col-span-1"
+        >
+          <dt class="text-sm font-medium text-gray-500">
+            Ville
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            {{ employeeAddress.city }}
+          </dd>
+        </div>
+        <div
+          class="sm:col-span-1"
+        >
+          <dt class="text-sm font-medium text-gray-500">
+            Pays
+          </dt>
+          <dd class="mt-1 text-sm text-gray-900">
+            {{ employeeAddress.country }}
+          </dd>
+        </div>
+      </dl>
     </div>
 
     <div
@@ -150,9 +198,11 @@ interface Props {
 const props = defineProps<Props>()
 
 const userStore = useUserStore()
+const addressStore = useAddressStore()
 // const fileStore = useFileStore()
 const { setUiModal } = useUiStore()
 const employeeCreator = computed(() => userStore.getOne(props.employee.createdByUser as number))
+const employeeAddress = computed(() => addressStore.getOne(props.employee.address as number))
 // const creatorLogo = computed(() => fileStore.getWhereArray(file => file.createdByUser === employeeCreator.value.id && file.type === FileTypeEnum.LOGO)[0])
 
 const { getEmployeeFullname } = employeeHook()
