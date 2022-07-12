@@ -94,7 +94,10 @@
           </dd>
         </div>
       </dl>
-      <dl class="grid grid-cols-1 mt-4 gap-x-4 gap-y-8 sm:grid-cols-2">
+      <dl
+        v-if="employeeAddress"
+        class="grid grid-cols-1 mt-4 gap-x-4 gap-y-8 sm:grid-cols-2"
+      >
         <div
           class="sm:col-span-1"
         >
@@ -230,5 +233,4 @@ function deleteOneEmployee() {
     },
   })
 }
-
 </script>
