@@ -8,7 +8,7 @@
       <DarkModeToggle />
       {{ `© Be Right ${new Date().getFullYear()}` }}
     </div>
-    <div class="flex-1 py-6 bg-gray-800 dark:bg-transparent">
+    <div class="flex-1 py-6 text-center bg-gray-800 dark:bg-transparent">
       <p class="text-gray-200 uppercase lg:mt-4 md:mb-6">
         Menu
       </p>
