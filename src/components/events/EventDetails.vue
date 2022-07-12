@@ -258,7 +258,7 @@
 </template>
 
 <script setup lang="ts">
-import { ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
+import { ModalModeEnum, ModalNameEnum } from '@/types'
 
 interface Props {
   eventId: number

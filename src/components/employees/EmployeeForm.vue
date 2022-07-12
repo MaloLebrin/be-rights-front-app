@@ -137,8 +137,8 @@
 <script setup lang="ts">
 import { useField, useForm } from 'vee-validate'
 import { number, object, string } from 'yup'
-import type { EmployeeType, UserType } from '@/types/typesExported'
-import { ModalModeEnum } from '@/types/typesExported'
+import type { EmployeeType, UserType } from '@/types'
+import { ModalModeEnum } from '@/types'
 
 interface Props {
   employee?: EmployeeType | null
@@ -208,8 +208,8 @@ const { errorMessage: userIdError, value: userId, handleChange: handleNewUserId 
 const { errorMessage: addressLineError, value: addressLine } = useField<string>('addressLine', undefined, {
   initialValue: employeeAddress.value ? employeeAddress.value.addressLine : '',
 })
-const { errorMessage: addressLine2Error, value: addressLine2 } = useField<string>('addressLine2', undefined, {
-  initialValue: employeeAddress.value ? employeeAddress.value.addressLine2 : '',
+const { errorMessage: addressLine2Error, value: addressLine2 } = useField<string | null>('addressLine2', undefined, {
+  initialValue: employeeAddress.value ? employeeAddress.value.addressLine2 : null,
 })
 const { errorMessage: postalCodeError, value: postalCode } = useField<string>('postalCode', undefined, {
   initialValue: employeeAddress.value ? employeeAddress.value.postalCode : '',

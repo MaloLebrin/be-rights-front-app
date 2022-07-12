@@ -1,6 +1,5 @@
 import type { State } from '@malolebrin/pinia-entity-store'
-import type { EmployeeType, FileType } from '@/types/typesExported'
-import type { AddressType, AddressTypeCreate, BaseEntity } from '@/types'
+import type { AddressType, AddressTypeCreate, BaseEntity, EmployeeType, FileType } from '@/types'
 
 export interface IEvent extends BaseEntity {
   name: string

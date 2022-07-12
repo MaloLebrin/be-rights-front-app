@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { ModalModeEnum } from '@/types/typesExported'
+import { ModalModeEnum } from '@/types'
 
 const { params } = useRoute()
 const router = useRouter()

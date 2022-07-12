@@ -61,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import { ModalModeEnum } from '@/types/typesExported'
+import { ModalModeEnum } from '@/types'
 
 interface Props {
   mode?: ModalModeEnum | null

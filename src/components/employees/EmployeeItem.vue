@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import type { EmployeeType } from '@/types/typesExported'
+import type { EmployeeType } from '@/types'
 
 interface Props {
   employee: EmployeeType

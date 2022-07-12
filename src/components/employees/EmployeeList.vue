@@ -77,7 +77,7 @@
 
 <script setup lang="ts">
 import { alphabetical } from '@/utils/array'
-import type { EmployeeType } from '@/types/typesExported'
+import type { EmployeeType } from '@/types'
 
 const { setSearch } = useTableStore()
 const userStore = useUserStore()

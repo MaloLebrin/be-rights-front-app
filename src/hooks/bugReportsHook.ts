@@ -1,7 +1,7 @@
 import type { PaginatedResponse } from '@/helpers/api'
 import API from '@/helpers/api'
-import type { BugReportType, BugReportTypeEnum } from '@/types/typesExported'
-import { BugReportTypeTranslation } from '@/types/typesExported'
+import type { BugReportType, BugReportTypeEnum } from '@/types'
+import { BugReportTypeTranslation } from '@/types'
 
 export default function bugReportsHook() {
   const bugStore = useBugStore()

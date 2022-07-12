@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ModalModeEnum } from '@/types/typesExported'
+import { ModalModeEnum } from '@/types'
 
 const router = useRouter()
 

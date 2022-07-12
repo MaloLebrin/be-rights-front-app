@@ -1,5 +1,5 @@
 import type { State } from '@malolebrin/pinia-entity-store'
-import type { EmployeeType, EventType } from '../../types/typesExported'
+import type { EmployeeType, EventType } from '@/types'
 import type { BaseEntity } from '@/types/globals'
 
 export interface AnswerType extends BaseEntity {

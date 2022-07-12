@@ -132,9 +132,8 @@
 <script setup lang="ts">
 import { useField, useForm } from 'vee-validate'
 import { date, number, object, string } from 'yup'
-import type { EmployeeType, UserType } from '@/types/typesExported'
-import { ModalModeEnum } from '@/types/typesExported'
-import type { EventType, Period } from '@/types'
+import type { EmployeeType, EventType, Period, UserType } from '@/types'
+import { ModalModeEnum } from '@/types'
 
 interface Props {
   eventId?: number | null

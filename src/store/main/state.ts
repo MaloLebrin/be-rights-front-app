@@ -1,4 +1,4 @@
-import { ThemeEnum } from '@/types/typesExported'
+import { ThemeEnum } from '@/types'
 
 export function defaultState() {
   return {

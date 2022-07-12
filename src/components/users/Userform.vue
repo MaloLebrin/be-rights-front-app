@@ -181,8 +181,8 @@
 import { useField, useForm } from 'vee-validate'
 import { object, string } from 'yup'
 import { RoleEnum, userRolesArray } from '@/types'
-import type { SubscriptionEnum, UserType } from '@/types/typesExported'
-import { FileTypeEnum, subscriptionArray } from '@/types/typesExported'
+import type { SubscriptionEnum, UserType } from '@/types'
+import { FileTypeEnum, subscriptionArray } from '@/types'
 
 interface Props {
   id: number | null

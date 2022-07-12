@@ -46,8 +46,8 @@
 </template>
 
 <script setup lang="ts">
-import type { EventType } from '@/types/typesExported'
-import { EventStatusEnum } from '@/types/typesExported'
+import type { EventType } from '@/types'
+import { EventStatusEnum } from '@/types'
 
 interface Props {
   noEventMessage?: string

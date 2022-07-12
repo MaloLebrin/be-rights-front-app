@@ -1,6 +1,6 @@
 import type { PaginatedResponse } from '@/helpers/api'
 import API from '@/helpers/api'
-import type { AnswerType, EmployeeType, FileType } from '@/types/typesExported'
+import type { AnswerType, EmployeeType, FileType } from '@/types'
 import { isArrayOfNumbers, uniq } from '@/utils'
 
 export default function employeeHook() {

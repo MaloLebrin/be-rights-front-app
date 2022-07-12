@@ -148,8 +148,8 @@
 <script setup lang="ts">
 import { useField, useForm } from 'vee-validate'
 import { number, object, string } from 'yup'
-import type { FileType, UserType } from '@/types/typesExported'
-import { FileTypeEnum, ModalModeEnum, fileTypeArray } from '@/types/typesExported'
+import type { FileType, UserType } from '@/types'
+import { FileTypeEnum, ModalModeEnum, fileTypeArray } from '@/types'
 
 interface Props {
   mode?: ModalModeEnum

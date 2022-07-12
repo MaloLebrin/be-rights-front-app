@@ -4,7 +4,7 @@ import type { PaginatedResponse } from '@/helpers/api'
 import APi from '@/helpers/api'
 import type { Loginpayload, RegisterPayload, ThemeEnum } from '@/types'
 import { RoleEnum } from '@/types'
-import type { EmployeeType, EventType, FileType, UserType } from '@/types/typesExported'
+import type { EmployeeType, EventType, FileType, UserType } from '@/types'
 import { hasOwnProperty, isArrayOfNumbers } from '@/utils'
 
 export default function userHook() {

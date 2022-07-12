@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import type { UserType } from '@/types/typesExported'
+import type { UserType } from '@/types'
 
 interface Props {
   user: UserType
