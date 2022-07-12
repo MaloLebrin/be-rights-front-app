@@ -188,8 +188,8 @@
 </template>
 
 <script setup lang="ts">
-import type { EmployeeType } from '@/types/typesExported'
-import { ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
+import type { EmployeeType } from '@/types'
+import { ModalModeEnum, ModalNameEnum } from '@/types'
 
 interface Props {
   employee: EmployeeType

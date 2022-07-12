@@ -88,8 +88,8 @@
 </template>
 
 <script setup lang="ts">
-import type { EventType } from '@/types/typesExported'
-import { ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
+import type { EventType } from '@/types'
+import { ModalModeEnum, ModalNameEnum } from '@/types'
 
 interface Props {
   event: EventType

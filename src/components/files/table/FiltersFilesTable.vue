@@ -40,8 +40,8 @@
 </template>
 
 <script setup lang="ts">
-import type { FileTypeEnum } from '@/types/typesExported'
-import { fileTypeArray } from '@/types/typesExported'
+import type { FileTypeEnum } from '@/types'
+import { fileTypeArray } from '@/types'
 
 const { setFilters } = useTableStore()
 

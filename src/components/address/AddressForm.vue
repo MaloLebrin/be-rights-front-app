@@ -76,7 +76,7 @@
 import { useField, useForm } from 'vee-validate'
 import { object, string } from 'yup'
 import type { AddressType, AddressTypeCreate } from '@/types'
-import { ModalModeEnum } from '@/types/typesExported'
+import { ModalModeEnum } from '@/types'
 
 interface Props {
   address?: AddressType | null
@@ -102,8 +102,8 @@ const { meta } = useForm({ validationSchema: schema })
 const { errorMessage: addressLineError, value: addressLine } = useField<string>('addressLine', undefined, {
   initialValue: props.address ? props.address.addressLine : '',
 })
-const { errorMessage: addressLine2Error, value: addressLine2 } = useField<string>('addressLine2', undefined, {
-  initialValue: props.address ? props.address.addressLine2 : '',
+const { errorMessage: addressLine2Error, value: addressLine2 } = useField<string | null>('addressLine2', undefined, {
+  initialValue: props.address ? props.address.addressLine2 : null,
 })
 const { errorMessage: postalCodeError, value: postalCode } = useField<string>('postalCode', undefined, {
   initialValue: props.address ? props.address.postalCode : '',

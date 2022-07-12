@@ -1,7 +1,7 @@
 import type { PaginatedResponse } from '@/helpers/api'
 import APi from '@/helpers/api'
-import type { FileType } from '@/types/typesExported'
-import { FileTypeEnum } from '@/types/typesExported'
+import type { FileType } from '@/types'
+import { FileTypeEnum } from '@/types'
 import { hasOwnProperty } from '@/utils'
 
 export default function fileHook() {

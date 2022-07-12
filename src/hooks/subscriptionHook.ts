@@ -1,5 +1,5 @@
-import type { SubscriptionEnum } from '@/types/typesExported'
-import { SubscriptionTranslationEnum } from '@/types/typesExported'
+import type { SubscriptionEnum } from '@/types'
+import { SubscriptionTranslationEnum } from '@/types'
 
 export default function subscriptionHook() {
   function getSuscriptionTranslation(type: SubscriptionEnum) {

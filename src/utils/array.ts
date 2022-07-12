@@ -1,5 +1,5 @@
 import { getType, isNumber } from './basics'
-import type { EmployeeType, UserType } from '@/types/typesExported'
+import type { EmployeeType, UserType } from '@/types'
 
 /**
  * Returns true if `value` is an array.

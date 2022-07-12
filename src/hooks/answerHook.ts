@@ -1,5 +1,5 @@
 import API from '@/helpers/api'
-import type { AnswerType } from '@/types/typesExported'
+import type { AnswerType } from '@/types'
 
 export default function answerHook() {
   const answerStore = useAnswerStore()

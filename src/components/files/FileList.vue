@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import type { FileType } from '@/types/typesExported'
+import type { FileType } from '@/types'
 
 interface Props {
   files: FileType[]

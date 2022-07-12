@@ -50,7 +50,7 @@
 <script setup lang="ts">
 import type { PaginatedResponse } from '@/helpers/api'
 import APi from '@/helpers/api'
-import type { EmployeeType } from '@/types/typesExported'
+import type { EmployeeType } from '@/types'
 import { TagVariantsEnum } from '@/types'
 
 interface Props {

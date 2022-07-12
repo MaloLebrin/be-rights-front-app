@@ -124,8 +124,8 @@
 <script setup lang="ts">
 import { useField, useForm } from 'vee-validate'
 import { object, string } from 'yup'
-import type { BugReportTypeEnum } from '@/types/typesExported'
-import { BUGS_REPORTS_TYPE_ARRAY, FileTypeEnum } from '@/types/typesExported'
+import type { BugReportTypeEnum } from '@/types'
+import { BUGS_REPORTS_TYPE_ARRAY, FileTypeEnum } from '@/types'
 const router = useRouter()
 
 const { resetCreationForm, setCreationFormField } = useBugStore()

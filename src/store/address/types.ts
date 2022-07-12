@@ -1,5 +1,4 @@
-import type { BaseEntity } from '@/types'
-import type { EmployeeType, EventType, UserType } from '@/types/typesExported'
+import type { BaseEntity, EmployeeType, EventType, UserType } from '@/types'
 
 export interface AddressType extends BaseEntity {
   addressLine: string

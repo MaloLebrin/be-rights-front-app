@@ -38,8 +38,8 @@
 </template>
 
 <script setup lang="ts">
-import type { EventStatusEnum } from '@/types/typesExported'
-import { eventStatusArray } from '@/types/typesExported'
+import type { EventStatusEnum } from '@/types'
+import { eventStatusArray } from '@/types'
 
 const { setFilters } = useTableStore()
 

@@ -1,7 +1,7 @@
 import { createGetters } from '@malolebrin/pinia-entity-store'
 import { baseCreationForm, bugState, defaultUserState } from './state'
-import type { BugReportCreationFormType, BugReportType } from '@/types/typesExported'
-import { EntitiesEnum } from '@/types/typesExported'
+import type { BugReportCreationFormType, BugReportType } from '@/types'
+import { EntitiesEnum } from '@/types'
 
 export const useBugStore = defineStore(EntitiesEnum.BUGS_REPORTS, {
   state: () => ({

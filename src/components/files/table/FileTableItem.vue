@@ -19,8 +19,8 @@
 </template>
 
 <script setup lang="ts">
-import type { FileType } from '@/types/typesExported'
-// import { ModalModeEnum, ModalNameEnum } from '@/types/typesExported'
+import type { FileType } from '@/types'
+// import { ModalModeEnum, ModalNameEnum } from '@/types'
 
 interface Props {
   file: FileType

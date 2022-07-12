@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { EventStatusEnum } from '@/types/typesExported'
+import { EventStatusEnum } from '@/types'
 
 interface Props {
   status: EventStatusEnum

@@ -40,8 +40,8 @@
 </template>
 
 <script setup lang="ts">
-import type { SubscriptionEnum } from '@/types/typesExported'
-import { subscriptionArray } from '@/types/typesExported'
+import type { SubscriptionEnum } from '@/types'
+import { subscriptionArray } from '@/types'
 
 const { setFilters } = useTableStore()
 

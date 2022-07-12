@@ -1,4 +1,4 @@
-import type { EmployeeType, EventType, FileType, SubscriptionEnum } from '@/types/typesExported'
+import type { EmployeeType, EventType, FileType, SubscriptionEnum } from '@/types'
 import type { BaseEntity } from '@/types/globals'
 import type { RoleEnum } from '@/types/Roles'
 

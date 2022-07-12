@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { FileTypeEnum } from '@/types/typesExported'
+import { FileTypeEnum } from '@/types'
 
 interface Props {
   type: FileTypeEnum
