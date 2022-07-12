@@ -23,3 +23,5 @@ export enum ThemeEnum {
   LIGHT = 'light',
   DARK = 'dark',
 }
+
+export type VeeValidateValues = Record<string, any>
