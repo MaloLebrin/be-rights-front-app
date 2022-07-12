@@ -1,9 +1,13 @@
 <template>
 <transition name="fade">
-  <div
+  <Form
+    v-slot="{ meta, isSubmitting }"
+    :validation-schema="schema"
+    :initial-values="initialValues"
     class="container flex justify-center min-h-screen px-8 py-8 mx-auto mt-32"
+    @submit="onSubmit"
   >
-    <div class="flex flex-col max-w-lg space-x-12 space-y-12">
+    <div class="flex flex-col space-y-12 text-center">
       <div class="mb-26">
         <SimpleLogo />
         <h1 class="text-black dark:text-white">
@@ -11,16 +15,13 @@
         </h1>
       </div>
 
-      <div class="space-y-4">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Adress email&nbsp;:</label>
-        <BaseInput
-          v-model="email"
-          type="email"
-          :error="emailError"
-        />
-      </div>
+      <BaseInput
+        label="Adresse email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        is-required
+      />
 
       <FormApiMessage
         :message="state.successMessage"
@@ -30,9 +31,9 @@
 
       <div class="flex flex-col items-center justify-center space-y-6">
         <BaseButton
-          :disabled="!meta.valid || !meta.dirty"
-          :is-loading="uiStore.getUIIsLoading"
-          @click="onSubmit"
+          :disabled="!meta.valid || !meta.dirty || isSubmitting"
+          :is-loading="uiStore.getUIIsLoading || isSubmitting"
+          type="submit"
         >
           Réinitialiser le mot de passe
         </BaseButton>
@@ -50,14 +51,14 @@
         </router-link>
       </div>
     </div>
-  </div>
+  </Form>
 </transition>
 </template>
 
 <script setup lang="ts">
-import { useField, useForm } from 'vee-validate'
 import { object, string } from 'yup'
 import axiosInstance from '@/axios.config'
+import type { VeeValidateValues } from '@/types'
 
 const { IncLoading, DecLoading } = useUiStore()
 const uiStore = useUiStore()
@@ -67,8 +68,7 @@ const schema = object({
   email: string().email('vous devez entrer in email valide').required('L\'adresse email est requise'),
 })
 
-const { meta } = useForm({ validationSchema: schema })
-const { errorMessage: emailError, value: email } = useField<string>('email')
+const initialValues = { email: '' }
 
 interface State {
   submissionErrors: string[]
@@ -87,11 +87,11 @@ function resetState() {
   state.isSuccess = false
 }
 
-async function onSubmit() {
+async function onSubmit(form: VeeValidateValues) {
   IncLoading()
   resetState()
   try {
-    const res = await axiosInstance.post('auth/forgot-password', { email: email.value })
+    const res = await axiosInstance.post('auth/forgot-password', form)
     const response = res.data as any
     if (response.isSuccess) {
       state.isSuccess = true
