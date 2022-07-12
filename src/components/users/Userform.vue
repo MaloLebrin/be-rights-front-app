@@ -1,10 +1,14 @@
 <template>
-<form
-  v-if="user"
-  class="space-y-10"
->
+<div class="space-y-10">
   <!-- Profile section -->
-  <div class="px-4 py-6 shadow sm:p-6 lg:pb-8 sm:rounded-lg">
+  <Form
+    v-if="user"
+    v-slot="{ meta, isSubmitting, values }"
+    :validation-schema="schema"
+    :initial-values="initialValues"
+    class="px-4 py-6 shadow sm:p-6 lg:pb-8 sm:rounded-lg"
+    @submit="submit"
+  >
     <h2 class="text-xl font-semibold leading-6 text-gray-900">
       Votre Profile
     </h2>
@@ -12,23 +16,22 @@
     <div class="flex flex-col mt-6 lg:flex-row">
       <div class="grid flex-grow grid-cols-1 gap-4 md:grid-cols-2">
         <div class="space-y-2">
-          <label
-            for="firstName"
-            class="block text-sm font-medium text-gray-700 dark:text-white-break"
-          >Prénom</label>
           <BaseInput
-            v-model="firstName"
-            :error="firstNameError"
+            class="col-span-2"
+            label="Prénom"
+            name="firstName"
+            type="text"
+            autocomplete="firstName"
+            is-required
           />
         </div>
         <div class="space-y-2">
-          <label
-            for="lastName"
-            class="block text-sm font-medium text-gray-700 dark:text-white-break"
-          >Nom</label>
           <BaseInput
-            v-model="lastName"
-            :error="lastNameError"
+            label="Nom"
+            name="lastName"
+            type="text"
+            autocomplete="lastName"
+            is-required
           />
         </div>
       </div>
@@ -58,35 +61,30 @@
     </div>
 
     <div class="grid grid-cols-12 gap-6 mt-6">
-      <div class="col-span-12 space-y-2 sm:col-span-6">
-        <label
-          for="email"
-          class="block text-sm font-medium text-gray-700 dark:text-white-break"
-        >Votre addresse email</label>
+      <div class="col-span-12 sm:col-span-6">
         <BaseInput
-          v-model="email"
+          label="Adresse email"
+          name="email"
           type="email"
-          :error="emailError"
+          autocomplete="email"
+          is-required
         />
       </div>
-      <div class="col-span-12 space-y-2 sm:col-span-6">
-        <label
-          for="first-name"
-          class="block text-sm font-medium text-gray-700 dark:text-white-break"
-        >Nom de l'entreprise</label>
+      <div class="col-span-12 sm:col-span-6">
         <BaseInput
-          v-model="companyName"
-          :error="companyNameError"
+          label="Nom de l'entreprise"
+          name="companyName"
+          type="text"
+          autocomplete="companyName"
+          is-required
         />
       </div>
 
-      <div class="col-span-12 space-y-2 sm:col-span-6">
-        <label
-          class="block text-sm font-medium text-gray-700 dark:text-white-break"
-        >N° Siret&nbsp;*&nbsp;:</label>
+      <div class="col-span-12 sm:col-span-6">
         <BaseInput
-          v-model="siret"
-          :error="siretError"
+          label="N° Siret"
+          name="siret"
+          autocomplete="siret"
         />
       </div>
 
@@ -94,48 +92,49 @@
 
       <div
         v-if="userStore.isCurrentUserAdmin"
-        class="col-span-12 space-y-2 sm:col-span-6"
+        class="col-span-12 sm:col-span-6"
       >
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Role utilisateur&nbsp;*&nbsp;:</label>
-        <Select
-          :options="userRolesArray"
-          :default="roles ? roles : 'Sélectionnez un Role'"
-          @selected="handleRoleUser"
-        />
-        <div
-          v-if="rolesError?.length"
-          class="text-sm text-red-500"
+        <BaseSelect
+          label="Role utilisateur"
+          name="roles"
+          placeholder="Choisissez un rôle"
+          :display-value="getRoleTranslation(values.roles)"
+          is-required
         >
-          {{ rolesError }}
-        </div>
+          <BaseOption
+            v-for="role in userRolesArray"
+            :key="role"
+            :value="role"
+            :name="getRoleTranslation(role)"
+          />
+        </BaseSelect>
       </div>
       <div
         v-if="userStore.isCurrentUserAdmin"
         class="col-span-12 space-y-2 sm:col-span-6"
       >
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Abonnement&nbsp;*&nbsp;:</label>
-        <Select
-          :options="subscriptionArray"
-          :default="subscription ? subscription : 'Sélectionnez un Abonnement'"
-          @selected="handleSubscription"
-        />
-        <div
-          v-if="subscriptionError?.length"
-          class="text-sm text-red-500"
+        <BaseSelect
+          label="Abonnement"
+          name="subscription"
+          placeholder="Choisissez un abonnement"
+          :display-value="getSuscriptionTranslation(values.subscription)"
+          is-required
         >
-          {{ subscriptionError }}
-        </div>
+          <BaseOption
+            v-for="subscription in subscriptionArray"
+            :key="subscription"
+            :value="subscription"
+            :name="getSuscriptionTranslation(subscription)"
+          />
+        </BaseSelect>
       </div>
     </div>
 
     <div class="flex items-center justify-center w-full mt-12">
       <BaseButton
-        :disabled="!meta.valid || !meta.dirty"
-        @click.prevent="submit"
+        :disabled="!meta.valid || !meta.dirty || isSubmitting"
+        :is-loading="uiStore.getUIIsLoading || isSubmitting"
+        type="submit"
       >
         <template #icon>
           <SaveIconOutline />
@@ -143,46 +142,45 @@
         Enregistrer
       </BaseButton>
     </div>
+  </Form>
+</div>
+
+<div class="relative px-4 py-5 mt-4 space-y-12 shadow rounded-2xl sm:rounded-lg">
+  <div class="flex items-center">
+    <h5 class="px-6 py-4 text-xl font-medium">
+      Votre logo
+    </h5>
+    <ArrowCircleDownIconOutline class="w-6 h-6 text-gray-600" />
   </div>
 
-  <div class="relative px-4 py-5 space-y-12 shadow rounded-2xl sm:rounded-lg">
-    <div class="flex items-center">
-      <h5 class="px-6 py-4 text-xl font-medium">
-        Votre logo
-      </h5>
-      <ArrowCircleDownIconOutline class="w-6 h-6 text-gray-600" />
+  <div class="px-6 py-4 space-y-12">
+    <div>
+      <InputFile
+        message="Sélectionnez votre logo"
+        :url="userLogoUrl"
+        @uploadFile="uploadFile"
+      />
     </div>
-
-    <div class="px-6 py-4 space-y-12">
-      <div>
-        <InputFile
-          message="Sélectionnez votre logo"
-          :url="userLogoUrl"
-          @uploadFile="uploadFile"
-        />
-      </div>
-      <div class="flex items-center justify-center">
-        <BaseButton
-          :disabled="!file"
-          @click="submitFile"
-        >
-          <template #icon>
-            <SaveIconOutline />
-          </template>
-          Enregistrer le Logo
-        </BaseButton>
-      </div>
+    <div class="flex items-center justify-center">
+      <BaseButton
+        :disabled="!file || uiStore.getUIIsLoading"
+        :is-loading="uiStore.getUIIsLoading"
+        @click="submitFile"
+      >
+        <template #icon>
+          <SaveIconOutline />
+        </template>
+        Enregistrer le Logo
+      </BaseButton>
     </div>
   </div>
-</form>
+</div>
 </template>
 
 <script setup lang="ts">
-import { useField, useForm } from 'vee-validate'
 import { object, string } from 'yup'
-import { RoleEnum, userRolesArray } from '@/types'
-import type { SubscriptionEnum, UserType } from '@/types'
-import { FileTypeEnum, subscriptionArray } from '@/types'
+import { FileTypeEnum, RoleEnum, subscriptionArray, userRolesArray } from '@/types'
+import type { UserType, VeeValidateValues } from '@/types'
 
 interface Props {
   id: number | null
@@ -192,10 +190,13 @@ const props = withDefaults(defineProps<Props>(), {
   id: null,
 })
 
+const router = useRouter()
 const userStore = useUserStore()
-const { IncLoading, DecLoading } = useUiStore()
+const uiStore = useUiStore()
+const { IncLoading, DecLoading } = uiStore
 const fileStore = useFileStore()
-const { patchOne } = userHook()
+const { patchOne, getRoleTranslation } = userHook()
+const { getSuscriptionTranslation } = subscriptionHook()
 const { postLogo } = fileHook()
 
 const user = computed(() => {
@@ -215,32 +216,19 @@ const schema = object({
   firstName: string().required('Le prenom est requis'),
   lastName: string().required('Le nom est requis'),
   siret: string().nullable().label('N° Siret'),
-  roles: string().required('le role est requis'),
-  subscription: string().required('L\'abonnement est requis'),
+  roles: string().oneOf(userRolesArray).required('le role est requis'),
+  subscription: string().oneOf(subscriptionArray).required('L\'abonnement est requis'),
 })
 
-const { meta } = useForm({ validationSchema: schema })
-const { errorMessage: emailError, value: email } = useField<string>('email', undefined, {
-  initialValue: user.value ? user.value.email : '',
-})
-const { errorMessage: siretError, value: siret } = useField<string>('siret', undefined, {
-  initialValue: user.value ? user.value.siret : '',
-})
-const { errorMessage: companyNameError, value: companyName } = useField<string>('companyName', undefined, {
-  initialValue: user.value ? user.value.companyName : '',
-})
-const { errorMessage: firstNameError, value: firstName } = useField<string>('firstName', undefined, {
-  initialValue: user.value ? user.value.firstName : '',
-})
-const { errorMessage: lastNameError, value: lastName } = useField<string>('lastName', undefined, {
-  initialValue: user.value ? user.value.lastName : '',
-})
-const { value: roles, errorMessage: rolesError, handleChange: handleRoleUser } = useField<RoleEnum>('roles', undefined, {
-  initialValue: user.value ? user.value.roles : RoleEnum.USER,
-})
-const { value: subscription, errorMessage: subscriptionError, handleChange: handleSubscription } = useField<SubscriptionEnum | null>('subscription', undefined, {
-  initialValue: user.value ? user.value.subscription : null,
-})
+const initialValues = {
+  companyName: user.value?.companyName || '',
+  email: user.value?.email || '',
+  firstName: user.value?.firstName || '',
+  lastName: user.value?.lastName || '',
+  siret: user.value?.siret || '',
+  roles: user.value?.roles || RoleEnum.USER,
+  subscription: user.value?.subscription || null,
+}
 
 function uploadFile(fileUploaded: File) {
   // TODO how to post/patch a file base64
@@ -249,24 +237,24 @@ function uploadFile(fileUploaded: File) {
   file.value = formData
 }
 
-async function submit() {
+async function submit(form: VeeValidateValues) {
   IncLoading()
   if (props.id) {
     const payload = {
       ...user.value,
-      companyName: companyName.value,
-      email: email.value,
-      firstName: firstName.value,
-      lastName: lastName.value,
-      siret: siret.value,
-      roles: roles.value,
-      subscription: subscription.value!,
+      ...form,
     }
     delete payload.profilePicture
     delete payload.events
     delete payload.employee
     delete payload.files
     await patchOne(props.id, payload as UserType)
+    router.push({
+      name: userStore.isCurrentUserAdmin ? 'admin.users.show' : 'user.account',
+      params: {
+        userId: props.id,
+      },
+    })
   }
   DecLoading()
 }
