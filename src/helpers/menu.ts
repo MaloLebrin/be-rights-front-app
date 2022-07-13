@@ -1,4 +1,5 @@
 import {
+  ChartSquareBarIcon,
   ExclamationCircleIcon,
   FolderAddIcon,
   FolderOpenIcon,
@@ -37,6 +38,12 @@ export const MENU_ITEMS = [
     label: 'Bugs et Problèmes',
     icon: ExclamationCircleIcon,
     linkName: 'admin.bugs',
+    isAdmin: true,
+  },
+  {
+    label: 'Newsletter Statistiques',
+    icon: ChartSquareBarIcon,
+    linkName: 'admin.newsletter',
     isAdmin: true,
   },
   {

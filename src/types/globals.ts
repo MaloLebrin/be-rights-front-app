@@ -5,6 +5,7 @@ export enum EntitiesEnum {
   EMPLOYEES = 'employees',
   EVENTS = 'events',
   FILES = 'files',
+  NEWSLETTER = 'newsletter',
   PAYMENTS = 'payments',
   SUBSCRIPTIONS = 'subscriptions',
   TABLE = 'table',
