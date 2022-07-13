@@ -346,36 +346,52 @@
 
 <section
   id="Newsletter"
-  class="flex flex-col items-center py-6 mx-auto text-center dark:bg-blue-dark dark:text-white DarkModeAnimation"
+  class="flex flex-col items-center py-6 mx-auto mb-8 text-center dark:bg-blue-dark dark:text-white DarkModeAnimation"
 >
   <h3 class="my-4 text-3xl leading-tight">
     Restez informé des dernières nouveautés!
   </h3>
-  <div
+  <Form
     v-if="!isSuccess"
+    v-slot="{ meta, isSubmitting }"
+    :validation-schema="schema"
     class="flex flex-col space-y-4"
+    @submit="submit"
   >
     <BaseInput
-      v-model="email"
       type="email"
       name="email"
+      autocomplete="email"
+      is-required
       placeholder="Votre e-mail"
     />
-    <BaseButton @click="submit">
-      Commencez
+    <BaseButton
+      :disabled="!meta.valid || !meta.dirty || isSubmitting"
+      :is-loading="uiStore.getUIIsLoading || isSubmitting"
+      type="submit"
+    >
+      Rester Informé
     </BaseButton>
-  </div>
+  </Form>
 </section>
 </template>
 
 <script setup lang="ts">
+import { object, string } from 'yup'
 const { newsletterSignup } = newsletterHook()
+const uiStore = useUiStore()
+const { IncLoading, DecLoading } = uiStore
 const toast = useToast()
 
 const email = ref('')
 const isSuccess = ref(false)
 
+const schema = object({
+  email: string().email('vous devez entrer in email valide').required('L\'adresse email est requise'),
+})
+
 async function submit() {
+  IncLoading()
   await newsletterSignup({
     email: email.value,
     firstName: null,
@@ -384,6 +400,7 @@ async function submit() {
   })
   isSuccess.value = true
   toast.success('Merci pour votre inscription!')
+  DecLoading()
 }
 
 </script>

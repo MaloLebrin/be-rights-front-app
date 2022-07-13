@@ -10,18 +10,17 @@ export default function newsletterHook() {
     lastName,
     companyName,
   }:
-  {
-    email: string
-    firstName: string | null
-    lastName: string | null
-    companyName: string | null
-  }) {
+    {
+      email: string
+      firstName: string | null
+      lastName: string | null
+      companyName: string | null
+    }) {
     IncLoading()
     try {
-      const res = await axiosInstance.post('createOnenewsletter', { email, firstName, lastName, companyName })
+      const res = await axiosInstance.post('newsletter/', { email, firstName, lastName, companyName })
 
       if (res.status === 200) {
-        toast.success('Votre inscription a bien été prise en compte')
         DecLoading()
         return res.status
       }
