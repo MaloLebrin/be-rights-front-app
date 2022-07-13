@@ -373,27 +373,33 @@
       Rester Informé
     </BaseButton>
   </Form>
+  <BaseMessage
+    v-else
+    type="success"
+  >
+    Merci pour votre inscription!
+  </BaseMessage>
 </section>
 </template>
 
 <script setup lang="ts">
 import { object, string } from 'yup'
+import type { VeeValidateValues } from '@/types'
 const { newsletterSignup } = newsletterHook()
 const uiStore = useUiStore()
 const { IncLoading, DecLoading } = uiStore
 const toast = useToast()
 
-const email = ref('')
 const isSuccess = ref(false)
 
 const schema = object({
   email: string().email('vous devez entrer in email valide').required('L\'adresse email est requise'),
 })
 
-async function submit() {
+async function submit(form: VeeValidateValues) {
   IncLoading()
   await newsletterSignup({
-    email: email.value,
+    email: form.email,
     firstName: null,
     lastName: null,
     companyName: null,

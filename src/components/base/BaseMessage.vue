@@ -1,23 +1,23 @@
 <template>
 <div
-  class="flex px-10 py-8 border-2 rounded-lg"
+  class="flex px-10 py-6 border-2 rounded-lg"
   :class="colorClasses"
 >
   <InformationCircleIconOutline
     v-if="type === 'default'"
-    class="w-8 h-8 mr-8 text-blue-500"
+    class="w-6 h-6 mr-4 text-blue-500"
   />
   <ExclamationIconOutline
     v-if="type === 'warning'"
-    class="w-8 h-8 mr-8 text-orange-500"
+    class="w-6 h-6 mr-4 text-orange-500"
   />
   <XCircleIconOutline
     v-if="type === 'danger'"
-    class="w-8 h-8 mr-8 text-red-500"
+    class="w-6 h-6 mr-4 text-red-500"
   />
   <CheckCircleIconOutline
     v-if="type === 'success'"
-    class="w-8 h-8 mr-8 text-green-500"
+    class="w-6 h-6 mr-4 text-green-500"
   />
   <slot />
 </div>

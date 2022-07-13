@@ -75,6 +75,7 @@ declare global {
   const useEventStore: typeof import('@/store/event/eventStore')['useEventStore']
   const useFileStore: typeof import('@/store/file/fileStore')['useFileStore']
   const useMainStore: typeof import('@/store/main/mainStore')['useMainStore']
+  const useNewsletterStore: typeof import('@/store/newsletter/newsletterStore')['useNewsletterStore']
   const userHook: typeof import('@/hooks/userHook')['default']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
