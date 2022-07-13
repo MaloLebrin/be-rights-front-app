@@ -30,7 +30,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@headlessui/vue": "^1.5.0",
+    "@headlessui/vue": "^1.6.7",
     "@heroicons/vue": "^1.0.6",
     "@malolebrin/pinia-entity-store": "^0.1.8",
     "@popperjs/core": "^2.11.0",
