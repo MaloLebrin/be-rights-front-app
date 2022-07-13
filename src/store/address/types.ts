@@ -2,7 +2,7 @@ import type { BaseEntity, EmployeeType, EventType, UserType } from '@/types'
 
 export interface AddressType extends BaseEntity {
   addressLine: string
-  addressLine2: string | null
+  addressLine2?: string | null
   postalCode: string
   city: string
   subdivision?: string // Code ISO des régions (pour la France)

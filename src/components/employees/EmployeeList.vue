@@ -26,6 +26,7 @@
           <BaseInput
             v-model="state.search"
             type="text"
+            name="search"
             placeholder="Recherchez"
             @keyup="searchEntity($event)"
           />

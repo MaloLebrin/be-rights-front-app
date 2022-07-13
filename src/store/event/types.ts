@@ -3,7 +3,7 @@ import type { AddressType, AddressTypeCreate, BaseEntity, EmployeeType, FileType
 
 export interface IEvent extends BaseEntity {
   name: string
-  description: string
+  description?: string | null
   start: Date
   end: Date
   status: EventStatusEnum

@@ -120,7 +120,7 @@ export default function employeeHook() {
         finalUrl += `${url}`
       }
 
-      const res = await api.get(`${finalUrl}&withDeleted=true`)
+      const res = await api.get(`${finalUrl}`)
       const { data }: PaginatedResponse<EmployeeType> = res
       storeEmployeeRelationsEntities(data)
     } catch (error) {
@@ -198,9 +198,9 @@ export default function employeeHook() {
 
   function getEmployeeFullname(employee: EmployeeType): string {
     let str = ''
-    if (employee.firstName)
+    if (employee?.firstName)
       str += employee.firstName
-    if (employee.lastName)
+    if (employee?.lastName)
       str += ` ${employee.lastName}`
     return str
   }
