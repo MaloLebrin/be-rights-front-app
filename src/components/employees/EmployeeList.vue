@@ -2,7 +2,7 @@
 <div class="relative z-0 flex flex-col flex-1 overflow-hidden md:flex-row">
   <EmployeeDetails
     v-if="!state.isLoading && state.activeEmployee"
-    :employee="state.activeEmployee"
+    :employee="activeEmployee"
   />
   <BaseLoader
     v-else
@@ -16,7 +16,6 @@
       </h2>
       <form
         class="flex mt-6 space-x-4"
-        action="#"
       >
         <div class="flex-1 min-w-0">
           <label
@@ -26,6 +25,7 @@
           <BaseInput
             v-model="state.search"
             type="text"
+            name="employee"
             placeholder="Recherchez"
             @keyup="searchEntity($event)"
           />
@@ -55,7 +55,7 @@
               v-for="employee in alphabeticalAmployeeList[letter]"
               :key="employee.id"
               :employee="employee"
-              :class="{ 'bg-gray-100' : employee.id === state.activeEmployee.id }"
+              :class="{ 'bg-gray-100' : employee.id === state.activeEmployee }"
               @click="setActiveEmployee(employee)"
             />
           </ul>
@@ -89,7 +89,14 @@ const state = reactive({
   search: '',
   timeout: 0,
   isLoading: false,
-  activeEmployee: employees.value[0] || null,
+  activeEmployee: employees.value[0].id || null,
+})
+
+const activeEmployee = computed(() => {
+  if (state.activeEmployee) {
+    return employeeStore.getOne(state.activeEmployee)
+  }
+  return null
 })
 
 const alphabeticalAmployeeList = computed(() => {
@@ -113,7 +120,7 @@ function searchEntity(event: KeyboardEvent) {
 
 function setActiveEmployee(employee: EmployeeType) {
   state.isLoading = true
-  state.activeEmployee = employee
+  state.activeEmployee = employee.id
   state.isLoading = false
 }
 </script>

@@ -19,4 +19,6 @@ export interface EmployeeType extends BaseEntity {
 
 export type EmployeeFormType = Omit<EmployeeType, 'id' | 'createdAt' | 'updatedAt' | 'files' | 'answers'>
 
+export type EmployeeTypeOmitRelations = Omit<EmployeeType, 'createdAt' | 'updatedAt' | 'files' | 'answers' | 'address' | 'event' | 'createdByUser'>
+
 export interface EmployeeState extends State<EmployeeType> { }

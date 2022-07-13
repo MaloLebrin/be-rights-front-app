@@ -1,139 +1,147 @@
 <template>
-<form class="grid w-full h-full grid-cols-1 gap-6 mt-4 md:gap-12 md:grid-cols-3">
-  <div class="space-y-2 md:col-span-3">
-    <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Nom de l'événement&nbsp;*&nbsp;:</label>
+<Form
+  v-slot="{ meta, isSubmitting, values }"
+  :validation-schema="schema"
+  :initial-values="initialValues"
+  class="grid w-full h-full grid-cols-1 gap-6 mt-4 md:gap-12 md:grid-cols-3 mb-36"
+  @submit="submit"
+>
+  <div class="col-span-2 space-y-2 md:col-span-3">
     <BaseInput
-      id="name"
-      v-model="name"
-      type="text"
-      :error="nameError"
+      label="Nom de l'événement"
+      name="name"
+      autocomplete="name"
+      is-required
     />
   </div>
 
   <div class="space-y-2">
-    <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Dates de
-      l'événement&nbsp;*&nbsp;:</label>
-    <v-date-picker
-      v-model="period"
-      mode="dateTime"
-      :is-dark="mainStore.isDarkTheme"
-      is-range
-      is24hr
-      is-expanded
-    />
-    <p v-if="datesError?.length">
-      {{ datesError }}
-    </p>
+    <label class="block mb-2 text-sm font-bold text-blue dark:text-gray-100">
+      Dates de l'événement&nbsp;*&nbsp;:
+    </label>
+    <Field
+      v-slot="{ field }"
+      name="period"
+    >
+      <v-date-picker
+        v-model="values.period"
+        v-bind="field"
+        color="purple"
+        is-required
+        locale="fr"
+        mode="dateTime"
+        :is-dark="mainStore.isDarkTheme"
+        is-range
+        is24hr
+        is-expanded
+      />
+    </Field>
+    <ErrorMessage name="period" />
   </div>
 
   <BaseTextarea
-    v-model="description"
     class="md:col-span-2"
     label="Description de l'événement"
-    :error="descriptionError"
+    name="description"
+    autocomplete="description"
+  />
+
+  <div class="col-span-3">
+    <BaseInput
+      label="Adresse"
+      name="addressLine"
+      autocomplete="addressLine"
+      is-required
+    />
+  </div>
+
+  <div class="col-span-3">
+    <BaseInput
+      label="Complément d'adresse"
+      name="addressLine2"
+      autocomplete="addressLine"
+    />
+  </div>
+
+  <BaseInput
+    label="Code postal"
+    name="postalCode"
+    autocomplete="postalCode"
     is-required
   />
 
-  <div class="col-span-3 space-y-2">
-    <label
-      class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-    >Adresse&nbsp;*&nbsp;:</label>
-    <BaseInput
-      id="addressLine"
-      v-model="addressLine"
-      type="text"
-      :error="addressLineError"
-    />
-  </div>
+  <BaseInput
+    label="Ville"
+    name="city"
+    autocomplete="city"
+    is-required
+  />
 
-  <div class="col-span-3 space-y-2">
-    <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Addresse complément&nbsp;:</label>
-    <BaseInput
-      id="addressLine2"
-      v-model="addressLine2"
-      type="text"
-      :error="addressLine2Error"
-    />
-  </div>
-
-  <div class="space-y-2">
-    <label
-      class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-    >Code postal&nbsp;*&nbsp;:</label>
-    <BaseInput
-      id="postalCode"
-      v-model="postalCode"
-      :error="postalCodeError"
-    />
-  </div>
-
-  <div class="space-y-2">
-    <label
-      class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-    >Ville&nbsp;*&nbsp;:</label>
-    <BaseInput
-      id="city"
-      v-model="city"
-      :error="cityError"
-    />
-  </div>
-  <div class="space-y-2">
-    <label
-      class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-    >Pays&nbsp;*&nbsp;:</label>
-    <BaseInput
-      id="country"
-      v-model="country"
-      :error="countryError"
-    />
-  </div>
+  <BaseInput
+    label="Pays"
+    name="country"
+    autocomplete="country"
+    is-required
+  />
 
   <div
     v-if="userStore.isCurrentUserAdmin && mode !== ModalModeEnum.EDIT"
     class="space-y-2 md:col-span-3"
   >
-    <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Id de l'utilisateur&nbsp;*&nbsp;:</label>
-    <InputSearchSelect
-      base-url="user"
-      @selected="onSelectedUser"
+    <UserSearchInput
+      label="Choix de l'utilisateur"
+      name="userId"
+      value-key="id"
+      placeholder="Choisissez un utilisateur"
+      is-required
     />
-    <p v-if="userIdError?.length">
-      {{ userIdError }}
-    </p>
   </div>
 
-  <div class="space-y-2 md:col-span-3">
-    <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Destinataires&nbsp;*&nbsp;:</label>
-    <InputSearchSelect
-      :base-url="userStore.isCurrentUserAdmin ? 'employee' : `employee?filters[createdByUser]=${userStore.getCurrentUserId}`"
-      is-multiple
-      :default-value="eventEmployees"
-      @selected="handleEmployee"
+  <template v-if="!userStore.isCurrentUserAdmin && userStore.getCurrentUserId">
+    <BaseMultipleSelect
+      :values="employeeStore.getEmployeesByUserId(userStore.getCurrentUserId)"
+      value-key="id"
+      :display-key="getEmployeeFullname"
+      label="Choix des destinataires"
+      name="employees"
+      placeholder="Choisissez des destinataires"
+      is-required
+      wrapper-classes="col-span-2 md:col-span-1"
     />
-    <p v-if="employeeError?.length">
-      {{ employeeError }}
-    </p>
-  </div>
-</form>
-
-<div class="flex items-center justify-center mt-6">
-  <BaseButton
-    :disabled="!meta.valid || !meta.dirty"
-    @click="submit"
+  </template>
+  <div
+    v-else
+    class="space-y-2 md:col-span-3"
   >
-    <template #icon>
-      <SaveIconOutline />
-    </template>
-    {{ mode === ModalModeEnum.CREATE ? 'Créer' : 'Enregistrer' }}
-  </BaseButton>
-</div>
+    <EmployeeSearchInput
+      label="Choix de destinataires"
+      name="employees"
+      value-key="id"
+      placeholder="Choisissez un destinataires"
+      is-required
+    />
+  </div>
+
+  <div class="flex items-center justify-center mt-6 md:col-span-3">
+    <BaseButton
+      :disabled="!meta.valid || !meta.dirty"
+      :is-loading="uiStore.getUIIsLoading || isSubmitting"
+      type="submit"
+    >
+      <template #icon>
+        <SaveIconOutline />
+      </template>
+      {{ mode === ModalModeEnum.CREATE ? 'Créer' : 'Enregistrer' }}
+    </BaseButton>
+  </div>
+</Form>
 </template>
 
 <script setup lang="ts">
-import { useField, useForm } from 'vee-validate'
-import { date, number, object, string } from 'yup'
-import type { EmployeeType, EventType, Period, UserType } from '@/types'
+import type { InferType } from 'yup'
+import { array, date, number, object, string } from 'yup'
 import { ModalModeEnum } from '@/types'
+import type { EventType, VeeValidateValues } from '@/types'
 
 interface Props {
   eventId?: number | null
@@ -154,12 +162,14 @@ const userStore = useUserStore()
 const uiStore = useUiStore()
 const addressStore = useAddressStore()
 const employeeStore = useEmployeeStore()
+const router = useRouter()
 
 const { IncLoading, DecLoading, resetUiModalState } = uiStore
 const { postMany: postManyAnswers } = answerHook()
 const { postOne: PostOneEvent, patchOne: patchOneEvent } = eventHook()
 const { isUserType } = userHook()
 const { postOne: postOneAddress, patchOne: patchOneAddress } = addressHook()
+const { getEmployeeFullname } = employeeHook()
 
 const event = computed(() => props.eventId ? eventStore.getOne(props.eventId) : null)
 const eventAddress = computed(() => {
@@ -173,20 +183,23 @@ const eventAddress = computed(() => {
   return null
 })
 
+interface IForm extends InferType<typeof schema> {}
+
 const schema = object({
   name: string().required('le nom de l\'événement est obligatoire'),
-  description: string(),
+  description: string().nullable(),
   period: object().shape({
     start: date().required('La date de début est obligatoire'),
     end: date().required('La date de fin est obligatoire'),
   }).required('L\'événement doit avoir une date de début et une date de fin'),
-  userId: number().required('L\'utilisateur est obligatoire'),
   addressLine: string().required('L\'adresse est requise'),
-  addressLine2: string(),
+  addressLine2: string().nullable(),
   postalCode: string().required('Le code postal est requis'),
   city: string().required('La ville est requise'),
   country: string().required('Le pays est requis'),
-
+  userId: number().required('L\'utilisateur est obligatoire'),
+  employees: array().of(number()).min(1, 'Sélectionnez au moins un destinataire')
+    .required('Les destinataires sont obligatoire'),
 })
 
 const userCreateEvent = computed(() => {
@@ -196,66 +209,44 @@ const userCreateEvent = computed(() => {
     return userStore.getCurrentUserId
   }
 })
-const eventEmployees = computed(() => props.eventId ? employeeStore.getAllByEventId(props.eventId) : [])
 
-const { meta } = useForm({ validationSchema: schema })
+const eventEmployees = computed(() => props.eventId ? employeeStore.getAllByEventId(props.eventId).map(emp => emp.id) : [])
 
-const { errorMessage: nameError, value: name } = useField<string>('name', undefined, {
-  initialValue: event.value?.name || '',
-})
-const { errorMessage: descriptionError, value: description } = useField<string>('description', undefined, {
-  initialValue: event.value?.description || '',
-})
-const { errorMessage: datesError, value: period } = useField<Period>('period', undefined, {
-  initialValue: event.value ? { start: event.value.start, end: event.value.end } : { start: new Date(), end: new Date() },
-})
-const { errorMessage: userIdError, value: userId, handleChange: handleUserId } = useField<number | null>('userId', undefined, {
-  initialValue: userCreateEvent.value,
-})
-const { errorMessage: employeeError, value: employees, handleChange: handleEmployee } = useField<EmployeeType[] | null>('employees', undefined, {
-  initialValue: event.value ? eventEmployees.value : [],
-})
-
-const { errorMessage: addressLineError, value: addressLine } = useField<string>('addressLine', undefined, {
-  initialValue: eventAddress.value ? eventAddress.value.addressLine : '',
-})
-const { errorMessage: addressLine2Error, value: addressLine2 } = useField<string | null>('addressLine2', undefined, {
-  initialValue: eventAddress.value ? eventAddress.value.addressLine2 : null,
-})
-const { errorMessage: postalCodeError, value: postalCode } = useField<string>('postalCode', undefined, {
-  initialValue: eventAddress.value ? eventAddress.value.postalCode : '',
-})
-const { errorMessage: cityError, value: city } = useField<string>('city', undefined, {
-  initialValue: eventAddress.value ? eventAddress.value.city : '',
-})
-
-const { errorMessage: countryError, value: country } = useField<string>('country', undefined, {
-  initialValue: eventAddress.value ? eventAddress.value.country : 'France',
-})
-
-function onSelectedUser(user: UserType) {
-  handleUserId(user.id)
+const initialValues = {
+  name: event.value?.name || '',
+  description: event.value?.description || null,
+  period: {
+    start: event.value?.start || new Date(),
+    end: event.value?.end || new Date(),
+  },
+  addressLine: eventAddress.value?.addressLine || '',
+  addressLine2: eventAddress.value?.addressLine2 || null,
+  postalCode: eventAddress.value?.postalCode || '',
+  city: eventAddress.value?.city || '',
+  country: eventAddress.value?.country || 'France',
+  userId: userCreateEvent.value,
+  employees: eventEmployees.value,
 }
 
-async function submit() {
+async function submit(form: VeeValidateValues) {
   IncLoading()
-
+  const formValues = form as IForm
   const payload = {
     event: {
-      name: name.value,
-      description: description.value,
-      start: period.value.start,
-      end: period.value.end,
-      createdByUser: userId.value!,
+      name: formValues.name,
+      description: formValues.description,
+      start: formValues.period.start,
+      end: formValues.period.end,
+      createdByUser: formValues.userId,
     },
   }
 
   if (props.mode === ModalModeEnum.CREATE) {
-    if (userId.value) {
-      const newEvent = await PostOneEvent(payload.event, userId.value)
+    if (formValues.userId) {
+      const newEvent = await PostOneEvent(payload.event, formValues.userId)
       if (newEvent) {
-        if (employees.value && employees.value.length > 0) {
-          const employeesIds = employees.value.map(employee => employee.id)
+        if (formValues.employees && formValues.employees.length > 0) {
+          const employeesIds = formValues.employees.filter(id => id) as number[]
           const eventId = newEvent.id
           await postManyAnswers(
             eventId,
@@ -263,17 +254,23 @@ async function submit() {
           )
           await postOneAddress({
             address: {
-              addressLine: addressLine.value,
-              addressLine2: addressLine2.value,
-              postalCode: postalCode.value,
-              city: city.value,
-              country: country.value,
+              addressLine: formValues.addressLine,
+              addressLine2: formValues.addressLine2,
+              postalCode: formValues.postalCode,
+              city: formValues.city,
+              country: formValues.country,
             },
             eventId: newEvent.id,
           })
         }
 
         emit('submitted', newEvent.id)
+        router.push({
+          name: userStore.isCurrentUserAdmin ? 'admin.events.show' : 'user.events.show',
+          params: {
+            eventId: newEvent.id,
+          },
+        })
       }
     }
   }
@@ -281,24 +278,24 @@ async function submit() {
   if (props.mode === ModalModeEnum.EDIT && props.eventId) {
     const payload = {
       ...event.value,
-      name: name.value,
-      description: description.value,
-      start: period.value.start,
-      end: period.value.end,
+      name: formValues.name,
+      description: formValues.description,
+      start: formValues.period.start,
+      end: formValues.period.end,
     }
     await patchOneEvent(payload as EventType)
     if (eventAddress.value) {
       await patchOneAddress(eventAddress.value.id, {
-        addressLine: addressLine.value,
-        addressLine2: addressLine2.value || null,
-        postalCode: postalCode.value,
-        city: city.value,
-        country: country.value,
+        addressLine: formValues.addressLine,
+        addressLine2: formValues.addressLine2,
+        postalCode: formValues.postalCode,
+        city: formValues.city,
+        country: formValues.country,
       })
     }
 
-    if (employees.value && employees.value.length > 0) {
-      const employeesIds = employees.value.map(employee => employee.id)
+    if (formValues.employees && formValues.employees.length > 0) {
+      const employeesIds = formValues.employees.filter(id => id) as number[]
       const eventId = props.eventId
       await postManyAnswers(
         eventId,
@@ -306,6 +303,12 @@ async function submit() {
       )
     }
     emit('submitted', props.eventId)
+    router.push({
+      name: userStore.isCurrentUserAdmin ? 'admin.events.show' : 'user.events.show',
+      params: {
+        eventId: props.eventId,
+      },
+    })
   }
   DecLoading()
   resetUiModalState()

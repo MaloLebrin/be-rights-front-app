@@ -1,7 +1,11 @@
 <template>
 <transition name="fade">
-  <div
+  <Form
+    v-slot="{ meta, isSubmitting }"
+    :validation-schema="schema"
+    :initial-values="initialValues"
     class="flex items-center justify-center lg:container"
+    @submit="onSubmit"
   >
     <div class="flex flex-col space-x-12 space-y-12 md:max-w-lg">
       <div class="space-y-4 mb-26">
@@ -12,24 +16,20 @@
       </div>
 
       <div class="space-y-4">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Mot de passe&nbsp;:</label>
         <BaseInput
-          v-model="password"
+          label="Mot de passe"
+          name="password"
           type="password"
-          :error="passwordError"
+          autocomplete="current-password"
+          is-required
         />
-      </div>
-      <div class="space-y-4">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Confirmation de Mot de passe&nbsp;:</label>
+
         <BaseInput
-          v-model="passwordConfirmation"
+          label="Confirmation de Mot de passe"
+          name="passwordConfirmation"
           type="password"
           autocomplete="password_confirmation"
-          :error="passwordConfirmationError"
+          is-required
         />
       </div>
 
@@ -41,21 +41,21 @@
 
       <div class="flex flex-col items-center justify-center space-y-6">
         <BaseButton
-          :disabled="!meta.valid || !meta.dirty"
-          :is-loading="uiStore.getUIIsLoading"
-          @click="onSubmit"
+          :disabled="!meta.valid || !meta.dirty || isSubmitting"
+          :is-loading="uiStore.getUIIsLoading || isSubmitting"
+          type="submit"
         >
           Réinitialiser le mot de passe
         </BaseButton>
       </div>
     </div>
-  </div>
+  </Form>
 </transition>
 </template>
 
 <script setup lang="ts">
-import { useField, useForm } from 'vee-validate'
 import { object, ref as reference, string } from 'yup'
+import type { VeeValidateValues } from '@/types'
 import axiosInstance from '@/axios.config'
 
 const { IncLoading, DecLoading } = useUiStore()
@@ -68,9 +68,10 @@ const schema = object({
   passwordConfirmation: string().oneOf([reference('password'), null], 'Les mots de passe sont différents').required('Confirmez votre nouveau mot de passe'),
 })
 
-const { meta } = useForm({ validationSchema: schema })
-const { errorMessage: passwordError, value: password } = useField<string>('password')
-const { errorMessage: passwordConfirmationError, value: passwordConfirmation } = useField<string>('passwordConfirmation')
+const initialValues = {
+  password: '',
+  passwordConfirmation: '',
+}
 
 interface State {
   submissionErrors: string[]
@@ -89,14 +90,14 @@ function resetState() {
   state.isSuccess = false
 }
 
-async function onSubmit() {
+async function onSubmit(form: VeeValidateValues) {
   IncLoading()
   resetState()
   try {
     const res = await axiosInstance.post('auth/reset-password', {
       email: query.email,
-      password: password.value,
-      password_confirmation: passwordConfirmation.value,
+      password: form.password,
+      password_confirmation: form.passwordConfirmation,
       twoFactorRecoveryCode: params.token,
     })
     const response = res.data as any

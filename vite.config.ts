@@ -76,6 +76,14 @@ export default defineConfig({
             return { importName: 'default', path: `@heroicons/vue/outline/esm/${realName}.js` }
           }
         },
+        name => {
+          if (['Form', 'Field', 'ErrorMessage', 'FieldArray'].includes(name)) {
+            return {
+              importName: name,
+              path: 'vee-validate',
+            }
+          }
+        },
       ],
       include: [/\.vue$/, /\.vue\?vue/],
       extensions: ['vue'],

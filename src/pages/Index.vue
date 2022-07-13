@@ -358,6 +358,7 @@
     <BaseInput
       v-model="email"
       type="email"
+      name="email"
       placeholder="Votre e-mail"
     />
     <BaseButton @click="submit">

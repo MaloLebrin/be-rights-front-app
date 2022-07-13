@@ -28,6 +28,7 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
     isLoggedIn: state => state.entities.current !== undefined && state.entities.current !== null,
     getCurrentUserId: state => state.entities.current?.id,
     getCurrentUser: state => state.entities.current,
+    getFirst: state => Object.values(state.entities.byId)?.length > 0 ? Object.values(state.entities.byId)[0] : null,
   },
 
 })

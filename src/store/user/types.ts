@@ -18,6 +18,7 @@ export interface UserType extends BaseEntity {
   profilePicture?: string | null
 }
 
+export type UserTypeOmitRelations = Omit<UserType, 'profilePicture' | 'createdAt' | 'updatedAt' | 'events' | 'employee' | 'files'>
 export type UserFormType = Omit<UserType, 'id' | 'createdAt' | 'updatedAt' | 'events' | 'employee' | 'files'>
 
 export enum UserSearchableFields {

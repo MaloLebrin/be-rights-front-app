@@ -1,6 +1,12 @@
 <template>
 <div class="container grid grid-cols-1 gap-4 px-8 py-8 md:container-lg md:grid-cols-2 lg:grid-cols-3">
-  <div class="flex flex-col items-center h-full lg:col-span-2">
+  <Form
+    v-slot="{ meta, isSubmitting }"
+    :validation-schema="schema"
+    :initial-values="initialValues"
+    class="flex flex-col items-center h-full lg:col-span-2"
+    @submit="submitregister"
+  >
     <div class="mt-10 mb-6">
       <h1 class="text-black dark:text-white">
         Bienvenue sur
@@ -8,93 +14,74 @@
       <SimpleLogo />
     </div>
 
-    <div class="grid grid-cols-1 gap-6 text-left md:grid-cols-2">
-      <div class="flex items-center">
-        <input
-          :id="RoleEnum.PHOTOGRAPHER"
-          v-model="roles"
-          :value="RoleEnum.PHOTOGRAPHER"
-          :name="RoleEnum.PHOTOGRAPHER"
-          type="radio"
-          class="w-4 h-4 mr-2 border-gray-300 rounded-full text-green focus:ring-green"
-        >
-        <label
-          :for="RoleEnum.PHOTOGRAPHER"
-          class="block ml-2 text-sm text-gray-900 dark:text-white"
-        >je suis un photographe ou agence de photographie</label>
-      </div>
-      <div class="flex items-center">
-        <input
-          :id="RoleEnum.COMPANY"
-          v-model="roles"
-          :value="RoleEnum.COMPANY"
-          :name="RoleEnum.COMPANY"
-          type="radio"
-          class="w-4 h-4 mr-2 border-gray-300 rounded-full text-green focus:ring-green"
-        >
-        <label
-          :for="RoleEnum.COMPANY"
-          class="block ml-2 text-sm text-gray-900 dark:text-white"
-        >je suis une enteprise ou un particulier</label>
-      </div>
+    <div class="container grid grid-cols-1 gap-6 text-left md:grid-cols-2">
+      <BaseRadio
+        :id="RoleEnum.PHOTOGRAPHER"
+        :value="RoleEnum.PHOTOGRAPHER"
+        name="roles"
+      >
+        je suis un photographe ou agence de photographie
+      </BaseRadio>
+      <BaseRadio
+        :id="RoleEnum.COMPANY"
+        :value="RoleEnum.COMPANY"
+        name="roles"
+      >
+        je suis une enteprise ou un particulier
+      </BaseRadio>
 
-      <div class="space-y-4 md:col-span-2">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Nom de l'entreprise&nbsp;*&nbsp;:</label>
+      <div class="col-span-2">
         <BaseInput
-          v-model="companyName"
+          label="Nom de l'entreprise"
+          name="companyName"
           type="text"
-          :error="companyNameError"
+          autocomplete="companyName"
+          is-required
         />
       </div>
 
-      <div class="space-y-4">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Prénom&nbsp;*&nbsp;:</label>
-        <BaseInput
-          v-model="firstName"
-          type="text"
-          :error="firstNameError"
-        />
-      </div>
+      <BaseInput
+        class="col-span-2"
+        label="Prénom"
+        name="firstName"
+        type="text"
+        autocomplete="firstName"
+        is-required
+      />
 
-      <div class="space-y-4">
-        <label class="block mb-2 text-lg font-bold text-blue dark:text-gray-100">Nom&nbsp;*&nbsp;:</label>
-        <BaseInput
-          v-model="lastName"
-          type="text"
-          :error="lastNameError"
-        />
-      </div>
+      <BaseInput
+        class="col-span-2"
+        label="Nom"
+        name="lastName"
+        type="text"
+        autocomplete="lastName"
+        is-required
+      />
 
-      <div class="space-y-4 md:col-span-2">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Adresse e-mail&nbsp;*&nbsp;:</label>
+      <div class="col-span-2 space-y-4">
         <BaseInput
-          v-model="email"
+          class="col-span-2"
+          label="Adresse email"
+          name="email"
           type="email"
-          :error="emailError"
+          autocomplete="email"
+          is-required
         />
-      </div>
 
-      <div class="space-y-4 md:col-span-2">
-        <label
-          class="block mb-2 text-lg font-bold text-blue dark:text-gray-100"
-        >Password&nbsp;*&nbsp;:</label>
         <BaseInput
-          v-model="password"
+          label="Mot de passe"
+          name="password"
           type="password"
-          :error="passwordError"
+          autocomplete="current-password"
+          is-required
         />
       </div>
 
       <div class="flex flex-col items-center justify-center space-y-4 md:col-span-2">
         <BaseButton
-          :disabled="!meta.valid || !meta.dirty"
-          @click="submitregister"
+          :disabled="!meta.valid || !meta.dirty || isSubmitting"
+          :is-loading="uiStore.getUIIsLoading || isSubmitting"
+          type="submit"
         >
           S'inscrire
         </BaseButton>
@@ -106,9 +93,9 @@
         </router-link>
       </div>
     </div>
-  </div>
+  </Form>
 
-  <div class="items-center justify-end hidden md:flex">
+  <div class="items-center hidden md:flex">
     <img
       class="hidden object-cover w-2/3 max-w-5xl shadow-2xl TranslateUpAnimation cursor-none md:block"
       src="@/assets/camera.jpg"
@@ -119,39 +106,34 @@
 </template>
 
 <script setup lang="ts">
-import { useField, useForm } from 'vee-validate'
 import { object, string } from 'yup'
+import type { RegisterPayload, VeeValidateValues } from '@/types'
 import { RoleEnum } from '@/types'
 const { register } = userHook()
-const { IncLoading, DecLoading } = useUiStore()
+const uiStore = useUiStore()
+const { IncLoading, DecLoading } = uiStore
 
 const schema = object({
-  companyName: string().required().label('Nom de l\'entreprise'),
+  companyName: string().required('L\'adresse email est requise').label('Nom de l\'entreprise'),
   email: string().email('vous devez entrer in email valide').required().label('Adresse email'),
-  password: string().required().label('Mot de passe'),
-  firstName: string().required().label('Prénom'),
-  lastName: string().required().label('Nom'),
-  roles: string().required(),
+  password: string().required('Le mot de passe est requis').label('Mot de passe'),
+  firstName: string().required('Le prénom est requis').label('Prénom'),
+  lastName: string().required('le nom est requis').label('Nom'),
+  roles: string().oneOf([RoleEnum.PHOTOGRAPHER, RoleEnum.COMPANY]),
 })
 
-const { meta } = useForm({ validationSchema: schema })
-const { errorMessage: emailError, value: email } = useField<string>('email')
-const { errorMessage: passwordError, value: password } = useField<string>('password')
-const { errorMessage: companyNameError, value: companyName } = useField<string>('companyName')
-const { errorMessage: firstNameError, value: firstName } = useField<string>('firstName')
-const { errorMessage: lastNameError, value: lastName } = useField<string>('lastName')
-const { value: roles } = useField<RoleEnum>('roles', undefined, { initialValue: RoleEnum.COMPANY })
+const initialValues = {
+  email: '',
+  companyName: '',
+  password: '',
+  firstName: '',
+  lastName: '',
+  roles: RoleEnum.COMPANY,
+}
 
-async function submitregister() {
+async function submitregister(form: VeeValidateValues) {
   IncLoading()
-  await register({
-    email: email.value,
-    password: password.value,
-    companyName: companyName.value,
-    firstName: firstName.value,
-    lastName: lastName.value,
-    roles: roles.value,
-  })
+  await register(form as RegisterPayload)
   DecLoading()
 }
 </script>

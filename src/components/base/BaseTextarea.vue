@@ -1,60 +1,73 @@
 <template>
-<div class="space-y-2">
+<Field
+  v-slot="{ field, meta, errors, handleChange, handleBlur }"
+  as="div"
+  :name="name"
+  :class="`flex flex-col text-sm w-full space-y-4 ${wrapperClasses}`"
+>
   <label
     v-if="label"
-    class="block text-lg font-bold text-blue dark:text-gray-100"
+    class="block font-bold text-blue dark:text-gray-100"
+    :for="name"
   >
-    {{ label }}
-    <span v-if="isRequired">&nbsp;*</span>
+    <!-- Don't insert a line break here, would add a space between the label and the * that we don't want -->
+    {{ label }}<span v-if="isRequired">*</span>
   </label>
   <textarea
-    v-bind="$attrs"
-    v-model="innerValue"
+    v-bind="{...field, ...$attrs }"
+    :id="name"
     :disabled="disabled"
     :aria-disabled="disabled"
     :placeholder="placeholder"
     :aria-placeholder="placeholder"
-    :class="['appearance-none block w-full h-full px-4 py-3 border rounded disabled:border-grey disabled:bg-grey-light focus:outline-none text-black border-blue hover:border-blue-dark focus:ring-2 ring-blue',
-             { 'border-red-300': error?.length },
-             { 'cursor-not-allowed': disabled },
+    :name="name"
+    :class="[
+      'w-full h-[250px] px-3 py-2 placeholder-gray-400 border shadow rounded-md',
+      'focus:ring-pink-400 focus:border-pink-400 focus:outline-none',
+      'disabled:bg-gray-100 disabled:border-gray-400',
+      getBorderClasses(errors, meta),
     ]"
+    @input="handleChange"
+    @blur="handleBlur"
   />
-  <p
-    v-if="error?.length"
-    class="text-sm text-red-500"
-  >
-    {{ error }}
-  </p>
-</div>
+  <ErrorMessage
+    :name="name"
+    class="text-red"
+  />
+</Field>
 </template>
 
 <script setup lang="ts">
+import type { FieldMeta } from 'vee-validate'
+
 interface Props {
-  modelValue: string | number | string[]
-  type?: 'email' | 'password' | 'search' | 'text' | 'tel' | 'url' | 'date' | 'textarea'
   disabled?: boolean
-  placeholder?: string
-  error?: string | null
-  label?: string | null
   isRequired?: boolean
+  label?: string
+  name: string
+  wrapperClasses?: string
+  placeholder?: string
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  modelValue: '',
-  type: 'text',
+withDefaults(defineProps<Props>(), {
   disabled: false,
-  placeholder: '',
-  error: null,
-  label: null,
   isRequired: false,
+  label: '',
+  name: '',
+  wrapperClasses: '',
+  placeholder: '',
 })
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', modelValue: string | number | string[]): void
-}>()
+function getBorderClasses(errors: string[], meta: FieldMeta<unknown>) {
+  if (errors.length > 0) {
+    return 'border-red'
+  }
 
-const innerValue = computed({
-  get: () => props.modelValue,
-  set: newValue => emit('update:modelValue', newValue),
-})
+  // Only set success if the field has been blured
+  if (meta.dirty && meta.valid) {
+    return 'border-green'
+  }
+
+  return 'border-gray-400'
+}
 </script>
