@@ -131,4 +131,14 @@ export const adminRoutes = [
       isAdmin: true,
     },
   },
+  {
+    path: '/admin/newsletter',
+    name: 'admin.newsletter',
+    component: () => import('@/pages/adminDashboard/newsletter/index.vue'),
+    meta: {
+      layout: 'AdminDashboardLayout',
+      isAuth: true,
+      isAdmin: true,
+    },
+  },
 ]
