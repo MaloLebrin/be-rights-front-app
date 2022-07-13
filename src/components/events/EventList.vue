@@ -4,6 +4,7 @@
     <div class="sm:flex-auto">
       <BaseInput
         v-model="state.search"
+        name="events"
         type="text"
         placeholder="Recherchez"
         @keyup="searchEntity($event)"

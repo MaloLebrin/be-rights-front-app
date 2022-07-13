@@ -16,7 +16,6 @@
       </h2>
       <form
         class="flex mt-6 space-x-4"
-        action="#"
       >
         <div class="flex-1 min-w-0">
           <label
@@ -26,7 +25,7 @@
           <BaseInput
             v-model="state.search"
             type="text"
-            name="search"
+            name="employee"
             placeholder="Recherchez"
             @keyup="searchEntity($event)"
           />

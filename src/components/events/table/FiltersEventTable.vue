@@ -8,16 +8,21 @@
       <RadioGroupOption
         v-for="status in eventStatusArray"
         :key="status"
-        as="template"
+        as="div"
+        :name="status"
         :value="status"
       >
-        <RadioGroupLabel as="div">
+        <RadioGroupLabel
+          as="label"
+          class="cursor-pointer"
+        >
           <EventStatusTag :status="status" />
         </RadioGroupLabel>
       </RadioGroupOption>
       <RadioGroupOption
         v-slot="{ active, checked }"
-        as="template"
+        as="div"
+        :name="null"
         value=""
       >
         <div
@@ -26,7 +31,7 @@
                    checked ? 'bg-indigo-600 border-transparent text-white hover:bg-indigo-700' : 'bg-white border-gray-200 text-gray-900 hover:bg-gray-50',
                    'border rounded-md py-2 px-2 flex items-center justify-center text-sm font-medium uppercase sm:flex-1']"
         >
-          <RadioGroupLabel as="p">
+          <RadioGroupLabel as="label">
             tout
           </RadioGroupLabel>
         </div>
