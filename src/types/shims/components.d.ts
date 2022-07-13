@@ -7,7 +7,6 @@ declare module 'vue' {
     404: typeof import('./../../pages/404.vue')['default']
     ActionButtonTable: typeof import('./../../components/events/table/ActionButtonTable.vue')['default']
     ActionUserTable: typeof import('./../../components/users/table/ActionUserTable.vue')['default']
-    AdjustmentsIconOutline: typeof import('@heroicons/vue/outline/esm/AdjustmentsIcon.js')['default']
     AdminModalDeleteUser: typeof import('./../../components/modals/AdminModalDeleteUser.vue')['default']
     BaseAccordion: typeof import('./../../components/base/BaseAccordion.vue')['default']
     BaseButton: typeof import('./../../components/base/BaseButton.vue')['default']
@@ -144,7 +143,6 @@ declare module 'vue' {
     XCircleIconOutline: typeof import('@heroicons/vue/outline/esm/XCircleIcon.js')['default']
     XCircleIconSolid: typeof import('@heroicons/vue/solid/esm/XCircleIcon.js')['default']
     XIconOutline: typeof import('@heroicons/vue/outline/esm/XIcon.js')['default']
-    XIconSolid: typeof import('@heroicons/vue/solid/esm/XIcon.js')['default']
   }
 }
 
