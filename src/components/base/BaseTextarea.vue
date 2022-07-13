@@ -1,6 +1,7 @@
 <template>
 <Field
   v-slot="{ field, meta, errors, handleChange, handleBlur }"
+  type="text"
   as="div"
   :name="name"
   :class="`flex flex-col text-sm w-full space-y-4 ${wrapperClasses}`"
@@ -14,7 +15,7 @@
     {{ label }}<span v-if="isRequired">*</span>
   </label>
   <textarea
-    v-bind="{...field, ...$attrs }"
+    v-bind="{...(field as object), ...$attrs }"
     :id="name"
     :disabled="disabled"
     :aria-disabled="disabled"

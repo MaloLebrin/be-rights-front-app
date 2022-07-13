@@ -25,7 +25,7 @@
     "dev": "vite",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "tsc": "vue-tsc --noEmit",
+    "type:check": "vue-tsc --noEmit",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview"
   },
