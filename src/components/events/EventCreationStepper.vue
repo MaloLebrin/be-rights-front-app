@@ -13,20 +13,22 @@
         :key="step.id"
         class="relative overflow-hidden lg:flex-1"
       >
-        <div :class="[stepIdx === 0 ? 'border-b-0 rounded-t-md' : '', stepIdx === steps.length - 1 ? 'border-t-0 rounded-b-md' : '', 'border border-gray-200 overflow-hidden lg:border-0']">
-          <a
-            :href="step.href"
-            class="group"
-          >
+        <div
+          :class="[
+            stepIdx === 0 ? 'border-b-0 rounded-t-md' : '',
+            stepIdx === steps.length - 1 ? 'border-t-0 rounded-b-md' : '',
+            'border border-gray-200 overflow-hidden lg:border-0']"
+        >
+          <div class="group">
             <span
               class="absolute top-0 left-0 w-1 h-full lg:w-full lg:h-1 lg:bottom-0 lg:top-auto"
-              :class="isStatusCurrent(step) ? 'bg-indigo-600': 'group-hover:bg-gray-200'"
+              :class="isStatusCurrent(stepIdx) ? 'bg-indigo-600': 'group-hover:bg-gray-200'"
               aria-hidden="true"
             />
             <span :class="[stepIdx !== 0 ? 'lg:pl-9' : '', 'px-6 py-5 flex items-start text-sm font-medium']">
               <span class="flex-shrink-0">
                 <span
-                  v-if="isStatusComplete(step)"
+                  v-if="isStatusComplete(stepIdx)"
                   class="flex items-center justify-center w-10 h-10 bg-indigo-600 rounded-full"
                 >
                   <CheckIconOutline
@@ -37,9 +39,9 @@
                 <span
                   v-else
                   class="flex items-center justify-center w-10 h-10 border-2 rounded-full"
-                  :class="isStatusCurrent(step) ? 'border-indigo-600' : 'border-gray-300'"
+                  :class="isStatusCurrent(stepIdx) ? 'border-indigo-600' : 'border-gray-300'"
                 >
-                  <span :class="isStatusCurrent(step) ? 'text-indigo-600' : 'text-gray-500'">{{ step.id }}</span>
+                  <span :class="isStatusCurrent(stepIdx) ? 'text-indigo-600' : 'text-gray-500'">{{ step.id }}</span>
                 </span>
               </span>
               <span class="mt-0.5 ml-4 min-w-0 flex flex-col">
@@ -47,7 +49,7 @@
                 <span class="text-sm font-medium text-gray-500">{{ step.description }}</span>
               </span>
             </span>
-          </a>
+          </div>
           <template v-if="stepIdx !== 0">
             <div
               class="absolute inset-0 top-0 left-0 hidden w-3 lg:block"
@@ -75,20 +77,25 @@
 </template>
 
 <script setup lang="ts">
+interface Props {
+  currentStepIndex: number
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  currentStepIndex: 0,
+})
+
 const steps = [
-  { id: '1', name: 'Nouvel évenement', description: 'Créez la date et le contenu de l\'évenement.', href: '#', status: 'complete' },
-  { id: '2', name: 'Adresse', description: 'Ajouter lui une Adresse.', href: '#', status: 'current' },
-  { id: '3', name: 'Photographe', description: 'Ajouter lui un photographe.', href: '#', status: 'upcoming' },
-  { id: '4', name: 'Destinataires', description: 'Ajouter lui une Adresse.', href: '#', status: 'upcoming' },
+  { id: '1', name: 'Nouvel évenement', description: 'Créez la date et le contenu de l\'évenement.' },
+  { id: '2', name: 'Adresse', description: 'Ajouter lui une Adresse.' },
+  { id: '3', name: 'Photographe', description: 'Ajouter lui un photographe.' },
+  { id: '4', name: 'Fin', description: 'Enregistrement de données.' },
 ]
 
-function isStatusComplete(step) {
-  return step.status === 'complete'
+function isStatusComplete(index: number) {
+  return props.currentStepIndex > index
 }
-function isStatusCurrent(step) {
-  return step.status === 'current'
+function isStatusCurrent(index: number) {
+  return props.currentStepIndex === index
 }
-// function isStatusUpcoming(step) {
-//   return step.status === 'upcoming'
-// }
 </script>
