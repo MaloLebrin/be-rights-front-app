@@ -5,7 +5,7 @@
       class="flex flex-col items-center justify-between w-full h-full py-6 mx-auto mb-6 text-black bg-white dark:text-white dark:bg-blue-dark_bold"
     >
       <SimpleLogo class="mb-10" />
-      <DarkModeToggle />
+      <!-- <DarkModeToggle /> -->
       {{ `© Be Right ${new Date().getFullYear()}` }}
     </div>
     <div class="flex-1 py-6 text-center bg-gray-800 dark:bg-transparent">

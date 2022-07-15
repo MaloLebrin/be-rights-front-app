@@ -29,13 +29,8 @@ export default function mainHook() {
     }
   }
 
-  function isProductionMode() {
-    return import.meta.env.MODE === 'production'
-  }
-
   return {
     setThemeClass,
-    isProductionMode,
     toggleTheme,
   }
 }
