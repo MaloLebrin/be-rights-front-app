@@ -10,7 +10,7 @@
         Gérez enfin le droit à l'image de vos clients facilement !
       </h1>
       <p
-        class="mb-8 text-lg leading-normal text-center md:text-2xl dark:text-gray-400"
+        class="mb-8 text-lg leading-normal text-center md:text-left md:text-2xl dark:text-gray-400"
       >
         Commencez maintenant avec un mois gratuit.
       </p>
@@ -22,9 +22,9 @@
       </button>
     </div>
     <!--Right Col-->
-    <div class="absolute inset-0 z-0 bg-transparent shadow-xl sm:z-50 sm:rounded-lg sm:block">
+    <div class="absolute inset-0 z-0 bg-transparent shadow-xl sm:z-50 sm:rounded-lg md:static">
       <img
-        class="z-0 w-full duration-300 ease-in-out transform opacity-40 sm:rounded-lg sm:z-50 sm:hover:-translate-x-1"
+        class="z-0 w-full duration-300 ease-in-out transform opacity-40 sm:opacity-100 sm:rounded-lg sm:z-50 sm:hover:-translate-x-1"
         src="@/assets/photographer.jpg"
         alt="photographer"
       >
