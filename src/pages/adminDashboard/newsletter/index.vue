@@ -46,7 +46,7 @@ onBeforeRouteLeave(() => {
   setFilters(null)
 })
 
-const newsletterArray = computed(() => Object.values(newsletterStore.entities.byId))
+const newsletterArray = computed(() => Object.values(newsletterStore.getAll))
 
 watch(() => tableStore.getFinalUrl, async newValue => {
   IncLoading()
