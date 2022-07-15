@@ -49,13 +49,17 @@
 
     <!-- Mobile menu, show/hide based on menu state. -->
     <div class="grid w-full h-full grid-cols-2 gap-4 md:hidden">
-      <div class="flex items-center justify-center flex-shrink-0">
-        <router-link to="/">
-          <div class="w-10 h-10 border-4 rounded-full border-red">
-            <div class="w-4 h-4 m-2 rounded-full bg-red-light" />
-          </div>
-        </router-link>
-      </div>
+      <router-link
+        class="flex items-center justify-center flex-shrink-0 space-x-2"
+        to="/"
+      >
+        <div class="w-10 h-10 border-4 rounded-full border-red">
+          <div class="w-4 h-4 m-2 rounded-full bg-red-light" />
+        </div>
+        <h1 class="text-xl font-bold">
+          Be Right
+        </h1>
+      </router-link>
 
       <Menu
         as="div"
