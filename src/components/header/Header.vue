@@ -31,11 +31,11 @@
                 :href="getButtonPath"
                 @click="onClickStartButton"
               >
-                {{ userStore.isLoggedIn ? 'Mon compte' : 'Commencer' }}
+                {{ userStore.getCurrent ? 'Mon compte' : 'Commencer' }}
               </BaseButton>
 
               <router-link
-                v-if="!userStore.isLoggedIn"
+                v-if="!userStore.getCurrent"
                 :to="{ name: 'login' }"
                 class="px-3 py-2 text-sm font-medium rounded-md text-blue dark:text-white dark:hover:text-red-light hover:text-red-light"
               >
@@ -142,7 +142,7 @@
 const userStore = useUserStore()
 
 const getButtonPath = computed(() => {
-  if (!userStore.isLoggedIn) {
+  if (!userStore.getCurrent) {
     return { name: 'register' }
   }
   if (userStore.isCurrentUserAdmin) {
