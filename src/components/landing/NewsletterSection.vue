@@ -1,11 +1,14 @@
 <template>
 <section
   id="Newsletter"
-  class="flex flex-col items-center py-6 mx-auto mb-8 text-center dark:bg-blue-dark dark:text-white DarkModeAnimation"
+  class="flex flex-col items-center py-6 mx-auto mb-8 space-y-4 text-center dark:bg-blue-dark dark:text-white DarkModeAnimation"
 >
-  <h3 class="my-4 text-3xl leading-tight">
+  <h3 class="text-3xl leading-tight">
     Restez informé des dernières nouveautés!
   </h3>
+  <h4 class="text-gray-500">
+    Vous serez prévenu de la sortie de Be Right
+  </h4>
   <Form
     v-if="!isSuccess"
     v-slot="{ meta, isSubmitting }"
@@ -25,7 +28,7 @@
       :is-loading="uiStore.getUIIsLoading || isSubmitting"
       type="submit"
     >
-      Rester Informé
+      Prévenez-moi
     </BaseButton>
   </Form>
   <BaseMessage
