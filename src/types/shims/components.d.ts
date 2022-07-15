@@ -97,6 +97,7 @@ declare module 'vue' {
     NewsletterItemTable: typeof import('./../../components/newsletter/NewsletterItemTable.vue')['default']
     NewsletterSection: typeof import('./../../components/landing/NewsletterSection.vue')['default']
     PencilAltIconOutline: typeof import('@heroicons/vue/outline/esm/PencilAltIcon.js')['default']
+    PricingCard: typeof import('./../../components/landing/PricingCard.vue')['default']
     PricingSection: typeof import('./../../components/landing/PricingSection.vue')['default']
     ProcessingIcon: typeof import('./../../components/content/ProcessingIcon.vue')['default']
     RadioGroup: typeof import('@headlessui/vue')['RadioGroup']

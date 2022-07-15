@@ -15,22 +15,12 @@
     </div>
 
     <div class="grid grid-cols-1 mt-10 lg:grid-cols-3 md:gap-2">
-      <div
-        class="flex flex-col px-10 mt-4 text-left transition duration-500 ease-in-out transform bg-white rounded-none shadow-2xl lg:mx-0 md:rounded-lg dark:bg-blue-dark DarkModeAnimation hover:z-20 hover:scale-105 dark:shadow-2xl"
+      <PricingCard
+        title="Essentiel"
+        :nb-free-month="1"
+        :price="3.99"
       >
-        <div class="flex-1 text-gray-600 dark:text-white">
-          <div class="relative py-8 text-3xl font-bold text-left">
-            Essentiel
-            <div
-              class="absolute top-0 right-0 px-2 py-3 text-sm text-white rounded-b-lg bg-red-light"
-            >
-              1 mois gratuit
-            </div>
-          </div>
-          <div class="w-full pt-4 text-4xl font-bold text-gray-600 dark:text-white">
-            3.99€
-            <span class="text-base">/mois</span>
-          </div>
+        <template #details>
           <span
             class="text-xs"
           >Vous avez une activité soutenue, vous êtes seul ou avec une équipe restreinte.</span>
@@ -44,37 +34,15 @@
               <span class="text-base">/mois</span>
             </li>
           </ul>
-        </div>
-        <div
-          class="flex-none p-6 mt-auto bg-white rounded-t-none rounded-b dark:bg-blue-dark DarkModeAnimation"
-        >
-          <div class="flex items-center justify-center">
-            <button
-              class="px-8 py-4 mx-auto my-6 font-bold text-black transition duration-300 ease-in-out transform rounded-full shadow-lg lg:mx-0 gradient dark:bg-white DarlModeAnimation focus:outline-none focus:shadow-outline hover:scale-105"
-              href="#Newsletter"
-            >
-              Commencez
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div
-        class="z-10 flex flex-col px-10 mt-4 text-left text-white transition duration-300 ease-in-out transform rounded-lg shadow-2xl lg:mx-0 sm:-mt-6 bg-blue-dark dark:bg-white-break DarkModeAnimation dark:text-blue-dark hover:scale-105"
+        </template>
+      </PricingCard>
+      <PricingCard
+        title="Pro"
+        :nb-free-month="2"
+        :price="9.99"
+        is-dark
       >
-        <div class="flex-1 overflow-hidden rounded-t rounded-b-none DarkModeAnimation">
-          <div class="relative py-8 text-3xl font-bold text-blue">
-            Pro
-            <div
-              class="absolute top-0 px-2 py-3 text-sm text-white rounded-b-lg bg-red-light right-5"
-            >
-              2 mois gratuits
-            </div>
-          </div>
-          <div class="w-full pt-6 text-5xl font-bold">
-            9.99€
-            <span class="text-base">/mois</span>
-          </div>
+        <template #details>
           <span
             class="text-xs"
           >Vous avez une activité soutenue, vous êtes seul ou avec une équipe restreinte.</span>
@@ -88,35 +56,14 @@
               <span class="text-base">/mois</span>
             </li>
           </ul>
-        </div>
-        <div class="flex-none p-6 mt-auto overflow-hidden rounded-t-none rounded-b">
-          <div class="flex items-center justify-center">
-            <button
-              class="px-8 py-4 mx-auto my-6 font-bold text-black transition duration-300 ease-in-out transform bg-white rounded-full shadow-lg lg:mx-0 gradient dark:bg-blue dark:text-white DarlModeAnimation focus:outline-none focus:shadow-outline hover:scale-105"
-              href="#Newsletter"
-            >
-              Commencez
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div
-        class="flex flex-col px-10 mt-4 text-left transition duration-500 ease-in-out transform bg-white rounded-none shadow-2xl lg:mx-0 md:rounded-lg dark:bg-blue-dark DarkModeAnimation hover:z-20 hover:scale-105 dark:shadow-2xl"
+        </template>
+      </PricingCard>
+      <PricingCard
+        title="Expert"
+        :nb-free-month="3"
+        :price="19.99"
       >
-        <div class="flex-1 text-gray-600 dark:text-white">
-          <div class="relative py-8 text-3xl font-bold text-left">
-            Expert
-            <div
-              class="absolute top-0 right-0 px-2 py-3 text-sm text-white rounded-b-lg bg-red-light"
-            >
-              3 mois gratuit
-            </div>
-          </div>
-          <div class="w-full pt-4 text-4xl font-bold text-gray-600 dark:text-white">
-            19.99€
-            <span class="text-base">/mois</span>
-          </div>
+        <template #details>
           <span
             class="text-xs"
           >Vous avez une activité soutenue, vous êtes seul ou avec une équipe restreinte.</span>
@@ -130,20 +77,8 @@
               <span class="text-base">/mois</span>
             </li>
           </ul>
-        </div>
-        <div
-          class="flex-none p-6 mt-auto bg-white rounded-t-none rounded-b dark:bg-blue-dark DarkModeAnimation"
-        >
-          <div class="flex items-center justify-center">
-            <button
-              class="px-8 py-4 mx-auto my-6 font-bold text-black transition duration-300 ease-in-out transform rounded-full shadow-lg lg:mx-0 gradient dark:bg-white DarlModeAnimation focus:outline-none focus:shadow-outline hover:scale-105"
-              href="#Newsletter"
-            >
-              Commencez
-            </button>
-          </div>
-        </div>
-      </div>
+        </template>
+      </PricingCard>
     </div>
   </div>
 </section>
