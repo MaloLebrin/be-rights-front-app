@@ -12,6 +12,7 @@ interface ImportMetaEnv {
   readonly VITE_PROD: boolean
   readonly VITE_MODE: string
   readonly VITE_API_URL: string
+  readonly VITE_FEATURE_ENABLED_DARKMODE: boolean
   // more env variables...
 }
 

@@ -121,7 +121,7 @@
           </router-link>
         </nav>
       </div>
-      <DarkModeToggle />
+      <!-- <DarkModeToggle /> -->
       <UserMenu />
     </div>
   </div>

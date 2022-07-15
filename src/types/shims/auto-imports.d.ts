@@ -18,6 +18,7 @@ declare global {
   const EffectScope: typeof import('vue')['EffectScope']
   const employeeHook: typeof import('@/hooks/employeeHook')['default']
   const eventHook: typeof import('@/hooks/eventHook')['default']
+  const featureHook: typeof import('@/hooks/featureHook')['default']
   const fileHook: typeof import('@/hooks/fileHook')['default']
   const getActivePinia: typeof import('pinia')['getActivePinia']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
