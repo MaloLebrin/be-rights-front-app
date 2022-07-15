@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { createActions, createGetters } from '@malolebrin/pinia-entity-store'
-import type { UserType } from './types'
-import { defaultUserState, userState } from './state'
+import type { PhotographerCreatePayload, UserType } from './types'
+import { basePhotographerForm, defaultUserState, userState } from './state'
 import { EntitiesEnum } from '@/types/globals'
 import { RoleEnum } from '@/types/Roles'
 
@@ -11,6 +11,13 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
   }),
   actions: {
     ...createActions<UserType>(userState),
+
+    setPhotographerForm(payload: PhotographerCreatePayload) {
+      this.photographerForm = payload
+    },
+    resetPhotographerForm() {
+      this.photographerForm = basePhotographerForm
+    },
 
     resetState() {
       this.$state = defaultUserState()
