@@ -3,7 +3,7 @@ import axiosInstance from '@/axios.config'
 import type { PaginatedResponse } from '@/helpers/api'
 import APi from '@/helpers/api'
 import { RoleEnum } from '@/types'
-import type { EmployeeType, EventType, FileType, Loginpayload, RegisterPayload, ThemeEnum, UserType } from '@/types'
+import type { EmployeeType, EventType, FileType, Loginpayload, PhotographerCreatePayload, RegisterPayload, ThemeEnum, UserType } from '@/types'
 import { hasOwnProperty, isArrayOfNumbers } from '@/utils'
 
 export default function userHook() {
@@ -270,6 +270,19 @@ export default function userHook() {
     }
   }
 
+  async function postPhotographer(photographer: PhotographerCreatePayload) {
+    try {
+      const res = await api.post('user/photographer', { photographer })
+      if (res && isUserType(res)) {
+        userStore.createOne(res)
+        return res
+      }
+    } catch (error) {
+      toast.error('Une erreur est survenue')
+      console.error(error)
+    }
+  }
+
   return {
     deleteUser,
     fetchAll,
@@ -281,6 +294,7 @@ export default function userHook() {
     isUserType,
     login,
     patchOne,
+    postPhotographer,
     redirectBaseOneCurrentUserRole,
     register,
     storeUsersEntities,
