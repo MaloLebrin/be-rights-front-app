@@ -1,6 +1,6 @@
 import { createActions, createGetters } from '@malolebrin/pinia-entity-store'
-import { addressState, defaultAddressState } from './state'
-import type { AddressType } from '@/types'
+import { addressState, baseCreationForm, defaultAddressState } from './state'
+import type { AddressType, BaseCreationForm } from '@/types'
 import { EntitiesEnum } from '@/types'
 
 export const useAddressStore = defineStore(EntitiesEnum.ADDRESS, {
@@ -14,6 +14,12 @@ export const useAddressStore = defineStore(EntitiesEnum.ADDRESS, {
   },
   actions: {
     ...createActions<AddressType>(addressState),
+    setCreationForm(payload: BaseCreationForm) {
+      this.creationForm = payload
+    },
+    resetCreationForm() {
+      this.creationForm = baseCreationForm
+    },
     resetState() {
       this.$state = defaultAddressState()
     },
