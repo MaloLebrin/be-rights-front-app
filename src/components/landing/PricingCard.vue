@@ -1,8 +1,8 @@
 <template>
 <div
   :class="[
-    'flex flex-col px-10 mt-4 text-left transition duration-500 ease-in-out transform  rounded-none shadow-2xl',
-    'lg:mx-0 md:rounded-lg DarkModeAnimation hover:z-20 hover:scale-105 dark:shadow-2xl',
+    'flex flex-col px-10 mt-4 text-left transition duration-500 ease-in-out transform shadow-2xl',
+    'lg:mx-0 rounded-lg DarkModeAnimation hover:z-20 hover:scale-105 dark:shadow-2xl',
     isDark ? 'bg-blue-dark dark:bg-white-break dark:text-blue-dark sm:-mt-6' : 'bg-white dark:bg-blue-dark text-gray-600',
   ]"
 >
