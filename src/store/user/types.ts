@@ -7,7 +7,7 @@ export interface UserType extends BaseEntity {
   token: string
   firstName: string
   lastName: string
-  companyName: string
+  companyName?: string | null
   siret: string
   apiKey: string
   roles: RoleEnum
@@ -28,3 +28,5 @@ export enum UserSearchableFields {
   COMPANYNAME = 'companyName',
   SIRET = 'siret',
 }
+
+export type PhotographerCreatePayload = Pick<UserType, 'companyName' | 'firstName' | 'lastName' | 'email'>
