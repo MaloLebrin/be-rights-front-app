@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { createGetters } from '@malolebrin/pinia-entity-store'
-import { defaultEventState, eventState } from './state'
+import { baseCreationForm, defaultEventState, eventState } from './state'
 import type { BaseCreationFormType, EventType } from './types'
 import { EntitiesEnum } from '@/types/globals'
 
@@ -21,6 +21,9 @@ export const useEventStore = defineStore(EntitiesEnum.EVENTS, {
     },
     setCreationForm(payload: BaseCreationFormType) {
       this.creationForm = payload
+    },
+    resetCreationForm() {
+      this.creationForm = baseCreationForm
     },
 
     // actions common to all entities

@@ -7,6 +7,7 @@ export const baseCreationForm: BaseCreationFormType = {
   start: new Date(),
   end: new Date(),
   createdByUser: null,
+  employeeIds: [],
 }
 
 export function defaultEventState() {
