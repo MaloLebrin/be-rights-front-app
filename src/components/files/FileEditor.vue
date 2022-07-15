@@ -144,8 +144,6 @@
   <BaseButton @click="getHTML">
     Get HTML
   </BaseButton>
-
-  <CreateSignature />
 </div>
 </template>
 
@@ -155,6 +153,7 @@ import StarterKit from '@tiptap/starter-kit'
 // import { imageRightContent } from '@/helpers/imageRightContent'
 const userStore = useUserStore()
 const { setCreationFormField } = useFileStore()
+const router = useRouter()
 
 const editor = useEditor({
   content: `<h1> Autorisation exploitation droit à l’image pour un shooting photos</h1>
@@ -169,7 +168,7 @@ const editor = useEditor({
       <p>Je me reconnais (la personne photographiée) être entièrement rempli de mes droits et je ne pourrai prétendre à aucune rémunération pour l’exploitation des droits visés aux présentes.</p>
       <p>Je garantis(la personne photographiée) que je ne suis pas lié(e) par un contrat exclusif relatif à l’utilisation de mon image ou de mon nom.</p>
       <p>Pour tout litige né de l’interprétation ou de l’exécution des présentes, il est fait attribution expresse de juridiction aux tribunaux français.</p>
-      <p style="display:flex">
+      <div class="flex justify-between">
         <p>
           <p>Fait à {{ville}}, le {{signedAt}}</p>
           <p>Nom et prénom de la personne photographiée:</p>
@@ -181,7 +180,7 @@ const editor = useEditor({
           <p>${userStore.getUserFullName}</p>
           <p>Signature</p>
         </p>
-      </p>`,
+      </div>`,
   extensions: [
     StarterKit,
   ],

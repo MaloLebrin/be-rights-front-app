@@ -112,15 +112,16 @@ export const adminRoutes = [
     },
   },
   {
-    path: '/admin/files/create',
-    name: 'admin.files.create',
-    component: () => import('@/pages/adminDashboard/file/CreateOne.vue'),
+    path: '/admin/files/complete',
+    name: 'admin.files.complete',
+    component: () => import('@/pages/adminDashboard/file/CompleteFile.vue'),
     meta: {
       layout: 'AdminDashboardLayout',
       isAuth: true,
       isAdmin: true,
     },
   },
+
   {
     path: '/admin/bugs',
     name: 'admin.bugs',
