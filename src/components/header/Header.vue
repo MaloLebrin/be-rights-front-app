@@ -31,11 +31,11 @@
                 :href="getButtonPath"
                 @click="onClickStartButton"
               >
-                {{ userStore.getCurrent ? 'Mon compte' : 'Commencer' }}
+                {{ userStore.entities.current ? 'Mon compte' : 'Commencer' }}
               </BaseButton>
 
               <router-link
-                v-if="!userStore.getCurrent"
+                v-if="!userStore.entities.current"
                 :to="{ name: 'login' }"
                 class="px-3 py-2 text-sm font-medium rounded-md text-blue dark:text-white dark:hover:text-red-light hover:text-red-light"
               >
@@ -142,7 +142,7 @@
 const userStore = useUserStore()
 
 const getButtonPath = computed(() => {
-  if (!userStore.getCurrent) {
+  if (!userStore.entities.current) {
     return { name: 'register' }
   }
   if (userStore.isCurrentUserAdmin) {
