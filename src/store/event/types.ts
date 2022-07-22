@@ -28,7 +28,9 @@ export type EventTypeCreate = Omit<IEvent, 'status' | 'id' | 'createdAt' | 'dele
 }
 export interface EventCreatePayload {
   event: EventTypeCreate
-  address: AddressTypeCreate
+  address?: AddressTypeCreate
+  photographerId?: number
+  userId?: number
 }
 
 export enum EventSearchableFields {
