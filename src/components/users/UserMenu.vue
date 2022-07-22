@@ -5,10 +5,10 @@
 >
   <div>
     <MenuButton
-      v-if="userStore.getCurrent"
+      v-if="userStore.entities.current"
       class="flex items-center flex-shrink-0 p-4"
     >
-      <UserAvatar :user="userStore.getCurrent" />
+      <UserAvatar :user="userStore.entities.current" />
       <div
         v-if="!isInHeader"
         class="ml-3"
@@ -33,7 +33,7 @@
     >
       <MenuItem v-slot="{ active }">
         <router-link
-          :to="{ name: userStore.isCurrentUserAdmin ? 'admin.users.show' : 'user.account', params: { userId: userStore.getCurrentUserId } }"
+          :to="{ name: userStore.isCurrentUserAdmin ? 'admin.users.show' : 'user.account', params: { userId: userStore.entities.current?.id } }"
           :class="['flex items-center space-x-2 justify-start', active ? 'bg-gray-100' : '', 'px-4 py-2 text-sm text-gray-700']"
         >
           <UserCircleIconOutline class="h-6 text-gray-500" />
