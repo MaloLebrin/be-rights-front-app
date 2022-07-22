@@ -1,4 +1,4 @@
-import type { EventType, EventTypeCreate, EventTypeWithRelations } from '@/store/event/types'
+import type { EventCreatePayload, EventType, EventTypeWithRelations } from '@/store/event/types'
 import { EventStatusEnum, getEventStatusTranslationEnum } from '@/store/event/types'
 import type { PaginatedResponse } from '@/helpers/api'
 import APi from '@/helpers/api'
@@ -145,9 +145,10 @@ export function eventHook() {
     DecLoading()
   }
 
-  async function postOne(event: EventTypeCreate, userId?: number): Promise<EventType | undefined> {
+  async function postOne(payload: EventCreatePayload): Promise<EventType | undefined> {
     try {
-      const res = await api.post(`event/${userId}`, { event })
+      const { userId } = payload
+      const res = await api.post(`event/${userId}`, payload)
       const eventToStore = res as EventType
       if (isUserType(eventToStore.createdByUser)) {
         eventToStore.createdByUser = res.createdByUser.id
