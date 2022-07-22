@@ -117,6 +117,7 @@ interface Props {
   disabled?: boolean
   wrapperClasses?: string
   valueKey: keyof UserTypeOmitRelations
+  filters?: Record<string, any>
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -146,13 +147,20 @@ const query = ref('')
 
 onMounted(async() => {
   IncLoading()
-  await fetchAll()
+  if (props.filters) {
+    setFilters(props.filters)
+  }
+  await fetchAll(tableStore.getFinalUrl)
   DecLoading()
 })
 
 watch(() => query.value, async newValue => {
   IncLoading()
   setSearch(newValue)
+  if (props.filters) {
+    setFilters(props.filters)
+  }
+
   await fetchAll(tableStore.getFinalUrl)
   DecLoading()
 })
