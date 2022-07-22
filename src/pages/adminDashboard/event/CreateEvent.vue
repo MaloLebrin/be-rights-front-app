@@ -68,6 +68,12 @@
         </div>
       </div>
     </div>
+    <BaseMessage
+      v-if="isSubmitStepComplete(100).value"
+      type="success"
+    >
+      L'événement a bien été créé
+    </BaseMessage>
   </div>
 </AdminPageWrapper>
 </template>
@@ -76,6 +82,7 @@
 import router from '@/router'
 import type { EventTypeCreate } from '@/types'
 import { ModalModeEnum } from '@/types'
+import { isArrayOfNumbers } from '@/utils'
 const route = useRoute()
 const eventStore = useEventStore()
 const { resetCreationForm: resetEventForm } = eventStore
@@ -88,7 +95,6 @@ const { IncLoading, DecLoading } = uiStore
 
 const { postOne: postOneEvent } = eventHook()
 const { postMany: postManyAnswers } = answerHook()
-const { postOne: postOneAddress } = addressHook()
 const { postPhotographer } = userHook()
 
 const isEventCreation = computed(() => route.query.step === 'event' || route.query.step === undefined)
@@ -125,20 +131,25 @@ async function submit() {
   progressBarProgession.value = 20
   if (photographer && eventStore.creationForm.createdByUser) {
     const userId = eventStore.creationForm.createdByUser
-    const newEvent = await postOneEvent({
-      ...eventStore.creationForm as Omit<EventTypeCreate, 'photographerId'>,
-      photographerId: photographer.id,
+    const event = {
+      ...eventStore.creationForm,
       createdByUser: userId,
-    }, userId)
+      partner: photographer.id,
+    } as unknown as EventTypeCreate
+    const newEvent = await postOneEvent(
+      {
+        event,
+        userId,
+        address: { ...addressStore.creationForm },
+        photographerId: photographer.id,
+      })
     progressBarProgession.value = 40
     if (newEvent) {
       resetEventForm()
-      await postManyAnswers(newEvent.id, eventStore.creationForm.employeeIds)
-      progressBarProgession.value = 60
-      await postOneAddress({
-        address: { ...addressStore.creationForm },
-        eventId: newEvent.id,
-      })
+      if (eventStore.creationForm.employeeIds.length > 0 && isArrayOfNumbers(eventStore.creationForm.employeeIds)) {
+        await postManyAnswers(newEvent.id, eventStore.creationForm.employeeIds)
+        progressBarProgession.value = 60
+      }
       progressBarProgession.value = 100
       resetAddressForm()
       router.push({
