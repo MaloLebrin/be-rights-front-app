@@ -12,7 +12,7 @@ export default function authHook() {
   const tableStore = useTableStore()
   const uiStore = useUiStore()
   const { setThemeClass } = mainHook()
-  const { storeUsersEntities } = userHook()
+  const { storeUsersEntities, redirectBaseOneCurrentUserRole } = userHook()
   const { IncLoading, DecLoading } = useUiStore()
   const api = new API()
   const router = useRouter()
@@ -43,6 +43,7 @@ export default function authHook() {
       const user = await api.post('user/token', { token })
       setThemeClass(user.theme)
       storeUsersEntities(user, true)
+      redirectBaseOneCurrentUserRole()
     } catch (error) {
       console.error(error)
     }
