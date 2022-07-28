@@ -113,10 +113,6 @@ async function submit(form: VeeValidateValues) {
       query: { step: 'end' },
     })
     emit('submitted', formValues)
-
-    // const photographer = await postPhotographer(formValues)
-    // if (photographer) {
-    // }
   }
 
   DecLoading()
