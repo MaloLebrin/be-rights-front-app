@@ -100,7 +100,7 @@ export default function userHook() {
 
   function storeUsersEntitiesForManyUsers(users: UserType[]): void {
     if (users.length > 0) {
-      const events = users.reduce((acc, user) => [...acc, ...user.events as EventType[]], [] as EventType[])
+      const events = users.reduce((acc, user) => [...acc, ...user?.events as EventType[]], [] as EventType[])
       const eventsToStore = events.filter(event => !eventStore.isAlreadyInStore(event.id))
       if (eventsToStore.length > 0) {
         eventStore.createMany(eventsToStore)
@@ -283,11 +283,25 @@ export default function userHook() {
     }
   }
 
+  async function getPhotographerUserWorkedWith(userId: number) {
+    try {
+      const res = await api.get(`user/partners/${userId}`)
+      if (res) {
+        userStore.createMany(res)
+        return res
+      }
+    } catch (error: any) {
+      toast.error(error.error as string)
+      console.error(error)
+    }
+  }
+
   return {
     deleteUser,
     fetchAll,
     fetchMany,
     fetchOne,
+    getPhotographerUserWorkedWith,
     getRoleTranslation,
     getUserfullName,
     isArrayUserType,

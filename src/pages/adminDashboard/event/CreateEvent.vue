@@ -9,10 +9,85 @@
     v-if="isAddressEventCreation"
   />
 
-  <PhotographerForm
-    v-if="isPhotographerCreation"
-    @submitted="submit"
-  />
+  <template v-if="isPhotographerCreation">
+    <RadioGroup v-model="isPhotographerAlreadyCreated">
+      <RadioGroupLabel class="text-base font-medium text-gray-900">
+        Le photographe existe déjà ?
+      </RadioGroupLabel>
+
+      <div class="grid grid-cols-1 mt-4 gap-y-6 sm:grid-cols-3 sm:gap-x-4">
+        <RadioGroupOption
+          v-slot="{ checked, active }"
+          as="template"
+          :value="false"
+        >
+          <div :class="[checked ? 'border-transparent' : 'border-gray-300', active ? 'border-indigo-500 ring-2 ring-indigo-500' : '', 'relative bg-white border rounded-lg shadow-sm p-4 flex cursor-pointer focus:outline-none']">
+            <span class="flex flex-1">
+              <span class="flex flex-col">
+                <RadioGroupLabel
+                  as="span"
+                  class="block text-sm font-medium text-gray-900"
+                >
+                  Non
+                </RadioGroupLabel>
+              </span>
+            </span>
+            <CheckCircleIconOutline
+              :class="[!checked ? 'invisible' : '', 'h-5 w-5 text-indigo-600']"
+              aria-hidden="true"
+            />
+            <span
+              :class="[active ? 'border' : 'border-2', checked ? 'border-indigo-500' : 'border-transparent', 'absolute -inset-px rounded-lg pointer-events-none']"
+              aria-hidden="true"
+            />
+          </div>
+        </RadioGroupOption>
+        <RadioGroupOption
+          v-slot="{ checked, active }"
+          as="template"
+          :value="true"
+        >
+          <div :class="[checked ? 'border-transparent' : 'border-gray-300', active ? 'border-indigo-500 ring-2 ring-indigo-500' : '', 'relative bg-white border rounded-lg shadow-sm p-4 flex cursor-pointer focus:outline-none']">
+            <span class="flex flex-1">
+              <span class="flex flex-col">
+                <RadioGroupLabel
+                  as="span"
+                  class="block text-sm font-medium text-gray-900"
+                >
+                  Oui
+                </RadioGroupLabel>
+              </span>
+            </span>
+            <CheckCircleIconOutline
+              :class="[!checked ? 'invisible' : '', 'h-5 w-5 text-indigo-600']"
+              aria-hidden="true"
+            />
+            <span
+              :class="[active ? 'border' : 'border-2', checked ? 'border-indigo-500' : 'border-transparent', 'absolute -inset-px rounded-lg pointer-events-none']"
+              aria-hidden="true"
+            />
+          </div>
+        </RadioGroupOption>
+      </div>
+    </RadioGroup>
+    <transition
+      enter-active-class="transition duration-500 ease-out"
+      enter-from-class="transform opacity-0"
+      enter-to-class="transform scale-100 opacity-100"
+      leave-active-class="transition ease-in duration-90"
+      leave-from-class="transform scale-100 opacity-100"
+      leave-to-class="transform opacity-0"
+    >
+      <PhotographerForm
+        v-if="!isPhotographerAlreadyCreated"
+        @submitted="submit"
+      />
+      <PhotographerSelect
+        v-else
+        @submitted="submit"
+      />
+    </transition>
+  </template>
   <div
     v-else-if="isEnd"
     class="mt-6 space-y-2"
@@ -101,6 +176,7 @@ const isEventCreation = computed(() => route.query.step === 'event' || route.que
 const isAddressEventCreation = computed(() => route.query.step === 'address')
 const isPhotographerCreation = computed(() => route.query.step === 'photographer')
 const isEnd = computed(() => route.query.step === 'end')
+const isPhotographerAlreadyCreated = ref(true)
 
 const currentStepIndex = computed(() => {
   if (isEventCreation.value) {
@@ -121,12 +197,17 @@ const currentStepIndex = computed(() => {
 const progressBarProgession = ref<number>(0)
 const isSubmitStepComplete = (purcent: number) => computed(() => purcent >= progressBarProgession.value)
 
-async function submit() {
+async function submit(photographerId?: number) {
   IncLoading()
-
-  const photographer = await postPhotographer({
-    ...userStore.photographerForm,
-  })
+  console.log(photographerId, '<==== test')
+  let photographer = null
+  if (!isPhotographerAlreadyCreated) {
+    photographer = await postPhotographer({
+      ...userStore.photographerForm,
+    })
+  } else if (photographerId) {
+    photographer = userStore.getOne(photographerId)
+  }
   resetPhotographerForm()
   progressBarProgession.value = 20
   if (photographer && eventStore.creationForm.createdByUser) {
