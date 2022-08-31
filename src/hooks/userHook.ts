@@ -24,7 +24,7 @@ export default function userHook() {
       const user = res.data as UserType
       storeUsersEntities(user, true)
       cookies.set('userToken', user.token)
-      redirectBaseOneCurrentUserRole()
+      redirectBaseOneCurrentUserRole(user)
       toast.success(`Heureux de vous revoir ${getUserfullName(user)}`)
     } catch (error) {
       console.error(error)
@@ -40,7 +40,7 @@ export default function userHook() {
       const user = res.data as UserType
       storeUsersEntities(user)
       cookies.set('userToken', user.token)
-      redirectBaseOneCurrentUserRole()
+      redirectBaseOneCurrentUserRole(user)
       toast.success('Vous êtes inscrit avec succès')
     } catch (error) {
       console.error(error)
@@ -258,9 +258,9 @@ export default function userHook() {
   /**
    * redirection based on current user's role in store
    */
-  function redirectBaseOneCurrentUserRole() {
-    if (userStore.getCurrent) {
-      if (userStore.isCurrentUserAdmin) {
+  function redirectBaseOneCurrentUserRole(user: UserType) {
+    if (user) {
+      if (user.roles === RoleEnum.ADMIN) {
         router.push({ name: 'admin.events' })
       } else {
         router.push({ name: 'user.events' })

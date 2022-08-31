@@ -270,5 +270,4 @@ async function submit(photographerId?: number) {
   }
   DecLoading()
 }
-
 </script>

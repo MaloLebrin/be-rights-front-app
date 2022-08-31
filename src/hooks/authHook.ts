@@ -44,7 +44,7 @@ export default function authHook() {
       const user = await api.post('user/token', { token })
       setThemeClass(user.theme)
       storeUsersEntities(user, true)
-      redirectBaseOneCurrentUserRole()
+      redirectBaseOneCurrentUserRole(user)
     } catch (error) {
       console.error(error)
     }
