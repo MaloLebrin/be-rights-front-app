@@ -10,7 +10,6 @@ declare module 'vue' {
     AddressForm: typeof import('./../../components/address/AddressForm.vue')['default']
     AdminModalDeleteUser: typeof import('./../../components/modals/AdminModalDeleteUser.vue')['default']
     AdminPageWrapper: typeof import('./../../components/content/AdminPageWrapper.vue')['default']
-    ArrowCircleDownIconOutline: typeof import('@heroicons/vue/outline/esm/ArrowCircleDownIcon.js')['default']
     BaseAccordion: typeof import('./../../components/base/BaseAccordion.vue')['default']
     BaseButton: typeof import('./../../components/base/BaseButton.vue')['default']
     BaseInput: typeof import('./../../components/base/BaseInput.vue')['default']
@@ -153,7 +152,6 @@ declare module 'vue' {
     XCircleIconOutline: typeof import('@heroicons/vue/outline/esm/XCircleIcon.js')['default']
     XCircleIconSolid: typeof import('@heroicons/vue/solid/esm/XCircleIcon.js')['default']
     XIconOutline: typeof import('@heroicons/vue/outline/esm/XIcon.js')['default']
-    XIconSolid: typeof import('@heroicons/vue/solid/esm/XIcon.js')['default']
   }
 }
 

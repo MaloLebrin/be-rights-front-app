@@ -67,7 +67,6 @@
           autocomplete="email"
           is-required
         />
-
         <BaseInput
           label="Mot de passe"
           name="password"
@@ -110,6 +109,7 @@ import { object, string } from 'yup'
 import type { RegisterPayload, VeeValidateValues } from '@/types'
 import { RoleEnum } from '@/types'
 const { register } = userHook()
+const { checkMailIsAlreadyExist } = authHook()
 const uiStore = useUiStore()
 const { IncLoading, DecLoading } = uiStore
 
@@ -133,7 +133,13 @@ const initialValues = {
 
 async function submitregister(form: VeeValidateValues) {
   IncLoading()
-  await register(form as RegisterPayload)
+  const isEmailExist = await checkMailIsAlreadyExist(form.email)
+  if (!isEmailExist.success) {
+    const toast = useToast()
+    toast.error(isEmailExist.message)
+  } else {
+    await register(form as RegisterPayload)
+  }
   DecLoading()
 }
 </script>
