@@ -5,9 +5,17 @@
     :employee="activeEmployee"
   />
   <BaseLoader
-    v-else
+    v-else-if="state.isLoading"
     class="mt-12"
   />
+  <div
+    v-else
+    class="flex items-center justify-center w-full"
+  >
+    <h5 class="text-3xl font-bold leading-8 tracking-tight text-center text-gray-900 sm:text-4xl">
+      Vous n'avez pas de destinataires
+    </h5>
+  </div>
 
   <aside class="order-first border-r border-gray-200 md:flex-shrink-0 xl:flex xl:flex-col w-96">
     <div class="px-6 pt-6 pb-4">
@@ -89,7 +97,7 @@ const state = reactive({
   search: '',
   timeout: 0,
   isLoading: false,
-  activeEmployee: employees.value[0].id || null,
+  activeEmployee: employees.value[0]?.id || null,
 })
 
 const activeEmployee = computed(() => {
