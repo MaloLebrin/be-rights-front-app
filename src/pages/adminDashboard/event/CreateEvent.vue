@@ -1,6 +1,24 @@
 <template>
 <AdminPageWrapper>
   <EventCreationStepper :current-step-index="currentStepIndex" />
+
+  <div
+    v-if="!haveUserEmployees"
+    class="flex items-center justify-center"
+  >
+    <BaseMessage type="warning">
+      <div class="flex flex-col items-center">
+        Attention vous devez créer des destinataires avant de créer un événement
+        <BaseButton
+          class="mt-4"
+          :href="{ name: userStore.isCurrentUserAdmin ? 'user.employees.create' : 'admin.employees.create'}"
+        >
+          Créer un destinataire
+        </BaseButton>
+      </div>
+    </BaseMessage>
+  </div>
+
   <template v-if="isEventCreation">
     <EventForm :mode="ModalModeEnum.CREATE" />
   </template>
@@ -88,6 +106,7 @@
       />
     </transition>
   </template>
+
   <div
     v-else-if="isEnd"
     class="mt-6 space-y-2"
@@ -158,6 +177,7 @@ import router from '@/router'
 import type { EventTypeCreate } from '@/types'
 import { ModalModeEnum } from '@/types'
 import { isArrayOfNumbers } from '@/utils'
+
 const route = useRoute()
 const eventStore = useEventStore()
 const { resetCreationForm: resetEventForm } = eventStore
@@ -167,6 +187,7 @@ const addressStore = useAddressStore()
 const { resetCreationForm: resetAddressForm } = addressStore
 const uiStore = useUiStore()
 const { IncLoading, DecLoading } = uiStore
+const employeeStore = useEmployeeStore()
 
 const { postOne: postOneEvent } = eventHook()
 const { postMany: postManyAnswers } = answerHook()
@@ -196,6 +217,13 @@ const currentStepIndex = computed(() => {
 
 const progressBarProgession = ref<number>(0)
 const isSubmitStepComplete = (purcent: number) => computed(() => purcent >= progressBarProgession.value)
+
+const haveUserEmployees = computed(() => {
+  if (!userStore.isCurrentUserAdmin) {
+    return employeeStore.getAllArray.length > 0
+  }
+  return false
+})
 
 async function submit(photographerId?: number) {
   IncLoading()

@@ -8,6 +8,7 @@ declare module 'vue' {
     ActionButtonTable: typeof import('./../../components/events/table/ActionButtonTable.vue')['default']
     ActionUserTable: typeof import('./../../components/users/table/ActionUserTable.vue')['default']
     AddressForm: typeof import('./../../components/address/AddressForm.vue')['default']
+    AdjustmentsIconOutline: typeof import('@heroicons/vue/outline/esm/AdjustmentsIcon.js')['default']
     AdminModalDeleteUser: typeof import('./../../components/modals/AdminModalDeleteUser.vue')['default']
     AdminPageWrapper: typeof import('./../../components/content/AdminPageWrapper.vue')['default']
     BaseAccordion: typeof import('./../../components/base/BaseAccordion.vue')['default']
@@ -111,6 +112,7 @@ declare module 'vue' {
     NewsletterItemTable: typeof import('./../../components/newsletter/NewsletterItemTable.vue')['default']
     NewsletterSection: typeof import('./../../components/landing/NewsletterSection.vue')['default']
     PencilAltIconOutline: typeof import('@heroicons/vue/outline/esm/PencilAltIcon.js')['default']
+    PencilIconOutline: typeof import('@heroicons/vue/outline/esm/PencilIcon.js')['default']
     PhotographerForm: typeof import('./../../components/users/PhotographerForm.vue')['default']
     PhotographerSelect: typeof import('./../../components/users/PhotographerSelect.vue')['default']
     PhotographIconOutline: typeof import('@heroicons/vue/outline/esm/PhotographIcon.js')['default']
@@ -152,6 +154,7 @@ declare module 'vue' {
     XCircleIconOutline: typeof import('@heroicons/vue/outline/esm/XCircleIcon.js')['default']
     XCircleIconSolid: typeof import('@heroicons/vue/solid/esm/XCircleIcon.js')['default']
     XIconOutline: typeof import('@heroicons/vue/outline/esm/XIcon.js')['default']
+    XIconSolid: typeof import('@heroicons/vue/solid/esm/XIcon.js')['default']
   }
 }
 
