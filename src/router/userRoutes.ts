@@ -34,7 +34,7 @@ export const userRoutes = [
   {
     path: '/user/events/create',
     name: 'user.events.create',
-    component: () => import('@/pages/userDashboard/event/CreateEvent.vue'),
+    component: () => import('@/pages/adminDashboard/event/CreateEvent.vue'),
     meta: {
       layout: 'DashboardLayout',
       isAuth: true,
