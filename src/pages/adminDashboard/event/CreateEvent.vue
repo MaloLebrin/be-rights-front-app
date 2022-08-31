@@ -199,7 +199,6 @@ const isSubmitStepComplete = (purcent: number) => computed(() => purcent >= prog
 
 async function submit(photographerId?: number) {
   IncLoading()
-  console.log(photographerId, '<==== test')
   let photographer = null
   if (!isPhotographerAlreadyCreated) {
     photographer = await postPhotographer({
