@@ -1,5 +1,6 @@
 import { useCookies } from 'vue3-cookies'
 import API from '@/helpers/api'
+import type { ValidationRequest } from '@/types'
 
 export default function authHook() {
   const userStore = useUserStore()
@@ -50,7 +51,13 @@ export default function authHook() {
     DecLoading()
   }
 
+  async function checkMailIsAlreadyExist(email: string) {
+    const res: ValidationRequest = await api.post('user/isMailAlreadyExist', { email })
+    return res
+  }
+
   return {
+    checkMailIsAlreadyExist,
     logout,
     loginWithToken,
   }
