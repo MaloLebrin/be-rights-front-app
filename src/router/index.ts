@@ -22,7 +22,6 @@ router.beforeResolve((to, _from, next) => {
   if (!isAuth) {
     return next()
   }
-  console.log(userStore.getCurrentUserId, '<==== userStore.getCurrentUserId')
   if (isAuth) {
     if (userStore.getCurrent) {
       if (!isAdmin) {
