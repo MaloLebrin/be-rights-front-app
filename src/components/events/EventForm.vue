@@ -216,17 +216,17 @@ const userCreateEvent = computed(() => {
 const eventEmployees = computed(() => props.eventId ? employeeStore.getAllByEventId(props.eventId).map(emp => emp.id) : [])
 
 const initialValues = {
-  name: event.value?.name || '',
-  description: event.value?.description || null,
+  name: event.value?.name || eventStore.getCreationForm.name,
+  description: event.value?.description || eventStore.getCreationForm.description,
   period: {
-    start: event.value?.start || new Date(),
-    end: event.value?.end || new Date(),
+    start: event.value?.start || eventStore.getCreationForm.start,
+    end: event.value?.end || eventStore.getCreationForm.end,
   },
-  addressLine: eventAddress.value?.addressLine || '',
-  addressLine2: eventAddress.value?.addressLine2 || null,
-  postalCode: eventAddress.value?.postalCode || '',
-  city: eventAddress.value?.city || '',
-  country: eventAddress.value?.country || 'France',
+  addressLine: eventAddress.value?.addressLine || addressStore.getCreationForm.addressLine,
+  addressLine2: eventAddress.value?.addressLine2 || addressStore.getCreationForm.addressLine2,
+  postalCode: eventAddress.value?.postalCode || addressStore.getCreationForm.postalCode,
+  city: eventAddress.value?.city || addressStore.getCreationForm.city,
+  country: eventAddress.value?.country || addressStore.getCreationForm.country || 'France',
   userId: userCreateEvent.value,
   employees: eventEmployees.value,
 }
