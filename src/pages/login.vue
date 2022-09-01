@@ -67,9 +67,10 @@
 import { object, string } from 'yup'
 import type { VeeValidateValues } from '@/types'
 
-const { login } = userHook()
+const { login, redirectBaseOneCurrentUserRole } = userHook()
 const { IncLoading, DecLoading } = useUiStore()
 const uiStore = useUiStore()
+const userStore = useUserStore()
 
 interface IForm extends VeeValidateValues {
   email: string
@@ -89,6 +90,9 @@ const initialValues = {
 async function submitLogin(form: VeeValidateValues) {
   IncLoading()
   await login(form as IForm)
+  if (userStore.getCurrent) {
+    redirectBaseOneCurrentUserRole(userStore.getCurrent)
+  }
   DecLoading()
 }
 </script>
