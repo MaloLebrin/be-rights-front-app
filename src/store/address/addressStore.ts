@@ -11,6 +11,7 @@ export const useAddressStore = defineStore(EntitiesEnum.ADDRESS, {
     ...createGetters<AddressType>(addressState),
     getOneByEventId: state => (eventId: number) => Object.values(state.entities.byId).filter(address => address.eventId === eventId)[0],
     getOneByEmployeeId: state => (employeeId: number) => Object.values(state.entities.byId).filter(address => address.employeeId === employeeId)[0],
+    getCreationForm: state => state.creationForm,
   },
   actions: {
     ...createActions<AddressType>(addressState),
