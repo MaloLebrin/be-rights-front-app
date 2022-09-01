@@ -7,7 +7,7 @@
     v-if="type === 'default'"
     class="w-6 h-6 mr-4 text-blue-500"
   />
-  <ExclamationCircleIconOutline
+  <ExclamationTriangleIconOutline
     v-if="type === 'warning'"
     class="w-6 h-6 mr-4 text-orange-500"
   />
