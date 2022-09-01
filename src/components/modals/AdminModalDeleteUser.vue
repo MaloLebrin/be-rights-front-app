@@ -7,7 +7,7 @@
     <div
       class="flex items-center justify-center flex-shrink-0 w-12 h-12 mx-auto bg-red-100 rounded-full sm:mx-0 sm:h-10 sm:w-10"
     >
-      <ExclamationIconOutline
+      <ExclamationTriangleIconOutline
         class="w-6 h-6 text-red-600"
         aria-hidden="true"
       />
@@ -51,6 +51,10 @@ withDefaults(defineProps<Props>(), {
   isActive: false,
 })
 
+const emit = defineEmits<{
+  (e: 'close'): void
+}>()
+
 const uiStore = useUiStore()
 const { deleteUser } = userHook()
 const { IncLoading, DecLoading, resetUiModalState } = uiStore
@@ -69,10 +73,6 @@ async function deleteOne() {
     close()
   }
 }
-
-const emit = defineEmits<{
-  (e: 'close'): void
-}>()
 
 function close() {
   resetUiModalState()
