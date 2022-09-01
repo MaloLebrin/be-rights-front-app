@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { setupLayouts } from 'virtual:generated-layouts'
+import { useCookies } from 'vue3-cookies'
 import { mainRoutes } from './mainRoutes'
 import { userRoutes } from './userRoutes'
 import { adminRoutes } from './adminRoutes'
@@ -15,27 +16,43 @@ const router = createRouter({
   routes,
 })
 
-router.beforeResolve((to, _from, next) => {
+router.beforeResolve(async (to, _from, next) => {
   const userStore = useUserStore()
+  const { getUserWithTokenFromAPI } = userStore
+  const { cookies } = useCookies()
+  // const { loginWithToken } = authHook()
 
   const { isAuth, isAdmin } = to.meta
   if (!isAuth) {
     return next()
-  }
-  if (isAuth) {
+  } else {
     if (userStore.getCurrent) {
       if (!isAdmin) {
         return next()
-      }
-      if (isAdmin && userStore.isCurrentUserAdmin) {
+      } else if (isAdmin && userStore.isCurrentUserAdmin) {
+        return next()
+      } else {
         return next()
       }
-      return next()
+    } else {
+      const token = cookies.get('userToken')
+      if (token) {
+        await getUserWithTokenFromAPI(token)
+        if (userStore.getCurrent) {
+          if (!isAdmin) {
+            return next()
+          } else if (isAdmin && userStore.isCurrentUserAdmin) {
+            return next()
+          } else {
+            return next()
+          }
+        }
+      }
     }
+    return next({
+      name: 'login',
+    })
   }
-  return next({
-    name: 'login',
-  })
 })
 
 declare module 'vue-router' {

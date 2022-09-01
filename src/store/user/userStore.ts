@@ -22,6 +22,11 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
     resetState() {
       this.$state = defaultUserState()
     },
+
+    async getUserWithTokenFromAPI(token: string) {
+      const { loginWithToken } = authHook()
+      await loginWithToken(token)
+    },
   },
 
   getters: {
