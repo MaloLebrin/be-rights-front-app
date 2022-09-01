@@ -11,7 +11,7 @@
         Attention vous devez créer des destinataires avant de créer un événement
         <BaseButton
           class="mt-4"
-          :href="{ name: userStore.isCurrentUserAdmin ? 'user.employees.create' : 'admin.employees.create'}"
+          :href="{ name: userStore.isCurrentUserAdmin ? 'user.employees.create' : 'admin.employees.create' }"
         >
           Créer un destinataire
         </BaseButton>
@@ -39,7 +39,10 @@
           as="template"
           :value="false"
         >
-          <div :class="[checked ? 'border-transparent' : 'border-gray-300', active ? 'border-indigo-500 ring-2 ring-indigo-500' : '', 'relative bg-white border rounded-lg shadow-sm p-4 flex cursor-pointer focus:outline-none']">
+          <div
+            class="relative flex p-4 bg-white border rounded-lg shadow-sm cursor-pointer focus:outline-none"
+            :class="[checked ? 'border-transparent' : 'border-gray-300', active ? 'border-indigo-500 ring-2 ring-indigo-500' : '']"
+          >
             <span class="flex flex-1">
               <span class="flex flex-col">
                 <RadioGroupLabel
@@ -51,11 +54,13 @@
               </span>
             </span>
             <CheckCircleIconOutline
-              :class="[!checked ? 'invisible' : '', 'h-5 w-5 text-indigo-600']"
+              class="w-5 h-5 text-indigo-600"
+              :class="[!checked ? 'invisible' : '']"
               aria-hidden="true"
             />
             <span
-              :class="[active ? 'border' : 'border-2', checked ? 'border-indigo-500' : 'border-transparent', 'absolute -inset-px rounded-lg pointer-events-none']"
+              class="absolute rounded-lg pointer-events-none -inset-px"
+              :class="[active ? 'border' : 'border-2', checked ? 'border-indigo-500' : 'border-transparent']"
               aria-hidden="true"
             />
           </div>
@@ -65,7 +70,10 @@
           as="template"
           :value="true"
         >
-          <div :class="[checked ? 'border-transparent' : 'border-gray-300', active ? 'border-indigo-500 ring-2 ring-indigo-500' : '', 'relative bg-white border rounded-lg shadow-sm p-4 flex cursor-pointer focus:outline-none']">
+          <div
+            class="relative flex p-4 bg-white border rounded-lg shadow-sm cursor-pointer focus:outline-none"
+            :class="[checked ? 'border-transparent' : 'border-gray-300', active ? 'border-indigo-500 ring-2 ring-indigo-500' : '']"
+          >
             <span class="flex flex-1">
               <span class="flex flex-col">
                 <RadioGroupLabel
@@ -77,11 +85,13 @@
               </span>
             </span>
             <CheckCircleIconOutline
-              :class="[!checked ? 'invisible' : '', 'h-5 w-5 text-indigo-600']"
+              class="w-5 h-5 text-indigo-600"
+              :class="[!checked ? 'invisible' : '']"
               aria-hidden="true"
             />
             <span
-              :class="[active ? 'border' : 'border-2', checked ? 'border-indigo-500' : 'border-transparent', 'absolute -inset-px rounded-lg pointer-events-none']"
+              class="absolute rounded-lg pointer-events-none -inset-px"
+              :class="[active ? 'border' : 'border-2', checked ? 'border-indigo-500' : 'border-transparent']"
               aria-hidden="true"
             />
           </div>
@@ -222,13 +232,13 @@ const haveUserEmployees = computed(() => {
   if (!userStore.isCurrentUserAdmin) {
     return employeeStore.getAllArray.length > 0
   }
-  return false
+  return true
 })
 
 async function submit(photographerId?: number) {
   IncLoading()
   let photographer = null
-  if (!isPhotographerAlreadyCreated) {
+  if (!isPhotographerAlreadyCreated.value) {
     photographer = await postPhotographer({
       ...userStore.photographerForm,
     })
@@ -253,11 +263,11 @@ async function submit(photographerId?: number) {
       })
     progressBarProgession.value = 40
     if (newEvent) {
-      resetEventForm()
       if (eventStore.creationForm.employeeIds.length > 0 && isArrayOfNumbers(eventStore.creationForm.employeeIds)) {
         await postManyAnswers(newEvent.id, eventStore.creationForm.employeeIds)
         progressBarProgession.value = 60
       }
+      resetEventForm()
       progressBarProgession.value = 100
       resetAddressForm()
       router.push({
