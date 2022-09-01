@@ -18,6 +18,10 @@
       :value="user.id"
       :name="getUserfullName(user)"
     />
+    <BaseOption
+      value="null"
+      name="Aucun"
+    />
   </BaseSelect>
   <div class="flex items-center justify-center mt-6">
     <BaseButton
@@ -38,6 +42,7 @@
 import type { InferType } from 'yup'
 import { number, object } from 'yup'
 import type { UserType, VeeValidateValues } from '@/types'
+import { RoleEnum } from '@/types'
 const uiStore = useUiStore()
 const userStore = useUserStore()
 
@@ -65,15 +70,14 @@ const emit = defineEmits<{
 
 async function submit(form: VeeValidateValues) {
   const formValues = form as IForm
-  console.log(formValues, '<==== formValues')
   emit('submitted', formValues.photographerId)
 }
 
 onMounted(async() => {
   state.isLoading = true
-  if (!userStore.isCurrentUserAdmin) {
+  if (userStore.isCurrentUserAdmin) {
     await fetchAll()
-    state.allPhotographer = userStore.getAllArray
+    state.allPhotographer = userStore.getWhereArray(photographer => photographer.roles === RoleEnum.PHOTOGRAPHER)
   } else if (userStore.getCurrentUserId) {
     const res = await getPhotographerUserWorkedWith(userStore.getCurrentUserId)
     state.allPhotographer = res
