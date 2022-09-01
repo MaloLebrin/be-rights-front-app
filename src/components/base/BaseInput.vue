@@ -15,7 +15,7 @@
   </label>
   <div class="relative">
     <input
-      v-bind="{...field, ...$attrs }"
+      v-bind="{ ...field, ...$attrs }"
       :id="name"
       :disabled="disabled"
       :aria-disabled="disabled"
@@ -23,8 +23,8 @@
       :aria-placeholder="placeholder"
       :name="name"
       :type="computedInputType"
-      :class="['appearance-none block shadow-md py-2 px-4 border focus:ring-purple-500 focus:border-purple-500 w-full sm:text-sm border-gray-300 rounded-md text-gray-800',
-               { 'border-red-300': errors?.length },
+      class="appearance-none block shadow-md py-2 px-4 border focus:ring-purple-500 focus:border-purple-500 w-full sm:text-sm border-gray-300 rounded-md text-gray-800"
+      :class="[{ 'border-red-300': errors?.length },
                { 'cursor-not-allowed disabled:border-gray-500 disabled:bg-gray-200': disabled },
                getBorderClasses(errors, meta),
       ]"
@@ -41,12 +41,12 @@
         class="w-6 h-6 text-green"
       />
       <button
-        v-if="type==='password'"
+        v-if="type === 'password'"
         type="button"
         class="text-gray-600 border-2 border-transparent focus:outline-none focus:border-pink-600"
         @click.prevent="onPasswordVisibilityToggle"
       >
-        <EyeOffIconOutline
+        <EyeSlashIconOutline
           v-if="isPasswordVisible"
           class="w-6 h-6"
         />

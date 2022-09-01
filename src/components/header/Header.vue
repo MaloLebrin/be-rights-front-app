@@ -67,7 +67,7 @@
       >
         <div>
           <MenuButton class="inline-flex justify-center w-full">
-            <MenuIconOutline class="h-16 text-gray-800 dark:text-gray-100" />
+            <Bars3IconOutline class="h-16 text-gray-800 dark:text-gray-100" />
           </MenuButton>
         </div>
 
@@ -138,6 +138,9 @@
 </template>
 
 <script setup lang="ts">
+const emit = defineEmits<{
+  (e: 'startNow'): void
+}>()
 
 const userStore = useUserStore()
 
@@ -151,10 +154,6 @@ const getButtonPath = computed(() => {
     return { name: 'user.events' }
   }
 })
-
-const emit = defineEmits<{
-  (e: 'startNow'): void
-}>()
 
 function onClickStartButton() {
   emit('startNow')

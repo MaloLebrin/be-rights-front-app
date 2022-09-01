@@ -7,7 +7,7 @@
     v-if="type === 'default'"
     class="w-6 h-6 mr-4 text-blue-500"
   />
-  <ExclamationIconOutline
+  <ExclamationCircleIconOutline
     v-if="type === 'warning'"
     class="w-6 h-6 mr-4 text-orange-500"
   />
@@ -24,7 +24,6 @@
 </template>
 
 <script setup lang="ts">
-
 interface Props {
   type?: 'warning' | 'danger' | 'success' | 'default'
 }

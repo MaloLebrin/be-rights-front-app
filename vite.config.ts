@@ -69,11 +69,11 @@ export default defineConfig({
         name => {
           if (name.includes('IconSolid')) {
             const realName = name.split('Solid')[0]
-            return { importName: 'default', path: `@heroicons/vue/solid/esm/${realName}.js` }
+            return { importName: 'default', path: `@heroicons/vue/24/solid/esm/${realName}.js` }
           }
           if (name.includes('IconOutline')) {
             const realName = name.split('Outline')[0]
-            return { importName: 'default', path: `@heroicons/vue/outline/esm/${realName}.js` }
+            return { importName: 'default', path: `@heroicons/vue/24/outline/esm/${realName}.js` }
           }
         },
         name => {
