@@ -48,7 +48,7 @@
       type="submit"
     >
       <template #icon>
-        <SaveIconOutline />
+        <ArrowDownOnSquareIconOutline />
       </template>
       Enregistrer
     </BaseButton>

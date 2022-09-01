@@ -137,7 +137,7 @@
         type="submit"
       >
         <template #icon>
-          <SaveIconOutline />
+          <ArrowDownOnSquareIconOutline />
         </template>
         Enregistrer
       </BaseButton>
@@ -168,7 +168,7 @@
         @click="submitFile"
       >
         <template #icon>
-          <SaveIconOutline />
+          <ArrowDownOnSquareIconOutline />
         </template>
         Enregistrer le Logo
       </BaseButton>

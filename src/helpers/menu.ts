@@ -1,13 +1,13 @@
 import {
-  ChartSquareBarIcon,
+  ChartPieIcon,
   ExclamationCircleIcon,
-  FolderAddIcon,
   FolderOpenIcon,
+  FolderPlusIcon,
   HomeIcon,
   PlusIcon,
   UserGroupIcon,
   UsersIcon,
-} from '@heroicons/vue/outline'
+} from '@heroicons/vue/24/outline'
 
 export const MENU_ITEMS = [
   {
@@ -42,7 +42,7 @@ export const MENU_ITEMS = [
   },
   {
     label: 'Newsletter Statistiques',
-    icon: ChartSquareBarIcon,
+    icon: ChartPieIcon,
     linkName: 'admin.newsletter',
     isAdmin: true,
   },
@@ -60,7 +60,7 @@ export const MENU_ITEMS = [
   },
   {
     label: 'Créer un nouveau fichier',
-    icon: FolderAddIcon,
+    icon: FolderPlusIcon,
     linkName: 'admin.files.create',
     isAdmin: true,
   },
@@ -98,7 +98,7 @@ export const MENU_ITEMS = [
   },
   {
     label: 'Créer un nouveau fichier',
-    icon: FolderAddIcon,
+    icon: FolderPlusIcon,
     linkName: 'user.files.create-model',
     isAdmin: false,
   },

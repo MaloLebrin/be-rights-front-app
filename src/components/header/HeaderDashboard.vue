@@ -9,7 +9,7 @@
           @click="toggleDrawer"
         >
           <span class="sr-only">Open sidebar</span>
-          <MenuIconOutline
+          <Bars3IconOutline
             class="w-6 h-6"
             aria-hidden="true"
           />

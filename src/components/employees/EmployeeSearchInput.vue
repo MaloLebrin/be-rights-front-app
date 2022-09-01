@@ -32,7 +32,7 @@
       <ComboboxButton
         class="absolute inset-y-0 right-0 flex items-center pr-2"
       >
-        <SelectorIconOutline
+        <ArrowsUpDownIconOutline
           class="w-5 h-5 text-gray-400"
           aria-hidden="true"
         />
@@ -101,7 +101,7 @@
       type="button"
       @click.prevent="onRemoveValue(value)"
     >
-      <XIconSolid class="w-4 h-4 hover:text-red-800" />
+      <XMarkIconSolid class="w-4 h-4 hover:text-red-800" />
     </button>
   </p>
 </div>

@@ -46,7 +46,7 @@
                 @click="closeDrawer"
               >
                 <span class="sr-only">Close sidebar</span>
-                <XIconOutline
+                <XMarkIconOutline
                   class="w-6 h-6 text-white"
                   aria-hidden="true"
                 />
@@ -65,11 +65,13 @@
                 :to="{ name: item.linkName }"
               >
                 <div
-                  :class="[isExactActive ? 'bg-gray-900 text-white' : 'dark:text-gray-300 text-gray-600 hover:bg-gray-700 hover:text-white', 'group flex items-center px-2 py-2 text-sm font-medium rounded-md']"
+                  class="group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                  :class="[isExactActive ? 'bg-gray-900 text-white' : 'dark:text-gray-300 text-gray-600 hover:bg-gray-700 hover:text-white']"
                 >
                   <component
                     :is="item.icon"
-                    :class="[isExactActive ? 'text-gray-300' : 'dark:text-gray-400 text-gray-600 group-hover:text-gray-300', 'mr-3 flex-shrink-0 h-6 w-6']"
+                    class="mr-3 flex-shrink-0 h-6 w-6"
+                    :class="[isExactActive ? 'text-gray-300' : 'dark:text-gray-400 text-gray-600 group-hover:text-gray-300']"
                     aria-hidden="true"
                   />
                   {{ item.label }}
@@ -109,11 +111,13 @@
             :to="{ name: item.linkName }"
           >
             <div
-              :class="[isExactActive ? 'bg-gray-900 text-white' : 'dark:text-gray-300 text-gray-600 hover:bg-gray-700 hover:text-white', 'group flex items-center px-2 py-2 text-sm font-medium rounded-md']"
+              class="group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+              :class="[isExactActive ? 'bg-gray-900 text-white' : 'dark:text-gray-300 text-gray-600 hover:bg-gray-700 hover:text-white']"
             >
               <component
                 :is="item.icon"
-                :class="[isExactActive ? 'text-gray-300' : 'dark:text-gray-400 text-gray-600 group-hover:text-gray-300', 'mr-3 flex-shrink-0 h-6 w-6']"
+                class="mr-3 flex-shrink-0 h-6 w-6"
+                :class="[isExactActive ? 'text-gray-300' : 'dark:text-gray-400 text-gray-600 group-hover:text-gray-300']"
                 aria-hidden="true"
               />
               {{ item.label }}

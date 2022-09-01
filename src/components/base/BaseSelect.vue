@@ -26,7 +26,7 @@
     >
       <span class="block truncate">{{ displayValue || placeholder }}</span>
       <span class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-        <SelectorIconOutline
+        <ArrowsUpDownIconOutline
           class="w-6 h-6 text-gray-900"
           aria-hidden="true"
         />
