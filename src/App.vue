@@ -7,27 +7,6 @@
   />
 </router-view>
 </template>
-<script setup lang="ts">
-import { useCookies } from 'vue3-cookies'
-
-const userStore = useUserStore()
-const { setCookiesAccepted } = useMainStore()
-const { loginWithToken } = authHook()
-
-onMounted(async() => {
-  const { cookies } = useCookies()
-  const cookiesAccepted = cookies.get('areCookiesAccepted')
-  if (cookiesAccepted) {
-    setCookiesAccepted()
-  }
-  if (!userStore.isLoggedIn) {
-    const token = cookies.get('userToken')
-    if (token && token.length > 0) {
-      await loginWithToken(token)
-    }
-  }
-})
-</script>
 
 <style>
 #app {
