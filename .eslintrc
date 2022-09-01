@@ -31,7 +31,7 @@
     "brace-style": [0, "stroustrup", { "allowSingleLine": false }],
     "@typescript-eslint/brace-style": [0, "stroustrup", { "allowSingleLine": false }],
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error"],
+    "@typescript-eslint/no-unused-vars": ["off"],
     "arrow-parens": [2, "as-needed"]
   }
 }
