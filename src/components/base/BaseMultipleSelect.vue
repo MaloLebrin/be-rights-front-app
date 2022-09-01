@@ -17,16 +17,14 @@
   </ListboxLabel>
   <div class="relative">
     <ListboxButton
+      class="relative w-full px-4 py-2 text-left placeholder-gray-400 border rounded-md shadow focus:ring-pink-400 focus:border-pink-400 focus:outline-none disabled:bg-gray-100 disabled:border-gray-400"
       :class="[
-        'relative w-full px-4 py-2 placeholder-gray-400 border shadow rounded-md text-left',
-        'focus:ring-pink-400 focus:border-pink-400 focus:outline-none',
-        'disabled:bg-gray-100 disabled:border-gray-400',
         getBorderClasses(),
       ]"
     >
       <span class="block truncate">{{ placeholder }}</span>
       <span class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-        <SelectorIconOutline
+        <ArrowsUpDownIconOutline
           class="w-6 h-6 text-gray-800"
           aria-hidden="true"
         />
@@ -51,22 +49,15 @@
           <!-- :disabled="!inputValue?.includes(value[valueKey]) && inputValue.length >= max" -->
           <label
             :for="getDisplayName(value[valueKey])"
+            class="relative flex items-start justify-start px-4 py-2 space-x-2 text-sm text-gray-900 cursor-pointer select-none"
             :class="[
               active ? 'bg-gray-200' : 'bg-white',
               disabled ? 'opacity-50' : '',
-              'relative cursor-pointer text-sm select-none py-2 px-4 text-gray-900',
-              'text-gray-900 flex items-start justify-start space-x-2',
             ]"
           >
             <input
               :name="getDisplayName(value[valueKey])"
-              :class="[
-                'w-4 h-4 rounded border-green-600 mt-[2px]',
-                'hover:border-green-700',
-                'checked:text-green-600',
-                'focus:ring-green-600 focus:border-green-600 focus:outline-none',
-                'disabled:border-gray-600 disabled:text-gray-600',
-              ]"
+              class="w-4 h-4 rounded border-green-600 mt-[2px] hover:border-green-700 checked:text-green-600 focus:ring-green-600 focus:border-green-600 focus:outline-none disabled:border-gray-600 disabled:text-gray-600"
               type="checkbox"
               :checked="selected"
             >
@@ -105,7 +96,7 @@
         type="button"
         @click.prevent="onRemoveValue(value)"
       >
-        <XIconSolid class="w-4 h-4 hover:text-red-800" />
+        <XMarkIconSolid class="w-4 h-4 hover:text-red-800" />
       </button>
     </p>
   </div>

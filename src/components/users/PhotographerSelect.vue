@@ -30,7 +30,7 @@
       type="submit"
     >
       <template #icon>
-        <SaveIconOutline />
+        <ArrowDownOnSquareIconOutline />
       </template>
       valider
     </BaseButton>
@@ -43,6 +43,9 @@ import type { InferType } from 'yup'
 import { number, object } from 'yup'
 import type { UserType, VeeValidateValues } from '@/types'
 import { RoleEnum } from '@/types'
+const emit = defineEmits<{
+  (e: 'submitted', photographerId: number): void
+}>()
 const uiStore = useUiStore()
 const userStore = useUserStore()
 
@@ -64,16 +67,12 @@ const state = reactive<State>({
   isLoading: false,
 })
 
-const emit = defineEmits<{
-  (e: 'submitted', photographerId: number): void
-}>()
-
 async function submit(form: VeeValidateValues) {
   const formValues = form as IForm
   emit('submitted', formValues.photographerId)
 }
 
-onMounted(async() => {
+onMounted(async () => {
   state.isLoading = true
   if (userStore.isCurrentUserAdmin) {
     await fetchAll()

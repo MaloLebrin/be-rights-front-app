@@ -45,7 +45,7 @@
             <span
               class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
             >
-              <SelectorIconOutline
+              <ArrowsUpDownIconOutline
                 class="w-5 h-5 text-gray-400"
                 aria-hidden="true"
               />
@@ -68,15 +68,15 @@
                 as="template"
               >
                 <li
+                  class="relative py-2 pl-10 pr-4 cursor-default select-none"
                   :class="[
                     active ? 'text-amber-900 bg-amber-100' : 'text-gray-900',
-                    'cursor-default select-none relative py-2 pl-10 pr-4',
                   ]"
                 >
                   <span
+                    class="block truncate"
                     :class="[
                       selected ? 'font-medium' : 'font-normal',
-                      'block truncate',
                     ]"
                   >{{ getTranslationFileType(fileType) }}</span>
                   <span
@@ -137,7 +137,7 @@
       @click="submit"
     >
       <template #icon>
-        <SaveIconOutline />
+        <ArrowDownOnSquareIconOutline />
       </template>
       Enregistrer
     </BaseButton>

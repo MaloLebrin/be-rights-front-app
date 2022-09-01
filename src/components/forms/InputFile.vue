@@ -1,13 +1,13 @@
 <template>
 <label
-  :class="[{ 'border-4 border-dashed': !imageUrl },
-           'flex flex-col items-center hover:border-gray-300 py-5 cursor-pointer']"
+  class="flex flex-col items-center hover:border-gray-300 py-5 cursor-pointer"
+  :class="[{ 'border-4 border-dashed': !imageUrl }]"
 >
   <div
     v-if="!imageUrl"
     class="flex flex-col items-center justify-center w-full h-full"
   >
-    <PhotographIconOutline class="w-12 h-12 overflow-hidden text-gray-600" />
+    <DocumentArrowUpIconOutline class="w-12 h-12 overflow-hidden text-gray-600" />
     <p class="mt-8 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">{{ message }}</p>
   </div>
   <img

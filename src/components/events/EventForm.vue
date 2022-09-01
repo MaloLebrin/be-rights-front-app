@@ -130,7 +130,7 @@
       type="submit"
     >
       <template #icon>
-        <SaveIconOutline />
+        <ArrowDownOnSquareIconOutline />
       </template>
       {{ !isEditMode ? 'Créer' : 'Enregistrer' }}
     </BaseButton>
@@ -139,6 +139,7 @@
 </template>
 
 <script setup lang="ts">
+import { Calendar, DatePicker } from 'v-calendar'
 import type { InferType } from 'yup'
 import { array, date, number, object, string } from 'yup'
 import { ModalModeEnum, RoleEnum } from '@/types'
