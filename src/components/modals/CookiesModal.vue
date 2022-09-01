@@ -38,7 +38,7 @@
         <div class="relative inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-5xl sm:w-full sm:p-6">
           <div>
             <div class="flex items-center justify-center w-12 h-12 mx-auto bg-green-100 rounded-full">
-              <AdjustmentsIconOutline
+              <AdjustmentsHorizontalIconOutline
                 class="w-6 h-6 text-green-600"
                 aria-hidden="true"
               />
@@ -80,7 +80,7 @@ const { setCookiesAccepted } = useMainStore()
 const { cookies } = useCookies()
 const open = ref(!mainStore.getAreCookiesAccepted)
 
-onMounted(async() => {
+onMounted(async () => {
   const cookiesAccepted = cookies.get('areCookiesAccepted')
   if (cookiesAccepted) {
     setCookiesAccepted()

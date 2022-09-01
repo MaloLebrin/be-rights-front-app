@@ -9,7 +9,7 @@
         @keyup="searchEntity($event)"
       />
     </div>
-    <FiltersFilesTable />
+    <!-- <FiltersFilesTable /> -->
   </div>
   <div class="flex flex-col h-full mt-8">
     <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
