@@ -10,11 +10,17 @@
   />
   <div
     v-else
-    class="flex items-center justify-center w-full"
+    class="flex flex-col items-center justify-center w-full space-y-4"
   >
     <h5 class="text-3xl font-bold leading-8 tracking-tight text-center text-gray-900 sm:text-4xl">
       Vous n'avez pas de destinataires
     </h5>
+    <BaseButton :href="{ name: getRouteName('employees.create') }">
+      <template #icon>
+        <UserPlusIconOutline />
+      </template>
+      Créer un destinataire
+    </BaseButton>
   </div>
 
   <aside class="order-first border-r border-gray-200 md:flex-shrink-0 xl:flex xl:flex-col w-96">
@@ -63,7 +69,7 @@
               v-for="employee in alphabeticalAmployeeList[letter]"
               :key="employee.id"
               :employee="employee"
-              :class="{ 'bg-gray-100' : employee.id === state.activeEmployee }"
+              :class="{ 'bg-gray-100': employee.id === state.activeEmployee }"
               @click="setActiveEmployee(employee)"
             />
           </ul>
@@ -73,9 +79,9 @@
         v-else
         class="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 truncate whitespace-nowrap sm:pl-6"
       >
-        {{ userStore.isCurrentUserAdmin ?
-          'Aucun destinataire enregistré dans la base de donnée' :
-          'Vous n\'avez pas de destinataire enregistré dans la base de donnée'
+        {{ userStore.isCurrentUserAdmin
+          ? 'Aucun destinataire enregistré dans la base de donnée'
+          : 'Vous n\'avez pas de destinataire enregistré dans la base de donnée'
         }}
       </p>
     </nav>
@@ -90,6 +96,7 @@ import type { EmployeeType } from '@/types'
 const { setSearch } = useTableStore()
 const userStore = useUserStore()
 const employeeStore = useEmployeeStore()
+const { getRouteName } = authHook()
 
 const employees = computed(() => alphabetical(employeeStore.getAllArray) as EmployeeType[])
 
@@ -118,7 +125,6 @@ const alphabeticalAmployeeList = computed(() => {
   }, {})
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function searchEntity(event: KeyboardEvent) {
   clearTimeout(state.timeout)
   state.timeout = window.setTimeout(() => {
