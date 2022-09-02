@@ -41,7 +41,6 @@ export function eventHook() {
         if (address && isAddressType(address)) {
           if (!addressStore.isAlreadyInStore(address?.id)) {
             createOneAddress(address)
-            event.address = address.id
           }
         }
 
@@ -81,11 +80,7 @@ export function eventHook() {
       }
       const res = await api.get(finalUrl)
       const { data }: PaginatedResponse<EventType> = res
-      const missingIds = data.map((event: EventType) => event.id).filter(id => !eventStore.isAlreadyInStore(id))
-      if (missingIds.length > 0) {
-        const events = data.filter(event => missingIds.includes(event.id))
-        storeEventRelationEntities(events)
-      }
+      storeEventRelationEntities(data)
     } catch (error) {
       console.error(error)
       toast.error('Une erreur est survenue')
