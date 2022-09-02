@@ -143,6 +143,7 @@ import type { InferType } from 'yup'
 import { array, date, number, object, string } from 'yup'
 import { ModalModeEnum } from '@/types'
 import type { BaseCreationFormType, EventType, VeeValidateValues } from '@/types'
+import { uniq } from '@/utils'
 
 interface Props {
   eventId?: number | null
@@ -164,11 +165,12 @@ const userStore = useUserStore()
 const uiStore = useUiStore()
 const addressStore = useAddressStore()
 const employeeStore = useEmployeeStore()
+const answerStore = useAnswerStore()
 const router = useRouter()
 
 const { IncLoading, DecLoading, resetUiModalState } = uiStore
 const { postMany: postManyAnswers } = answerHook()
-const { patchOne: patchOneAddress } = addressHook()
+const { patchOne: patchOneAddress, postOne: postOneAddress } = addressHook()
 const { patchOne: patchOneEvent } = eventHook()
 const { isUserType } = userHook()
 const { getEmployeeFullname } = employeeHook()
@@ -266,22 +268,39 @@ async function submit(form: VeeValidateValues) {
     }
     await patchOneEvent(payload as EventType)
     if (eventAddress.value && formValues.addressLine && formValues.postalCode && formValues.city && formValues.country) {
-      await patchOneAddress(eventAddress.value.id, {
-        addressLine: formValues.addressLine,
-        addressLine2: formValues.addressLine2,
-        postalCode: formValues.postalCode,
-        city: formValues.city,
-        country: formValues.country,
-      })
+      if (eventAddress.value.id) {
+        await patchOneAddress(eventAddress.value.id, {
+          addressLine: formValues.addressLine,
+          addressLine2: formValues.addressLine2,
+          postalCode: formValues.postalCode,
+          city: formValues.city,
+          country: formValues.country,
+        })
+      } else {
+        await postOneAddress({
+          address: {
+            addressLine: formValues.addressLine,
+            addressLine2: formValues.addressLine2,
+            postalCode: formValues.postalCode,
+            city: formValues.city,
+            country: formValues.country,
+          },
+          eventId: props.eventId,
+        })
+      }
     }
 
     if (formValues.employees && formValues.employees.length > 0) {
       const employeesIds = formValues.employees.filter(id => id) as number[]
+      const answerAlreadyCreated = answerStore.getManyByEventId(props.eventId).map(answer => answer.employee)
+      const empToCreateAnswer = employeesIds.filter(empId => !answerAlreadyCreated.includes(empId))
       const eventId = props.eventId
-      await postManyAnswers(
-        eventId,
-        employeesIds,
-      )
+      if (empToCreateAnswer?.length > 0) {
+        await postManyAnswers(
+          eventId,
+          uniq(empToCreateAnswer),
+        )
+      }
     }
     emit('submitted', props.eventId)
     router.push({
