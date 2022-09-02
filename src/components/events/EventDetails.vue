@@ -14,14 +14,14 @@
         </div>
         <div class="flex flex-col mt-1 sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-8">
           <div class="flex items-center mt-2 text-sm text-gray-500">
-            <LocationMarkerIconOutline
+            <MapPinIconOutline
               class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
               aria-hidden="true"
             />
             {{ eventAddress?.city }}
           </div>
           <div class="flex items-center mt-2 text-sm text-gray-500">
-            <CalendarIconOutline
+            <CalendarDaysIconOutline
               class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
               aria-hidden="true"
             />
@@ -30,34 +30,37 @@
         </div>
       </div>
       <div
-        class="flex flex-col items-center justify-center mt-5 space-y-4 md:flex-row md:space-y-0 md:space-x-4 xl:mt-0 xl:ml-4"
+        class="flex flex-col items-center justify-center mt-5 space-y-4"
       >
-        <BaseButton
-          :href="{
-            name: userStore.isCurrentUserAdmin ? 'admin.events.edit' : 'user.events.edit',
-            params: { eventId: event?.id.toString() }
-          }"
-        >
-          <template #icon>
-            <PencilAltIconOutline
-              class="w-5 h-5"
-              aria-hidden="true"
-            />
-          </template>
-          Modifier
-        </BaseButton>
-        <BaseButton
-          color="red"
-          @click="deleteEvent"
-        >
-          <template #icon>
-            <TrashIconOutline
-              class="w-5 h-5"
-              aria-hidden="true"
-            />
-          </template>
-          Supprimer
-        </BaseButton>
+        <div class="flex flex-col items-center justify-center mt-5 space-y-4 md:flex-row md:space-y-0 md:space-x-4 xl:mt-0 xl:ml-4">
+          <BaseButton
+            :href="{
+              name: getRouteName('events.edit'),
+              params: { eventId: event?.id.toString() },
+            }"
+          >
+            <template #icon>
+              <PencilSquareIconOutline
+                class="w-5 h-5"
+                aria-hidden="true"
+              />
+            </template>
+            Modifier
+          </BaseButton>
+          <BaseButton
+            color="red"
+            @click="deleteEvent"
+          >
+            <template #icon>
+              <TrashIconOutline
+                class="w-5 h-5"
+                aria-hidden="true"
+              />
+            </template>
+            Supprimer
+          </BaseButton>
+        </div>
+        <EmployeeCreator :employee-creator="userStore.getOne(event.createdByUser)" />
       </div>
     </div>
   </header>
@@ -70,7 +73,7 @@
         </h2>
 
         <!-- Tabs -->
-        <TabGroup>
+        <TabGroup :default-index="0">
           <TabList
             class="flex items-center mt-2 -mb-px space-x-8 border-b border-gray-200"
             aria-label="Tabs"
@@ -80,12 +83,14 @@
               :disabled="employees.length === 0"
             >
               <div
-                :class="[selected ? 'border-purple-500 text-purple-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200', 'whitespace-nowrap py-4 px-1 border-b-2 font-medium',
+                class="px-1 py-4 font-medium border-b-2 whitespace-nowrap"
+                :class="[selected ? 'border-purple-500 text-purple-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200',
                          { 'cursor-not-allowed opacity-50': employees.length === 0 }]"
               >
                 <span>Inscrits</span>
                 <span
-                  :class="[selected ? 'bg-purple-100 text-purple-600' : 'bg-gray-100 text-gray-900', 'hidden ml-2 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block']"
+                  class="hidden ml-2 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block"
+                  :class="[selected ? 'bg-purple-100 text-purple-600' : 'bg-gray-100 text-gray-900']"
                 >{{
                   employees.length
                 }}</span>
@@ -96,12 +101,14 @@
               :disabled="files.length === 0"
             >
               <div
-                :class="[selected ? 'border-purple-500 text-purple-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200', 'whitespace-nowrap py-4 px-1 border-b-2 font-medium',
+                class="px-1 py-4 font-medium border-b-2 whitespace-nowrap"
+                :class="[selected ? 'border-purple-500 text-purple-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200',
                          { 'cursor-not-allowed opacity-50': files.length === 0 }]"
               >
                 <span>Fichiers</span>
                 <span
-                  :class="[selected ? 'bg-purple-100 text-purple-600' : 'bg-gray-100 text-gray-900', 'hidden ml-2 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block']"
+                  class="hidden ml-2 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block"
+                  :class="[selected ? 'bg-purple-100 text-purple-600' : 'bg-gray-100 text-gray-900']"
                 >{{
                   files.length
                 }}</span>
@@ -131,7 +138,7 @@
                               {{ employee.lastName }}
                             </p>
                             <p class="flex items-center mt-2 text-sm text-gray-500">
-                              <MailIconOutline
+                              <EnvelopeIconOutline
                                 class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
                                 aria-hidden="true"
                               />
@@ -146,7 +153,7 @@
                             </p>
                           </div>
                           <div
-                            v-if="getAnswerForEmployee(employee.id).value"
+                            v-if="getAnswerForEmployee(employee.id).value?.createdAt"
                             class="hidden md:block"
                           >
                             <p class="text-sm text-gray-900">
@@ -180,7 +187,7 @@
                               <!-- TODO send email to employee again -->
                               <BaseButton disabled>
                                 <template #icon>
-                                  <MailIconOutline
+                                  <EnvelopeIconOutline
                                     class="text-gray-200"
                                     aria-hidden="true"
                                   />
@@ -272,19 +279,20 @@ const { getEmployeesByEventId } = employeeHook()
 const { fetchAllForEvent } = fileHook()
 const { fetchManyAnswerForEvent } = answerHook()
 const { isNotPersonnalFile } = fileHook()
+const { getRouteName } = authHook()
 const employeeStore = useEmployeeStore()
 const fileStore = useFileStore()
 const answerStore = useAnswerStore()
-const userStore = useUserStore()
 const addressStore = useAddressStore()
+const userStore = useUserStore()
 const { IncLoading, DecLoading, setUiModal } = useUiStore()
 const { fetchEvent } = eventHook()
 
 const event = computed(() => eventStore.getOne(props.eventId))
 const eventAddress = computed(() => {
   if (event.value) {
-    if (event.value.address) {
-      return addressStore.getOne(event.value?.address as number) || addressStore.getOneByEventId(event.value?.id)
+    if (event.value.addressId) {
+      return addressStore.getOne(event.value?.addressId as number) || addressStore.getOneByEventId(event.value?.id)
     }
     return addressStore.getOneByEventId(event.value?.id)
   }
@@ -299,7 +307,7 @@ const getAnswerForEmployee = (employeeId: number) => computed(() => {
   return answers.value.find(answer => answer.employee === employeeId)
 })
 
-onMounted(async() => {
+onMounted(async () => {
   IncLoading()
   if (props.eventId) {
     if (!eventStore.isAlreadyInStore(props.eventId)) {

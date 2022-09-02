@@ -47,6 +47,7 @@ declare module '@vue/runtime-core' {
     DialogTitle: typeof import('@headlessui/vue')['DialogTitle']
     EditEvent: typeof import('./../../pages/userDashboard/event/EditEvent.vue')['default']
     EditUserAccount: typeof import('./../../pages/userDashboard/EditUserAccount.vue')['default']
+    EmployeeCreator: typeof import('./../../components/employees/EmployeeCreator.vue')['default']
     EmployeeDetails: typeof import('./../../components/employees/EmployeeDetails.vue')['default']
     EmployeeForm: typeof import('./../../components/employees/EmployeeForm.vue')['default']
     EmployeeId: typeof import('./../../pages/adminDashboard/employee/EmployeeId.vue')['default']
