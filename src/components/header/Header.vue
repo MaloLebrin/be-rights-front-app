@@ -29,9 +29,8 @@
 
               <BaseButton
                 :href="getButtonPath"
-                @click="onClickStartButton"
               >
-                {{ userStore.entities.current ? 'Mon compte' : 'Commencer' }}
+                {{ userStore.isLoggedIn ? 'Mon compte' : 'Commencer' }}
               </BaseButton>
 
               <router-link
@@ -111,7 +110,6 @@
               >
                 <BaseButton
                   :href="getButtonPath"
-                  @click="onClickStartButton"
                 >
                   {{ userStore.isLoggedIn ? 'Mon compte' : 'Commencer' }}
                 </BaseButton>
@@ -138,24 +136,13 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits<{
-  (e: 'startNow'): void
-}>()
-
 const userStore = useUserStore()
+const { getRouteName } = authHook()
 
 const getButtonPath = computed(() => {
-  if (!userStore.entities.current) {
+  if (!userStore.isLoggedIn) {
     return { name: 'register' }
   }
-  if (userStore.isCurrentUserAdmin) {
-    return { name: 'admin.events' }
-  } else {
-    return { name: 'user.events' }
-  }
+  return getRouteName('events')
 })
-
-function onClickStartButton() {
-  emit('startNow')
-}
 </script>
