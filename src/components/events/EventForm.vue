@@ -178,7 +178,7 @@ const isEditMode = computed(() => props.mode === ModalModeEnum.EDIT)
 const event = computed(() => props.eventId ? eventStore.getOne(props.eventId) : null)
 const eventAddress = computed(() => {
   if (event.value) {
-    const address = addressStore.getOne(event.value.address as number)
+    const address = addressStore.getOne(event.value.addressId as number)
     if (!address) {
       return addressStore.getOneByEventId(event.value.id) || null
     }
