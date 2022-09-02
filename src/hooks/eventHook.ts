@@ -41,9 +41,9 @@ export function eventHook() {
         if (address && isAddressType(address)) {
           if (!addressStore.isAlreadyInStore(address?.id)) {
             createOneAddress(address)
+            delete event.address
           }
         }
-
         return {
           ...event,
         }
@@ -161,6 +161,8 @@ export function eventHook() {
     if (event && event.id) {
       IncLoading()
       try {
+        delete event.address
+        delete event.partnerId
         const res = await api.patch(`event/${event.id}`, { event })
         if (isEventType(res)) {
           eventStore.updateOne(res.id, res)

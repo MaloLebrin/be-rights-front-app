@@ -15,7 +15,9 @@ export interface IEvent extends BaseEntity {
 export interface EventType extends IEvent {
   files?: number[]
   employees?: number[]
-  addressId?: AddressType | number
+  addressId?: number | null
+  address?: AddressType | null
+  partnerId?: number | null
 }
 
 export interface EventTypeWithRelations extends IEvent {
