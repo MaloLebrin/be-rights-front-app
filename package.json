@@ -32,7 +32,7 @@
   "dependencies": {
     "@headlessui/vue": "^1.6.7",
     "@heroicons/vue": "^2.0.10",
-    "@malolebrin/pinia-entity-store": "^0.2.0",
+    "@malolebrin/pinia-entity-store": "^0.2.1",
     "@popperjs/core": "^2.11.6",
     "@tiptap/starter-kit": "^2.0.0-beta.191",
     "@tiptap/vue-3": "^2.0.0-beta.96",
