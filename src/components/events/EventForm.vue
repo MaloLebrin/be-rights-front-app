@@ -139,10 +139,9 @@
 </template>
 
 <script setup lang="ts">
-import { Calendar, DatePicker } from 'v-calendar'
 import type { InferType } from 'yup'
 import { array, date, number, object, string } from 'yup'
-import { ModalModeEnum, RoleEnum } from '@/types'
+import { ModalModeEnum } from '@/types'
 import type { BaseCreationFormType, EventType, VeeValidateValues } from '@/types'
 
 interface Props {
@@ -173,6 +172,7 @@ const { patchOne: patchOneAddress } = addressHook()
 const { patchOne: patchOneEvent } = eventHook()
 const { isUserType } = userHook()
 const { getEmployeeFullname } = employeeHook()
+const { getRouteName } = authHook()
 
 const isEditMode = computed(() => props.mode === ModalModeEnum.EDIT)
 const event = computed(() => props.eventId ? eventStore.getOne(props.eventId) : null)
@@ -250,7 +250,7 @@ async function submit(form: VeeValidateValues) {
     if (formValues.userId) {
       setCreationForm(payload.event as BaseCreationFormType)
       router.push({
-        name: 'admin.events.create',
+        name: getRouteName('events.create'),
         query: { step: 'address' },
       })
     }
@@ -285,7 +285,7 @@ async function submit(form: VeeValidateValues) {
     }
     emit('submitted', props.eventId)
     router.push({
-      name: userStore.isCurrentUserAdmin ? 'admin.events.show' : 'user.events.show',
+      name: getRouteName('events.show'),
       params: {
         eventId: props.eventId,
       },
