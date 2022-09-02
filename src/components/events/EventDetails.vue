@@ -287,6 +287,7 @@ const addressStore = useAddressStore()
 const userStore = useUserStore()
 const { IncLoading, DecLoading, setUiModal } = useUiStore()
 const { fetchEvent } = eventHook()
+const { fetchOne: fetchOneAddress } = addressHook()
 
 const event = computed(() => eventStore.getOne(props.eventId))
 const eventAddress = computed(() => {
@@ -316,6 +317,10 @@ onMounted(async () => {
     await getEmployeesByEventId(props.eventId)
     await fetchAllForEvent(props.eventId)
     await fetchManyAnswerForEvent(props.eventId)
+    const event = eventStore.getOne(props.eventId)
+    if (event.addressId && !addressStore.isAlreadyInStore(event.addressId)) {
+      await fetchOneAddress(event.addressId)
+    }
   }
   DecLoading()
 })
