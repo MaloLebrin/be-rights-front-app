@@ -13,7 +13,7 @@ export default function authHook() {
   const tableStore = useTableStore()
   const uiStore = useUiStore()
   const { setThemeClass } = mainHook()
-  const { storeUsersEntities, redirectBaseOneCurrentUserRole } = userHook()
+  const { storeUsersEntities } = userHook()
   const { IncLoading, DecLoading } = useUiStore()
   const api = new API()
   const router = useRouter()
@@ -44,7 +44,6 @@ export default function authHook() {
       const user = await api.post('user/token', { token })
       setThemeClass(user.theme)
       storeUsersEntities(user, true)
-      redirectBaseOneCurrentUserRole(user)
     } catch (error) {
       console.error(error)
     }
@@ -56,9 +55,18 @@ export default function authHook() {
     return res
   }
 
+  function getRouteName(routeName: string) {
+    const roleRoutePrefix = userStore.getRoutePrefixBasedOnRole
+    if (roleRoutePrefix) {
+      return `${roleRoutePrefix}.${routeName}`
+    }
+    return ''
+  }
+
   return {
     checkMailIsAlreadyExist,
     logout,
     loginWithToken,
+    getRouteName,
   }
 }
