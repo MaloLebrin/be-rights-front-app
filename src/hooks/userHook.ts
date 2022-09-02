@@ -271,7 +271,6 @@ export default function userHook() {
 
   async function postPhotographer(photographer: PhotographerCreatePayload) {
     try {
-      console.log(photographer, '<==== photographer')
       const res = await api.post('user/photographer', { photographer })
       if (res && isUserType(res)) {
         userStore.createOne(res)
