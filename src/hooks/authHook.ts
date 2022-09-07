@@ -44,6 +44,7 @@ export default function authHook() {
       const user = await api.post('user/token', { token })
       setThemeClass(user.theme)
       storeUsersEntities(user, true)
+      // DO Not redirect in this function
     } catch (error) {
       console.error(error)
     }

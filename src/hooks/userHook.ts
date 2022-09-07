@@ -295,6 +295,10 @@ export default function userHook() {
     }
   }
 
+  function isUserAdmin(user: UserType) {
+    return user?.roles === RoleEnum.ADMIN
+  }
+
   return {
     deleteUser,
     fetchAll,
@@ -304,6 +308,7 @@ export default function userHook() {
     getRoleTranslation,
     getUserfullName,
     isArrayUserType,
+    isUserAdmin,
     isUserType,
     login,
     patchOne,
