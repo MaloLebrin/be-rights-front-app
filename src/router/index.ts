@@ -20,7 +20,6 @@ router.beforeResolve(async (to, _from, next) => {
   const userStore = useUserStore()
   const { getUserWithTokenFromAPI } = userStore
   const { cookies } = useCookies()
-  // const { loginWithToken } = authHook()
 
   const { isAuth, isAdmin } = to.meta
   if (!isAuth) {
@@ -49,10 +48,10 @@ router.beforeResolve(async (to, _from, next) => {
         }
       }
     }
-    return next({
-      name: 'login',
-    })
   }
+  return next({
+    name: 'login',
+  })
 })
 
 declare module 'vue-router' {
