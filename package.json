@@ -2,6 +2,7 @@
   "name": "be-rights",
   "version": "0.0.1",
   "private": true,
+  "packageManager": "pnpm@7.11.0",
   "description": "Vue 3 BeRight landing page based on TypeScript",
   "author": {
     "name": "Malo Lebrin",
@@ -34,8 +35,6 @@
     "@heroicons/vue": "^2.0.10",
     "@malolebrin/pinia-entity-store": "^0.2.1",
     "@popperjs/core": "^2.11.6",
-    "@tiptap/starter-kit": "^2.0.0-beta.191",
-    "@tiptap/vue-3": "^2.0.0-beta.96",
     "axios": "^0.27.2",
     "dayjs": "^1.11.5",
     "normalizr": "^3.6.2",
@@ -51,7 +50,6 @@
   "devDependencies": {
     "@antfu/eslint-config": "^0.26.2",
     "@types/node": "^18.7.14",
-    "@types/yup": "^0.32.0",
     "@vitejs/plugin-vue": "^3.0.3",
     "autoprefixer": "^10.4.8",
     "eslint": "^8.23.0",
