@@ -54,6 +54,7 @@
 import type { InferType } from 'yup'
 import { object, string } from 'yup'
 import type { UserType, VeeValidateValues } from '@/types'
+
 interface IForm extends InferType<typeof schema> {}
 
 interface Props {
@@ -69,7 +70,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-  (e: 'submitted', photographer: IForm | UserType): void
+  (e: 'submitted', photographerPayoad: UserType): void
 }>()
 
 const uiStore = useUiStore()
@@ -112,7 +113,7 @@ async function submit(form: VeeValidateValues) {
       name: 'admin.events.create',
       query: { step: 'end' },
     })
-    emit('submitted', formValues)
+    emit('submitted', formValues as UserType)
   }
 
   DecLoading()
