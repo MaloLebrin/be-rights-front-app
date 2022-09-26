@@ -115,6 +115,8 @@
   setup
   lang="ts"
 >
+import type { RouteLocation } from 'vue-router'
+
 const props = withDefaults(defineProps<Props>(), {
   tag: 'button',
   type: 'button',
@@ -133,7 +135,7 @@ const mainStore = useMainStore()
 
 interface Props {
   tag?: string
-  href?: string | Record< 'name', string > | null
+  href?: string | Record< string, string | Record<string, string | number>> | null | RouteLocation
   type?: 'button' | 'submit'
   disabled?: boolean
   variant?: 'default' | 'social'

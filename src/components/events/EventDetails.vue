@@ -158,7 +158,7 @@
                           >
                             <p class="text-sm text-gray-900">
                               Ajouté le
-                              <time>{{ toFormat(getAnswerForEmployee(employee.id).value?.createdAt, 'D MMMM YYYY') }}</time>
+                              <time>{{ toFormat(getAnswerForEmployee(employee.id).value?.createdAt!, 'D MMMM YYYY') }}</time>
                             </p>
                             <p
                               v-if="getAnswerForEmployee(employee.id).value?.hasSigned && getAnswerForEmployee(employee.id).value?.signetAt"
