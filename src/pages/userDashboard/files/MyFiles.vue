@@ -13,7 +13,7 @@ const { getCurrentUserId } = useUserStore()
 
 const files = computed(() => fileStore.getWhereArray(file => file.createdByUser === getCurrentUserId))
 
-onMounted(async() => {
+onMounted(async () => {
   if (getCurrentUserId) {
     IncLoading()
     await fetchAllByUserId(getCurrentUserId)

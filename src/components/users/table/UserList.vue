@@ -75,7 +75,6 @@ function onToggleUsersModal(user: UserType) {
   })
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function searchEntity(event: KeyboardEvent) {
   clearTimeout(state.timeout)
   state.timeout = window.setTimeout(() => {

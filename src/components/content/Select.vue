@@ -26,7 +26,7 @@
   </div>
   <ul
     class="overflow max-h-80"
-    :class="{ 'hidden': !isOpen }"
+    :class="{ hidden: !isOpen }"
   >
     <option
       v-for="(option, i) of options"
@@ -41,7 +41,6 @@
 </template>
 
 <script setup lang="ts">
-
 interface Props {
   options: string[]
   default: string
@@ -55,12 +54,12 @@ const props = withDefaults(defineProps<Props>(), {
   tabindex: 0,
 })
 
-const isOpen = ref(false)
-const selected = ref(props.default ? props.default : props.options.length > 0 ? props.options[0] : null)
-
 const emit = defineEmits<{
   (e: 'selected', option: string): void
 }>()
+
+const isOpen = ref(false)
+const selected = ref(props.default ? props.default : props.options.length > 0 ? props.options[0] : null)
 
 function onOptionClick(option: string) {
   selected.value = option

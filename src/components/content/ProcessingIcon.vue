@@ -1,6 +1,7 @@
 <template>
 <svg
-  :class="[colorClasse, 'animate-spin -ml-1 mr-3 h-5 w-5 text-blue absolute top-4 right-0']"
+  class="animate-spin -ml-1 mr-3 h-5 w-5 text-blue absolute top-4 right-0"
+  :class="[colorClasse]"
   xmlns="http://www.w3.org/2000/svg"
   fill="none"
   viewBox="0 0 24 24"
@@ -22,7 +23,6 @@
 </template>
 
 <script setup lang="ts">
-
 interface Props {
   color?: string
 }

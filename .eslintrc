@@ -1,5 +1,6 @@
 {
   "extends": "@antfu",
+  "ignorePatterns": [".github/**"],
   "rules": {
     "indent": ["error", 2, {
       "SwitchCase": 1
@@ -25,6 +26,7 @@
         "ignorePattern": "^_"
     }],
     "vue/no-template-shadow": "off",
+    "vue/v-on-event-hyphenation": "off",
 
     "no-console": ["warn", { "allow": ["warn", "error"] }],
     "curly": [0, "all"],

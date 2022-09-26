@@ -17,10 +17,8 @@
   </ComboboxLabel>
   <div class="relative mt-1">
     <div
+      class="relative w-full border overflow-hidden text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm disabled:bg-gray-100 disabled:border-gray-400 disabled:opacity-50"
       :class="[
-        'relative w-full border overflow-hidden text-left bg-white rounded-lg shadow-md cursor-default',
-        'focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm',
-        'disabled:bg-gray-100 disabled:border-gray-400 disabled:opacity-50',
         getBorderClasses(),
       ]"
     >
@@ -161,7 +159,7 @@ const { fetchAll, getEmployeeFullname } = employeeHook()
 
 const query = ref('')
 
-onMounted(async() => {
+onMounted(async () => {
   IncLoading()
   await fetchAll()
   DecLoading()

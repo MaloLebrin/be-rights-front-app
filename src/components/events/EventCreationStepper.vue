@@ -14,18 +14,21 @@
         class="relative overflow-hidden lg:flex-1"
       >
         <div
+          class="border border-gray-200 overflow-hidden lg:border-0"
           :class="[
             stepIdx === 0 ? 'border-b-0 rounded-t-md' : '',
-            stepIdx === steps.length - 1 ? 'border-t-0 rounded-b-md' : '',
-            'border border-gray-200 overflow-hidden lg:border-0']"
+            stepIdx === steps.length - 1 ? 'border-t-0 rounded-b-md' : '']"
         >
           <div class="group">
             <span
               class="absolute top-0 left-0 w-1 h-full lg:w-full lg:h-1 lg:bottom-0 lg:top-auto"
-              :class="isStatusCurrent(stepIdx) ? 'bg-indigo-600': 'group-hover:bg-gray-200'"
+              :class="isStatusCurrent(stepIdx) ? 'bg-indigo-600' : 'group-hover:bg-gray-200'"
               aria-hidden="true"
             />
-            <span :class="[stepIdx !== 0 ? 'lg:pl-9' : '', 'px-6 py-5 flex items-start text-sm font-medium']">
+            <span
+              class="px-6 py-5 flex items-start text-sm font-medium"
+              :class="[stepIdx !== 0 ? 'lg:pl-9' : '']"
+            >
               <span class="flex-shrink-0">
                 <span
                   v-if="isStatusComplete(stepIdx)"

@@ -37,7 +37,7 @@ watch(() => tableStore.getFinalUrl, async newValue => {
   DecLoading()
 })
 
-onMounted(async() => {
+onMounted(async () => {
   if (userStore.getCurrentUserId) {
     IncLoading()
     await fetchEventsByUser(userStore.getCurrentUserId)

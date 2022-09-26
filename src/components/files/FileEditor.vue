@@ -1,6 +1,6 @@
 <template>
 <div v-if="editor">
-  <editor-content :editor="editor" />
+  <EditorContent :editor="editor" />
 </div>
 </template>
 

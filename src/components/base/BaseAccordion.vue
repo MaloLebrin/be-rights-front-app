@@ -62,5 +62,4 @@ function click() {
   isAccordionOpen.value = !isAccordionOpen.value
   emit('open', isAccordionOpen.value)
 }
-
 </script>

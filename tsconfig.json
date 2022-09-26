@@ -15,13 +15,13 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ],
+      ]
     },
     "types": [
       "vite-plugin-vue-layouts/client",
       "vite/client",
       "node"
-    ],
+    ]
   },
   "include": [
     "src/**/*.ts",
@@ -36,6 +36,6 @@
   ],
   "exclude": [
     "node_modules",
-    "dist",
-  ],
+    "dist"
+  ]
 }

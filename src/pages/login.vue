@@ -97,7 +97,6 @@ async function submitLogin(form: VeeValidateValues) {
     IncLoading()
     const res = await api.post('user/login', form)
     const user = res as UserType
-    console.log(user, '<==== user')
     if (user && isUserType(user)) {
       storeUsersEntities(user, true)
       cookies.set('userToken', user.token)

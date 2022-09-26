@@ -43,7 +43,7 @@
     class="grid max-w-3xl grid-cols-1 gap-6 mx-auto mt-8 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-4"
   >
     <div class="space-y-6 lg:col-start-1 lg:col-span-2">
-      <!-- Description-->
+      <!-- Description -->
       <section aria-labelledby="user-informations">
         <div class="bg-white shadow sm:rounded-lg">
           <div class="flex items-center justify-between px-4 py-5 sm:px-6">
@@ -227,7 +227,7 @@ const user = computed(() => props.id ? userStore.getOne(props.id) : null)
 const employees = computed(() => employeeStore.getWhereArray(employee => employee.createdByUser === userId.value))
 const events = computed(() => sortEventByDate(eventStore.getWhereArray(event => event.createdByUser === userId.value)))
 
-onMounted(async() => {
+onMounted(async () => {
   IncLoading()
   if (!user.value && userId.value) {
     await fetchOne(userId.value)

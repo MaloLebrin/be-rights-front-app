@@ -25,7 +25,8 @@
 </template>
 
 <script setup lang="ts">
-import type { EmployeeType, EventType } from '@/types'
+import { EmployeeType } from '@/types'
+import type { EventType } from '@/types'
 
 interface Props {
   event: EventType

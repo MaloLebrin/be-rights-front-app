@@ -3,6 +3,15 @@
   "version": "0.0.1",
   "private": true,
   "description": "Vue 3 BeRight landing page based on TypeScript",
+  "author": {
+    "name": "Malo Lebrin",
+    "email": "malolebrin@gmail.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MaloLebrin/be-rights-front-app.git"
+  },
   "keywords": [
     "vue",
     "vue3",
@@ -12,15 +21,6 @@
     "vite",
     "framework"
   ],
-  "license": "MIT",
-  "author": {
-    "name": "Malo Lebrin",
-    "email": "malolebrin@gmail.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/MaloLebrin/be-rights-front-app.git"
-  },
   "scripts": {
     "dev": "vite",
     "lint": "eslint .",

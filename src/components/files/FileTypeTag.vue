@@ -1,8 +1,8 @@
 <template>
 <div class="flex justify-center item-center sm:col-start-3">
   <div
-    :class="['flex item-center justify-center p-2 overflow-y-auto text-xs rounded-lg',
-             `bg-${getFileTypeColor()}-50 hover:bg-${getFileTypeColor()}-100 border border-${getFileTypeColor()}-500 hover:border-${getFileTypeColor()}-700`]"
+    class="flex item-center justify-center p-2 overflow-y-auto text-xs rounded-lg"
+    :class="[`bg-${getFileTypeColor()}-50 hover:bg-${getFileTypeColor()}-100 border border-${getFileTypeColor()}-500 hover:border-${getFileTypeColor()}-700`]"
   >
     <p
       :class="`text-${getFileTypeColor()}-500 group-hover:text-${getFileTypeColor()}-700 font-semibold uppercase`"
