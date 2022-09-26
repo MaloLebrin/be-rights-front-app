@@ -5,21 +5,20 @@
   :disabled="disabled"
   :aria-disabled="disabled"
   :to="href"
+  class="flex justify-center px-4 py-2 text-sm font-medium transition duration-300 ease-in-out transform border border-transparent rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 hover:-translate-y-1 hover:scale-105 font-link"
   :class="[
-    'flex justify-center px-4 py-2 text-sm font-medium border border-transparent rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transform transition hover:-translate-y-1 hover:scale-105 duration-300 ease-in-out',
     colorClasses,
-    { 'inline-flex flex-row items-center space-x-2': $slots.icon },
+    { 'inline-flex flex-row items-center': $slots.icon },
     { 'justify-start': $slots.icon && $slots.default },
     { 'justify-center': $slots.icon && !$slots.default },
     { 'cursor-not-allowed opacity-70': disabled },
-    'font-link',
-    $attrs['class'] || '',
+    $attrs.class || '',
   ]"
   @click="onClick($event)"
 >
   <span
     v-if="$slots.icon"
-    class="w-6 h-6"
+    class="w-6 h-6 mr-2"
   >
     <slot name="icon" />
   </span>
@@ -28,7 +27,7 @@
     class="flex items-center justify-center w-full h-full"
   >
     <svg
-      :class="`text-white-400 animate-spin h-6 w-6`"
+      class="w-6 h-6 text-white-400 animate-spin"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -59,14 +58,14 @@
   :type="type"
   :disabled="disabled"
   :aria-disabled="disabled"
+  class="flex items-center justify-center px-4 py-2 text-sm font-medium transition duration-300 ease-in-out transform border border-transparent rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 hover:-translate-y-1 hover:scale-105"
   :class="[
-    'flex items-center justify-center px-4 py-2 text-sm font-medium border border-transparent rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transform transition hover:-translate-y-1 hover:scale-105 duration-300 ease-in-out',
     colorClasses,
     { 'inline-flex flex-row items-center space-x-2': $slots.icon },
     { 'justify-start': $slots.icon && $slots.default },
     { 'justify-center': $slots.icon && !$slots.default },
     { 'cursor-not-allowed opacity-70': disabled },
-    $attrs['class'] || '',
+    $attrs.class || '',
   ]"
   @click="onClick($event)"
 >
@@ -85,7 +84,7 @@
       class="flex items-center justify-center w-full h-full"
     >
       <svg
-        :class="`text-white-600 animate-spin h-6 w-6`"
+        class="w-6 h-6 text-white-600 animate-spin"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -116,17 +115,7 @@
   setup
   lang="ts"
 >
-const mainStore = useMainStore()
-
-interface Props {
-  tag?: string
-  href?: string | Record< 'name', string > | null
-  type?: 'button' | 'submit'
-  disabled?: boolean
-  variant?: 'default' | 'social'
-  color?: 'purple' | 'white' | 'red' | 'green' | 'blue'
-  isLoading?: boolean
-}
+import type { RouteLocation } from 'vue-router'
 
 const props = withDefaults(defineProps<Props>(), {
   tag: 'button',
@@ -141,6 +130,18 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   (e: 'onClick', event: Event): void
 }>()
+
+const mainStore = useMainStore()
+
+interface Props {
+  tag?: string
+  href?: string | Record< string, string | Record<string, string | number>> | null | RouteLocation
+  type?: 'button' | 'submit'
+  disabled?: boolean
+  variant?: 'default' | 'social'
+  color?: 'purple' | 'white' | 'red' | 'green' | 'blue'
+  isLoading?: boolean
+}
 
 const colorClasses = computed(() => {
   let textColorClass = 'text-white'

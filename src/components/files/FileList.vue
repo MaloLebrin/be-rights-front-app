@@ -9,7 +9,7 @@
         @keyup="searchEntity($event)"
       />
     </div>
-    <FiltersFilesTable />
+    <!-- <FiltersFilesTable /> -->
   </div>
   <div class="flex flex-col h-full mt-8">
     <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -64,7 +64,6 @@ const state = reactive({
   timeout: 0,
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function searchEntity(event: KeyboardEvent) {
   clearTimeout(state.timeout)
   state.timeout = window.setTimeout(() => {

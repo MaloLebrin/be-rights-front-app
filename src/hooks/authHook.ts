@@ -1,5 +1,6 @@
 import { useCookies } from 'vue3-cookies'
 import API from '@/helpers/api'
+import type { ValidationRequest } from '@/types'
 
 export default function authHook() {
   const userStore = useUserStore()
@@ -43,14 +44,30 @@ export default function authHook() {
       const user = await api.post('user/token', { token })
       setThemeClass(user.theme)
       storeUsersEntities(user, true)
+      // DO Not redirect in this function
     } catch (error) {
       console.error(error)
     }
     DecLoading()
   }
 
+  async function checkMailIsAlreadyExist(email: string) {
+    const res: ValidationRequest = await api.post('user/isMailAlreadyExist', { email })
+    return res
+  }
+
+  function getRouteName(routeName: string) {
+    const roleRoutePrefix = userStore.getRoutePrefixBasedOnRole
+    if (roleRoutePrefix) {
+      return `${roleRoutePrefix}.${routeName}`
+    }
+    return ''
+  }
+
   return {
+    checkMailIsAlreadyExist,
     logout,
     loginWithToken,
+    getRouteName,
   }
 }

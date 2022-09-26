@@ -5,10 +5,10 @@
 >
   <div>
     <MenuButton
-      v-if="userStore.getCurrent"
+      v-if="userStore.entities.current"
       class="flex items-center flex-shrink-0 p-4"
     >
-      <UserAvatar :user="userStore.getCurrent" />
+      <UserAvatar :user="userStore.entities.current" />
       <div
         v-if="!isInHeader"
         class="ml-3"
@@ -28,13 +28,14 @@
     leave-to-class="transform scale-95 opacity-0"
   >
     <MenuItems
-      :class="['absolute w-48 py-1 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
-               isInHeader ? 'origin-top-left -left-28' : 'origin-top-right -top-24']"
+      class="absolute w-48 py-1 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+      :class="[isInHeader ? 'origin-top-left -left-28' : 'origin-top-right -top-24']"
     >
       <MenuItem v-slot="{ active }">
         <router-link
-          :to="{ name: userStore.isCurrentUserAdmin ? 'admin.users.show' : 'user.account', params: { userId: userStore.getCurrentUserId } }"
-          :class="['flex items-center space-x-2 justify-start', active ? 'bg-gray-100' : '', 'px-4 py-2 text-sm text-gray-700']"
+          :to="{ name: userStore.isCurrentUserAdmin ? 'admin.users.show' : 'user.account', params: { userId: userStore.entities.current?.id } }"
+          class="flex items-center space-x-2 justify-start px-4 py-2 text-sm text-gray-700"
+          :class="[active ? 'bg-gray-100' : '']"
         >
           <UserCircleIconOutline class="h-6 text-gray-500" />
           <span>Voir le profile</span>
@@ -54,7 +55,7 @@
           class="flex items-center justify-start w-full space-x-2 text-sm text-gray-700 cursor-pointer"
           @click="onToggleLogout"
         >
-          <LogoutIconOutline class="h-6 text-gray-500" />
+          <ArrowLeftOnRectangleIconOutline class="h-6 text-gray-500" />
           <router-link :to="{ name: 'home' }">
             Se déconnecter
           </router-link>
@@ -68,6 +69,9 @@
 <script setup lang="ts">
 import { useCookies } from 'vue3-cookies'
 
+withDefaults(defineProps<Props>(), {
+  isInHeader: false,
+})
 const userStore = useUserStore()
 const { logout } = authHook()
 const { cookies } = useCookies()
@@ -75,10 +79,6 @@ const { cookies } = useCookies()
 interface Props {
   isInHeader?: boolean
 }
-
-withDefaults(defineProps<Props>(), {
-  isInHeader: false,
-})
 
 function onToggleLogout() {
   cookies.remove('userToken')

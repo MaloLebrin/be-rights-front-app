@@ -8,7 +8,7 @@
       v-if="mode === ModalModeEnum.DELETE"
       class="flex items-center justify-center flex-shrink-0 w-12 h-12 mx-auto bg-red-100 rounded-full sm:mx-0 sm:h-10 sm:w-10"
     >
-      <ExclamationIconOutline
+      <ExclamationTriangleIconOutline
         class="w-6 h-6 text-red-600"
         aria-hidden="true"
       />
@@ -79,6 +79,11 @@ const props = withDefaults(defineProps<Props>(), {
   userId: undefined,
 })
 
+const emit = defineEmits<{
+  (e: 'close'): void
+  (e: 'submit'): void
+}>()
+
 const uiStore = useUiStore()
 const { IncLoading, DecLoading, resetUiModalState } = uiStore
 const { deleteOne } = employeeHook()
@@ -94,11 +99,6 @@ async function deleteEmployee() {
     close()
   }
 }
-
-const emit = defineEmits<{
-  (e: 'close'): void
-  (e: 'submit'): void
-}>()
 
 function close() {
   resetUiModalState()

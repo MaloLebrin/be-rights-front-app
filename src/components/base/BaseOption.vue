@@ -5,15 +5,15 @@
   as="template"
 >
   <li
+    class="relative cursor-pointer select-none py-2 px-4 text-gray-700"
     :class="[
       active ? 'bg-gray-200' : '',
-      'relative cursor-pointer select-none py-2 px-4 text-gray-700',
     ]"
   >
     <span
+      class="block truncate text-sm font-bold text-blue dark:text-gray-100"
       :class="[
         selected ? 'font-medium' : 'font-normal',
-        'block truncate text-sm font-bold text-blue dark:text-gray-100',
       ]"
     >{{ name }}</span>
     <span

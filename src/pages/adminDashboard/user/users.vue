@@ -28,7 +28,7 @@ watch(() => tableStore.getFinalUrl, async newValue => {
   DecLoading()
 })
 
-onMounted(async() => {
+onMounted(async () => {
   IncLoading()
   await fetchAll(tableStore.getFinalUrl)
   DecLoading()

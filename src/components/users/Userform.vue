@@ -137,7 +137,7 @@
         type="submit"
       >
         <template #icon>
-          <SaveIconOutline />
+          <ArrowDownOnSquareIconOutline />
         </template>
         Enregistrer
       </BaseButton>
@@ -150,7 +150,7 @@
     <h5 class="px-6 py-4 text-xl font-medium">
       Votre logo
     </h5>
-    <ArrowCircleDownIconOutline class="w-6 h-6 text-gray-600" />
+    <ArrowDownCircleIconOutline class="w-6 h-6 text-gray-600" />
   </div>
 
   <div class="px-6 py-4 space-y-12">
@@ -168,7 +168,7 @@
         @click="submitFile"
       >
         <template #icon>
-          <SaveIconOutline />
+          <ArrowDownOnSquareIconOutline />
         </template>
         Enregistrer le Logo
       </BaseButton>

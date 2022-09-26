@@ -1,14 +1,13 @@
 <template>
 <div
+  class="flex flex-col px-10 mt-4 text-left transition duration-500 ease-in-out transform rounded-lg shadow-2xl lg:mx-0 DarkModeAnimation hover:z-20 hover:scale-105 dark:shadow-2xl"
   :class="[
-    'flex flex-col px-10 mt-4 text-left transition duration-500 ease-in-out transform shadow-2xl',
-    'lg:mx-0 rounded-lg DarkModeAnimation hover:z-20 hover:scale-105 dark:shadow-2xl',
     isDark ? 'bg-blue-dark dark:bg-white-break dark:text-blue-dark sm:-mt-6' : 'bg-white dark:bg-blue-dark text-gray-600',
   ]"
 >
   <div
     class="flex-1 dark:text-white"
-    :class="isDark ? 'text-white' :'text-gray-600'"
+    :class="isDark ? 'text-white' : 'text-gray-600'"
   >
     <div
       class="relative py-8 text-3xl font-bold text-left"
@@ -35,10 +34,9 @@
   >
     <div class="flex items-center justify-center">
       <button
+        class="px-8 py-4 mx-auto my-6 font-bold text-black transition duration-300 ease-in-out transform rounded-full shadow-lg lg:mx-0 gradient DarlModeAnimation focus:outline-none focus:shadow-outline hover:scale-105"
         :class="[
-          'px-8 py-4 mx-auto my-6 font-bold text-black transition duration-300 ease-in-out transform rounded-full shadow-lg',
-          'lg:mx-0 gradient DarlModeAnimation focus:outline-none focus:shadow-outline hover:scale-105',
-          { 'bg-white': isDark }
+          { 'bg-white': isDark },
         ]"
         href="#Newsletter"
       >
@@ -51,7 +49,7 @@
 
 <script setup lang="ts">
 interface Props {
-  isDark: boolean
+  isDark?: boolean
   nbFreeMonth?: number
   price: number
   title: string

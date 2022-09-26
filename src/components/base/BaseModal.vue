@@ -55,11 +55,11 @@ const props = withDefaults(defineProps<ModalProps>(), {
   isActive: true,
 })
 
-const isOpen = ref(props.isActive)
-
 const emit = defineEmits<{
   (e: 'close'): void
 }>()
+
+const isOpen = ref(props.isActive)
 
 function closeModal() {
   isOpen.value = false

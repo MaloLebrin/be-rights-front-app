@@ -29,13 +29,12 @@
 
               <BaseButton
                 :href="getButtonPath"
-                @click="onClickStartButton"
               >
                 {{ userStore.isLoggedIn ? 'Mon compte' : 'Commencer' }}
               </BaseButton>
 
               <router-link
-                v-if="!userStore.isLoggedIn"
+                v-if="!userStore.entities.current"
                 :to="{ name: 'login' }"
                 class="px-3 py-2 text-sm font-medium rounded-md text-blue dark:text-white dark:hover:text-red-light hover:text-red-light"
               >
@@ -67,7 +66,7 @@
       >
         <div>
           <MenuButton class="inline-flex justify-center w-full">
-            <MenuIconOutline class="h-16 text-gray-800 dark:text-gray-100" />
+            <Bars3IconOutline class="h-16 text-gray-800 dark:text-gray-100" />
           </MenuButton>
         </div>
 
@@ -111,7 +110,6 @@
               >
                 <BaseButton
                   :href="getButtonPath"
-                  @click="onClickStartButton"
                 >
                   {{ userStore.isLoggedIn ? 'Mon compte' : 'Commencer' }}
                 </BaseButton>
@@ -138,25 +136,13 @@
 </template>
 
 <script setup lang="ts">
-
 const userStore = useUserStore()
+const { getRouteName } = authHook()
 
 const getButtonPath = computed(() => {
   if (!userStore.isLoggedIn) {
     return { name: 'register' }
   }
-  if (userStore.isCurrentUserAdmin) {
-    return { name: 'admin.events' }
-  } else {
-    return { name: 'user.events' }
-  }
+  return getRouteName('events')
 })
-
-const emit = defineEmits<{
-  (e: 'startNow'): void
-}>()
-
-function onClickStartButton() {
-  emit('startNow')
-}
 </script>

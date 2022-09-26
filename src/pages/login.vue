@@ -65,11 +65,17 @@
 
 <script setup lang="ts">
 import { object, string } from 'yup'
-import type { VeeValidateValues } from '@/types'
+import { useCookies } from 'vue3-cookies'
+import type { UserType, VeeValidateValues } from '@/types'
+import APi from '@/helpers/api'
 
-const { login } = userHook()
+const { storeUsersEntities, getUserfullName, isUserAdmin, isUserType } = userHook()
 const { IncLoading, DecLoading } = useUiStore()
 const uiStore = useUiStore()
+const router = useRouter()
+const api = new APi()
+const { cookies } = useCookies()
+const toast = useToast()
 
 interface IForm extends VeeValidateValues {
   email: string
@@ -87,8 +93,22 @@ const initialValues = {
 }
 
 async function submitLogin(form: VeeValidateValues) {
-  IncLoading()
-  await login(form as IForm)
+  try {
+    IncLoading()
+    const res = await api.post('user/login', form)
+    const user = res as UserType
+    if (user && isUserType(user)) {
+      storeUsersEntities(user, true)
+      cookies.set('userToken', user.token)
+      toast.success(`Heureux de vous revoir ${getUserfullName(user)}`)
+      router.replace({
+        name: isUserAdmin(user) ? 'admin.events' : 'user.events',
+      })
+    }
+  } catch (error) {
+    console.error(error)
+    toast.error('Une erreur est survenue')
+  }
   DecLoading()
 }
 </script>

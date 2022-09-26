@@ -15,7 +15,9 @@ export interface IEvent extends BaseEntity {
 export interface EventType extends IEvent {
   files?: number[]
   employees?: number[]
-  address?: AddressType | number
+  addressId?: number | null
+  address?: AddressType | null
+  partnerId?: number | null
 }
 
 export interface EventTypeWithRelations extends IEvent {
@@ -23,10 +25,14 @@ export interface EventTypeWithRelations extends IEvent {
   employees?: EmployeeType[]
 }
 
-export type EventTypeCreate = Omit<IEvent, 'status' | 'id' | 'createdAt' | 'deletedAt' | 'updatedAt' | 'totalSignatureNeeded' | 'signatureCount' | 'files' | 'address'>
+export type EventTypeCreate = Omit<IEvent, 'status' | 'id' | 'createdAt' | 'deletedAt' | 'updatedAt' | 'totalSignatureNeeded' | 'signatureCount' | 'files' | 'address'> & {
+  photographerId: number
+}
 export interface EventCreatePayload {
   event: EventTypeCreate
-  address: AddressTypeCreate
+  address?: AddressTypeCreate
+  photographerId?: number
+  userId?: number
 }
 
 export enum EventSearchableFields {
@@ -53,10 +59,11 @@ export enum getEventStatusTranslationEnum {
 
 export interface BaseCreationFormType {
   name: string
-  description: string
+  description?: string | null
   start: Date
   end: Date
   createdByUser: null | number
+  employeeIds: number[]
 }
 
 export interface EventState extends State<EventType> { }

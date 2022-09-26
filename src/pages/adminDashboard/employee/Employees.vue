@@ -32,7 +32,7 @@ watch(() => tableStore.getFinalUrl, async newValue => {
   DecLoading()
 })
 
-onMounted(async() => {
+onMounted(async () => {
   IncLoading()
   await fetchAll(tableStore.getFinalUrl)
   if (employeeStore.getAllArray.length > 0) {

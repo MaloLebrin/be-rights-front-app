@@ -15,17 +15,15 @@
     {{ label }}<span v-if="isRequired">*</span>
   </label>
   <textarea
-    v-bind="{...(field as object), ...$attrs }"
+    v-bind="{ ...(field as object), ...$attrs }"
     :id="name"
     :disabled="disabled"
     :aria-disabled="disabled"
     :placeholder="placeholder"
     :aria-placeholder="placeholder"
     :name="name"
+    class="w-full h-[250px] px-3 py-2 placeholder-gray-400 border shadow rounded-md focus:ring-pink-400 focus:border-pink-400 focus:outline-none disabled:bg-gray-100 disabled:border-gray-400"
     :class="[
-      'w-full h-[250px] px-3 py-2 placeholder-gray-400 border shadow rounded-md',
-      'focus:ring-pink-400 focus:border-pink-400 focus:outline-none',
-      'disabled:bg-gray-100 disabled:border-gray-400',
       getBorderClasses(errors, meta),
     ]"
     @input="handleChange"

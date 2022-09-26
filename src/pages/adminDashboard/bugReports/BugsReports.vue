@@ -52,13 +52,12 @@ watch(() => tableStore.getFinalUrl, async newValue => {
   DecLoading()
 })
 
-onMounted(async() => {
+onMounted(async () => {
   IncLoading()
   await fetchAll(tableStore.getFinalUrl)
   DecLoading()
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function searchEntity(event: KeyboardEvent) {
   clearTimeout(state.timeout)
   state.timeout = window.setTimeout(() => {

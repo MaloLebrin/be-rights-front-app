@@ -1,7 +1,8 @@
 <template>
 <div
   v-if="handleMessage || handleErrors?.length"
-  :class="['w-full text-sm rounded border px-3 py-2', colors]"
+  class="w-full px-3 py-2 text-sm border rounded"
+  :class="[colors]"
 >
   <template v-if="handleErrors?.length">
     <p v-if="handleErrors.length > 1">

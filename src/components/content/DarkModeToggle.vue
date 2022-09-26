@@ -10,7 +10,8 @@
       class="relative inline-flex items-center h-6 transition-colors rounded-full w-11 focus:outline-none focus:ring-2 focus:ring-offset-2"
     >
       <span
-        :class="['inline-block w-4 h-4 transition duration-500 ease-in-out transform bg-white rounded-full', isDarkTheme ? 'translate-x-6 bg-gray-200' : 'translate-x-1 bg-blue-600']"
+        class="inline-block w-4 h-4 transition duration-500 ease-in-out transform bg-white rounded-full"
+        :class="[isDarkTheme ? 'translate-x-6 bg-gray-200' : 'translate-x-1 bg-blue-600']"
       />
     </Switch>
   </div>

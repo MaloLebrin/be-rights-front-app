@@ -3,7 +3,7 @@ import axiosInstance from '@/axios.config'
 import type { PaginatedResponse } from '@/helpers/api'
 import APi from '@/helpers/api'
 import { RoleEnum } from '@/types'
-import type { EmployeeType, EventType, FileType, Loginpayload, RegisterPayload, ThemeEnum, UserType } from '@/types'
+import type { EmployeeType, EventType, FileType, Loginpayload, PhotographerCreatePayload, RegisterPayload, ThemeEnum, UserType } from '@/types'
 import { hasOwnProperty, isArrayOfNumbers } from '@/utils'
 
 export default function userHook() {
@@ -24,7 +24,6 @@ export default function userHook() {
       const user = res.data as UserType
       storeUsersEntities(user, true)
       cookies.set('userToken', user.token)
-      redirectBaseOneCurrentUserRole()
       toast.success(`Heureux de vous revoir ${getUserfullName(user)}`)
     } catch (error) {
       console.error(error)
@@ -40,7 +39,7 @@ export default function userHook() {
       const user = res.data as UserType
       storeUsersEntities(user)
       cookies.set('userToken', user.token)
-      redirectBaseOneCurrentUserRole()
+      redirectBaseOneCurrentUserRole(user)
       toast.success('Vous êtes inscrit avec succès')
     } catch (error) {
       console.error(error)
@@ -100,7 +99,7 @@ export default function userHook() {
 
   function storeUsersEntitiesForManyUsers(users: UserType[]): void {
     if (users.length > 0) {
-      const events = users.reduce((acc, user) => [...acc, ...user.events as EventType[]], [] as EventType[])
+      const events = users.reduce((acc, user) => [...acc, ...user?.events as EventType[]], [] as EventType[])
       const eventsToStore = events.filter(event => !eventStore.isAlreadyInStore(event.id))
       if (eventsToStore.length > 0) {
         eventStore.createMany(eventsToStore)
@@ -258,9 +257,9 @@ export default function userHook() {
   /**
    * redirection based on current user's role in store
    */
-  function redirectBaseOneCurrentUserRole() {
-    if (userStore.getCurrent) {
-      if (userStore.isCurrentUserAdmin) {
+  function redirectBaseOneCurrentUserRole(user: UserType) {
+    if (user && router) {
+      if (user.roles === RoleEnum.ADMIN) {
         router.push({ name: 'admin.events' })
       } else {
         router.push({ name: 'user.events' })
@@ -270,17 +269,50 @@ export default function userHook() {
     }
   }
 
+  async function postPhotographer(photographer: PhotographerCreatePayload) {
+    try {
+      const res = await api.post('user/photographer', { photographer })
+      if (res && isUserType(res)) {
+        userStore.createOne(res)
+        return res
+      }
+    } catch (error) {
+      toast.error('Une erreur est survenue')
+      console.error(error)
+    }
+  }
+
+  async function getPhotographerUserWorkedWith(userId: number) {
+    try {
+      const res = await api.get(`user/partners/${userId}`)
+      if (res) {
+        userStore.createMany(res)
+        return res
+      }
+    } catch (error: any) {
+      toast.error(error.error as string)
+      console.error(error)
+    }
+  }
+
+  function isUserAdmin(user: UserType) {
+    return user?.roles === RoleEnum.ADMIN
+  }
+
   return {
     deleteUser,
     fetchAll,
     fetchMany,
     fetchOne,
+    getPhotographerUserWorkedWith,
     getRoleTranslation,
     getUserfullName,
     isArrayUserType,
+    isUserAdmin,
     isUserType,
     login,
     patchOne,
+    postPhotographer,
     redirectBaseOneCurrentUserRole,
     register,
     storeUsersEntities,

@@ -3,6 +3,7 @@
   <span class="text-black font-extrabold text-5xl md:text-9xl bg-none">{{ stepNumber }}</span>
 </div>
 </template>
+
 <script setup lang="ts">
 interface Props {
   stepNumber: number

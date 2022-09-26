@@ -12,14 +12,8 @@
     >
       <input
         :id="id"
-        :class="[
-          'w-4 h-4 border-pink-600 mt-[2px]',
-          'hover:border-pink-700',
-          'checked:text-pink-600',
-          'focus:ring-pink-600 focus:border-pink-600 focus:outline-none',
-          'disabled:border-gray-600 disabled:text-gray-600',
-        ]"
-        v-bind="{...field, ...$attrs }"
+        class="w-4 h-4 border-pink-600 mt-[2px] hover:border-pink-700 checked:text-pink-600 focus:ring-pink-600 focus:border-pink-600 focus:outline-none disabled:border-gray-600 disabled:text-gray-600"
+        v-bind="{ ...field, ...$attrs }"
         type="radio"
         :disabled="disabled"
         :value="value"

@@ -105,7 +105,7 @@
         type="submit"
       >
         <template #icon>
-          <SaveIconOutline />
+          <ArrowDownOnSquareIconOutline />
         </template>
         {{ mode === ModalModeEnum.CREATE ? 'Créer' : 'Enregistrer' }}
       </BaseButton>
@@ -132,6 +132,10 @@ const props = withDefaults(defineProps<Props>(), {
   eventId: 0,
   userId: 0,
 })
+
+const emit = defineEmits<{
+  (e: 'submit'): void
+}>()
 
 const { isCurrentUserAdmin, getCurrentUserId } = useUserStore()
 const userStore = useUserStore()
@@ -181,15 +185,11 @@ const initialValues = {
   userId: userIdField.value,
 }
 
-onMounted(async() => {
+onMounted(async () => {
   if (userStore.isCurrentUserAdmin) {
     await fetchAll()
   }
 })
-
-const emit = defineEmits<{
-  (e: 'submit'): void
-}>()
 
 async function submit(form: VeeValidateValues) {
   IncLoading()

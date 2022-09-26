@@ -3,10 +3,10 @@
   v-slot="{ meta, isSubmitting, values }"
   :validation-schema="schema"
   :initial-values="initialValues"
-  class="grid w-full h-full grid-cols-1 gap-6 mt-4 md:gap-12 md:grid-cols-3 mb-36"
+  class="grid w-full grid-cols-1 gap-6 mt-4 md:grid-cols-3 mb-36"
   @submit="submit"
 >
-  <div class="col-span-2 space-y-2 md:col-span-3">
+  <div class="col-span-2 md:col-span-3">
     <BaseInput
       label="Nom de l'événement"
       name="name"
@@ -45,47 +45,48 @@
     name="description"
     autocomplete="description"
   />
+  <template v-if="eventId && isEditMode">
+    <div class="col-span-3">
+      <BaseInput
+        label="Adresse"
+        name="addressLine"
+        autocomplete="addressLine"
+        is-required
+      />
+    </div>
 
-  <div class="col-span-3">
+    <div class="col-span-3">
+      <BaseInput
+        label="Complément d'adresse"
+        name="addressLine2"
+        autocomplete="addressLine"
+      />
+    </div>
+
     <BaseInput
-      label="Adresse"
-      name="addressLine"
-      autocomplete="addressLine"
+      label="Code postal"
+      name="postalCode"
+      autocomplete="postalCode"
       is-required
     />
-  </div>
 
-  <div class="col-span-3">
     <BaseInput
-      label="Complément d'adresse"
-      name="addressLine2"
-      autocomplete="addressLine"
+      label="Ville"
+      name="city"
+      autocomplete="city"
+      is-required
     />
-  </div>
 
-  <BaseInput
-    label="Code postal"
-    name="postalCode"
-    autocomplete="postalCode"
-    is-required
-  />
-
-  <BaseInput
-    label="Ville"
-    name="city"
-    autocomplete="city"
-    is-required
-  />
-
-  <BaseInput
-    label="Pays"
-    name="country"
-    autocomplete="country"
-    is-required
-  />
+    <BaseInput
+      label="Pays"
+      name="country"
+      autocomplete="country"
+      is-required
+    />
+  </template>
 
   <div
-    v-if="userStore.isCurrentUserAdmin && mode !== ModalModeEnum.EDIT"
+    v-if="userStore.isCurrentUserAdmin && !isEditMode"
     class="space-y-2 md:col-span-3"
   >
     <UserSearchInput
@@ -129,9 +130,9 @@
       type="submit"
     >
       <template #icon>
-        <SaveIconOutline />
+        <ArrowDownOnSquareIconOutline />
       </template>
-      {{ mode === ModalModeEnum.CREATE ? 'Créer' : 'Enregistrer' }}
+      {{ !isEditMode ? 'Créer' : 'Enregistrer' }}
     </BaseButton>
   </div>
 </Form>
@@ -141,7 +142,8 @@
 import type { InferType } from 'yup'
 import { array, date, number, object, string } from 'yup'
 import { ModalModeEnum } from '@/types'
-import type { EventType, VeeValidateValues } from '@/types'
+import type { BaseCreationFormType, EventType, VeeValidateValues } from '@/types'
+import { uniq } from '@/utils'
 
 interface Props {
   eventId?: number | null
@@ -158,23 +160,27 @@ const emit = defineEmits<{
 
 const mainStore = useMainStore()
 const eventStore = useEventStore()
+const { setCreationForm } = eventStore
 const userStore = useUserStore()
 const uiStore = useUiStore()
 const addressStore = useAddressStore()
 const employeeStore = useEmployeeStore()
+const answerStore = useAnswerStore()
 const router = useRouter()
 
 const { IncLoading, DecLoading, resetUiModalState } = uiStore
 const { postMany: postManyAnswers } = answerHook()
-const { postOne: PostOneEvent, patchOne: patchOneEvent } = eventHook()
+const { patchOne: patchOneAddress, postOne: postOneAddress } = addressHook()
+const { patchOne: patchOneEvent } = eventHook()
 const { isUserType } = userHook()
-const { postOne: postOneAddress, patchOne: patchOneAddress } = addressHook()
 const { getEmployeeFullname } = employeeHook()
+const { getRouteName } = authHook()
 
+const isEditMode = computed(() => props.mode === ModalModeEnum.EDIT)
 const event = computed(() => props.eventId ? eventStore.getOne(props.eventId) : null)
 const eventAddress = computed(() => {
   if (event.value) {
-    const address = addressStore.getOne(event.value.address as number)
+    const address = addressStore.getOne(event.value.addressId as number)
     if (!address) {
       return addressStore.getOneByEventId(event.value.id) || null
     }
@@ -192,11 +198,11 @@ const schema = object({
     start: date().required('La date de début est obligatoire'),
     end: date().required('La date de fin est obligatoire'),
   }).required('L\'événement doit avoir une date de début et une date de fin'),
-  addressLine: string().required('L\'adresse est requise'),
+  addressLine: isEditMode.value ? string().required('L\'adresse est requise') : string().nullable(),
   addressLine2: string().nullable(),
-  postalCode: string().required('Le code postal est requis'),
-  city: string().required('La ville est requise'),
-  country: string().required('Le pays est requis'),
+  postalCode: isEditMode.value ? string().required('Le code postal est requis') : string().nullable(),
+  city: isEditMode.value ? string().required('La ville est requise') : string().nullable(),
+  country: isEditMode.value ? string().required('Le pays est requis') : string().nullable(),
   userId: number().required('L\'utilisateur est obligatoire'),
   employees: array().of(number()).min(1, 'Sélectionnez au moins un destinataire')
     .required('Les destinataires sont obligatoire'),
@@ -213,17 +219,17 @@ const userCreateEvent = computed(() => {
 const eventEmployees = computed(() => props.eventId ? employeeStore.getAllByEventId(props.eventId).map(emp => emp.id) : [])
 
 const initialValues = {
-  name: event.value?.name || '',
-  description: event.value?.description || null,
+  name: event.value?.name || eventStore.getCreationForm.name,
+  description: event.value?.description || eventStore.getCreationForm.description,
   period: {
-    start: event.value?.start || new Date(),
-    end: event.value?.end || new Date(),
+    start: event.value?.start || eventStore.getCreationForm.start,
+    end: event.value?.end || eventStore.getCreationForm.end,
   },
-  addressLine: eventAddress.value?.addressLine || '',
-  addressLine2: eventAddress.value?.addressLine2 || null,
-  postalCode: eventAddress.value?.postalCode || '',
-  city: eventAddress.value?.city || '',
-  country: eventAddress.value?.country || 'France',
+  addressLine: eventAddress.value?.addressLine || addressStore.getCreationForm.addressLine,
+  addressLine2: eventAddress.value?.addressLine2 || addressStore.getCreationForm.addressLine2,
+  postalCode: eventAddress.value?.postalCode || addressStore.getCreationForm.postalCode,
+  city: eventAddress.value?.city || addressStore.getCreationForm.city,
+  country: eventAddress.value?.country || addressStore.getCreationForm.country || 'France',
   userId: userCreateEvent.value,
   employees: eventEmployees.value,
 }
@@ -235,47 +241,24 @@ async function submit(form: VeeValidateValues) {
     event: {
       name: formValues.name,
       description: formValues.description,
-      start: formValues.period.start,
-      end: formValues.period.end,
+      start: formValues.period.start as Date,
+      end: formValues.period.end as Date,
       createdByUser: formValues.userId,
+      employeeIds: formValues.employees,
     },
   }
 
-  if (props.mode === ModalModeEnum.CREATE) {
+  if (!isEditMode.value) {
     if (formValues.userId) {
-      const newEvent = await PostOneEvent(payload.event, formValues.userId)
-      if (newEvent) {
-        if (formValues.employees && formValues.employees.length > 0) {
-          const employeesIds = formValues.employees.filter(id => id) as number[]
-          const eventId = newEvent.id
-          await postManyAnswers(
-            eventId,
-            employeesIds,
-          )
-          await postOneAddress({
-            address: {
-              addressLine: formValues.addressLine,
-              addressLine2: formValues.addressLine2,
-              postalCode: formValues.postalCode,
-              city: formValues.city,
-              country: formValues.country,
-            },
-            eventId: newEvent.id,
-          })
-        }
-
-        emit('submitted', newEvent.id)
-        router.push({
-          name: userStore.isCurrentUserAdmin ? 'admin.events.show' : 'user.events.show',
-          params: {
-            eventId: newEvent.id,
-          },
-        })
-      }
+      setCreationForm(payload.event as BaseCreationFormType)
+      router.push({
+        name: getRouteName('events.create'),
+        query: { step: 'address' },
+      })
     }
   }
 
-  if (props.mode === ModalModeEnum.EDIT && props.eventId) {
+  if (isEditMode.value && props.eventId) {
     const payload = {
       ...event.value,
       name: formValues.name,
@@ -284,27 +267,44 @@ async function submit(form: VeeValidateValues) {
       end: formValues.period.end,
     }
     await patchOneEvent(payload as EventType)
-    if (eventAddress.value) {
-      await patchOneAddress(eventAddress.value.id, {
-        addressLine: formValues.addressLine,
-        addressLine2: formValues.addressLine2,
-        postalCode: formValues.postalCode,
-        city: formValues.city,
-        country: formValues.country,
-      })
+    if (eventAddress.value && formValues.addressLine && formValues.postalCode && formValues.city && formValues.country) {
+      if (eventAddress.value.id) {
+        await patchOneAddress(eventAddress.value.id, {
+          addressLine: formValues.addressLine,
+          addressLine2: formValues.addressLine2,
+          postalCode: formValues.postalCode,
+          city: formValues.city,
+          country: formValues.country,
+        })
+      } else {
+        await postOneAddress({
+          address: {
+            addressLine: formValues.addressLine,
+            addressLine2: formValues.addressLine2,
+            postalCode: formValues.postalCode,
+            city: formValues.city,
+            country: formValues.country,
+          },
+          eventId: props.eventId,
+        })
+      }
     }
 
     if (formValues.employees && formValues.employees.length > 0) {
       const employeesIds = formValues.employees.filter(id => id) as number[]
+      const answerAlreadyCreated = answerStore.getManyByEventId(props.eventId).map(answer => answer.employee)
+      const empToCreateAnswer = employeesIds.filter(empId => !answerAlreadyCreated.includes(empId))
       const eventId = props.eventId
-      await postManyAnswers(
-        eventId,
-        employeesIds,
-      )
+      if (empToCreateAnswer?.length > 0) {
+        await postManyAnswers(
+          eventId,
+          uniq(empToCreateAnswer),
+        )
+      }
     }
     emit('submitted', props.eventId)
     router.push({
-      name: userStore.isCurrentUserAdmin ? 'admin.events.show' : 'user.events.show',
+      name: getRouteName('events.show'),
       params: {
         eventId: props.eventId,
       },

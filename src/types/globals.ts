@@ -26,3 +26,8 @@ export enum ThemeEnum {
 }
 
 export type VeeValidateValues = Record<string, any>
+
+export interface ValidationRequest {
+  success: boolean
+  message: string
+}

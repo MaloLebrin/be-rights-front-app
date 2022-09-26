@@ -21,7 +21,7 @@
       @keyup="searchEntity($event)"
     />
     <ProcessingIcon v-if="state.isLoading" />
-    <SearchIconOutline
+    <MagnifyingGlassIconOutline
       v-else
       class="absolute w-5 h-5 text-blue top-4 right-3"
     />
@@ -95,7 +95,7 @@ const state = reactive<State>({
 })
 const api = new APi()
 
-onMounted(async() => {
+onMounted(async () => {
   if (!userStore.isCurrentUserAdmin) {
     state.isLoading = true
     await api.get(`${props.baseUrl}&limit=99999`).then((response: PaginatedResponse<EmployeeType>) => {
@@ -107,11 +107,10 @@ onMounted(async() => {
   state.selectedItems = props.defaultValue
 })
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function searchEntity(event: Event) {
   if (userStore.isCurrentUserAdmin) {
     clearTimeout(state.timeout)
-    state.timeout = window.setTimeout(async() => {
+    state.timeout = window.setTimeout(async () => {
       state.isLoading = true
       await api.get(`${props.baseUrl}?search=${state.search}&limit=99999`).then((response: PaginatedResponse<EmployeeType>) => {
         state.data = response.data

@@ -17,16 +17,14 @@
   <div class="relative">
     <!-- appearance-none block shadow-md py-2 px-4 border focus:ring-purple-500 focus:border-purple-500 w-full sm:text-sm border-gray-300 rounded-md text-gray-80 -->
     <ListboxButton
+      class="relative w-full shadow-md py-2 px-4 placeholder-gray-400 border text-left sm:text-sm rounded-md  focus:ring-pink-400 focus:border-pink-400 focus:outline-none disabled:bg-gray-100 disabled:border-gray-400"
       :class="[
-        'relative w-full shadow-md py-2 px-4 placeholder-gray-400 border text-left sm:text-sm rounded-md ',
-        'focus:ring-pink-400 focus:border-pink-400 focus:outline-none',
-        'disabled:bg-gray-100 disabled:border-gray-400',
         getBorderClasses(),
       ]"
     >
       <span class="block truncate">{{ displayValue || placeholder }}</span>
       <span class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-        <SelectorIconOutline
+        <ArrowsUpDownIconOutline
           class="w-6 h-6 text-gray-900"
           aria-hidden="true"
         />
@@ -47,9 +45,9 @@
           as="template"
         >
           <li
+            class="relative cursor-default select-none py-2 px-4 text-gray-900"
             :class="[
               active ? 'bg-gray-200' : '',
-              'relative cursor-default select-none py-2 px-4 text-gray-900',
             ]"
           >
             <span class="block truncate">{{ placeholder }}</span>

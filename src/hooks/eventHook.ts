@@ -1,4 +1,4 @@
-import type { EventType, EventTypeCreate, EventTypeWithRelations } from '@/store/event/types'
+import type { EventCreatePayload, EventType, EventTypeWithRelations } from '@/store/event/types'
 import { EventStatusEnum, getEventStatusTranslationEnum } from '@/store/event/types'
 import type { PaginatedResponse } from '@/helpers/api'
 import APi from '@/helpers/api'
@@ -41,10 +41,9 @@ export function eventHook() {
         if (address && isAddressType(address)) {
           if (!addressStore.isAlreadyInStore(address?.id)) {
             createOneAddress(address)
-            event.address = address.id
+            delete event.address
           }
         }
-
         return {
           ...event,
         }
@@ -81,11 +80,7 @@ export function eventHook() {
       }
       const res = await api.get(finalUrl)
       const { data }: PaginatedResponse<EventType> = res
-      const missingIds = data.map((event: EventType) => event.id).filter(id => !eventStore.isAlreadyInStore(id))
-      if (missingIds.length > 0) {
-        const events = data.filter(event => missingIds.includes(event.id))
-        storeEventRelationEntities(events)
-      }
+      storeEventRelationEntities(data)
     } catch (error) {
       console.error(error)
       toast.error('Une erreur est survenue')
@@ -145,9 +140,10 @@ export function eventHook() {
     DecLoading()
   }
 
-  async function postOne(event: EventTypeCreate, userId?: number): Promise<EventType | undefined> {
+  async function postOne(payload: EventCreatePayload): Promise<EventType | undefined> {
     try {
-      const res = await api.post(`event/${userId}`, { event })
+      const { userId } = payload
+      const res = await api.post(`event/${userId}`, payload)
       const eventToStore = res as EventType
       if (isUserType(eventToStore.createdByUser)) {
         eventToStore.createdByUser = res.createdByUser.id
@@ -165,6 +161,8 @@ export function eventHook() {
     if (event && event.id) {
       IncLoading()
       try {
+        delete event.address
+        delete event.partnerId
         const res = await api.patch(`event/${event.id}`, { event })
         if (isEventType(res)) {
           eventStore.updateOne(res.id, res)

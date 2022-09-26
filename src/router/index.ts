@@ -16,46 +16,42 @@ const router = createRouter({
   routes,
 })
 
-router.beforeResolve((to, _from, next) => {
+router.beforeResolve(async (to, _from, next) => {
   const userStore = useUserStore()
+  const { getUserWithTokenFromAPI } = userStore
   const { cookies } = useCookies()
-  // const { loginWithToken } = authHook()
 
   const { isAuth, isAdmin } = to.meta
-  let token: string | null = null
-
   if (!isAuth) {
     return next()
-  }
-
-  if (isAuth && !userStore.getCurrent) {
-    token = cookies.get('token')
-    if (token) {
-      // await loginWithToken(token)
-      if (userStore.getCurrent) {
-        if (!isAdmin) {
-          return next()
-        }
-        if (isAdmin && userStore.isCurrentUserAdmin) {
-          return next()
-        }
-        return next(to)
+  } else {
+    if (userStore.getCurrent) {
+      if (!isAdmin) {
+        return next()
+      } else if (isAdmin && userStore.isCurrentUserAdmin) {
+        return next()
+      } else {
+        return next()
       }
     } else {
-      return next({
-        name: 'login',
-      })
+      const token = cookies.get('userToken')
+      if (token) {
+        await getUserWithTokenFromAPI(token)
+        if (userStore.getCurrent) {
+          if (!isAdmin) {
+            return next()
+          } else if (isAdmin && userStore.isCurrentUserAdmin) {
+            return next()
+          } else {
+            return next()
+          }
+        }
+      }
     }
   }
-  if (isAuth && userStore.getCurrent) {
-    if (!isAdmin) {
-      return next()
-    }
-    if (isAdmin && userStore.isCurrentUserAdmin) {
-      return next()
-    }
-    return next(to)
-  }
+  return next({
+    name: 'login',
+  })
 })
 
 declare module 'vue-router' {
