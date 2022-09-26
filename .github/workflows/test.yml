@@ -18,11 +18,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-     - name: Set node ${{ matrix.node }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
-          cache: yarn
+      - name: Set node ${{ matrix.node }}
+          uses: actions/setup-node@v3
+          with:
+            node-version: ${{ matrix.node }}
+            cache: yarn
       - run: yarn install --frozen-lockfile
 
       - name: Lint
