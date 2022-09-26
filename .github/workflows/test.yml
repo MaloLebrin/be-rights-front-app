@@ -35,8 +35,5 @@ jobs:
       - name: 📖 Lint
         run: yarn lint
 
-      - name: ☑ Types checking
-        run: yarn type:check
-
       - name: 🏗 Build & type checking
         run: yarn build
