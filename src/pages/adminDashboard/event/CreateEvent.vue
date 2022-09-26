@@ -184,7 +184,7 @@
 
 <script setup lang="ts">
 import router from '@/router'
-import type { EventTypeCreate } from '@/types'
+import type { EventTypeCreate, UserType } from '@/types'
 import { ModalModeEnum } from '@/types'
 import { isArrayOfNumbers } from '@/utils'
 
@@ -235,7 +235,7 @@ const haveUserEmployees = computed(() => {
   return true
 })
 
-async function submit(photographerId?: number) {
+async function submit(photographerId?: number | UserType) {
   IncLoading()
   let photographer = null
   if (!isPhotographerAlreadyCreated.value) {
