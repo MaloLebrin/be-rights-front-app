@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useCookies } from 'vue3-cookies'
+import { envVariables } from '@/types/Env'
 
 export interface PaginatedResponse<T> {
   currentPage: number | null
@@ -24,12 +25,12 @@ export default class APi implements ApiMethods {
   userStore = useUserStore()
   constructor() {
     this.axios = axios.create({
-      baseURL: import.meta.env.VITE_API_URL as string,
+      baseURL: envVariables.VITE_API_URL,
       headers: {
         'Content-Type': 'application/json',
       },
     })
-    this.baseUrl = import.meta.env.VITE_API_URL
+    this.baseUrl = envVariables.VITE_API_URL
 
     const token = this.getToken()
     if (token) {
