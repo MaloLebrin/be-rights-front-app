@@ -47,6 +47,14 @@ export const mainRoutes = [
     },
   },
   {
+    path: '/create-pdf',
+    name: 'create-pdf',
+    component: () => import('@/pages/createPdf.vue'),
+    meta: {
+      isAuth: false,
+    },
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: '404',
     component: () => import('@/pages/404.vue'),

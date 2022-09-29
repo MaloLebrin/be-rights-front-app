@@ -37,6 +37,7 @@
     "@popperjs/core": "^2.11.6",
     "axios": "^0.27.2",
     "dayjs": "^1.11.5",
+    "html2pdf.js": "^0.10.1",
     "normalizr": "^3.6.2",
     "pinia": "^2.0.21",
     "v-calendar": "^3.0.0-alpha.8",

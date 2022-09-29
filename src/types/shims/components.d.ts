@@ -40,6 +40,7 @@ declare module '@vue/runtime-core' {
     CreateEvent: typeof import('./../../pages/adminDashboard/event/CreateEvent.vue')['default']
     CreateModel: typeof import('./../../pages/userDashboard/files/CreateModel.vue')['default']
     CreateOne: typeof import('./../../pages/adminDashboard/file/CreateOne.vue')['default']
+    CreatePdf: typeof import('./../../pages/createPdf.vue')['default']
     DarkModeToggle: typeof import('./../../components/content/DarkModeToggle.vue')['default']
     DashboardItem: typeof import('./../../components/dashboard/DashboardItem.vue')['default']
     Dialog: typeof import('@headlessui/vue')['Dialog']
