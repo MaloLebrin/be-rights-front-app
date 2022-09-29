@@ -15,5 +15,4 @@ const { environment } = EnvironmentBuilder.create(
     VITE_API_URL: 'http://localhost:8000/',
   })
 
-// export type EnvVar = ReturnType<typeof environment>
 export const envVariables = environment()
