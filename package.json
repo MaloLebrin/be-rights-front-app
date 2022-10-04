@@ -38,7 +38,7 @@
     "axios": "^0.27.2",
     "dayjs": "^1.11.5",
     "normalizr": "^3.6.2",
-    "pinia": "^2.0.21",
+    "pinia": "^2.0.22",
     "v-calendar": "^3.0.0-alpha.8",
     "vee-validate": "^4.6.7",
     "vue": "^3.2.38",
