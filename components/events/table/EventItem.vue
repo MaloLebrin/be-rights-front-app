@@ -7,7 +7,7 @@
     {{ event.name }}
   </td>
   <td class="px-3 py-4 text-sm text-gray-500 truncate whitespace-nowrap">
-    <EventStatusTag :status="event.status" />
+    <EventsEventStatusTag :status="event.status" />
   </td>
   <td class="px-3 py-4 text-sm text-gray-500 truncate whitespace-nowrap">
     {{ toFormat(event.start, 'D MMMM YYYY') }}

@@ -16,7 +16,7 @@
           as="label"
           class="cursor-pointer"
         >
-          <EventStatusTag :status="status" />
+          <EventsEventStatusTag :status="status" />
         </RadioGroupLabel>
       </RadioGroupOption>
       <RadioGroupOption
