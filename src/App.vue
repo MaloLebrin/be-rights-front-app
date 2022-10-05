@@ -8,6 +8,23 @@
 </router-view>
 </template>
 
+<script setup lang="ts">
+import { useCookies } from 'vue3-cookies'
+
+onBeforeMount(async () => {
+  const userStore = useUserStore()
+  const { getUserWithTokenFromAPI } = userStore
+  const { cookies } = useCookies()
+
+  if (!userStore.getCurrent) {
+    const token = cookies.get('userToken')
+    if (token) {
+      await getUserWithTokenFromAPI(token)
+    }
+  }
+})
+</script>
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
