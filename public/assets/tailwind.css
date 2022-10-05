@@ -1,0 +1,22 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+.DarkModeAnimation {
+	@apply ease-in-out duration-500 transition-colors
+}
+
+.TranslateUpAnimation {
+	@apply ease-in-out duration-500 transition-transform hover:-translate-y-2
+}
+
+.EventActionButton {
+	@apply bg-gray-500 rounded mb-1 py-2 px-4 font-semibold hover:translate-x-3 transform transition-all duration-500 
+	dark:bg-white-break dark:text-gray-900
+}
+
+.LinkClass {
+  @apply cursor-pointer disabled:cursor-not-allowed text-blue hover:text-blue-dark dark:text-white-light hover:dark:text-white
+}
