@@ -1,6 +1,9 @@
 import { useCookies } from 'vue3-cookies'
-import API from '@/helpers/api'
 import type { JWTDecodedType, ValidationRequest } from '@/types'
+import { useAnswerStore, useEmployeeStore, useFileStore, useTableStore, useUiStore, useUserStore } from '~~/store'
+import { useBugStore } from '~~/store/bug'
+import { useEventStore } from '~~/store/event'
+import { useMainStore } from '~~/store/main'
 
 export default function authHook() {
   const userStore = useUserStore()
@@ -15,13 +18,13 @@ export default function authHook() {
   const { setThemeClass } = mainHook()
   const { storeUsersEntities } = userHook()
   const { IncLoading, DecLoading } = useUiStore()
-  const api = new API()
   const router = useRouter()
-  const toast = useToast()
+  const { $toast, $api } = useNuxtApp()
+
   const { cookies } = useCookies()
 
   function logout() {
-    api.deleteCredentials()
+    $api().deleteCredentials()
     userStore.removeCurrent()
     cookies.remove('userToken')
     answerStore.resetState()
@@ -34,14 +37,14 @@ export default function authHook() {
     uiStore.resetUIState()
     userStore.resetState()
 
-    router.replace({ name: 'home' })
-    toast.success('Vous êtes déconnecté')
+    router.replace({ name: 'index' })
+    $toast.success('Vous êtes déconnecté')
   }
 
   async function loginWithToken(token: string) {
     IncLoading()
     try {
-      const user = await api.post('user/token', { token })
+      const user = await $api().post('user/token', { token })
       setThemeClass(user.theme)
       storeUsersEntities(user, true)
     } catch (error) {
@@ -51,7 +54,7 @@ export default function authHook() {
   }
 
   async function checkMailIsAlreadyExist(email: string) {
-    const res: ValidationRequest = await api.post('user/isMailAlreadyExist', { email })
+    const res: ValidationRequest = await $api().post('user/isMailAlreadyExist', { email })
     return res
   }
 
@@ -71,9 +74,12 @@ export default function authHook() {
     if (splitted.length < 2)
       return null
 
-    const obj1 = JSON.parse(window.atob(splitted[0]))
-    const obj2 = JSON.parse(window.atob(splitted[1]))
-    return Object.assign({}, obj1, obj2)
+    const obj1 = Buffer.from(splitted[0], 'base64').toString('utf-8')
+    const obj2 = Buffer.from(splitted[1], 'base64').toString('utf-8')
+    return {
+      ...JSON.parse(obj1),
+      ...JSON.parse(obj2),
+    }
   }
 
   const userLogged = ref<JWTDecodedType | null>(null)

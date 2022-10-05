@@ -1,13 +1,13 @@
 import type { PaginatedResponse } from '@/helpers/api'
-import API from '@/helpers/api'
 import type { BugReportType, BugReportTypeEnum } from '@/types'
 import { BugReportTypeTranslation } from '@/types'
+import { useUiStore } from '~~/store'
+import { useBugStore } from '~~/store/bug'
 
 export default function bugReportsHook() {
   const bugStore = useBugStore()
   const { IncLoading, DecLoading } = useUiStore()
-  const toast = useToast()
-  const api = new API()
+  const { $toast, $api } = useNuxtApp()
 
   async function fetchAll(url?: string) {
     IncLoading()
@@ -16,7 +16,7 @@ export default function bugReportsHook() {
       if (url) {
         finalUrl += `${url}`
       }
-      const res = await api.get(finalUrl)
+      const res = await $api().get(finalUrl)
       const { data }: PaginatedResponse<BugReportType> = res
       const bugs = data.filter(bug => !bugStore.isAlreadyInStore(bug.id))
       if (bugs.length > 0) {
@@ -24,7 +24,7 @@ export default function bugReportsHook() {
       }
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -35,16 +35,16 @@ export default function bugReportsHook() {
 
   async function postOne(bugReport: Partial<BugReportType>) {
     try {
-      const res = await api.post('bugreport', { bugReport })
+      const res = await $api().post('bugreport', { bugReport })
       const data = res as BugReportType
       if (data) {
         bugStore.createOne(data)
       }
-      toast.success('Le rapport de bug a bien été envoyé')
+      $toast.success('Le rapport de bug a bien été envoyé')
       return data
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
   }
 

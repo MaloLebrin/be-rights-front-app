@@ -1,8 +1,8 @@
 import type { PaginatedResponse } from '@/helpers/api'
-import APi from '@/helpers/api'
 import type { FileType } from '@/types'
 import { FileTypeEnum } from '@/types'
 import { hasOwnProperty } from '@/utils'
+import { useFileStore, useUiStore, useUserStore } from '~~/store'
 
 export default function fileHook() {
   const { updateOne, setCurrent } = useUserStore()
@@ -10,20 +10,19 @@ export default function fileHook() {
   const { getAllIds: getAllFilesIds } = useFileStore()
   const fileStore = useFileStore()
   const { IncLoading, DecLoading } = useUiStore()
-  const toast = useToast()
-  const api = new APi()
+  const { $toast, $api } = useNuxtApp()
 
   async function postOne(fileForm: FormData, id?: number) {
     try {
-      const res = await api.post(`file/${id}`, fileForm)
+      const res = await $api().post(`file/${id}`, fileForm)
       if (isFileType(res)) {
         fileStore.createOne(res)
-        toast.success('fichier créé avec succès')
+        $toast.success('fichier créé avec succès')
       }
       return res
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
   }
 
@@ -31,23 +30,23 @@ export default function fileHook() {
     const { isUserType } = userHook()
     IncLoading()
     try {
-      const res = await api.post('file/profile', fileForm)
+      const res = await $api().post('file/profile', fileForm)
       if (isFileType(res)) {
         if (res && res.createdByUser) {
           fileStore.createOne(res)
-          const user = await api.get(`user/${res.createdByUser}`)
+          const user = await $api().get(`user/${res.createdByUser}`)
           if (user && isUserType(user)) {
             updateOne(user.id, user)
             if (userStore.getCurrentUserId === user.id) {
               setCurrent(user)
             }
           }
-          toast.success('Photo de profile créé avec succès')
+          $toast.success('Photo de profile créé avec succès')
         }
       }
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -55,14 +54,14 @@ export default function fileHook() {
   async function postLogo(fileForm: FormData) {
     IncLoading()
     try {
-      const res = await api.post('file/logo', fileForm)
+      const res = await $api().post('file/logo', fileForm)
       if (res && res.createdByUser && isFileType(res)) {
         fileStore.createOne(res)
-        toast.success('Logo créé avec succès')
+        $toast.success('Logo créé avec succès')
       }
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -82,7 +81,7 @@ export default function fileHook() {
         finalUrl += `${url}`
       }
 
-      const res = await api.get(finalUrl)
+      const res = await $api().get(finalUrl)
       const { data }: PaginatedResponse<FileType> = res
       const files = filteringFilesNotInStore(data)
       if (files.length > 0) {
@@ -90,7 +89,7 @@ export default function fileHook() {
       }
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -119,12 +118,12 @@ export default function fileHook() {
   async function deleteOne(id: number) {
     IncLoading()
     try {
-      await api.delete(`file/${id}`)
+      await $api().delete(`file/${id}`)
       fileStore.deleteOne(id)
-      toast.success('Fichier supprimé avec succès')
+      $toast.success('Fichier supprimé avec succès')
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -132,14 +131,14 @@ export default function fileHook() {
   async function patchOne(file: FileType) {
     IncLoading()
     try {
-      const res = await api.patch(`file/${file.id}`, { file })
+      const res = await $api().patch(`file/${file.id}`, { file })
       if (res && isFileType(res)) {
         fileStore.updateOne(res.id, res)
-        toast.success('fichier modifié avec succès')
+        $toast.success('fichier modifié avec succès')
       }
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -147,7 +146,7 @@ export default function fileHook() {
   async function fetchAllByUserId(userId: number) {
     IncLoading()
     try {
-      const res = await api.get(`file/user/${userId}`)
+      const res = await $api().get(`file/user/${userId}`)
       const files = res as FileType[]
       if (files.length > 0) {
         const filesNotInStore = filteringFilesNotInStore(files)
@@ -157,7 +156,7 @@ export default function fileHook() {
       }
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -165,7 +164,7 @@ export default function fileHook() {
   async function fetchAllForEvent(eventId: number) {
     IncLoading()
     try {
-      const res = await api.get(`file/event/${eventId}`)
+      const res = await $api().get(`file/event/${eventId}`)
       const files = res as FileType[]
       if (files.length > 0) {
         const filesNotInStore = filteringFilesNotInStore(files)
@@ -175,7 +174,7 @@ export default function fileHook() {
       }
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -183,7 +182,7 @@ export default function fileHook() {
   async function fetchLogoByUserId(userId: number) {
     IncLoading()
     try {
-      const res = await api.get(`file?filters[type]=${FileTypeEnum.LOGO}&filters[createdByUser]=${userId}`)
+      const res = await $api().get(`file?filters[type]=${FileTypeEnum.LOGO}&filters[createdByUser]=${userId}`)
       const { data }: PaginatedResponse<FileType> = res
       const files = filteringFilesNotInStore(data)
       if (files.length > 0) {
@@ -191,7 +190,7 @@ export default function fileHook() {
       }
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }

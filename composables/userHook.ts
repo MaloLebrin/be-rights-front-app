@@ -1,20 +1,21 @@
 import { useCookies } from 'vue3-cookies'
 import axiosInstance from '@/axios.config'
 import type { PaginatedResponse } from '@/helpers/api'
-import APi from '@/helpers/api'
 import { RoleEnum } from '@/types'
 import type { EmployeeType, EventType, FileType, Loginpayload, PhotographerCreatePayload, RegisterPayload, ThemeEnum, UserType } from '@/types'
 import { hasOwnProperty, isArrayOfNumbers } from '@/utils'
+import { useFileStore, useUiStore, useUserStore } from '~~/store'
+import { useEventStore } from '~~/store/event'
 
 export default function userHook() {
   const userStore = useUserStore()
   const eventStore = useEventStore()
   const fileStore = useFileStore()
-  const toast = useToast()
+  const { $toast, $api } = useNuxtApp()
+
   const { IncLoading, DecLoading } = useUiStore()
   const { storeEmployeeRelationsEntities } = employeeHook()
   const { cookies } = useCookies()
-  const api = new APi()
   const router = useRouter()
 
   async function login(payload: Loginpayload) {
@@ -24,10 +25,10 @@ export default function userHook() {
       const user = res.data as UserType
       storeUsersEntities(user, true)
       cookies.set('userToken', user.token)
-      toast.success(`Heureux de vous revoir ${getUserfullName(user)}`)
+      $toast.success(`Heureux de vous revoir ${getUserfullName(user)}`)
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -40,10 +41,10 @@ export default function userHook() {
       storeUsersEntities(user)
       cookies.set('userToken', user.token)
       redirectBaseOneCurrentUserRole(user)
-      toast.success('Vous êtes inscrit avec succès')
+      $toast.success('Vous êtes inscrit avec succès')
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -51,14 +52,14 @@ export default function userHook() {
   async function fetchOne(userId: number) {
     try {
       IncLoading()
-      const res = await api.get(`user/${userId}`)
+      const res = await $api().get(`user/${userId}`)
       const user = res.data as UserType
       if (user) {
         storeUsersEntities(user, false)
       }
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
   }
 
@@ -137,14 +138,14 @@ export default function userHook() {
       IncLoading()
       const id = userStore.entities.current?.id
       if (id) {
-        const res = await api.patch(`user/theme/${id}`, { theme })
+        const res = await $api().patch(`user/theme/${id}`, { theme })
         if (isUserType(res)) {
           userStore.updateOne(id, res)
         }
       }
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -156,13 +157,13 @@ export default function userHook() {
       if (url) {
         finalUrl += `${url}`
       }
-      const res = await api.get(finalUrl)
+      const res = await $api().get(finalUrl)
       const { data }: PaginatedResponse<UserType> = res
       if (isArrayUserType(data)) {
         storeUsersEntitiesForManyUsers(data)
       }
     } catch (error) {
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
       console.error(error)
     }
     DecLoading()
@@ -171,11 +172,11 @@ export default function userHook() {
   async function deleteUser(id: number) {
     try {
       IncLoading()
-      await api.delete(`user/${id}`)
+      await $api().delete(`user/${id}`)
       userStore.deleteOne(id)
-      toast.success('Utilisateurs à été supprimé avec succès')
+      $toast.success('Utilisateurs à été supprimé avec succès')
     } catch (error) {
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
       console.error(error)
     }
     DecLoading()
@@ -184,13 +185,13 @@ export default function userHook() {
   async function patchOne(id: number, user: UserType) {
     IncLoading()
     try {
-      const res = await api.patch(`user/${id}`, { user })
+      const res = await $api().patch(`user/${id}`, { user })
       if (isUserType(res)) {
         userStore.updateOne(id, res)
-        toast.success('Utilisateur à été modifié avec succès')
+        $toast.success('Utilisateur à été modifié avec succès')
       }
     } catch (error) {
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
       console.error(error)
     }
     DecLoading()
@@ -230,7 +231,7 @@ export default function userHook() {
     IncLoading()
     try {
       if (ids.length > 0) {
-        const res = await api.get(`user/many/?ids=${ids.join(',')}`)
+        const res = await $api().get(`user/many/?ids=${ids.join(',')}`)
         const users = res as UserType[]
         if (users && users.length > 0 && isArrayUserType(users)) {
           const missingsUsers = users.filter(user => !userStore.isAlreadyInStore(user.id))
@@ -240,7 +241,7 @@ export default function userHook() {
         }
       }
     } catch (error) {
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
       console.error(error)
     }
     DecLoading()
@@ -271,26 +272,26 @@ export default function userHook() {
 
   async function postPhotographer(photographer: PhotographerCreatePayload) {
     try {
-      const res = await api.post('user/photographer', { photographer })
+      const res = await $api().post('user/photographer', { photographer })
       if (res && isUserType(res)) {
         userStore.createOne(res)
         return res
       }
     } catch (error) {
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
       console.error(error)
     }
   }
 
   async function getPhotographerUserWorkedWith(userId: number) {
     try {
-      const res = await api.get(`user/partners/${userId}`)
+      const res = await $api().get(`user/partners/${userId}`)
       if (res) {
         userStore.createMany(res)
         return res
       }
     } catch (error: any) {
-      toast.error(error.error as string)
+      $toast.error(error.error as string)
       console.error(error)
     }
   }

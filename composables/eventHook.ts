@@ -1,9 +1,10 @@
 import type { EventCreatePayload, EventType, EventTypeWithRelations } from '@/store/event/types'
 import { EventStatusEnum, getEventStatusTranslationEnum } from '@/store/event/types'
 import type { PaginatedResponse } from '@/helpers/api'
-import APi from '@/helpers/api'
 import type { EmployeeType } from '@/store/employee/types'
 import { hasOwnProperty, isArrayOfNumbers, noNull } from '@/utils'
+import { useAddressStore, useUiStore } from '~~/store'
+import { useEventStore } from '~~/store/event'
 
 export function eventHook() {
   const eventStore = useEventStore()
@@ -12,8 +13,7 @@ export function eventHook() {
   const { DecLoading, IncLoading } = useUiStore()
   const addressStore = useAddressStore()
   const { createOne: createOneAddress } = addressStore
-  const toast = useToast()
-  const api = new APi()
+  const { $toast, $api } = useNuxtApp()
 
   function getEventStatusTranslation(status: EventStatusEnum) {
     return getEventStatusTranslationEnum[status]
@@ -78,12 +78,12 @@ export function eventHook() {
       if (url) {
         finalUrl += `${url}`
       }
-      const res = await api.get(finalUrl)
+      const res = await $api().get(finalUrl)
       const { data }: PaginatedResponse<EventType> = res
       storeEventRelationEntities(data)
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -91,13 +91,13 @@ export function eventHook() {
   async function fetchEvent(id: number) {
     IncLoading()
     try {
-      const res: any = await api.get(`event/${id}`)
+      const res: any = await $api().get(`event/${id}`)
       if (!eventStore.isAlreadyInStore(res.id) && isEventType(res)) {
         storeEventRelationEntities([res])
       }
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -106,7 +106,7 @@ export function eventHook() {
     IncLoading()
     try {
       if (userId) {
-        const res = await api.get(`event/user/${userId}`)
+        const res = await $api().get(`event/user/${userId}`)
         const data = res as EventType[]
         const missingIds = data.map((event: EventType) => event.id).filter(id => !eventStore.isAlreadyInStore(id))
         if (missingIds.length > 0) {
@@ -120,7 +120,7 @@ export function eventHook() {
       }
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -128,14 +128,14 @@ export function eventHook() {
   async function fetchOne(id: number) {
     IncLoading()
     try {
-      const res = await api.get(`event/${id}`)
+      const res = await $api().get(`event/${id}`)
       const event = res as EventType
       if (!eventStore.isAlreadyInStore(event.id)) {
         storeEventRelationEntities([event])
       }
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -143,17 +143,17 @@ export function eventHook() {
   async function postOne(payload: EventCreatePayload): Promise<EventType | undefined> {
     try {
       const { userId } = payload
-      const res = await api.post(`event/${userId}`, payload)
+      const res = await $api().post(`event/${userId}`, payload)
       const eventToStore = res as EventType
       if (isUserType(eventToStore.createdByUser)) {
         eventToStore.createdByUser = res.createdByUser.id
       }
       eventStore.createOne(eventToStore)
-      toast.success('L\'événement a été créé avec succès')
+      $toast.success('L\'événement a été créé avec succès')
       return eventToStore
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
   }
 
@@ -163,14 +163,14 @@ export function eventHook() {
       try {
         delete event.address
         delete event.partnerId
-        const res = await api.patch(`event/${event.id}`, { event })
+        const res = await $api().patch(`event/${event.id}`, { event })
         if (isEventType(res)) {
           eventStore.updateOne(res.id, res)
-          toast.success('L\'événement a été mis à jour avec succès')
+          $toast.success('L\'événement a été mis à jour avec succès')
         }
       } catch (error) {
         console.error(error)
-        toast.error('Une erreur est survenue')
+        $toast.error('Une erreur est survenue')
       }
       DecLoading()
     }
@@ -179,12 +179,12 @@ export function eventHook() {
   async function deleteOne(id: number) {
     IncLoading()
     try {
-      await api.delete(`event/${id}`)
+      await $api().delete(`event/${id}`)
       eventStore.deleteOne(id)
-      toast.success('L\'événement a été supprimé avec succès')
+      $toast.success('L\'événement a été supprimé avec succès')
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }

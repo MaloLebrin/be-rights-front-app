@@ -1,27 +1,26 @@
-import API from '@/helpers/api'
 import type { AnswerType } from '@/types'
+import { useAnswerStore, useUiStore } from '~~/store'
 
 export default function answerHook() {
   const answerStore = useAnswerStore()
   const { IncLoading, DecLoading } = useUiStore()
-  const toast = useToast()
-  const api = new API()
+  const { $api, $toast } = useNuxtApp()
 
   async function postMany(eventId: number, employeeIds: number[]) {
     IncLoading()
     if (eventId && employeeIds.length > 0) {
       try {
-        const res = await api.post('answer/many', { eventId, employeeIds })
+        const res = await $api().post('answer/many', { eventId, employeeIds })
         const answers = res as AnswerType[]
         if (answers.length > 0) {
           answerStore.createMany(answers)
         }
       } catch (error) {
         console.error(error)
-        toast.error('Une erreur est survenue')
+        $toast.error('Une erreur est survenue')
       }
     } else {
-      toast.error('Veuillez sélectionner au moins un participant et un événement')
+      $toast.error('Veuillez sélectionner au moins un participant et un événement')
     }
     DecLoading()
   }
@@ -36,7 +35,7 @@ export default function answerHook() {
   async function fetchManyAnswerForEvent(eventId: number) {
     IncLoading()
     try {
-      const res = await api.get(`answer/event/${eventId}`)
+      const res = await $api().get(`answer/event/${eventId}`)
       const answers = res as AnswerType[]
       const answersNotInStore = filteringAnswersNotInStore(answers)
       if (answersNotInStore.length > 0) {
@@ -44,7 +43,7 @@ export default function answerHook() {
       }
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }

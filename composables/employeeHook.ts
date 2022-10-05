@@ -1,7 +1,7 @@
 import type { PaginatedResponse } from '@/helpers/api'
-import API from '@/helpers/api'
 import type { AnswerType, EmployeeType, FileType } from '@/types'
 import { isArrayOfNumbers, uniq } from '@/utils'
+import { useAddressStore, useAnswerStore, useEmployeeStore, useFileStore, useUiStore, useUserStore } from '~~/store'
 
 export default function employeeHook() {
   const employeeStore = useEmployeeStore()
@@ -14,8 +14,7 @@ export default function employeeHook() {
   const { filteringFilesNotInStore } = fileHook()
   const { filteringAnswersNotInStore } = answerHook()
   const { isAddressType } = addressHook()
-  const toast = useToast()
-  const api = new API()
+  const { $toast, $api } = useNuxtApp()
 
   function getEmployeeStatusSignature(employee: EmployeeType): string {
     if (employee.hasSigned) {
@@ -83,7 +82,7 @@ export default function employeeHook() {
 
   async function getEmployeesByEventId(eventId: number) {
     try {
-      const res: any = await api.get(`employee/event/${eventId}`)
+      const res: any = await $api().get(`employee/event/${eventId}`)
       const employeeArray = res.data as EmployeeType[]
       const employees: EmployeeType[] = employeeArray.map(employe => ({
         ...employe,
@@ -92,14 +91,14 @@ export default function employeeHook() {
       employeeStore.createMany(employees)
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
   }
 
   async function fetchAllByUserId(userId: number) {
     IncLoading()
     try {
-      const res = await api.get(`employee/user/${userId}`)
+      const res = await $api().get(`employee/user/${userId}`)
       const data = res as EmployeeType[]
       storeEmployeeRelationsEntities(data.map(employee => ({
         ...employee,
@@ -107,7 +106,7 @@ export default function employeeHook() {
       })))
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -120,12 +119,12 @@ export default function employeeHook() {
         finalUrl += `${url}`
       }
 
-      const res = await api.get(`${finalUrl}`)
+      const res = await $api().get(`${finalUrl}`)
       const { data }: PaginatedResponse<EmployeeType> = res
       storeEmployeeRelationsEntities(data)
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -133,12 +132,12 @@ export default function employeeHook() {
   async function deleteOne(id: number) {
     IncLoading()
     try {
-      await api.delete(`employee/${id}`)
+      await $api().delete(`employee/${id}`)
       employeeStore.deleteOne(id)
-      toast.success('Destinataire supprimé avec succès')
+      $toast.success('Destinataire supprimé avec succès')
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -146,19 +145,19 @@ export default function employeeHook() {
   async function patchOne(id: number, data: EmployeeType) {
     IncLoading()
     try {
-      const res = await api.patch(`employee/${id}`, { employee: data })
+      const res = await $api().patch(`employee/${id}`, { employee: data })
       employeeStore.updateOne(id, res)
-      toast.success('Destinataire modifié avec succès')
+      $toast.success('Destinataire modifié avec succès')
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
 
   async function postOne(employee: EmployeeType, userId: number) {
     try {
-      const res = await api.post(`employee/${userId}`, { employee })
+      const res = await $api().post(`employee/${userId}`, { employee })
       const data = res as EmployeeType
       const user = userStore.getOne(userId)
       const userEmployee = user.employee as number[]
@@ -167,18 +166,18 @@ export default function employeeHook() {
         employee: [...userEmployee, data.id],
       })
       employeeStore.createOne(data)
-      toast.success('Destinataire créé avec succès')
+      $toast.success('Destinataire créé avec succès')
       return data
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
   }
 
   async function postManyForEvent(employees: EmployeeType[], eventId: number, userId: number) {
     IncLoading()
     try {
-      const res = await api.post<EmployeeType[]>(`employee/manyonevent/${eventId}/${userId}`, employees)
+      const res = await $api().post<EmployeeType[]>(`employee/manyonevent/${eventId}/${userId}`, employees)
       const data = res as EmployeeType[]
       const employeeIds = data.map(employee => employee.id)
       const user = userStore.getOne(userId)
@@ -188,10 +187,10 @@ export default function employeeHook() {
         employee: uniq([...userEmployee, ...employeeIds]),
       })
       employeeStore.createMany(data)
-      toast.success('Destinataires créés avec succès')
+      $toast.success('Destinataires créés avec succès')
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }

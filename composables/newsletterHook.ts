@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/indent */
 import axiosInstance from '@/axios.config'
-import APi from '@/helpers/api'
 import type { PaginatedResponse } from '@/helpers/api'
 import type { NewsletterType } from '@/types'
+import { useNewsletterStore, useUiStore } from '~~/store'
 
 export default function newsletterHook() {
   const { IncLoading, DecLoading } = useUiStore()
-  const toast = useToast()
-  const api = new APi()
+  const { $toast, $api } = useNuxtApp()
+
   const newsletterStore = useNewsletterStore()
   const { createMany, deleteOne: deleteOneStore } = newsletterStore
 
@@ -16,12 +17,12 @@ export default function newsletterHook() {
     lastName,
     companyName,
   }:
-  {
-    email: string
-    firstName: string | null
-    lastName: string | null
-    companyName: string | null
-  }) {
+    {
+      email: string
+      firstName: string | null
+      lastName: string | null
+      companyName: string | null
+    }) {
     IncLoading()
     try {
       const res = await axiosInstance.post('newsletter/', { email, firstName, lastName, companyName })
@@ -31,7 +32,7 @@ export default function newsletterHook() {
         return res.status
       }
     } catch (error) {
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
       console.error(error)
     }
     DecLoading()
@@ -45,7 +46,7 @@ export default function newsletterHook() {
         finalUrl += `${url}`
       }
 
-      const res = await api.get(finalUrl)
+      const res = await $api().get(finalUrl)
       const { data }: PaginatedResponse<NewsletterType> = res
       const missingNewsletters = newsletterStore.getMissingEntities(data)
       if (missingNewsletters.length > 0) {
@@ -53,7 +54,7 @@ export default function newsletterHook() {
       }
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
@@ -61,12 +62,12 @@ export default function newsletterHook() {
   async function deleteOne(id: number) {
     IncLoading()
     try {
-      await api.delete(`newsletter/${id}`)
+      await $api().delete(`newsletter/${id}`)
       deleteOneStore(id)
-      toast.success('Newsletter item supprimé avec succès')
+      $toast.success('Newsletter item supprimé avec succès')
     } catch (error) {
       console.error(error)
-      toast.error('Une erreur est survenue')
+      $toast.error('Une erreur est survenue')
     }
     DecLoading()
   }
