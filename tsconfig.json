@@ -1,42 +1,42 @@
 {
   "extends": "./.nuxt/tsconfig.json",
-  "compilerOptions": {
-    "target": "esnext",
-    "useDefineForClassFields": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "strict": true,
-    "jsx": "preserve",
-    "sourceMap": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "lib": ["esnext", "dom"],
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    },
-    "types": [
-      "vite-plugin-vue-layouts/client",
-      "vite/client",
-      "node"
-    ]
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "**/*.d.ts",
-    "types/**/*.ts",
-    "types/*.ts",
-    "auto-imports.d.ts",
-    "components.d.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  // "compilerOptions": {
+  //   "target": "esnext",
+  //   "useDefineForClassFields": true,
+  //   "module": "esnext",
+  //   "moduleResolution": "node",
+  //   "strict": true,
+  //   "jsx": "preserve",
+  //   "sourceMap": true,
+  //   "resolveJsonModule": true,
+  //   "esModuleInterop": true,
+  //   "skipLibCheck": true,
+  //   "lib": ["esnext", "dom"],
+  //   "baseUrl": ".",
+  //   "paths": {
+  //     "@/*": [
+  //       "./src/*"
+  //     ]
+  //   },
+  //   "types": [
+  //     "vite-plugin-vue-layouts/client",
+  //     "vite/client",
+  //     "node"
+  //   ]
+  // },
+  // "include": [
+  //   "src/**/*.ts",
+  //   "src/**/*.d.ts",
+  //   "src/**/*.tsx",
+  //   "src/**/*.vue",
+  //   "**/*.d.ts",
+  //   "types/**/*.ts",
+  //   "types/*.ts",
+  //   "auto-imports.d.ts",
+  //   "components.d.ts"
+  // ],
+  // "exclude": [
+  //   "node_modules",
+  //   "dist"
+  // ]
 }
