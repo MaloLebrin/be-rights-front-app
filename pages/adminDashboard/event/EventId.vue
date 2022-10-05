@@ -35,4 +35,9 @@ onMounted(async () => {
     await fetchOneAddress(event.addressId)
   }
 })
+definePageMeta({
+  layout: 'admin-dashboard-layout',
+  isAuth: true,
+  isAdmin: true,
+})
 </script>

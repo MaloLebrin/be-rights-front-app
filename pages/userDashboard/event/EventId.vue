@@ -13,4 +13,9 @@
 const { params } = useRoute()
 
 const eventId = computed(() => parseInt(params.eventId as string))
+definePageMeta({
+  layout: 'dashboard-layout',
+  isAuth: true,
+  isAdmin: true,
+})
 </script>

@@ -146,4 +146,9 @@ async function submitregister(form: VeeValidateValues) {
   }
   DecLoading()
 }
+definePageMeta({
+  layout: 'default-layout',
+  isAuth: false,
+  isAdmin: false,
+})
 </script>

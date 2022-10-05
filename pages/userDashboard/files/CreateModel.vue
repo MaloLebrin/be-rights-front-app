@@ -7,5 +7,9 @@
 </template>
 
 <script setup lang="ts">
-// import { ModalModeEnum } from '@/types'
+definePageMeta({
+  layout: 'dashboard-layout',
+  isAuth: true,
+  isAdmin: true,
+})
 </script>

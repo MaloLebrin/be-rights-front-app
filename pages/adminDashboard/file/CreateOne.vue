@@ -8,3 +8,11 @@
   </div>
 </div>
 </template>
+
+<script setup lang="ts">
+definePageMeta({
+  layout: 'admin-dashboard-layout',
+  isAuth: true,
+  isAdmin: true,
+})
+</script>

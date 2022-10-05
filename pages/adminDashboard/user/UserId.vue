@@ -8,4 +8,9 @@
 const { params } = useRoute()
 
 const userId = computed(() => parseInt(params.userId as string))
+definePageMeta({
+  layout: 'admin-dashboard-layout',
+  isAuth: true,
+  isAdmin: true,
+})
 </script>

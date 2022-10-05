@@ -283,4 +283,9 @@ async function submit(photographerId?: number | UserType) {
   }
   DecLoading()
 }
+definePageMeta({
+  layout: 'admin-dashboard-layout',
+  isAuth: true,
+  isAdmin: true,
+})
 </script>

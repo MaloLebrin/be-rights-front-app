@@ -29,4 +29,9 @@ onMounted(async () => {
   await fetchAll()
   DecLoading()
 })
+definePageMeta({
+  layout: 'admin-dashboard-layout',
+  isAuth: true,
+  isAdmin: true,
+})
 </script>

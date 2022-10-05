@@ -17,4 +17,9 @@ const userStore = useUserStore()
 
 const userId = computed(() => parseInt(params.userId as string))
 const user = computed(() => userStore.getOne(userId.value))
+definePageMeta({
+  layout: 'admin-dashboard-layout',
+  isAuth: true,
+  isAdmin: true,
+})
 </script>

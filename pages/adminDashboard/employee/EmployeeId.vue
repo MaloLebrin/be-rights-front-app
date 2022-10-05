@@ -20,4 +20,9 @@ const { params } = useRoute()
 const employeeStore = useEmployeeStore()
 const { getEmployeeFullname } = employeeHook()
 const employee = computed(() => employeeStore.getOne(parseInt(params.employeeId as string)))
+definePageMeta({
+  layout: 'admin-dashboard-layout',
+  isAuth: true,
+  isAdmin: true,
+})
 </script>

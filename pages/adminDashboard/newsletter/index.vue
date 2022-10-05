@@ -61,4 +61,9 @@ onMounted(async () => {
   await fetchAll(tableStore.getFinalUrl)
   DecLoading()
 })
+definePageMeta({
+  layout: 'admin-dashboard-layout',
+  isAuth: true,
+  isAdmin: true,
+})
 </script>

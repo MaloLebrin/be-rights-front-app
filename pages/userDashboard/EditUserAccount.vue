@@ -11,4 +11,9 @@
 import { useUserStore } from '~~/store'
 
 const userStore = useUserStore()
+definePageMeta({
+  layout: 'dashboard-layout',
+  isAuth: true,
+  isAdmin: true,
+})
 </script>

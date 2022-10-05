@@ -3,3 +3,11 @@
   <EmployeesEmployeeForm />
 </div>
 </template>
+
+<script setup lang="ts">
+definePageMeta({
+  layout: 'dashboard-layout',
+  isAuth: true,
+  isAdmin: true,
+})
+</script>

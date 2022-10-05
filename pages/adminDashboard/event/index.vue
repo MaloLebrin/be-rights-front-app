@@ -2,7 +2,7 @@
 <div
   class="relative h-full px-4 py-6 text-left transition-all duration-500 ease-in-out transform"
 >
-  <EventList
+  <EventsEventList
     :events="events"
   />
 </div>
@@ -40,5 +40,11 @@ onMounted(async () => {
     await fetchAllEvents()
     DecLoading()
   }
+})
+
+definePageMeta({
+  layout: 'admin-dashboard-layout',
+  isAuth: true,
+  isAdmin: true,
 })
 </script>

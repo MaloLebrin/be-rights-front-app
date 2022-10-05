@@ -118,4 +118,10 @@ async function submitLogin(form: VeeValidateValues) {
   }
   DecLoading()
 }
+
+definePageMeta({
+  layout: 'default-layout',
+  isAuth: false,
+  isAdmin: false,
+})
 </script>

@@ -18,4 +18,9 @@ const eventId = computed(() => parseInt(params.eventId as string))
 function redirectToEvent() {
   router.push({ name: 'user.events' })
 }
+definePageMeta({
+  layout: 'dashboard-layout',
+  isAuth: true,
+  isAdmin: true,
+})
 </script>

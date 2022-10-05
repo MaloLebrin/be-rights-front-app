@@ -67,4 +67,10 @@ function searchEntity(event: KeyboardEvent) {
     setSearch(state.search)
   }, 500)
 }
+
+definePageMeta({
+  layout: 'admin-dashboard-layout',
+  isAuth: true,
+  isAdmin: true,
+})
 </script>
