@@ -8,7 +8,13 @@ delete colors.blueGray
 /** @type {import("@types/tailwindcss/tailwind-config").TailwindConfig } */
 module.exports = {
   mode: 'jit',
-  content: ['./public/**/*.html', './src/**/*.vue'],
+  content: [
+    './components/**/*.{js,vue,ts}',
+    './layouts/**/*.vue',
+    './pages/**/*.vue',
+    './plugins/**/*.{js,ts}',
+    './nuxt.config.{js,ts}',
+  ],
   presets: [],
   darkMode: 'class', // or 'media' or 'class'
   safelist: [
