@@ -27,3 +27,13 @@ export function isNumber(value: any): value is number {
 export function noNull<T>(v: T | null): v is Exclude<T, null> {
   return v !== null
 }
+
+/**
+ * Type guard to filter out undefined values
+ *
+ * @category Guards
+ * @example array.filter(noUndefined)
+ */
+export function noUndefined<T>(v: T | undefined): v is Exclude<T, undefined> {
+  return v !== undefined
+}

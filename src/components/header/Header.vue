@@ -30,11 +30,11 @@
               <BaseButton
                 :href="getButtonPath"
               >
-                {{ userStore.isLoggedIn ? 'Mon compte' : 'Commencer' }}
+                {{ userLogged ? 'Mon compte' : 'Commencer' }}
               </BaseButton>
 
               <router-link
-                v-if="!userStore.entities.current"
+                v-if="!userLogged"
                 :to="{ name: 'login' }"
                 class="px-3 py-2 text-sm font-medium rounded-md text-blue dark:text-white dark:hover:text-red-light hover:text-red-light"
               >
@@ -111,11 +111,11 @@
                 <BaseButton
                   :href="getButtonPath"
                 >
-                  {{ userStore.isLoggedIn ? 'Mon compte' : 'Commencer' }}
+                  {{ userLogged ? 'Mon compte' : 'Commencer' }}
                 </BaseButton>
               </MenuItem>
               <MenuItem
-                v-if="!userStore.isLoggedIn"
+                v-if="!userLogged"
                 as="li"
                 class="flex items-center w-full px-2 py-2 text-sm rounded-md group"
               >
@@ -136,11 +136,10 @@
 </template>
 
 <script setup lang="ts">
-const userStore = useUserStore()
-const { getRouteName } = authHook()
+const { getRouteName, userLogged } = authHook()
 
 const getButtonPath = computed(() => {
-  if (!userStore.isLoggedIn) {
+  if (!userLogged.value) {
     return { name: 'register' }
   }
   return getRouteName('events')

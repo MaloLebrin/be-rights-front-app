@@ -70,7 +70,9 @@ import type { UserType, VeeValidateValues } from '@/types'
 import APi from '@/helpers/api'
 
 const { storeUsersEntities, getUserfullName, isUserAdmin, isUserType } = userHook()
+const { jwtDecode, setUserLogged } = authHook()
 const { IncLoading, DecLoading } = useUiStore()
+const { setJWTasUser } = useAuthStore()
 const uiStore = useUiStore()
 const router = useRouter()
 const api = new APi()
@@ -100,6 +102,11 @@ async function submitLogin(form: VeeValidateValues) {
     if (user && isUserType(user)) {
       storeUsersEntities(user, true)
       cookies.set('userToken', user.token)
+      const decode = jwtDecode(user.token)
+      if (decode) {
+        setUserLogged(decode)
+        setJWTasUser(decode)
+      }
       toast.success(`Heureux de vous revoir ${getUserfullName(user)}`)
       router.replace({
         name: isUserAdmin(user) ? 'admin.events' : 'user.events',
