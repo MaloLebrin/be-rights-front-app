@@ -76,11 +76,25 @@ export default function authHook() {
     return Object.assign({}, obj1, obj2)
   }
 
+  const userLogged = ref<JWTDecodedType | null>(null)
+
+  function setUserLogged(payload: JWTDecodedType) {
+    userLogged.value = payload
+    console.log(userLogged.value, '<==== userLogged.value')
+  }
+
+  function resetUserLogged() {
+    userLogged.value = null
+  }
+
   return {
     checkMailIsAlreadyExist,
-    logout,
+    getRouteName,
     jwtDecode,
     loginWithToken,
-    getRouteName,
+    logout,
+    resetUserLogged,
+    setUserLogged,
+    userLogged,
   }
 }

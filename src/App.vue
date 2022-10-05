@@ -11,16 +11,25 @@
 <script setup lang="ts">
 import { useCookies } from 'vue3-cookies'
 
-onBeforeMount(async () => {
+onMounted(async () => {
   const userStore = useUserStore()
   const { getUserWithTokenFromAPI } = userStore
+  const authStore = useAuthStore()
+  const { setJWTasUser } = authStore
+  const { jwtDecode, setUserLogged } = authHook()
   const { cookies } = useCookies()
 
-  if (!userStore.getCurrent) {
-    const token = cookies.get('userToken')
-    if (token) {
-      await getUserWithTokenFromAPI(token)
+  const token = cookies.get('userToken')
+  if (token) {
+    console.log(token, '<==== token')
+    const decoded = jwtDecode(token)
+    if (decoded) {
+      console.log(decoded, '<==== decoded')
+      setUserLogged(decoded)
+      setJWTasUser(decoded)
+      console.log(authStore.$state, '<==== authStore')
     }
+    await getUserWithTokenFromAPI(token)
   }
 })
 </script>

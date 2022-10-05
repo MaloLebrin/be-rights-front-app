@@ -71,6 +71,7 @@ declare global {
   const useAddressStore: typeof import('@/store/address/addressStore')['useAddressStore']
   const useAnswerStore: typeof import('@/store/answer/answerStore')['useAnswerStore']
   const useAttrs: typeof import('vue')['useAttrs']
+  const useAuthStore: typeof import('@/store/auth/authStore')['useAuthStore']
   const useBugStore: typeof import('@/store/bug/bugStore')['useBugStore']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']

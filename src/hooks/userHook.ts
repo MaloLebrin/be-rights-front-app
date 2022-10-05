@@ -217,7 +217,7 @@ export default function userHook() {
     }
   }
 
-  function getUserfullName(user: UserType) {
+  function getUserfullName(user: Pick<UserType, 'firstName' | 'lastName'>) {
     let str = ''
     if (user?.firstName)
       str += user.firstName
