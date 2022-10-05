@@ -7,25 +7,25 @@
       <div class="relative items-center hidden m-8 md:flex md:h-16 md:m-0 justify-e">
         <div class="items-center justify-between flex-1 hidden md:flex sm:justify-start">
           <div class="items-center flex-shrink-0 md:flex">
-            <router-link to="/">
-              <SimpleLogo />
-            </router-link>
+            <nuxt-link to="/">
+              <LogoSimpleLogo />
+            </nuxt-link>
           </div>
           <div class="ml-auto lg:flex lg:items-stretch lg:justify-end">
             <div class="flex space-x-4">
-              <router-link
+              <nuxt-link
                 :to="{ path: '/' }"
                 class="px-3 py-2 text-sm font-medium rounded-md text-blue dark:text-white dark:hover:text-red-light hover:text-red-light"
               >
                 Solutions
-              </router-link>
+              </nuxt-link>
 
-              <router-link
+              <nuxt-link
                 :to="{ path: '/' }"
                 class="px-3 py-2 text-sm font-medium rounded-md text-blue dark:text-white dark:hover:text-red-light hover:text-red-light"
               >
                 Tarifs
-              </router-link>
+              </nuxt-link>
 
               <BaseButton
                 :href="getButtonPath"
@@ -33,13 +33,13 @@
                 {{ userLogged ? 'Mon compte' : 'Commencer' }}
               </BaseButton>
 
-              <router-link
+              <nuxt-link
                 v-if="!userLogged"
                 :to="{ name: 'login' }"
                 class="px-3 py-2 text-sm font-medium rounded-md text-blue dark:text-white dark:hover:text-red-light hover:text-red-light"
               >
                 Se connecter
-              </router-link>
+              </nuxt-link>
             </div>
           </div>
         </div>
@@ -48,7 +48,7 @@
 
     <!-- Mobile menu, show/hide based on menu state. -->
     <div class="grid w-full h-full grid-cols-2 gap-4 md:hidden">
-      <router-link
+      <nuxt-link
         class="flex items-center justify-center flex-shrink-0 space-x-2"
         to="/"
       >
@@ -58,7 +58,7 @@
         <h1 class="text-xl font-bold">
           Be Right
         </h1>
-      </router-link>
+      </nuxt-link>
 
       <Menu
         as="div"
@@ -86,23 +86,23 @@
                 as="li"
                 class="flex items-center w-full px-2 py-2 text-sm rounded-md group"
               >
-                <router-link
+                <nuxt-link
                   :to="{ path: '/' }"
                   class="px-3 py-2 text-sm font-medium text-black rounded-md hover:text-white dark:text-white"
                 >
                   Solutions
-                </router-link>
+                </nuxt-link>
               </MenuItem>
               <MenuItem
                 as="li"
                 class="flex items-center w-full px-2 py-2 text-sm rounded-md group"
               >
-                <router-link
+                <nuxt-link
                   :to="{ path: '/' }"
                   class="px-3 py-2 text-sm font-medium text-black rounded-md hover:text-white dark:text-white"
                 >
                   Tarifs
-                </router-link>
+                </nuxt-link>
               </MenuItem>
               <MenuItem
                 as="li"
@@ -119,12 +119,12 @@
                 as="li"
                 class="flex items-center w-full px-2 py-2 text-sm rounded-md group"
               >
-                <router-link
+                <nuxt-link
                   :to="{ name: 'login' }"
                   class="px-3 py-2 text-sm font-medium text-black rounded-md hover:text-white dark:text-white"
                 >
                   Se connecter
-                </router-link>
+                </nuxt-link>
               </MenuItem>
             </div>
           </MenuItems>

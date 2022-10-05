@@ -11,7 +11,7 @@
       <h1 class="text-black dark:text-white">
         Bienvenue sur
       </h1>
-      <SimpleLogo />
+      <LogoSimpleLogo />
     </div>
 
     <div class="container grid grid-cols-1 gap-6 text-left md:grid-cols-2">
@@ -78,18 +78,18 @@
 
       <div class="flex flex-col items-center justify-center space-y-4 md:col-span-2">
         <BaseButton
-          :disabled="!meta.valid || !meta.dirty || isSubmitting"
+          :disabled="!meta.valid || isSubmitting"
           :is-loading="uiStore.getUIIsLoading || isSubmitting"
           type="submit"
         >
           S'inscrire
         </BaseButton>
-        <router-link
+        <nuxt-link
           class="LinkClass"
           :to="{ name: 'login' }"
         >
           J'ai déjà un compte
-        </router-link>
+        </nuxt-link>
       </div>
     </div>
   </Form>
@@ -106,8 +106,11 @@
 
 <script setup lang="ts">
 import { object, string } from 'yup'
+import { Form } from 'vee-validate'
 import type { RegisterPayload, VeeValidateValues } from '@/types'
 import { RoleEnum } from '@/types'
+import { useUiStore } from '~~/store'
+
 const { register } = userHook()
 const { checkMailIsAlreadyExist } = authHook()
 const uiStore = useUiStore()
@@ -135,8 +138,9 @@ async function submitregister(form: VeeValidateValues) {
   IncLoading()
   const isEmailExist = await checkMailIsAlreadyExist(form.email)
   if (!isEmailExist.success) {
-    const toast = useToast()
-    toast.error(isEmailExist.message)
+    const { $toast } = useNuxtApp()
+
+    $toast.error(isEmailExist.message)
   } else {
     await register(form as RegisterPayload)
   }

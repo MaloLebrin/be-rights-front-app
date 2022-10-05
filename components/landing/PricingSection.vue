@@ -15,7 +15,7 @@
     </div>
 
     <div class="grid grid-cols-1 mt-10 lg:grid-cols-3 md:gap-2">
-      <PricingCard
+      <LandingPricingCard
         title="Essentiel"
         :nb-free-month="1"
         :price="3.99"
@@ -35,8 +35,8 @@
             </li>
           </ul>
         </template>
-      </PricingCard>
-      <PricingCard
+      </LandingPricingCard>
+      <LandingPricingCard
         title="Pro"
         :nb-free-month="2"
         :price="9.99"
@@ -57,8 +57,8 @@
             </li>
           </ul>
         </template>
-      </PricingCard>
-      <PricingCard
+      </LandingPricingCard>
+      <LandingPricingCard
         title="Expert"
         :nb-free-month="3"
         :price="19.99"
@@ -78,7 +78,7 @@
             </li>
           </ul>
         </template>
-      </PricingCard>
+      </LandingPricingCard>
     </div>
   </div>
 </section>

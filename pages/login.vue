@@ -12,7 +12,7 @@
         <h1 class="text-center text-black dark:text-white">
           Connectez vous sur
         </h1>
-        <SimpleLogo />
+        <LogoSimpleLogo />
       </div>
 
       <div class="space-y-4">
@@ -33,24 +33,24 @@
       </div>
       <div class="flex flex-col items-center justify-center space-y-6">
         <BaseButton
-          :disabled="!meta.valid || !meta.dirty || isSubmitting"
+          :disabled="!meta.valid || isSubmitting"
           :is-loading="uiStore.getUIIsLoading || isSubmitting"
           type="submit"
         >
           Se Connecter
         </BaseButton>
-        <router-link
+        <nuxt-link
           class="LinkClass"
           :to="{ name: 'register' }"
         >
           S'inscrire
-        </router-link>
-        <router-link
+        </nuxt-link>
+        <nuxt-link
           class="LinkClass"
-          :to="{ name: 'forgot-password' }"
+          :to="{ name: 'forgotPassword' }"
         >
           Mot de passe oublié
-        </router-link>
+        </nuxt-link>
       </div>
     </div>
 
@@ -66,8 +66,9 @@
 <script setup lang="ts">
 import { object, string } from 'yup'
 import { useCookies } from 'vue3-cookies'
+import { Form } from 'vee-validate'
 import type { UserType, VeeValidateValues } from '@/types'
-import APi from '@/helpers/api'
+import { useAuthStore, useUiStore } from '~~/store'
 
 const { storeUsersEntities, getUserfullName, isUserAdmin, isUserType } = userHook()
 const { jwtDecode, setUserLogged } = authHook()
@@ -75,9 +76,8 @@ const { IncLoading, DecLoading } = useUiStore()
 const { setJWTasUser } = useAuthStore()
 const uiStore = useUiStore()
 const router = useRouter()
-const api = new APi()
 const { cookies } = useCookies()
-const toast = useToast()
+const { $toast, $api } = useNuxtApp()
 
 interface IForm extends VeeValidateValues {
   email: string
@@ -97,7 +97,7 @@ const initialValues = {
 async function submitLogin(form: VeeValidateValues) {
   try {
     IncLoading()
-    const res = await api.post('user/login', form)
+    const res = await $api().post('user/login', form)
     const user = res as UserType
     if (user && isUserType(user)) {
       storeUsersEntities(user, true)
@@ -107,14 +107,14 @@ async function submitLogin(form: VeeValidateValues) {
         setUserLogged(decode)
         setJWTasUser(decode)
       }
-      toast.success(`Heureux de vous revoir ${getUserfullName(user)}`)
+      $toast.success(`Heureux de vous revoir ${getUserfullName(user)}`)
       router.replace({
-        name: isUserAdmin(user) ? 'admin.events' : 'user.events',
+        name: isUserAdmin(user) ? 'adminDashboard-event' : 'userDashboard-event',
       })
     }
   } catch (error) {
     console.error(error)
-    toast.error('Une erreur est survenue')
+    $toast.error('Une erreur est survenue')
   }
   DecLoading()
 }
