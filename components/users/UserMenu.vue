@@ -33,7 +33,7 @@
     >
       <MenuItem v-slot="{ active }">
         <nuxt-link
-          :to="{ name: userStore.isCurrentUserAdmin ? 'admin.users.show' : 'user.account', params: { userId: userStore.entities.current?.id } }"
+          :to="{ name: userStore.isCurrentUserAdmin ? 'adminDashboard-user-UserId' : 'userDashboard-MyUserAccount', params: { userId: userStore.entities.current?.id } }"
           class="flex items-center justify-start px-4 py-2 space-x-2 text-sm text-gray-700"
           :class="[active ? 'bg-gray-100' : '']"
         >

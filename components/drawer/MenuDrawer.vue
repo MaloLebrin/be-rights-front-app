@@ -83,7 +83,7 @@
             v-if="userStore.getCurrent"
             class="flex flex-shrink-0 p-4"
           >
-            <UserMenu />
+            <UsersUserMenu />
           </div>
         </div>
       </TransitionChild>
@@ -126,7 +126,7 @@
         </nav>
       </div>
       <!-- <DarkModeToggle /> -->
-      <UserMenu />
+      <UsersUserMenu />
     </div>
   </div>
 </div>

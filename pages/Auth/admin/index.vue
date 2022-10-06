@@ -44,6 +44,7 @@ onMounted(async () => {
 
 definePageMeta({
   layout: 'admin-dashboard-layout',
+  middleware: ['nav-guard-middleware'],
   isAuth: true,
   isAdmin: true,
 })

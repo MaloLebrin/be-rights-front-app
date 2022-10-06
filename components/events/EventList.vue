@@ -34,7 +34,7 @@
               class="flex items-center py-4 pl-4 pr-3 space-x-2 text-sm font-medium text-gray-900 truncate whitespace-nowrap sm:pl-6"
             >
               <p>{{ noEventMessage }}</p>
-              <BaseButton :href="{ name: userStore.isCurrentUserAdmin ? 'admin.events.create' : 'user.events.create' }">
+              <BaseButton :href="{ name: userStore.isCurrentUserAdmin ? 'adminDashboard-event-CreateEvent' : 'adminDashboard-event-CreateEvent' }">
                 Créer un événement
               </BaseButton>
             </div>

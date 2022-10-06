@@ -90,10 +90,10 @@ export const MENU_ITEMS = [
     linkName: 'userDashboard-employee-CreateEmployee',
     isAdmin: false,
   },
-  {
-    label: 'Créer un nouveau fichier',
-    icon: FolderPlusIcon,
-    linkName: 'userDashboard-files-CreateModel',
-    isAdmin: false,
-  },
+  // {
+  //   label: 'Créer un nouveau fichier',
+  //   icon: FolderPlusIcon,
+  //   linkName: 'userDashboard-files-CreateModel',
+  //   isAdmin: false,
+  // },
 ]
