@@ -37,6 +37,8 @@ export default defineNuxtConfig({
     transpile: [
       '@heroicons/vue',
       '@headlessui/vue',
+      // 'v-calendar',
+      // 'vue-toastification',
     ],
   },
   buildModules: [
