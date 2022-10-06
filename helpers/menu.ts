@@ -2,7 +2,7 @@ import {
   ChartPieIcon,
   ExclamationCircleIcon,
   FolderOpenIcon,
-  FolderPlusIcon,
+  // FolderPlusIcon,
   HomeIcon,
   PlusIcon,
   UserGroupIcon,
