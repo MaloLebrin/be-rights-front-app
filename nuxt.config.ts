@@ -18,15 +18,6 @@ export default defineNuxtConfig({
               return { importName: 'default', path: `@heroicons/vue/24/outline/esm/${realName}.js` }
             }
           },
-          name => {
-            if (['Form', 'Field', 'ErrorMessage', 'FieldArray'].includes(name)) {
-              return {
-                importName: name,
-                path: 'vee-validate',
-              }
-            }
-          },
-
         ],
         include: [/\.vue$/, /\.vue\?vue/],
         extensions: ['vue'],
@@ -44,17 +35,9 @@ export default defineNuxtConfig({
   buildModules: [
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
-    // {
-    //   autoImports: [
-    //     // automatically imports `defineStore`
-    //     'defineStore', // import { defineStore } from 'pinia'
-    //     // automatically imports `defineStore` as `definePiniaStore`
-    //     ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
-    //   ],
-    // },
   ],
-  plugins: [
-    { src: '~/plugins/nuxtServerInit.server.ts' }, // must be the first server plugin
-  ],
+  // plugins: [
+  //   { src: '~/plugins/nuxtServerInit.server.ts' }, // must be the first server plugin
+  // ],
 
 })
