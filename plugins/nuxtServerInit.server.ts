@@ -3,12 +3,10 @@ import type { JWTDecodedType } from '~~/types'
 
 export default defineNuxtPlugin(async () => {
   const headers = useRequestHeaders(['cookie'])
-  // const router = useRouter().getRoutes()
-  // console.log(router, '<==== router')
+
   const str = headers.cookie.split(' ').find(string => string.startsWith('userToken='))
   if (str?.length > 0) {
     const token = str.split('=')[1].replace(';', '')
-    console.log(token, '<==== token')
     if (token) {
       const { setJWTasUser } = useAuthStore()
       const { storeUsersEntities } = userHook()
@@ -40,7 +38,7 @@ export default defineNuxtPlugin(async () => {
         body: JSON.stringify({ token }),
       })
       const data = await res.json()
-      console.log(data, '<==== data')
+
       if (!data.message) {
         storeUsersEntities(data)
       }
