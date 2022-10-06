@@ -50,5 +50,3 @@ export const useUserStore = defineStore(EntitiesEnum.USERS, {
   },
 
 })
-
-export default useUserStore
