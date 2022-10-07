@@ -99,7 +99,7 @@
       type="button"
       @click.prevent="onRemoveValue(value)"
     >
-      <XMarkIconSolid class="w-4 h-4 hover:text-red-800" />
+      <XCircleIconSolid class="w-4 h-4 hover:text-red-800" />
     </button>
   </p>
 </div>
