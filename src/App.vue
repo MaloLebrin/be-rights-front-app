@@ -10,6 +10,7 @@
 
 <script setup lang="ts">
 import { useCookies } from 'vue3-cookies'
+import { isTruthy } from '@antfu/utils'
 
 onMounted(async () => {
   const userStore = useUserStore()
@@ -21,15 +22,15 @@ onMounted(async () => {
 
   const token = cookies.get('userToken')
   if (token) {
-    console.log(token, '<==== token')
     const decoded = jwtDecode(token)
     if (decoded) {
-      console.log(decoded, '<==== decoded')
       setUserLogged(decoded)
       setJWTasUser(decoded)
-      console.log(authStore.$state, '<==== authStore')
     }
-    await getUserWithTokenFromAPI(token)
+    const isUserAlreadyInStore = userStore.getWhere(user => user.token === token)
+    if (!isTruthy(userStore.getCurrent) || userStore.getIsEmpty || !isTruthy(isUserAlreadyInStore)) {
+      await getUserWithTokenFromAPI(token)
+    }
   }
 })
 </script>

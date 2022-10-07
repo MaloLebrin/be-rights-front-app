@@ -80,7 +80,6 @@ export default function authHook() {
 
   function setUserLogged(payload: JWTDecodedType) {
     userLogged.value = payload
-    console.log(userLogged.value, '<==== userLogged.value')
   }
 
   function resetUserLogged() {
