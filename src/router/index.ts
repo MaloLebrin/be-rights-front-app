@@ -30,7 +30,7 @@ router.beforeResolve((to, _from, next) => {
       const decodedToken = jwtDecode(token)
       if (!isAdmin) {
         return next()
-      } else if (isAdmin && decodedToken.roles.includes(RoleEnum.ADMIN)) {
+      } else if (isAdmin && decodedToken?.roles.includes(RoleEnum.ADMIN)) {
         return next()
       }
     }
