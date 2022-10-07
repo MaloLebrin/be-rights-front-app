@@ -1,6 +1,6 @@
 import { useCookies } from 'vue3-cookies'
 import API from '@/helpers/api'
-import type { ValidationRequest } from '@/types'
+import type { JWTDecodedType, ValidationRequest } from '@/types'
 
 export default function authHook() {
   const userStore = useUserStore()
@@ -44,7 +44,6 @@ export default function authHook() {
       const user = await api.post('user/token', { token })
       setThemeClass(user.theme)
       storeUsersEntities(user, true)
-      // DO Not redirect in this function
     } catch (error) {
       console.error(error)
     }
@@ -64,10 +63,37 @@ export default function authHook() {
     return ''
   }
 
+  function jwtDecode(jwt: any): JWTDecodedType | null {
+    if (typeof jwt !== 'string' && !(jwt instanceof String))
+      return null
+
+    const splitted = jwt.split('.')
+    if (splitted.length < 2)
+      return null
+
+    const obj1 = JSON.parse(window.atob(splitted[0]))
+    const obj2 = JSON.parse(window.atob(splitted[1]))
+    return Object.assign({}, obj1, obj2)
+  }
+
+  const userLogged = ref<JWTDecodedType | null>(null)
+
+  function setUserLogged(payload: JWTDecodedType) {
+    userLogged.value = payload
+  }
+
+  function resetUserLogged() {
+    userLogged.value = null
+  }
+
   return {
     checkMailIsAlreadyExist,
-    logout,
-    loginWithToken,
     getRouteName,
+    jwtDecode,
+    loginWithToken,
+    logout,
+    resetUserLogged,
+    setUserLogged,
+    userLogged,
   }
 }

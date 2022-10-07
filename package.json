@@ -49,6 +49,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.26.2",
+    "@antfu/utils": "^0.5.2",
     "@types/node": "^18.7.14",
     "@vitejs/plugin-vue": "^3.0.3",
     "autoprefixer": "^10.4.8",
