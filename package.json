@@ -35,7 +35,7 @@
     "@heroicons/vue": "^2.0.10",
     "@malolebrin/pinia-entity-store": "^0.2.1",
     "@popperjs/core": "^2.11.6",
-    "axios": "^0.27.2",
+    "axios": "^1.0.0",
     "dayjs": "^1.11.5",
     "normalizr": "^3.6.2",
     "pinia": "^2.0.22",

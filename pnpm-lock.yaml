@@ -10,7 +10,7 @@ specifiers:
   '@types/node': ^18.7.14
   '@vitejs/plugin-vue': ^3.0.3
   autoprefixer: ^10.4.8
-  axios: ^0.27.2
+  axios: ^1.0.0
   dayjs: ^1.11.5
   eslint: ^8.23.0
   normalizr: ^3.6.2
@@ -36,7 +36,7 @@ dependencies:
   '@heroicons/vue': 2.0.11_vue@3.2.39
   '@malolebrin/pinia-entity-store': 0.2.1
   '@popperjs/core': 2.11.6
-  axios: 0.27.2
+  axios: 1.2.0
   dayjs: 1.11.5
   normalizr: 3.6.2
   pinia: 2.0.22_arz4dztosvwy2ghjrlh2wdhejm
@@ -775,11 +775,12 @@ packages:
       postcss-value-parser: 4.2.0
     dev: true
 
-  /axios/0.27.2:
-    resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
+  /axios/1.2.0:
+    resolution: {integrity: sha512-zT7wZyNYu3N5Bu0wuZ6QccIf93Qk1eV8LOewxgjOZFd2DenOs98cJ7+Y6703d0wkaXGY6/nZd4EweJaHz9uzQw==}
     dependencies:
       follow-redirects: 1.15.2
       form-data: 4.0.0
+      proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
     dev: false
@@ -2711,6 +2712,10 @@ packages:
 
   /property-expr/2.0.5:
     resolution: {integrity: sha512-IJUkICM5dP5znhCckHSv30Q4b5/JA5enCtkRHYaOVOAocnH/1BQEYTC5NMfT3AVl/iXKdr3aqQbQn9DxyWknwA==}
+    dev: false
+
+  /proxy-from-env/1.1.0:
+    resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
     dev: false
 
   /punycode/2.1.1:
