@@ -20,7 +20,8 @@
     "types": [
       "vite-plugin-vue-layouts/client",
       "vite/client",
-      "node"
+      "node",
+      "cypress"
     ]
   },
   "include": [
