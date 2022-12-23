@@ -20,7 +20,6 @@
 // // import router from '../../src/router'
 // import VCalendar from 'v-calendar'
 
-
 import './commands'
 
 // Alternatively you can use CommonJS syntax:
