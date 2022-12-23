@@ -24,7 +24,7 @@ export default class APi implements ApiMethods {
   userStore = useUserStore()
   constructor() {
     this.axios = axios.create({
-      baseURL: import.meta.env.VITE_API_URL as string,
+      baseURL: import.meta.env.VITE_API_URL,
       headers: {
         'Content-Type': 'application/json',
       },

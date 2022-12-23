@@ -4,6 +4,7 @@ import { useCookies } from 'vue3-cookies'
 import { mainRoutes } from './mainRoutes'
 import { userRoutes } from './userRoutes'
 import { adminRoutes } from './adminRoutes'
+import { RoleEnum } from '@/types'
 
 const routes = setupLayouts([
   ...mainRoutes,
@@ -16,42 +17,27 @@ const router = createRouter({
   routes,
 })
 
-router.beforeResolve(async (to, _from, next) => {
-  const userStore = useUserStore()
-  const { getUserWithTokenFromAPI } = userStore
-  const { cookies } = useCookies()
-
+router.beforeResolve((to, _from, next) => {
   const { isAuth, isAdmin } = to.meta
+  const { cookies } = useCookies()
+  const { jwtDecode } = authHook()
+
   if (!isAuth) {
     return next()
   } else {
-    if (userStore.getCurrent) {
+    const token = cookies.get('userToken')
+    if (token) {
+      const decodedToken = jwtDecode(token)
       if (!isAdmin) {
         return next()
-      } else if (isAdmin && userStore.isCurrentUserAdmin) {
+      } else if (isAdmin && decodedToken?.roles.includes(RoleEnum.ADMIN)) {
         return next()
-      } else {
-        return next()
-      }
-    } else {
-      const token = cookies.get('userToken')
-      if (token) {
-        await getUserWithTokenFromAPI(token)
-        if (userStore.getCurrent) {
-          if (!isAdmin) {
-            return next()
-          } else if (isAdmin && userStore.isCurrentUserAdmin) {
-            return next()
-          } else {
-            return next()
-          }
-        }
       }
     }
+    return next({
+      name: 'login',
+    })
   }
-  return next({
-    name: 'login',
-  })
 })
 
 declare module 'vue-router' {

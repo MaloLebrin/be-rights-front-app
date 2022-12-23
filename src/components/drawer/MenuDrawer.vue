@@ -46,7 +46,7 @@
                 @click="closeDrawer"
               >
                 <span class="sr-only">Close sidebar</span>
-                <XMarkIconOutline
+                <XCircleIconOutline
                   class="w-6 h-6 text-white"
                   aria-hidden="true"
                 />
