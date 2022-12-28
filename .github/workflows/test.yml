@@ -37,43 +37,38 @@ jobs:
       - name: 📖 Lint
         run: nr lint
 
-      - name: 🏗 Build & type checking
-        run: nr build
+      # - name: 🏗 Build & type checking
+      #   run: nr build
 
-      # - name: Cypress run
-      #   uses: cypress-io/github-action@v5.0.2
-      #   with:
-      #     browser: chrome
-      #   # with:
-      #   #   build: nr build
-      #   #   start: npm start
+      - name: Cypress run
+        uses: cypress-io/github-action@v5.0.2
+        with:
+          browser: chrome
+        # with:
+        #   build: nr build
+        #   start: nr serve
   
-  cypress:
-    runs-on: ubuntu-20.04
-    # Cypress Docker image with Chrome v78
-    # and Firefox v70 pre-installed
-    container: cypress/browsers:node18.12.0-chrome107
-    steps:
-      - name: ⬇️ Checkout code
-        uses: actions/checkout@v3
+  # cypress:
+  #   runs-on: ubuntu-20.04
+  #   # Cypress Docker image with Chrome v78
+  #   # and Firefox v70 pre-installed
+  #   container: cypress/browsers:node18.12.0-chrome107
+  #   steps:
+  #     - name: ⬇️ Checkout code
+  #       uses: actions/checkout@v3
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
+  #     - name: Install pnpm
+  #       uses: pnpm/action-setup@v2
 
-      # Clean install the necessary dependencies
-      - name: Install dependencies
-        run: |
-          pnpm install --frozen-lockfile
-          $(pnpm bin)/cypress cache path
-          $(pnpm bin)/cypress cache list
-          $(pnpm bin)/cypress verify
-      - name: Run Cypress tests
-        env:
-          CYPRESS_ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        run: npm run test:chrome
-        continue-on-error: true
-
-      # - uses: cypress-io/github-action@v5
-      #   with:
-      #     browser: chrome
-      #     env: VITE_API_URL=be-right-backend.fly.dev
+  #     # Clean install the necessary dependencies
+  #     - name: Install dependencies
+  #       run: |
+  #         pnpm install --frozen-lockfile
+  #         $(pnpm bin)/cypress cache path
+  #         $(pnpm bin)/cypress cache list
+  #         $(pnpm bin)/cypress verify
+  #     - name: Run Cypress tests
+  #       env:
+  #         CYPRESS_ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+  #       run: pnpm run test:chrome
+  #       continue-on-error: true
