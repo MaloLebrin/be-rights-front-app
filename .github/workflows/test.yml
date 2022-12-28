@@ -59,27 +59,3 @@ jobs:
         with:
           build: pnpm run build
           start: pnpm run serve  
-  # cypress:
-  #   runs-on: ubuntu-20.04
-  #   # Cypress Docker image with Chrome v78
-  #   # and Firefox v70 pre-installed
-  #   container: cypress/browsers:node18.12.0-chrome107
-  #   steps:
-  #     - name: ⬇️ Checkout code
-  #       uses: actions/checkout@v3
-
-  #     - name: Install pnpm
-  #       uses: pnpm/action-setup@v2
-
-  #     # Clean install the necessary dependencies
-  #     - name: Install dependencies
-  #       run: |
-  #         pnpm install --frozen-lockfile
-  #         $(pnpm bin)/cypress cache path
-  #         $(pnpm bin)/cypress cache list
-  #         $(pnpm bin)/cypress verify
-  #     - name: Run Cypress tests
-  #       env:
-  #         CYPRESS_ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-  #       run: pnpm run test:chrome
-  #       continue-on-error: true
