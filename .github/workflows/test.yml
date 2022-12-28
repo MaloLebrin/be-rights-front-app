@@ -54,7 +54,12 @@ jobs:
     # and Firefox v70 pre-installed
     container: cypress/browsers:node12.13.0-chrome78-ff70
     steps:
-      - uses: actions/checkout@v3
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+
       - uses: cypress-io/github-action@v5
         with:
           browser: chrome
