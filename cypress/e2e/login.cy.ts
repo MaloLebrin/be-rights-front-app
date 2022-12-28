@@ -37,5 +37,12 @@ describe('The Home Page', () => {
     cy.get('button').should('be.enabled')
 
     cy.get('button[type=submit]').click()
+
+    cy.get('#cookies-modal').should('exist')
+    cy.get('#cookies-modal').within(() => {
+      cy.get('button').should('be.enabled')
+      cy.get('button').click()
+    })
+    cy.get('#user-avatar').should('exist')
   })
 })
