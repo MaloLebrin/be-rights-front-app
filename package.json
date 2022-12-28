@@ -29,7 +29,7 @@
     "type:check": "vue-tsc --noEmit",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
-    "cypress:open": "cypress open",
+    "test:e2e": "cypress open",
     "test:chrome": "cypress run --browser chrome"
   },
   "dependencies": {
