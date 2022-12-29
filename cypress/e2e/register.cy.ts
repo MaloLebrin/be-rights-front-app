@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia, setActivePinia } from 'pinia'
+import { nanoid } from 'nanoid'
 
 describe('The Home Page', () => {
   // testSetup()
@@ -24,23 +25,31 @@ describe('The Home Page', () => {
   it('input should render correct data', () => {
     cy.get('button').should('be.disabled')
 
+    const newUser = {
+      password: 'password',
+      email: `argus${nanoid()}@poudlard.com`,
+      firstName: 'Argus',
+      lastName: 'Rusard',
+      companyName: 'Poudlard',
+    }
+
     cy.get('#email').should('exist')
     cy.get('#password').should('exist')
     cy.get('#firstName').should('exist')
     cy.get('#lastName').should('exist')
     cy.get('#companyName').should('exist')
 
-    cy.get('#email').type('argus@poudlard.com')
-    cy.get('#password').type('password')
-    cy.get('#firstName').type('Argus')
-    cy.get('#lastName').type('Rusard')
-    cy.get('#companyName').type('Poudlard')
+    cy.get('#email').type(newUser.email)
+    cy.get('#password').type(newUser.password)
+    cy.get('#firstName').type(newUser.firstName)
+    cy.get('#lastName').type(newUser.lastName)
+    cy.get('#companyName').type(newUser.companyName)
 
-    cy.get('#email').should('have.value', 'argus@poudlard.com')
-    cy.get('#password').should('have.value', 'password')
-    cy.get('#firstName').should('have.value', 'Argus')
-    cy.get('#lastName').should('have.value', 'Rusard')
-    cy.get('#companyName').should('have.value', 'Poudlard')
+    cy.get('#email').should('have.value', newUser.email)
+    cy.get('#password').should('have.value', newUser.password)
+    cy.get('#firstName').should('have.value', newUser.firstName)
+    cy.get('#lastName').should('have.value', newUser.lastName)
+    cy.get('#companyName').should('have.value', newUser.companyName)
 
     cy.get('button[type=submit]').should('be.enabled')
 
