@@ -1,5 +1,8 @@
 <template>
-<span class="relative inline-block">
+<span
+  id="user-avatar"
+  class="relative inline-block"
+>
   <img
     v-if="user?.profilePicture"
     :class="`${avatarSize} rounded-full border`"

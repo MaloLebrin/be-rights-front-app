@@ -4,6 +4,7 @@
   :show="open"
 >
   <Dialog
+    id="cookies-modal"
     as="div"
     class="fixed inset-0 z-10 overflow-y-auto"
     @close="open = false"

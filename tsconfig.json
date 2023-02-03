@@ -15,7 +15,8 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ]
+      ],
+      "~/*": ["./*"]
     },
     "types": [
       "vite-plugin-vue-layouts/client",
@@ -26,10 +27,12 @@
   },
   "include": [
     "src/**/*.ts",
+    "cypress/e2e/**/**.*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
     "**/*.d.ts",
+    "**/*.cy.ts",
     "types/**/*.ts",
     "types/*.ts",
     "auto-imports.d.ts",
